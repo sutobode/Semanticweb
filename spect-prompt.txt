@@ -1,0 +1,1841 @@
+# GOAL — VIẾT LẠI TOÀN BỘ PROJECT THÀNH MASTER IMPLEMENTATION SPECIFICATION
+
+Tôi cung cấp tài liệu hiện tại của project:
+
+**VietHeritageLOD — A Linked Open Data Knowledge Graph for Vietnamese Cultural Heritage**
+
+Hãy đọc **TOÀN BỘ tài liệu hiện tại từ đầu đến cuối** trước khi thực hiện bất kỳ thay đổi nào.
+
+---
+
+# 1. MỤC TIÊU CUỐI CÙNG
+
+Nhiệm vụ của bạn KHÔNG phải:
+
+* tóm tắt tài liệu;
+* chỉnh văn phong;
+* viết proposal;
+* viết report học thuật;
+* đưa ra recommendation chung chung;
+* chỉ liệt kê những thứ còn thiếu.
+
+Nhiệm vụ của bạn là:
+
+> **Viết lại và hoàn thiện tài liệu hiện tại thành một MASTER IMPLEMENTATION SPECIFICATION duy nhất, bằng TIẾNG VIỆT, đủ chi tiết, rõ ràng, chính xác và deterministic để một Autonomous Coding Agent có thể đọc tài liệu và triển khai project end-to-end mà gần như không cần hỏi lại con người.**
+
+Output bắt buộc:
+
+```text
+PROJECT_SPEC.md
+```
+
+Đây phải là **Single Source of Truth** của toàn bộ project.
+
+Sau khi file này được tạo xong, tôi phải có thể mở một Coding Agent mới và chỉ cần nói:
+
+```text
+Đọc PROJECT_SPEC.md.
+
+Triển khai toàn bộ project theo đúng specification.
+
+Tự lập kế hoạch implementation.
+Tự code.
+Tự test.
+Tự sửa lỗi.
+Tự verify.
+
+Tiếp tục cho đến khi toàn bộ Acceptance Criteria và Definition of Done PASS.
+```
+
+và agent phải có đủ thông tin để thực hiện.
+
+---
+
+# 2. YÊU CẦU TUYỆT ĐỐI: KHÔNG ĐƯỢC CÒN ĐIỂM MỜ
+
+Đây là yêu cầu quan trọng nhất.
+
+`PROJECT_SPEC.md` KHÔNG được để lại những requirement kiểu:
+
+* "có thể sử dụng..."
+* "nếu phù hợp..."
+* "nên cân nhắc..."
+* "có thể lựa chọn..."
+* "framework tương đương..."
+* "ví dụ..."
+* "tùy implementation..."
+* "developer tự quyết định..."
+* "sẽ xác định sau..."
+* "TODO..."
+* "TBD..."
+* "có thể bổ sung..."
+* "nếu còn thời gian..." đối với requirement bắt buộc.
+
+Coding Agent không được phải tự đoán:
+
+> "Ở đây tác giả muốn mình làm theo cách nào?"
+
+Mọi quyết định cần thiết để implementation phải được **chốt trong Specification**.
+
+---
+
+# 3. NGUYÊN TẮC MUST / SHOULD / MAY
+
+Toàn bộ specification phải sử dụng ba mức yêu cầu rõ ràng:
+
+### MUST
+
+Bắt buộc phải thực hiện.
+
+Không đáp ứng → project chưa hoàn thành.
+
+### SHOULD
+
+Nên thực hiện nhưng không phải blocking requirement.
+
+### MAY
+
+Optional / Stretch Goal.
+
+Không thực hiện vẫn được coi là project hoàn thành.
+
+Không sử dụng những từ mơ hồ nếu có thể thay bằng MUST / SHOULD / MAY.
+
+---
+
+# 4. NGUYÊN TẮC XỬ LÝ TÀI LIỆU GỐC
+
+Tài liệu hiện tại là nguồn requirement chính.
+
+Phải giữ nguyên:
+
+* mục tiêu Semantic Web;
+* Linked Open Data;
+* RDF;
+* RDFS;
+* OWL / OWL2;
+* SPARQL;
+* ontology-driven design;
+* competency questions;
+* external linking;
+* provenance;
+* reasoning;
+* 5-Star Linked Open Data;
+* phạm vi project;
+* timeline 7 tuần;
+* quy mô phù hợp với capstone 4 người.
+
+Thứ tự tư duy cốt lõi phải được giữ:
+
+```text
+Competency Questions
+        ↓
+Ontology
+        ↓
+Data Requirements
+        ↓
+RDF
+        ↓
+External Links
+        ↓
+SPARQL
+        ↓
+Interface / Demo
+```
+
+Không biến project thành một web application thông thường rồi gắn RDF vào cuối.
+
+---
+
+# 5. KHÔNG ĐƯỢC OVERENGINEERING
+
+Đây là project Semantic Web 7 tuần của nhóm 4 người.
+
+KHÔNG tự ý thêm:
+
+* Kubernetes;
+* Kafka;
+* microservices;
+* event-driven architecture phức tạp;
+* authentication system;
+* cloud infrastructure phức tạp;
+* React/Next.js application lớn;
+* LLM;
+* RAG;
+* Vector Database;
+* Agent framework;
+* recommendation system;
+* NLP pipeline phức tạp;
+* những công nghệ không phục vụ trực tiếp project.
+
+Ưu tiên:
+
+> đơn giản + đúng Semantic Web + reproducible + testable + demo được.
+
+---
+
+# 6. BƯỚC 1 — AUDIT TOÀN BỘ TÀI LIỆU
+
+Trước khi viết Specification, hãy tự audit toàn bộ tài liệu.
+
+Kiểm tra ít nhất:
+
+1. Requirement nào đã rõ.
+2. Requirement nào chưa rõ.
+3. Requirement nào mâu thuẫn.
+4. Thành phần nào mới dừng ở mức proposal.
+5. Data schema nào chưa được định nghĩa.
+6. Input/output nào chưa rõ.
+7. Ontology nào chưa formalize.
+8. Mapping nào chưa rõ.
+9. URI strategy nào chưa đủ deterministic.
+10. Entity identity nào chưa rõ.
+11. External linking nào chưa đủ rule.
+12. SPARQL nào chưa đủ specification.
+13. Test nào chưa có expected result.
+14. Deployment nào chưa đủ command.
+15. Error handling nào chưa rõ.
+16. Configuration nào chưa rõ.
+17. Dependency nào chưa rõ.
+18. Version nào cần freeze.
+19. Artifact nào chưa có format.
+20. Definition of Done nào chưa machine-verifiable.
+
+Sau audit:
+
+> Không chỉ báo cáo vấn đề.
+
+Phải **sửa các vấn đề đó trực tiếp trong PROJECT_SPEC.md**.
+
+---
+
+# 7. QUY TẮC GIẢI QUYẾT ĐIỂM MỜ
+
+Nếu tài liệu hiện tại nói:
+
+```text
+Có thể dùng A hoặc B
+```
+
+hãy đánh giá project và CHỌN một phương án mặc định.
+
+Ví dụ:
+
+```text
+MUST sử dụng A.
+B không thuộc implementation baseline.
+```
+
+Nếu tài liệu nói:
+
+```text
+Nếu phù hợp có thể...
+```
+
+hãy quyết định:
+
+```text
+MUST
+```
+
+hoặc:
+
+```text
+SHOULD
+```
+
+hoặc:
+
+```text
+MAY
+```
+
+Nếu có nhiều implementation khả thi:
+
+1. chọn phương án đơn giản nhất;
+2. phù hợp Semantic Web;
+3. dễ reproduce;
+4. dễ test;
+5. phù hợp thời gian 7 tuần;
+6. ít dependency;
+7. coding agent dễ triển khai.
+
+Không đẩy quyết định đó sang Coding Agent.
+
+---
+
+# 8. KHI THÔNG TIN KHÔNG CÓ TRONG TÀI LIỆU
+
+Không được bịa requirement học thuật.
+
+Tuy nhiên:
+
+Nếu thiếu **chi tiết kỹ thuật bắt buộc để implementation**, hãy đưa ra một:
+
+```text
+IMPLEMENTATION DECISION
+```
+
+và chốt phương án hợp lý nhất.
+
+Ví dụ:
+
+```text
+Implementation Decision ID: ID-003
+
+Vấn đề:
+Tài liệu chưa quy định timeout cho MediaWiki API.
+
+Quyết định:
+HTTP timeout mặc định = 30 giây.
+
+Retry:
+3 lần.
+
+Backoff:
+2s → 4s → 8s.
+
+Sau 3 lần thất bại:
+Record được ghi vào failed_records.jsonl và pipeline tiếp tục.
+
+Lý do:
+External API failure không được làm mất toàn bộ pipeline.
+```
+
+Sau đó specification phía dưới phải sử dụng quyết định này.
+
+Không để Coding Agent tự quyết định lại.
+
+---
+
+# 9. TẠO DECISION REGISTER
+
+Tạo một bảng:
+
+| ID | Vấn đề | Quyết định cuối cùng | Lý do |
+| -- | ------ | -------------------- | ----- |
+
+Ví dụ:
+
+```text
+DEC-001
+Primary RDF serialization
+→ Turtle
+
+DEC-002
+Triple Store
+→ Apache Jena Fuseki
+
+DEC-003
+Primary external identity
+→ Wikidata QID
+
+DEC-004
+Primary collection source
+→ Vietnamese Wikipedia via MediaWiki API
+```
+
+Mục tiêu:
+
+> Những quyết định quan trọng chỉ có MỘT câu trả lời.
+
+---
+
+# 10. PROJECT_SPEC.MD PHẢI CÓ CẤU TRÚC SAU
+
+# 0. Document Control
+
+Bao gồm:
+
+* Project Name
+* Specification Version
+* Status
+* Ngày cập nhật
+* Deadline
+* Team size
+* Primary language
+* Source document
+* Specification authority
+
+Ghi rõ:
+
+> Nếu code, README và PROJECT_SPEC.md mâu thuẫn, PROJECT_SPEC.md là nguồn authoritative trừ khi specification được cập nhật chính thức.
+
+---
+
+# 1. Tổng quan Project
+
+Giải thích rõ:
+
+* bài toán;
+* motivation;
+* đối tượng sử dụng;
+* giải pháp;
+* giá trị Semantic Web;
+* output cuối cùng.
+
+---
+
+# 2. Scope
+
+## 2.1 MUST HAVE
+
+Liệt kê chính xác.
+
+## 2.2 SHOULD HAVE
+
+Liệt kê chính xác.
+
+## 2.3 MAY HAVE
+
+Stretch Goals.
+
+## 2.4 OUT OF SCOPE
+
+Freeze rõ.
+
+---
+
+# 3. Mục tiêu và Success Criteria
+
+Mọi mục tiêu phải đo được.
+
+Tạo:
+
+| ID | Metric | MVP | Target | Cách verify |
+| -- | -----: | --: | -----: | ----------- |
+
+Bao gồm:
+
+* classes;
+* object properties;
+* datatype properties;
+* OWL axioms;
+* heritage sites;
+* resources;
+* triples;
+* Wikidata links;
+* DBpedia links;
+* verified links;
+* CQ;
+* SPARQL queries;
+* reasoning tests;
+* endpoint;
+* RDF validation.
+
+---
+
+# 4. Functional Requirements
+
+Đánh ID:
+
+```text
+FR-001
+FR-002
+...
+```
+
+Mỗi requirement phải có:
+
+```text
+ID
+Tên
+Mức: MUST / SHOULD / MAY
+Mô tả
+Input
+Processing
+Output
+Failure behavior
+Acceptance Criteria
+Related Tests
+```
+
+Không được chỉ viết requirement bằng một câu.
+
+---
+
+# 5. Non-Functional Requirements
+
+Đánh ID:
+
+```text
+NFR-001...
+```
+
+Bao gồm:
+
+* reproducibility;
+* deterministic IDs;
+* UTF-8;
+* Vietnamese language;
+* configuration;
+* logging;
+* retry;
+* timeout;
+* maintainability;
+* testability;
+* Docker;
+* provenance;
+* offline demo;
+* external dependency resilience.
+
+---
+
+# 6. Kiến trúc hệ thống
+
+Viết kiến trúc chính thức.
+
+Có Mermaid diagram.
+
+Ví dụ logic:
+
+```text
+Vietnamese Wikipedia
+        ↓
+Collector
+        ↓
+Raw Data
+        ↓
+Normalizer
+        ↓
+Canonical Data
+        ↓
+Entity Resolver
+        ↓
+Ontology Mapper
+        ↓
+RDF Generator
+        ↓
+Semantic Validator
+        ↓
+External Linker
+   ↙              ↘
+Wikidata        DBpedia/Silk
+        ↓
+Final RDF Dataset
+        ↓
+Apache Jena Fuseki
+    ↙             ↘
+SPARQL        Linked Data
+```
+
+---
+
+# 7. Component Specification
+
+Mỗi component phải có contract.
+
+Ví dụ:
+
+## COMP-001 — Wikipedia Collector
+
+```text
+Responsibility:
+Input:
+Output:
+Input schema:
+Output schema:
+Configuration:
+Dependencies:
+Algorithm:
+Failure behavior:
+Logging:
+Tests:
+Acceptance Criteria:
+```
+
+Làm tương tự cho TẤT CẢ component.
+
+---
+
+# 8. Technology Stack
+
+FREEZE stack.
+
+Tạo bảng:
+
+| Layer | Technology | Version/Constraint | Mandatory |
+| ----- | ---------- | ------------------ | --------- |
+
+Không viết:
+
+```text
+A hoặc B
+```
+
+Chọn một.
+
+---
+
+# 9. Repository Structure
+
+Chốt cây thư mục cuối cùng.
+
+Không chỉ đưa tree.
+
+Với mỗi directory quan trọng ghi:
+
+```text
+Purpose
+Input
+Output
+Generated?
+Git tracked?
+Owner component
+```
+
+---
+
+# 10. Configuration Contract
+
+Định nghĩa chính xác:
+
+```text
+.env
+config/*.yaml
+```
+
+Tất cả environment variables.
+
+Ví dụ:
+
+```text
+VH_BASE_URI
+WIKIPEDIA_API_URL
+WIKIDATA_SPARQL_URL
+DBPEDIA_SPARQL_URL
+FUSEKI_URL
+FUSEKI_DATASET
+HTTP_TIMEOUT_SECONDS
+HTTP_MAX_RETRIES
+```
+
+Với mỗi biến:
+
+```text
+Type
+Required
+Default
+Example
+Validation
+Secret?
+```
+
+---
+
+# 11. RAW DATA CONTRACT
+
+Định nghĩa JSON Schema chính xác cho dữ liệu collector.
+
+Không chỉ đưa example.
+
+Phải xác định:
+
+* field name;
+* type;
+* required;
+* nullable;
+* description;
+* source;
+* example.
+
+Có một JSON example hoàn chỉnh.
+
+---
+
+# 12. CANONICAL DATA CONTRACT
+
+Đây là phần CỰC KỲ QUAN TRỌNG.
+
+Coding Agent KHÔNG được tự thiết kế schema.
+
+Định nghĩa schema chính thức cho:
+
+```text
+HeritageSite
+AdministrativeArea
+HistoricalPerson
+HistoricalEvent
+HistoricalPeriod
+HeritageComplex
+Organization
+ArchitecturalStyle
+```
+
+Với từng entity:
+
+```text
+Field
+Type
+Required
+Nullable
+Meaning
+Source
+Example
+```
+
+Đưa JSON example.
+
+---
+
+# 13. Entity Identity Contract
+
+Chốt:
+
+* entity ID;
+* stable ID;
+* deduplication;
+* Wikidata identity;
+* Wikipedia identity;
+* title change;
+* missing QID;
+* collision;
+* duplicate.
+
+Viết algorithm/pseudocode nếu cần.
+
+---
+
+# 14. URI Specification
+
+Không được còn:
+
+```text
+https://<host>/...
+```
+
+mà không giải thích cách configure.
+
+Định nghĩa URI template chính xác.
+
+Ví dụ:
+
+```text
+{BASE_URI}/ontology/{Class}
+{BASE_URI}/resource/site/{id}
+{BASE_URI}/resource/person/{id}
+...
+```
+
+Định nghĩa URL encoding và normalization.
+
+---
+
+# 15. Ontology Contract
+
+Ontology phải được formalize hoàn toàn.
+
+## Classes
+
+| URI | Parent | Label VI | Label EN | Description |
+
+## Object Properties
+
+| URI | Domain | Range | Inverse | Characteristic |
+
+## Datatype Properties
+
+| URI | Domain | XSD Type | Cardinality |
+
+## External Vocabularies
+
+Chốt cách sử dụng:
+
+```text
+rdf
+rdfs
+owl
+dcterms
+prov
+geo
+foaf
+schema
+```
+
+Không tạo custom property nếu standard vocabulary đã phù hợp.
+
+---
+
+# 16. OWL Semantics Contract
+
+Chốt chính xác axioms.
+
+Không còn:
+
+```text
+Nếu phù hợp, partOf transitive.
+```
+
+Phải quyết định.
+
+Với từng axiom:
+
+```text
+AX-001
+Statement
+Turtle/Manchester Syntax
+Purpose
+Input fixture
+Expected inference
+Test
+```
+
+---
+
+# 17. Normalization Rules
+
+Viết deterministic rules cho:
+
+* Unicode;
+* Vietnamese;
+* whitespace;
+* title;
+* label;
+* year;
+* date;
+* coordinates;
+* URLs;
+* categories;
+* QID;
+* missing values;
+* duplicate fields.
+
+Mỗi rule có:
+
+```text
+Before → After
+```
+
+---
+
+# 18. Entity Resolution
+
+Chốt algorithm.
+
+Thứ tự match phải rõ.
+
+Ví dụ:
+
+```text
+1. Wikidata QID
+2. Wikipedia page ID
+3. Canonical normalized identity
+4. Otherwise create new entity
+```
+
+Nếu dùng fuzzy matching:
+
+phải chốt threshold.
+
+Nếu không cần:
+
+ghi rõ KHÔNG dùng.
+
+---
+
+# 19. Ontology Mapping
+
+Tạo mapping table đầy đủ:
+
+| Source Field | Condition | RDF Class/Property | Transform | Missing behavior |
+| ------------ | --------- | ------------------ | --------- | ---------------- |
+
+Mapping phải được config-driven nếu hợp lý.
+
+---
+
+# 20. RDF Generation Contract
+
+Định nghĩa:
+
+```text
+Input
+Output
+Graph structure
+Namespaces
+Literal datatypes
+Language tags
+URI rules
+Provenance
+Serialization
+Ordering nếu cần deterministic diff
+```
+
+Đưa ít nhất các example RDF hoàn chỉnh:
+
+1. Heritage Site bình thường.
+2. UNESCO Site.
+3. Site → AdministrativeArea.
+4. Site → Person.
+5. Site → Event.
+6. Site → HeritageComplex.
+7. Provenance.
+8. Wikidata sameAs.
+9. DBpedia sameAs.
+
+---
+
+# 21. Provenance Contract
+
+Chốt:
+
+* resource provenance;
+* dataset provenance;
+* retrieval timestamp;
+* source;
+* license;
+* extraction method.
+
+Mapping chính xác sang:
+
+```text
+dcterms
+prov
+```
+
+---
+
+# 22. External Linking Contract
+
+Tách rõ:
+
+## Wikidata
+
+Deterministic linking.
+
+## DBpedia
+
+Candidate generation + verification.
+
+## Silk
+
+Rule cụ thể.
+
+Chốt:
+
+* similarity;
+* threshold;
+* coordinate tolerance;
+* type compatibility;
+* auto accept threshold;
+* manual review range;
+* reject threshold.
+
+Không được để "threshold phù hợp".
+
+Phải đưa con số.
+
+---
+
+# 23. owl:sameAs Policy
+
+Định nghĩa chính xác khi nào:
+
+```text
+owl:sameAs
+```
+
+được phép sinh.
+
+Khi nào dùng:
+
+```text
+rdfs:seeAlso
+foaf:homepage
+```
+
+Test bắt buộc cho sameAs.
+
+---
+
+# 24. Competency Questions
+
+Freeze:
+
+```text
+CQ-01 → CQ-10
+```
+
+Mỗi CQ:
+
+```text
+Question
+Purpose
+Required classes
+Required properties
+Input parameters
+SPARQL
+Expected columns
+Fixture
+Expected result
+PASS condition
+```
+
+---
+
+# 25. SPARQL Specification
+
+Viết đủ 10 query.
+
+Không chỉ pseudocode.
+
+Mỗi query có file:
+
+```text
+sparql/CQ01.rq
+...
+sparql/CQ10.rq
+```
+
+Định nghĩa:
+
+* parameters;
+* result columns;
+* expected semantics;
+* expected fixture result.
+
+---
+
+# 26. Reasoning Specification
+
+Có test trước/sau reasoning.
+
+Ví dụ:
+
+```text
+Input triples
+↓
+Reasoner
+↓
+Expected inferred triples
+```
+
+Chốt reasoner.
+
+Chốt command/process chạy reasoning.
+
+---
+
+# 27. Fuseki Specification
+
+Không chỉ ghi:
+
+```text
+Use Fuseki
+```
+
+Phải chốt:
+
+* Docker image;
+* dataset name;
+* port;
+* persistent volume;
+* endpoint;
+* graph URI;
+* load process;
+* health check;
+* startup command;
+* shutdown;
+* reset;
+* test.
+
+---
+
+# 28. Linked Data Publication
+
+Chốt cách resource URI được dereference.
+
+Giải thích implementation cụ thể.
+
+Chốt Pubby hoặc giải pháp duy nhất.
+
+Không để:
+
+```text
+Pubby hoặc tương đương
+```
+
+---
+
+# 29. Five-Star LOD Contract
+
+Tạo:
+
+| Star | Requirement | Evidence | Test |
+| ---- | ----------- | -------- | ---- |
+
+Project chỉ được claim 5-Star khi tất cả điều kiện PASS.
+
+---
+
+# 30. CLI Contract
+
+Đây là phần bắt buộc.
+
+Developer không được tự nghĩ cách chạy.
+
+Chốt commands cho:
+
+```text
+setup
+collect-sample
+collect
+normalize
+resolve
+map
+generate-rdf
+link
+validate
+reason
+test
+start
+stop
+load
+query
+pipeline
+```
+
+Có thể dùng:
+
+```text
+Makefile
+```
+
+hoặc task runner duy nhất.
+
+Chọn một.
+
+Ví dụ:
+
+```bash
+make setup
+make test
+make pipeline-sample
+make pipeline
+make fuseki-up
+make fuseki-load
+make cq-test
+```
+
+Nhưng hãy chốt command thực tế trong Specification.
+
+---
+
+# 31. End-to-End Pipeline Contract
+
+Mô tả chính xác:
+
+```text
+Command
+↓
+Stage
+↓
+Artifact
+↓
+Validation
+↓
+Next Stage
+```
+
+Pipeline phải fail-fast với lỗi blocking.
+
+Lỗi record-level hợp lệ phải được quarantine thay vì crash toàn bộ.
+
+---
+
+# 32. Error Handling Contract
+
+Tạo error taxonomy:
+
+```text
+FATAL
+RECOVERABLE
+WARNING
+SKIPPED_RECORD
+```
+
+Chốt behavior cho:
+
+* HTTP timeout;
+* 429;
+* 5xx;
+* malformed JSON;
+* missing field;
+* invalid coordinate;
+* duplicate;
+* invalid Turtle;
+* ontology inconsistency;
+* DBpedia down;
+* Wikidata down;
+* Fuseki down;
+* invalid query;
+* federated timeout.
+
+---
+
+# 33. Logging Contract
+
+Chốt:
+
+* log format;
+* timestamp;
+* stage;
+* entity ID;
+* severity;
+* error code.
+
+Chốt output:
+
+```text
+logs/
+reports/
+```
+
+---
+
+# 34. Pipeline Run Report
+
+Mỗi run phải sinh report machine-readable.
+
+Ví dụ:
+
+```json
+{
+  "run_id": "...",
+  "collected": 0,
+  "normalized": 0,
+  "skipped": 0,
+  "rdf_triples": 0,
+  "wikidata_links": 0,
+  "dbpedia_links": 0,
+  "validation_status": "PASS"
+}
+```
+
+Chốt schema chính xác.
+
+---
+
+# 35. Golden Dataset
+
+Tạo deterministic sample dataset.
+
+Phải đủ test:
+
+* HeritageSite;
+* UNESCO;
+* HistoricalPerson;
+* HistoricalEvent;
+* AdministrativeArea;
+* HeritageComplex;
+* Wikidata;
+* DBpedia;
+* missing optional field;
+* duplicate case.
+
+Định nghĩa expected RDF.
+
+---
+
+# 36. Testing Strategy
+
+Phải có:
+
+```text
+Unit
+Integration
+Semantic
+Contract
+End-to-End
+```
+
+Không chỉ mô tả.
+
+Phải chỉ rõ test cái gì.
+
+---
+
+# 37. Test Specification
+
+Đánh ID:
+
+```text
+TEST-001...
+```
+
+Tạo:
+
+| Test | Requirement | Fixture | Action | Expected | Blocking |
+| ---- | ----------- | ------- | ------ | -------- | -------- |
+
+---
+
+# 38. Acceptance Criteria
+
+Đánh:
+
+```text
+AC-001...
+```
+
+Mỗi AC phải binary:
+
+```text
+PASS
+FAIL
+```
+
+Không dùng đánh giá chủ quan.
+
+Ví dụ:
+
+```text
+AC-001
+
+Given:
+repository mới clone.
+
+When:
+make setup
+make test
+
+Then:
+exit code = 0.
+```
+
+---
+
+# 39. Requirement Traceability Matrix
+
+Tạo:
+
+| Requirement | Component | Source File | Test | AC |
+| ----------- | --------- | ----------- | ---- | -- |
+
+Không được có MUST requirement không có test/verification.
+
+---
+
+# 40. Definition of Done
+
+Tách:
+
+## MVP DoD
+
+## Final Project DoD
+
+## Presentation DoD
+
+Mỗi item:
+
+```text
+[ ] PASS
+```
+
+---
+
+# 41. Reproducibility Contract
+
+Một người mới phải có thể:
+
+```text
+git clone
+↓
+setup
+↓
+test
+↓
+sample pipeline
+↓
+full pipeline
+↓
+start Fuseki
+↓
+load graph
+↓
+execute CQ
+```
+
+Chỉ dựa vào README + PROJECT_SPEC.
+
+Không có hidden manual steps.
+
+Nếu bước nào bắt buộc manual:
+
+phải document chính xác.
+
+---
+
+# 42. Development Plan
+
+Giữ timeline 7 tuần nhưng chuyển thành:
+
+```text
+Goal
+Tasks
+Artifacts
+Tests
+Gate
+Exit Criteria
+```
+
+---
+
+# 43. AUTONOMOUS CODING IMPLEMENTATION PLAN
+
+Tạo riêng phần này cho Coding Agent.
+
+Không nhất thiết giống timeline con người.
+
+Chia:
+
+```text
+G0 — Repository Bootstrap
+G1 — Data Contracts
+G2 — Ontology
+G3 — Collector
+G4 — Normalization
+G5 — Entity Resolution
+G6 — RDF
+G7 — External Linking
+G8 — Fuseki
+G9 — SPARQL
+G10 — Reasoning
+G11 — Full Validation
+G12 — Release
+```
+
+Với từng Gate:
+
+```text
+Input
+Implementation
+Files
+Tests
+Exit Criteria
+Blocking conditions
+```
+
+Agent KHÔNG được sang Gate tiếp theo nếu blocking tests FAIL.
+
+---
+
+# 44. AUTONOMOUS CODING RULES
+
+Coding Agent phải:
+
+1. Đọc toàn bộ PROJECT_SPEC.md.
+2. Inspect repository.
+3. Không code trước khi hiểu contracts.
+4. Implement theo Gate.
+5. Viết test cùng implementation.
+6. Không sửa test để che bug.
+7. Không fabricate result.
+8. Không thay ontology tùy ý.
+9. Không thay requirement tùy ý.
+10. Không bỏ provenance.
+11. Không bỏ error handling.
+12. Không hard-code configuration.
+13. Verify RDF thực tế.
+14. Chạy test sau mỗi Gate.
+15. Tự debug nếu FAIL.
+16. Chỉ dừng khi blocking gate cần thông tin thực sự không thể suy ra.
+17. Không hỏi người dùng về implementation detail đã được PROJECT_SPEC quyết định.
+18. Không claim DONE khi chưa verify.
+
+---
+
+# 45. FINAL VERIFICATION COMMAND
+
+Specification phải thiết kế một command cuối cùng, ví dụ:
+
+```bash
+make verify
+```
+
+Command này phải kiểm tra tối thiểu:
+
+```text
+Environment
+Unit tests
+Integration tests
+RDF syntax
+Ontology
+Reasoning
+CQ1–CQ10
+External links
+Fuseki
+Required artifacts
+Acceptance Criteria
+```
+
+Output cuối:
+
+```text
+FINAL VERIFICATION
+
+Unit Tests: PASS
+Integration Tests: PASS
+RDF Validation: PASS
+Ontology: PASS
+Reasoning: PASS
+Competency Questions: 10/10 PASS
+External Links: PASS
+Fuseki: PASS
+Artifacts: PASS
+
+FINAL STATUS: PASS
+```
+
+Nếu bất kỳ blocking test FAIL:
+
+```text
+FINAL STATUS: FAIL
+```
+
+---
+
+# 46. FINAL COMPLETION CONTRACT
+
+Project chỉ COMPLETE khi:
+
+```text
+All MUST requirements = PASS
+
+All blocking tests = PASS
+
+All blocking Acceptance Criteria = PASS
+
+CQ = 10/10 PASS
+
+RDF Validation = PASS
+
+Ontology Validation = PASS
+
+Reasoning = PASS
+
+External Linking = PASS
+
+Fuseki = PASS
+
+5-Star LOD requirements = PASS
+
+Reproducibility = PASS
+
+Final Verification = PASS
+```
+
+Code chạy được một phần KHÔNG đồng nghĩa project hoàn thành.
+
+---
+
+# 47. YÊU CẦU VỀ CHẤT LƯỢNG SPECIFICATION
+
+`PROJECT_SPEC.md` phải ưu tiên:
+
+```text
+Contract
+Schema
+Table
+Algorithm
+Pseudocode
+Example
+Command
+Input
+Output
+Expected Result
+Test
+Acceptance Criteria
+```
+
+thay vì văn xuôi dài dòng.
+
+Mọi module phải trả lời được:
+
+```text
+WHAT?
+WHY?
+INPUT?
+OUTPUT?
+SCHEMA?
+PROCESS?
+CONFIG?
+ERROR?
+TEST?
+PASS/FAIL?
+```
+
+Nếu một module chưa trả lời đủ 9 câu trên:
+
+> Specification của module đó CHƯA HOÀN THÀNH.
+
+---
+
+# 48. SELF-REVIEW BẮT BUỘC
+
+Sau khi viết xong PROJECT_SPEC.md, chưa được kết thúc ngay.
+
+Hãy thực hiện một vòng:
+
+```text
+SPEC COMPLETENESS AUDIT
+```
+
+Tự giả lập:
+
+> "Tôi là Coding Agent chưa từng đọc conversation này. Tôi chỉ có repository và PROJECT_SPEC.md. Tôi có thể implement project end-to-end không?"
+
+Kiểm tra lần lượt:
+
+* Tôi có biết chính xác phải code gì không?
+* Tôi có biết file nào phải tạo không?
+* Tôi có biết schema không?
+* Tôi có biết ontology không?
+* Tôi có biết URI không?
+* Tôi có biết mapping không?
+* Tôi có biết external linking rules không?
+* Tôi có biết threshold không?
+* Tôi có biết command không?
+* Tôi có biết expected output không?
+* Tôi có biết test không?
+* Tôi có biết khi nào project DONE không?
+
+Nếu bất kỳ câu trả lời nào là:
+
+```text
+Không chắc
+Có lẽ
+Tùy implementation
+Cần hỏi người dùng
+```
+
+thì Specification CHƯA đạt yêu cầu.
+
+Hãy quay lại và sửa.
+
+---
+
+# 49. ZERO-AMBIGUITY GATE
+
+Trước khi hoàn tất, chạy thêm audit:
+
+```text
+ZERO-AMBIGUITY GATE
+```
+
+Tìm toàn bộ các từ/cụm từ:
+
+```text
+có thể
+nếu phù hợp
+tùy chọn
+tương đương
+cân nhắc
+có lẽ
+sau này
+TBD
+TODO
+to be decided
+developer decides
+```
+
+Với mỗi occurrence:
+
+* Nếu là MUST requirement → phải chốt quyết định.
+* Nếu optional → đổi thành MAY và mô tả rõ.
+* Nếu thực sự không thuộc scope → chuyển OUT OF SCOPE.
+
+Không được để ambiguity vô tình tồn tại.
+
+---
+
+# 50. CONSISTENCY GATE
+
+Kiểm tra consistency giữa:
+
+```text
+Requirement
+↕
+Architecture
+↕
+Data Schema
+↕
+Ontology
+↕
+Mapping
+↕
+RDF
+↕
+SPARQL
+↕
+Tests
+↕
+Acceptance Criteria
+```
+
+Ví dụ:
+
+Nếu CQ sử dụng:
+
+```text
+vh:associatedWithPerson
+```
+
+thì property này phải tồn tại trong:
+
+* Ontology;
+* Mapping;
+* RDF Generation;
+* Golden Dataset;
+* SPARQL;
+* Tests.
+
+Không được xảy ra tình trạng cùng một concept nhưng các phần sử dụng tên khác nhau.
+
+---
+
+# 51. TRACEABILITY GATE
+
+Mọi MUST requirement phải có:
+
+```text
+Requirement ID
+↓
+Component
+↓
+Implementation Artifact
+↓
+Test
+↓
+Acceptance Criterion
+```
+
+Nếu thiếu một mắt xích:
+
+Specification chưa hoàn thành.
+
+---
+
+# 52. KHÔNG ĐƯỢC CHỈ ĐỀ XUẤT
+
+Không trả lời tôi kiểu:
+
+```text
+Bạn nên bổ sung...
+Có thể thêm...
+Tôi đề xuất...
+```
+
+Bạn phải **thực sự viết nội dung đó vào PROJECT_SPEC.md**.
+
+Không trả về outline.
+
+Không trả về checklist những gì nên viết.
+
+Không trả về analysis rồi yêu cầu tôi quyết định tiếp.
+
+---
+
+# 53. OUTPUT CUỐI CÙNG
+
+Output chính bắt buộc:
+
+```text
+PROJECT_SPEC.md
+```
+
+Viết **100% bằng tiếng Việt**, ngoại trừ:
+
+* tên công nghệ;
+* code;
+* URI;
+* RDF/Turtle;
+* SPARQL;
+* JSON/YAML;
+* command;
+* identifier kỹ thuật;
+* MUST / SHOULD / MAY;
+* tên class/property.
+
+Specification có thể dài.
+
+**Không được rút gọn chỉ để giảm số lượng token nếu điều đó làm mất implementation detail.**
+
+Ưu tiên:
+
+> Đầy đủ > Ngắn.
+
+> Chính xác > Văn vẻ.
+
+> Deterministic > Linh hoạt.
+
+> Có thể implementation ngay > Proposal.
+
+---
+
+# 54. ĐIỀU KIỆN KẾT THÚC NHIỆM VỤ
+
+Chỉ được coi nhiệm vụ viết Specification hoàn thành khi:
+
+```text
+[PASS] Requirement rõ ràng
+[PASS] Scope rõ ràng
+[PASS] Architecture rõ ràng
+[PASS] Repository rõ ràng
+[PASS] Stack đã freeze
+[PASS] Configuration rõ ràng
+[PASS] Raw schema rõ ràng
+[PASS] Canonical schema rõ ràng
+[PASS] Entity identity rõ ràng
+[PASS] URI contract rõ ràng
+[PASS] Ontology formalized
+[PASS] OWL axioms rõ ràng
+[PASS] Normalization deterministic
+[PASS] Entity resolution deterministic
+[PASS] Mapping đầy đủ
+[PASS] RDF contract đầy đủ
+[PASS] Provenance đầy đủ
+[PASS] External linking deterministic
+[PASS] owl:sameAs policy rõ ràng
+[PASS] 10 CQ được freeze
+[PASS] 10 SPARQL được specification
+[PASS] Reasoning test rõ ràng
+[PASS] Fuseki deployment rõ ràng
+[PASS] 5-Star LOD verification rõ ràng
+[PASS] CLI rõ ràng
+[PASS] Error handling rõ ràng
+[PASS] Logging rõ ràng
+[PASS] Golden dataset rõ ràng
+[PASS] Tests đầy đủ
+[PASS] Acceptance Criteria đầy đủ
+[PASS] Traceability đầy đủ
+[PASS] Definition of Done rõ ràng
+[PASS] Autonomous Implementation Gates rõ ràng
+[PASS] Final verification rõ ràng
+[PASS] Zero-Ambiguity Gate PASS
+[PASS] Consistency Gate PASS
+[PASS] Traceability Gate PASS
+```
+
+Nếu chưa đạt một mục:
+
+> tiếp tục sửa PROJECT_SPEC.md trước khi kết thúc.
+
+---
+
+# FINAL INSTRUCTION
+
+Bây giờ hãy:
+
+**Đọc toàn bộ tài liệu project hiện tại → audit → sửa → bổ sung → formalize → freeze các quyết định kỹ thuật → self-review → zero-ambiguity review → consistency review → traceability review → và tạo ra file `PROJECT_SPEC.md` hoàn chỉnh bằng tiếng Việt.**
+
+Không hỏi tôi những câu hỏi implementation thông thường mà bạn có thể tự quyết định hợp lý từ mục tiêu và phạm vi project.
+
+Không dừng ở mức proposal.
+
+Không dừng ở mức architecture.
+
+Không dừng ở mức plan.
+
+**Output phải là Specification đủ để bắt đầu coding ngay.**
+
