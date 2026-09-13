@@ -18,7 +18,7 @@ def load_plan() -> list[tuple[str, Path, str | None]]:
     """Return the mandatory PUT order; absent optional artifacts are skipped by run."""
     return [
         ("ontology", ONTOLOGY_PATH, "http://localhost:3030/vietheritage/graph/ontology"),
-        ("data", RDF_DIR / "vietheritage.ttl", None),
+        ("data", RDF_DIR / "vietheritage.ttl", "http://localhost:3030/vietheritage/graph/data"),
         ("external-links", RDF_DIR / "external-links.ttl", "http://localhost:3030/vietheritage/graph/external-links"),
         ("inferred", RDF_DIR / "inferred.ttl", "http://localhost:3030/vietheritage/graph/inferred"),
         ("metadata", RDF_DIR / "dataset-metadata.ttl", "http://localhost:3030/vietheritage/graph/metadata"),

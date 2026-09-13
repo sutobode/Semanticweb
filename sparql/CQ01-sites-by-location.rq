@@ -1,0 +1,6 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?site ?label ?location WHERE {
+  ?site a vh:HeritageSite ; rdfs:label ?label ; vh:locatedIn ?location .
+}
+ORDER BY ?site

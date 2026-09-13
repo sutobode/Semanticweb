@@ -1,0 +1,5 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+SELECT ?part ?whole WHERE {
+  ?part vh:partOf+ ?whole .
+}
+ORDER BY ?part ?whole
