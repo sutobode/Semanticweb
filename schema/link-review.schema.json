@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://localhost:3030/vietheritage/schema/link-review.schema.json",
+  "title": "VietHeritageLOD Link Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source_uri", "target_uri", "target_dataset", "method", "score", "status"],
+  "properties": {
+    "source_uri": {"type": "string", "format": "uri"},
+    "target_uri": {"type": "string", "format": "uri"},
+    "target_dataset": {"enum": ["wikidata", "dbpedia"]},
+    "method": {"enum": ["wikidata-qid", "silk", "manual"]},
+    "score": {"type": "number", "minimum": 0, "maximum": 1},
+    "distance_km": {"type": ["number", "null"], "minimum": 0},
+    "type_compatible": {"type": "boolean"},
+    "status": {"enum": ["verified", "rejected", "manual_review"]},
+    "reviewer": {"type": ["string", "null"]},
+    "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+    "reason": {"type": ["string", "null"]}
+  }
+}

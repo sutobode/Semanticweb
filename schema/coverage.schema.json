@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://localhost:3030/vietheritage/schema/coverage.schema.json",
+  "title": "VietHeritageLOD Coverage Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["snapshot_id", "retrieved_at", "source_urls", "source_checksums", "categories", "registry_total", "canonical_total", "registry_only", "wikipedia_matched", "wikidata_linked", "dbpedia_verified", "unresolved_registry_ids", "failure_manifest", "claim"],
+  "properties": {
+    "snapshot_id": {"type": "string", "minLength": 1},
+    "retrieved_at": {"type": "string", "format": "date-time"},
+    "source_urls": {"type": "array", "items": {"type": "string", "format": "uri"}},
+    "source_checksums": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["registry_category", "discovered", "valid", "invalid", "retrieved", "failed", "canonicalized", "coverage_percent"],
+        "properties": {
+          "registry_category": {"type": "string", "minLength": 1},
+          "discovered": {"type": "integer", "minimum": 0},
+          "valid": {"type": "integer", "minimum": 0},
+          "invalid": {"type": "integer", "minimum": 0},
+          "retrieved": {"type": "integer", "minimum": 0},
+          "failed": {"type": "integer", "minimum": 0},
+          "canonicalized": {"type": "integer", "minimum": 0},
+          "coverage_percent": {"type": "number", "minimum": 0, "maximum": 100},
+          "http_status": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "registry_total": {"type": "integer", "minimum": 0},
+    "canonical_total": {"type": "integer", "minimum": 0},
+    "registry_only": {"type": "integer", "minimum": 0},
+    "wikipedia_matched": {"type": "integer", "minimum": 0},
+    "wikidata_linked": {"type": "integer", "minimum": 0},
+    "dbpedia_verified": {"type": "integer", "minimum": 0},
+    "unresolved_registry_ids": {"type": "array", "items": {"type": "string"}},
+    "failure_manifest": {"type": "array", "items": {"type": "object"}},
+    "claim": {"enum": ["100% of selected official registry snapshot", "coverage_failed", "SKIPPED_SAMPLE_MODE"]}
+  }
+}

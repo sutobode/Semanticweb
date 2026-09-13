@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://localhost:3030/vietheritage/schema/canonical-record.schema.json",
+  "title": "VietHeritageLOD Canonical Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entity_id", "entity_type", "label_vi", "source_status", "retrieved_at", "provenance"],
+  "properties": {
+    "entity_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "entity_type": {"enum": ["HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage", "Artisan", "CulturalObject"]},
+    "label_vi": {"type": "string", "minLength": 1},
+    "registry_id": {"type": ["string", "null"], "minLength": 1},
+    "registry_category": {"type": ["string", "null"], "minLength": 1},
+    "registry_url": {"type": ["string", "null"], "format": "uri"},
+    "source_status": {"enum": ["registry_only", "registry+wikipedia", "registry+enriched", "derived"]},
+    "coverage_snapshot": {"type": ["string", "null"], "minLength": 1},
+    "source_page_id": {"type": ["integer", "null"], "minimum": 1},
+    "source_url": {"type": ["string", "null"], "format": "uri"},
+    "retrieved_at": {"type": "string", "format": "date-time"},
+    "aliases_vi": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "description_vi": {"type": ["string", "null"]},
+    "coordinates": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["lat", "lon"],
+      "properties": {
+        "lat": {"type": "number", "minimum": -90, "maximum": 90},
+        "lon": {"type": "number", "minimum": -180, "maximum": 180}
+      }
+    },
+    "external_ids": {"type": "object", "additionalProperties": {"type": "string"}},
+    "relations": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "site_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "construction_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "recognition_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "address": {"type": ["string", "null"]},
+    "birth_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "death_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "start_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "end_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "level": {"type": ["string", "null"]},
+    "country_code": {"type": ["string", "null"]},
+    "parent_area": {"type": ["string", "null"]},
+    "museum_type": {"type": ["string", "null"]},
+    "organization_type": {"type": ["string", "null"]},
+    "artisan_title": {"type": ["string", "null"]},
+    "community": {"type": ["string", "null"]},
+    "location": {"type": ["string", "null"]},
+    "current_holder": {"type": ["string", "null"]},
+    "custodian": {"type": ["string", "null"]},
+    "object_type": {"type": ["string", "null"]},
+    "associated_intangible_heritage": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "method", "license"],
+      "properties": {
+        "source": {"type": "string", "format": "uri"},
+        "method": {"type": "string", "enum": ["registry", "mediawiki-api", "registry-plus-mediawiki-enrichment", "fixture", "derived"]},
+        "license": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"source_status": {"enum": ["registry_only", "registry+wikipedia", "registry+enriched"]}}},
+      "then": {"required": ["registry_id", "registry_category", "registry_url", "coverage_snapshot"]}
+    }
+  ]
+}
