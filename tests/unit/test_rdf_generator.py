@@ -156,3 +156,11 @@ def test_run_writes_turtle_file_and_parses_successfully(tmp_path: Path, monkeypa
     g.parse(output_path, format="turtle")
     assert len(g) > 0
     assert (VHR["registry-dsvh-national-monument-000001"], RDF.type, VH.HeritageSite) in g
+
+
+
+def test_world_heritage_record_creates_unesco_type() -> None:
+    g = Graph()
+    record = dict(SAMPLE_HERITAGE_SITE, registry_category="world_heritage")
+    add_entity_type_triples(g, "registry-world", record)
+    assert (VHR["registry-world"], RDF.type, VH.UNESCOHeritageSite) in g

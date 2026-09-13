@@ -23,10 +23,15 @@ _RELATION_TYPES = {
     "architectural_styles": "HAS_ARCHITECTURAL_STYLE",
 }
 _ALLOWED_LABELS = {
+    "CulturalHeritageEntity", "UNESCOHeritageSite",
     "HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent",
     "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle",
     "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage",
     "Artisan", "CulturalObject",
+}
+_CULTURAL_ENTITY_TYPES = {
+    "HeritageSite", "HeritageComplex", "Museum", "IntangibleHeritage",
+    "NationalTreasure", "DocumentaryHeritage", "CulturalObject",
 }
 
 
@@ -57,6 +62,16 @@ def load_records(session: Any, records: list[dict[str, Any]]) -> int:
         if entity_type in _ALLOWED_LABELS:
             session.run(
                 f"MATCH (n:Entity {{entityId: $entity_id}}) SET n:{entity_type}",
+                entity_id=record["entity_id"],
+            )
+        if entity_type in _CULTURAL_ENTITY_TYPES:
+            session.run(
+                "MATCH (n:Entity {entityId: $entity_id}) SET n:CulturalHeritageEntity",
+                entity_id=record["entity_id"],
+            )
+        if record.get("registry_category") == "world_heritage":
+            session.run(
+                "MATCH (n:Entity {entityId: $entity_id}) SET n:UNESCOHeritageSite",
                 entity_id=record["entity_id"],
             )
         for relation_name, targets in (record.get("relations") or {}).items():
@@ -95,6 +110,13 @@ def run(run_mode: str = "sample") -> int:
         driver = GraphDatabase.driver(uri, auth=(user, password))
         with driver.session(database=os.getenv("NEO4J_DATABASE", "neo4j")) as session:
             count = load_records(session, records)
+            session.run(
+                """MERGE (n:Entity:Organization {entityId: $entity_id})
+                   SET n.entityType = 'Organization',
+                       n.label = 'UNESCO',
+                       n.labelEn = 'UNESCO'""",
+                entity_id="organization-unesco",
+            )
         driver.close()
     except Exception as exc:  # driver exposes several connection exception types
         print(f"neo4j-load: FAIL - {exc}")

@@ -21,3 +21,17 @@ def test_loader_uses_merge_and_maps_relations() -> None:
     assert session.calls[0][0].startswith("MERGE")
     assert any(":HeritageSite" in query for query, _ in session.calls)
     assert any(":LOCATED_IN" in query for query, _ in session.calls)
+
+
+
+def test_loader_projects_inferred_cultural_and_unesco_labels() -> None:
+    session = FakeSession()
+    load_records(session, [{
+        "entity_id": "registry-world",
+        "entity_type": "HeritageSite",
+        "registry_category": "world_heritage",
+        "label_vi": "World",
+    }])
+    queries = [query for query, _ in session.calls]
+    assert any("SET n:CulturalHeritageEntity" in query for query in queries)
+    assert any("SET n:UNESCOHeritageSite" in query for query in queries)

@@ -1,7 +1,16 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?class (COUNT(?entity) AS ?count) WHERE {
   ?entity a ?class .
-  FILTER(?class != <http://www.w3.org/2002/07/owl#NamedIndividual>)
+  FILTER(?class IN (
+    vh:CulturalHeritageEntity,
+    vh:HeritageSite,
+    vh:IntangibleHeritage,
+    vh:NationalTreasure,
+    vh:UNESCOHeritageSite,
+    vh:Organization
+  ))
+  FILTER(STRSTARTS(STR(?entity), "http://localhost:3030/vietheritage/resource/"))
 }
 GROUP BY ?class
 ORDER BY DESC(?count)

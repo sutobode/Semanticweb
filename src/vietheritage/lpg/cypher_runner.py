@@ -31,7 +31,10 @@ def _normalize_value(value: Any) -> str:
     if isinstance(value, dict):
         value = value.get("value")
     if isinstance(value, float):
-        return str(int(value)) if value.is_integer() else format(value, "g")
+        # Neo4j returns coordinates as binary floats; preserve their decimal
+        # lexical value instead of format(..., "g"), which truncates precision.
+        text = format(Decimal(str(value)).normalize(), "f")
+        return text.rstrip("0").rstrip(".") if "." in text else text
     if isinstance(value, bool):
         return str(value).lower()
     text = str(value)

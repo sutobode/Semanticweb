@@ -2,5 +2,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?entity ?label WHERE {
   ?entity rdfs:label ?label .
   FILTER(lang(?label) = "en")
+  FILTER(STRSTARTS(STR(?entity), "http://localhost:3030/vietheritage/resource/"))
 }
 ORDER BY ?entity

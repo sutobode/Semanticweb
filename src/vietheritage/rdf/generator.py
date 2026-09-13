@@ -71,6 +71,8 @@ def add_entity_type_triples(g: Graph, entity_id: str, record: dict[str, Any]) ->
     cls = _ENTITY_TYPE_TO_CLASS.get(entity_type)
     if cls is not None:
         g.add((subject, RDF.type, cls))
+    if record.get("registry_category") == "world_heritage":
+        g.add((subject, RDF.type, VH.UNESCOHeritageSite))
 
     for site_type in record.get("site_types", []) or []:
         normalized = site_type.strip().lower()

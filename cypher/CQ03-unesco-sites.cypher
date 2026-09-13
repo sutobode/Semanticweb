@@ -1,4 +1,3 @@
-MATCH (entity:HeritageSite)
-WHERE entity.entityType = 'HeritageSite'
-RETURN entity.entityId AS entity, entity.label AS label
-ORDER BY entity
+MATCH (site:UNESCOHeritageSite)
+RETURN site.entityId AS site, site.label AS label
+ORDER BY site
