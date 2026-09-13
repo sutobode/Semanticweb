@@ -174,3 +174,48 @@ def test_collect_registry_id_collision_raises_and_is_recorded_as_failure(tmp_pat
     assert report["failure_manifest"]
     assert report["failure_manifest"][0]["error_code"] == "REGISTRY_ID_COLLISION"
     assert report["claim"] == "coverage_failed"
+
+
+
+def test_parse_table_rows_handles_nested_text_and_five_columns() -> None:
+    html = """
+    <table><tbody>
+      <tr><td>STT</td><td>Tên di sản</td><td>Năm</td><td>Loại hình</td><td>Tỉnh/Thành phố</td></tr>
+      <tr><td>1</td><td><span><a href='/detail'>Tên <b>lồng</b></a></span></td><td>2024</td><td>Văn hóa</td><td>Hà Nội</td></tr>
+      <tr><td></td><td>Tổng số</td><td>01 di sản</td><td></td><td></td></tr>
+    </tbody></table>
+    """
+    rows = parse_table_rows(html, ["^Tổng số", "^Total"])
+    assert len(rows) == 1
+    assert rows[0]["cells"] == ["1", "Tên lồng", "2024", "Văn hóa", "Hà Nội"]
+    assert rows[0]["hrefs"] == ["/detail"]
+
+
+def test_parse_table_rows_skips_empty_layout_rows_and_footer_in_second_column() -> None:
+    html = """
+    <table><tbody>
+      <tr><td>Số Quyết định</td><td>Ngày tháng năm</td><td>Tên Bảo tàng</td><td>Địa chỉ</td></tr>
+      <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td></td><td>Tổng số</td><td></td><td></td></tr>
+    </tbody></table>
+    """
+    assert parse_table_rows(html, ["^Tổng số", "^Total"]) == []
+
+
+def test_parse_table_rows_returns_empty_for_page_without_table() -> None:
+    assert parse_table_rows("<html><body><p>Không có dữ liệu</p></body></html>", ["^Tổng số"]) == []
+
+
+
+def test_collect_marks_http_200_empty_source_as_failure(tmp_path: Path) -> None:
+    def empty_fetcher(url: str, request_cfg: dict) -> str:  # noqa: ARG001
+        return "<html><body><p>empty</p></body></html>"
+
+    report = collect(
+        fetcher=empty_fetcher,
+        category_keys=["world_heritage"],
+        output_dir=tmp_path,
+    )
+    assert report["claim"] == "coverage_failed"
+    assert report["failure_manifest"][0]["error_code"] == "REGISTRY_EMPTY_SOURCE"
+    assert report["categories"][0]["http_status"] == "200"

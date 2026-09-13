@@ -17,7 +17,8 @@ categories:
       ordinal: 0
       label_vi: 1
       recognition_text: 2
-      location: 3
+      type: 3
+      location: 4
     detail_link_selector: "td:nth-child(2) a"
     next_page_selector: "a[rel=next]"
 
@@ -80,7 +81,8 @@ categories:
       ordinal: 0
       label_vi: 1
       recognition_text: 2
-      location: 3
+      type: 3
+      location: 4
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
@@ -128,7 +130,8 @@ categories:
       ordinal: 0
       label_vi: 1
       recognition_text: 2
-      location: 3
+      type: 3
+      location: 4
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
@@ -140,7 +143,8 @@ categories:
       ordinal: 0
       label_vi: 1
       recognition_text: 2
-      location: 3
+      type: 3
+      location: 4
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
@@ -150,8 +154,8 @@ categories:
     row_selector: "table tbody tr"
     columns:
       ordinal: 0
-      label_vi: 1
-      recognition_text: 2
+      label_vi: 2
+      recognition_text: 0
       location: 3
     detail_link_selector: "td:nth-child(2) a"
     next_page_selector: "a[rel=next]"
@@ -162,8 +166,8 @@ categories:
     row_selector: "table tbody tr"
     columns:
       ordinal: 0
-      label_vi: 1
-      recognition_text: 2
+      label_vi: 2
+      recognition_text: 0
       location: 3
     detail_link_selector: "td:nth-child(2) a"
     next_page_selector: "a[rel=next]"
@@ -174,8 +178,8 @@ categories:
     row_selector: "table tbody tr"
     columns:
       ordinal: 0
-      label_vi: 1
-      recognition_text: 2
+      label_vi: 2
+      recognition_text: 0
       location: 3
     detail_link_selector: "td:nth-child(2) a"
     next_page_selector: "a[rel=next]"
@@ -186,8 +190,8 @@ categories:
     row_selector: "table tbody tr"
     columns:
       ordinal: 0
-      label_vi: 1
-      recognition_text: 2
+      label_vi: 2
+      recognition_text: 0
       location: 3
     detail_link_selector: "td:nth-child(2) a"
     next_page_selector: "a[rel=next]"
@@ -198,8 +202,8 @@ categories:
     row_selector: "table tbody tr"
     columns:
       ordinal: 0
-      label_vi: 1
-      recognition_text: 2
+      label_vi: 2
+      recognition_text: 0
       location: 3
     detail_link_selector: "td:nth-child(2) a"
     next_page_selector: "a[rel=next]"

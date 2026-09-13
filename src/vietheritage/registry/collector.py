@@ -11,7 +11,6 @@ duy nhất gọi HTTP thật, dễ patch/mock trong test.
 from __future__ import annotations
 
 import hashlib
-import html
 import json
 import re
 import time
@@ -31,6 +30,10 @@ FIXTURES_DIR = REPO_ROOT / "data" / "fixtures"
 
 class RegistryParseError(RuntimeError):
     """REGISTRY_PARSE_ERROR — selector đổi, thiếu column bắt buộc, hoặc HTML lỗi."""
+
+
+class RegistryEmptySourceError(RuntimeError):
+    """REGISTRY_EMPTY_SOURCE — page fetched but no entity rows were extractable."""
 
 
 class RegistryIdCollisionError(RuntimeError):
@@ -151,60 +154,65 @@ def fetch_page(url: str, request_cfg: dict[str, Any], session: requests.Session 
     raise RegistryParseError(f"failed to fetch {url}: {last_exc}") from last_exc
 
 
-_TAG_RE = re.compile(r"<[^>]+>")
-_TR_RE = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.IGNORECASE | re.DOTALL)
-_TD_RE = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.IGNORECASE | re.DOTALL)
-_A_HREF_RE = re.compile(r'<a\b[^>]*href="([^"]+)"', re.IGNORECASE)
+from scrapy import Selector
 
 
-def _strip_tags(cell_html: str) -> str:
-    text = _TAG_RE.sub("", cell_html)
-    text = html.unescape(text)
-    return re.sub(r"\s+", " ", text).strip()
+def _clean_cell_text(value: str | None) -> str:
+    """Return normalized descendant text, including nested spans and links."""
+    if not value:
+        return ""
+    return " ".join(value.replace("\xa0", " ").split())
 
 
-def parse_table_rows(page_html: str, footer_patterns: list[str], label_column_index: int = 1) -> list[dict[str, Any]]:
-    """Parser HTML tối giản dùng regex có kiểm soát cho fixture table đơn giản.
+def _looks_like_header(cells: list[str]) -> bool:
+    first = cells[0].casefold()
+    if first in {"tt", "stt", "số tt", "no", "no."}:
+        return True
+    header_tokens = (
+        "tên di sản", "tên di tích", "tên hiện vật", "tên bảo tàng",
+        "họ và tên", "quyết định", "số quyết định", "ngày tháng năm",
+        "địa điểm", "địa chỉ", "loại hình ghi danh", "tỉnh/thành phố",
+    )
+    header_hits = sum(
+        any(token in cell.casefold() for token in header_tokens)
+        for cell in cells
+    )
+    return header_hits >= 2 or any(
+        token in cells[0].casefold()
+        for token in ("số quyết định", "ngày tháng năm")
+    )
 
-    Đây KHÔNG phải một HTML parser đầy đủ; nó chỉ đọc đúng cấu trúc
-    ``<table>...<tr><td>...</td></tr></table>`` mà fixture/site khai báo qua
-    ``row_selector``. Nếu site thật dùng cấu trúc phức tạp hơn (nested table,
-    JS-rendered), COMP-000 MUST được nâng cấp sang một HTML parser thật
-    (ví dụ BeautifulSoup) — đây là giới hạn được ghi nhận công khai, không che
-    giấu.
 
-    ``label_column_index`` được giữ lại cho tương thích API nhưng không còn
-    dùng trực tiếp — footer detection hiện kiểm tra MỌI cell (xem chú thích
-    dưới) để hỗ trợ cả layout colspan (fixture) và layout mỗi cột một `<td>`
-    riêng (site thật dsvh.gov.vn).
+def parse_table_rows(
+    page_html: str,
+    footer_patterns: list[str],
+    label_column_index: int = 1,
+    row_selector: str = "table tbody tr",
+) -> list[dict[str, Any]]:
+    """Extract configured rows with Parsel/lxml CSS selectors.
+
+    ``string(.)`` is used instead of ``td::text`` because dsvh.gov.vn puts
+    values inside nested anchors/spans on some tables. Empty layout rows,
+    header rows, and footer rows are excluded. ``label_column_index`` remains
+    for backwards API compatibility; footer detection checks every cell.
     """
+    del label_column_index
+    selector = Selector(text=page_html)
+    footer_res = [re.compile(pattern, re.IGNORECASE) for pattern in footer_patterns]
     rows: list[dict[str, Any]] = []
-    footer_res = [re.compile(pat) for pat in footer_patterns]
-    for tr_match in _TR_RE.finditer(page_html):
-        tr_html = tr_match.group(1)
-        cells_raw = _TD_RE.findall(tr_html)
-        if not cells_raw:
-            continue
-        cells = [_strip_tags(c) for c in cells_raw]
-        if not any(cells):
-            continue
 
-        # Footer detection: kiểm tra MỌI cell (không chỉ cell đầu) vì site thật
-        # (dsvh.gov.vn) đặt "Tổng số" ở cột label_vi khi mỗi cột là <td> riêng,
-        # còn fixture/site khác có thể gộp cả dòng footer thành 1 cell qua
-        # colspan. Kiểm tra toàn bộ cell tránh phải biết trước layout cụ thể.
-        if any(any(fr.match(cell) for fr in footer_res) for cell in cells):
+    for row in selector.css(row_selector):
+        cells = [
+            _clean_cell_text(cell.xpath("string(.)").get())
+            for cell in row.css("td, th")
+        ]
+        if not cells or not any(cells):
             continue
-
-        first_cell = cells[0]
-        # Header row detection: site thật (dsvh.gov.vn) dùng <td> cho cả header
-        # và data row (không có <th>), nên phân biệt bằng nội dung nhãn cột
-        # tiêu đề thường gặp, tránh lẫn header vào dữ liệu thật.
-        if first_cell in {"TT", "STT", "Số TT", "No", "No."}:
+        if any(any(pattern.search(cell) for pattern in footer_res) for cell in cells):
             continue
-
-        hrefs = _A_HREF_RE.findall(tr_html)
-        rows.append({"cells": cells, "hrefs": hrefs})
+        if _looks_like_header(cells):
+            continue
+        rows.append({"cells": cells, "hrefs": row.css("a::attr(href)").getall()})
     return rows
 
 
@@ -235,11 +243,16 @@ def rows_to_records(
         href = row["hrefs"][0] if row["hrefs"] else category.url
         registry_url = href if href.startswith("http") else base_url.rstrip("/") + "/" + href.lstrip("/")
 
+        identity_parts = [label_vi.strip().lower()]
+        for field_name in ("ordinal", "recognition_text", "location"):
+            value = registry_fields.get(field_name)
+            if value:
+                identity_parts.append(str(value).strip().lower())
         registry_id = deterministic_registry_id(
             official_id=None,
             source_url=registry_url,
             registry_category=category.key,
-            normalized_label=label_vi.strip().lower(),
+            normalized_label="|".join(identity_parts),
         )
 
         records.append(
@@ -283,11 +296,26 @@ def collect(
     source_checksums: dict[str, str] = {}
 
     for category in categories:
+        http_status: str | None = None
         try:
             page_html = fetcher(category.url, request_cfg)
+            http_status = "200"
             source_checksums[category.url] = hashlib.sha256(page_html.encode("utf-8")).hexdigest()
-            rows = parse_table_rows(page_html, footer_patterns, label_column_index=category.columns.get("label_vi", 1))
+            rows = parse_table_rows(
+                page_html,
+                footer_patterns,
+                label_column_index=category.columns.get("label_vi", 1),
+                row_selector=category.row_selector,
+            )
+            if not rows:
+                raise RegistryEmptySourceError(
+                    f"{category.key}: no extractable entity rows in official page"
+                )
             records = rows_to_records(rows, category, coverage_snapshot, retrieved_at, raw_cfg["base_url"])
+            if len(records) != len(rows):
+                raise RegistryParseError(
+                    f"{category.key}: {len(rows) - len(records)} rows missing required label_vi"
+                )
 
             for rec in records:
                 existing = seen_ids.get(rec.registry_id)
@@ -313,7 +341,7 @@ def collect(
                     "http_status": "200",
                 }
             )
-        except (RegistryParseError, RegistryIdCollisionError) as exc:
+        except (RegistryParseError, RegistryEmptySourceError, RegistryIdCollisionError) as exc:
             failures.append(
                 {
                     "registry_category": category.key,
@@ -322,6 +350,8 @@ def collect(
                     "error_code": (
                         "REGISTRY_ID_COLLISION"
                         if isinstance(exc, RegistryIdCollisionError)
+                        else "REGISTRY_EMPTY_SOURCE"
+                        if isinstance(exc, RegistryEmptySourceError)
                         else "REGISTRY_PARSE_ERROR"
                     ),
                     "snapshot_id": coverage_snapshot,
@@ -337,7 +367,7 @@ def collect(
                     "failed": 1,
                     "canonicalized": 0,
                     "coverage_percent": 0.0,
-                    "http_status": None,
+                    "http_status": http_status,
                 }
             )
 
