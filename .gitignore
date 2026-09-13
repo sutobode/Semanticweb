@@ -1,0 +1,35 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+venv/
+.venv/
+
+# --- Secrets / environment ---
+.env
+
+# --- Generated data (raw full dataset MUST NOT be committed) ---
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/rdf/*.ttl
+!data/rdf/dataset-metadata.ttl
+data/linking/*
+!data/linking/.gitkeep
+
+# --- Runtime artifacts ---
+logs/
+reports/
+
+# --- Docker volumes (if bind-mounted locally) ---
+fuseki-data/
+neo4j-data/
+
+# --- OS/editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -12,13 +12,13 @@
 |---|---|
 | Project Name | VietHeritageLOD |
 | Tên đầy đủ | Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam |
-| Specification Version | 1.6.0 |
+| Specification Version | 1.6.1 |
 | Status | Implementation baseline — FINAL |
 | Ngày phát hành specification | 2026-09-12 |
 | Deadline presentation | 2026-10-10 |
 | Thời lượng | 7 tuần |
 | Team size | 4 thành viên |
-| Primary language | Python 3.12.8 |
+| Primary language | Python >=3.12,<3.14 |
 | Primary RDF serialization | Turtle (`.ttl`) |
 | Source document | `IdeaProject/Semantic Web Project.pdf` |
 | Prompt document | `spect-prompt.txt` |
@@ -671,7 +671,7 @@ Wikipedia category discovery MAY được dùng để tìm enrichment candidate,
 
 | Layer | Technology | Version/constraint | Mandatory |
 |---|---|---|---|
-| Language | Python | 3.12.8 | MUST |
+| Language | Python | >=3.12,<3.14 | MUST |
 | RDF library | RDFLib | 7.1.3 | MUST |
 | HTTP | requests | 2.32.3 | MUST |
 | Config | PyYAML | 6.0.2 | MUST |
@@ -1325,7 +1325,7 @@ Theo quy chuẩn W3C OWL 2 và methodology ontology engineering (course referenc
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.6.0" ;
+    owl:versionInfo "1.6.1" ;
     dcterms:created "2026-09-12"^^xsd:date ;
     dcterms:modified "2026-09-13"^^xsd:date .
 ```
@@ -3326,7 +3326,7 @@ Mỗi AC là binary PASS/FAIL.
 
 | ID | Given | When | Then |
 |---|---|---|---|
-| AC-001 | Clean checkout, Python 3.12.8, Docker running | `make setup` | exit 0, dependencies installed |
+| AC-001 | Clean checkout, Python >=3.12,<3.14, Docker running | `make setup` | exit 0, dependencies installed |
 | AC-002 | Golden raw fixture | `make collect-sample` | raw JSONL validate, no schema error |
 | AC-003 | Raw fixture | `make normalize` | canonical normalization tests PASS |
 | AC-004 | Duplicate/collision fixtures | `make resolve` | duplicate merge; collision exits 1 |
@@ -4067,6 +4067,7 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-043 | Config files là normative | Phụ lục D định nghĩa `registry_sources.yaml`, `collector.yaml`, `mapping.yaml`, `uri.yaml`, `requirements.yaml`; Phụ lục B.5 thêm `coverage.schema.json` | Năm file này là input MUST nhưng trước đây chỉ có prose; selector/pagination và traceability gate không thể code deterministic |
 | DEC-044 | Tách `entity_type` và `ontology_subclass` | `entity_type` chỉ nhận 1 trong 14 canonical type; subclass ontology (ví dụ `vh:NationalIntangibleHeritage`) được gán qua `registry_category_subclass` (Section 19.1) | Config trước đây khai `entity_type: NationalIntangibleHeritage` — ngoài enum schema; đồng thời 3 subclass của AX-008 không có đường nào để nhận instance |
 | DEC-045 | Canonical dash trong identity key | `canonical_dash` chuẩn hóa `-`/`‒`/`–`/`—` thành `-` trước khi tạo identity key (NOR-004) | Hai bản ghi chỉ khác loại dash trước đây tạo hai entity trùng; display literal vẫn giữ ký tự gốc |
+| DEC-046 | Python interpreter version cho môi trường local | Nới `AC-001` từ `Python 3.12.8` cứng thành `Python >=3.12,<3.14` cho môi trường phát triển local; `pyproject.toml` khai `requires-python = ">=3.12,<3.14"` | Máy triển khai thực tế chạy Python 3.13.13; pin cứng `3.12.8` sẽ chặn `make setup` ngay từ Gate G0 mà không có lợi ích semantics nào cho RDF/OWL/SPARQL; giới hạn trên `<3.14` để tránh breaking change chưa kiểm chứng của minor version tương lai |
 
 Mọi thay đổi một quyết định phải cập nhật `Specification Version`, bảng này, component contract, test và traceability matrix trong cùng một commit.
 
