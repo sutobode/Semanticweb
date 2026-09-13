@@ -1,0 +1,437 @@
+@prefix vh:      <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr:     <http://localhost:3030/vietheritage/resource/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix dcat:    <http://www.w3.org/ns/dcat#> .
+@prefix geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix schema:  <https://schema.org/> .
+
+#################################################################
+# 15.0.0 — Ontology metadata header
+#################################################################
+
+<http://localhost:3030/vietheritage/ontology/>
+    a owl:Ontology ;
+    dcterms:title "VietHeritageLOD Ontology"@en ;
+    dcterms:title "Ontology VietHeritageLOD"@vi ;
+    dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
+    dcterms:creator "VietHeritageLOD Team" ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    owl:versionInfo "1.6.1" ;
+    dcterms:created "2026-09-12"^^xsd:date ;
+    dcterms:modified "2026-09-13"^^xsd:date .
+
+#################################################################
+# 15.1 — Classes (23 primary classes)
+#################################################################
+
+vh:CulturalHeritageEntity
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Thực thể di sản văn hóa"@vi ;
+    rdfs:label "Cultural heritage entity"@en ;
+    rdfs:comment "Root class cho di sản."@vi .
+
+vh:HeritageSite
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Địa điểm di sản"@vi ;
+    rdfs:label "Heritage site"@en ;
+    rdfs:comment "Địa điểm có giá trị văn hóa/lịch sử."@vi .
+
+vh:UNESCOHeritageSite
+    a owl:Class ;
+    rdfs:subClassOf vh:HeritageSite ;
+    rdfs:label "Di sản UNESCO"@vi ;
+    rdfs:label "UNESCO heritage site"@en ;
+    rdfs:comment "Site được UNESCO công nhận."@vi .
+
+vh:HistoricalSite
+    a owl:Class ;
+    rdfs:subClassOf vh:HeritageSite ;
+    rdfs:label "Di tích lịch sử"@vi ;
+    rdfs:label "Historical site"@en ;
+    rdfs:comment "Site gắn với lịch sử."@vi .
+
+vh:ReligiousSite
+    a owl:Class ;
+    rdfs:subClassOf vh:HeritageSite ;
+    rdfs:label "Di tích tôn giáo"@vi ;
+    rdfs:label "Religious site"@en ;
+    rdfs:comment "Site có chức năng/giá trị tôn giáo."@vi .
+
+vh:ArchaeologicalSite
+    a owl:Class ;
+    rdfs:subClassOf vh:HeritageSite ;
+    rdfs:label "Di chỉ khảo cổ"@vi ;
+    rdfs:label "Archaeological site"@en ;
+    rdfs:comment "Site khảo cổ."@vi .
+
+vh:ArchitecturalSite
+    a owl:Class ;
+    rdfs:subClassOf vh:HeritageSite ;
+    rdfs:label "Công trình kiến trúc"@vi ;
+    rdfs:label "Architectural site"@en ;
+    rdfs:comment "Site có giá trị kiến trúc."@vi .
+
+vh:HeritageComplex
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Quần thể di sản"@vi ;
+    rdfs:label "Heritage complex"@en ;
+    rdfs:comment "Nhóm các site."@vi .
+
+vh:Museum
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Bảo tàng"@vi ;
+    rdfs:label "Museum"@en ;
+    rdfs:comment "Bảo tàng có ý nghĩa văn hóa."@vi .
+
+vh:HistoricalPerson
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing, foaf:Person ;
+    rdfs:label "Nhân vật lịch sử"@vi ;
+    rdfs:label "Historical person"@en ;
+    rdfs:comment "Người liên quan lịch sử."@vi .
+
+vh:HistoricalEvent
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Sự kiện lịch sử"@vi ;
+    rdfs:label "Historical event"@en ;
+    rdfs:comment "Sự kiện lịch sử."@vi .
+
+vh:HistoricalPeriod
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Thời kỳ lịch sử"@vi ;
+    rdfs:label "Historical period"@en ;
+    rdfs:comment "Khoảng/thời kỳ lịch sử."@vi .
+
+vh:ArchitecturalStyle
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Phong cách kiến trúc"@vi ;
+    rdfs:label "Architectural style"@en ;
+    rdfs:comment "Style kiến trúc."@vi .
+
+vh:AdministrativeArea
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Đơn vị hành chính"@vi ;
+    rdfs:label "Administrative area"@en ;
+    rdfs:comment "Thành phố/tỉnh/quốc gia."@vi .
+
+vh:Organization
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Tổ chức"@vi ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "Tổ chức xây dựng/công nhận."@vi .
+
+vh:IntangibleHeritage
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Di sản văn hóa phi vật thể"@vi ;
+    rdfs:label "Intangible heritage"@en ;
+    rdfs:comment "Thực hành, truyền thống hoặc tri thức trong registry di sản phi vật thể."@vi .
+
+vh:RepresentativeIntangibleHeritage
+    a owl:Class ;
+    rdfs:subClassOf vh:IntangibleHeritage ;
+    rdfs:label "Di sản phi vật thể đại diện"@vi ;
+    rdfs:label "Representative intangible heritage"@en ;
+    rdfs:comment "Item thuộc danh sách đại diện của UNESCO."@vi .
+
+vh:UrgentSafeguardingIntangibleHeritage
+    a owl:Class ;
+    rdfs:subClassOf vh:IntangibleHeritage ;
+    rdfs:label "Di sản phi vật thể cần bảo vệ khẩn cấp"@vi ;
+    rdfs:label "Urgent safeguarding intangible heritage"@en ;
+    rdfs:comment "Item thuộc danh sách cần bảo vệ khẩn cấp của UNESCO."@vi .
+
+vh:NationalIntangibleHeritage
+    a owl:Class ;
+    rdfs:subClassOf vh:IntangibleHeritage ;
+    rdfs:label "Di sản phi vật thể quốc gia"@vi ;
+    rdfs:label "National intangible heritage"@en ;
+    rdfs:comment "Item thuộc danh mục quốc gia."@vi .
+
+vh:NationalTreasure
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Bảo vật quốc gia"@vi ;
+    rdfs:label "National treasure"@en ;
+    rdfs:comment "Item thuộc danh mục bảo vật quốc gia."@vi .
+
+vh:DocumentaryHeritage
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Di sản tư liệu"@vi ;
+    rdfs:label "Documentary heritage"@en ;
+    rdfs:comment "Item thuộc registry di sản tư liệu."@vi .
+
+vh:Artisan
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing, foaf:Person ;
+    rdfs:label "Nghệ nhân"@vi ;
+    rdfs:label "Artisan"@en ;
+    rdfs:comment "Người thuộc danh sách nghệ nhân chính thức."@vi .
+
+vh:CulturalObject
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Di vật/cổ vật"@vi ;
+    rdfs:label "Cultural object"@en ;
+    rdfs:comment "Di vật hoặc cổ vật thuộc danh mục chính thức."@vi .
+
+#################################################################
+# 15.2 — Object properties (12 property project-owned)
+#################################################################
+
+vh:locatedIn
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf ( vh:CulturalHeritageEntity vh:AdministrativeArea )
+    ] ;
+    rdfs:range vh:AdministrativeArea ;
+    rdfs:label "nằm tại"@vi ;
+    rdfs:label "located in"@en .
+
+vh:partOf
+    a owl:ObjectProperty, rdf:Property, owl:TransitiveProperty ;
+    owl:inverseOf vh:hasPart ;
+    rdfs:domain vh:CulturalHeritageEntity ;
+    rdfs:range vh:HeritageComplex ;
+    rdfs:label "thuộc quần thể"@vi ;
+    rdfs:label "part of"@en .
+
+vh:hasPart
+    a owl:ObjectProperty, rdf:Property ;
+    owl:inverseOf vh:partOf ;
+    rdfs:domain vh:HeritageComplex ;
+    rdfs:range vh:CulturalHeritageEntity ;
+    rdfs:label "có thành phần"@vi ;
+    rdfs:label "has part"@en .
+
+vh:associatedWithPerson
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:HistoricalPerson ;
+    rdfs:label "liên quan tới nhân vật"@vi ;
+    rdfs:label "associated with person"@en .
+
+vh:associatedWithEvent
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:HistoricalEvent ;
+    rdfs:label "liên quan tới sự kiện"@vi ;
+    rdfs:label "associated with event"@en .
+
+vh:belongsToPeriod
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:HistoricalPeriod ;
+    rdfs:label "thuộc thời kỳ"@vi ;
+    rdfs:label "belongs to period"@en .
+
+vh:builtBy
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:subPropertyOf vh:associatedWithPerson ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range [
+        a owl:Class ;
+        owl:unionOf ( vh:HistoricalPerson vh:Organization )
+    ] ;
+    rdfs:label "được xây dựng bởi"@vi ;
+    rdfs:label "built by"@en .
+
+vh:recognizedBy
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:Organization ;
+    rdfs:label "được công nhận bởi"@vi ;
+    rdfs:label "recognized by"@en .
+
+vh:hasArchitecturalStyle
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:ArchitecturalStyle ;
+    rdfs:label "có phong cách kiến trúc"@vi ;
+    rdfs:label "has architectural style"@en .
+
+vh:hasMember
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:subPropertyOf vh:hasPart ;
+    rdfs:domain vh:HeritageComplex ;
+    rdfs:range vh:CulturalHeritageEntity ;
+    rdfs:label "có thành viên"@vi ;
+    rdfs:label "has member"@en .
+
+vh:hasRelatedSite
+    a owl:ObjectProperty, rdf:Property, owl:SymmetricProperty ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:HeritageSite ;
+    rdfs:label "có liên quan tới di sản"@vi ;
+    rdfs:label "has related site"@en .
+
+vh:hasHistoricalSuccessor
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:HistoricalEvent ;
+    rdfs:range vh:HistoricalEvent ;
+    rdfs:label "có sự kiện kế tiếp"@vi ;
+    rdfs:label "has historical successor"@en .
+
+#################################################################
+# 15.3 — Datatype properties (10 property project-owned)
+#################################################################
+
+vh:constructionYear
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "năm xây dựng"@vi ;
+    rdfs:label "construction year"@en .
+
+vh:recognitionYear
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "năm công nhận"@vi ;
+    rdfs:label "recognition year"@en .
+
+vh:address
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:domain vh:CulturalHeritageEntity ;
+    rdfs:range xsd:string ;
+    rdfs:label "địa chỉ"@vi ;
+    rdfs:label "address"@en .
+
+vh:sourcePageId
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:subPropertyOf dcterms:identifier ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:integer ;
+    rdfs:label "page ID nguồn"@vi ;
+    rdfs:label "source page id"@en .
+
+vh:sourceTitle
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:subPropertyOf dcterms:title ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "tiêu đề nguồn"@vi ;
+    rdfs:label "source title"@en .
+
+vh:shortDescription
+    a owl:DatatypeProperty, rdf:Property ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "mô tả ngắn"@vi ;
+    rdfs:label "short description"@en .
+
+vh:alternativeName
+    a owl:DatatypeProperty, rdf:Property ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "tên thay thế"@vi ;
+    rdfs:label "alternative name"@en .
+
+vh:birthYear
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:domain vh:HistoricalPerson ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "năm sinh"@vi ;
+    rdfs:label "birth year"@en .
+
+vh:deathYear
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:domain vh:HistoricalPerson ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "năm mất"@vi ;
+    rdfs:label "death year"@en .
+
+vh:areaLevel
+    a owl:DatatypeProperty, rdf:Property, owl:FunctionalProperty ;
+    rdfs:domain vh:AdministrativeArea ;
+    rdfs:range xsd:string ;
+    rdfs:label "cấp hành chính"@vi ;
+    rdfs:label "area level"@en .
+
+#################################################################
+# 16 — OWL Semantics Contract (AX-001 .. AX-009)
+#################################################################
+
+# AX-001 — UNESCO subclass
+vh:UNESCOHeritageSite rdfs:subClassOf vh:HeritageSite .
+
+# AX-002 — Inverse part relation
+vh:partOf owl:inverseOf vh:hasPart .
+
+# AX-003 — Transitive part relation
+vh:partOf a owl:TransitiveProperty .
+
+# AX-004 — Disjoint classes (person/site/area pairwise + Artisan)
+vh:HistoricalPerson owl:disjointWith vh:HeritageSite, vh:AdministrativeArea .
+vh:Artisan          owl:disjointWith vh:HeritageSite, vh:AdministrativeArea .
+vh:HeritageSite      owl:disjointWith vh:AdministrativeArea .
+
+# AX-004 — AllDisjointClasses cho 7 nhánh chính dưới CulturalHeritageEntity
+[] a owl:AllDisjointClasses ;
+   owl:members (
+       vh:HeritageSite
+       vh:HeritageComplex
+       vh:Museum
+       vh:IntangibleHeritage
+       vh:NationalTreasure
+       vh:DocumentaryHeritage
+       vh:CulturalObject
+   ) .
+
+# AX-005 — UNESCO named individual + equivalentClass restriction
+vhr:organization-unesco
+    a vh:Organization ;
+    rdfs:label "UNESCO"@en ;
+    rdfs:label "UNESCO"@vi .
+
+vh:UNESCOHeritageSite owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        vh:HeritageSite
+        [
+            a owl:Restriction ;
+            owl:onProperty vh:recognizedBy ;
+            owl:hasValue vhr:organization-unesco
+        ]
+    )
+] .
+
+# AX-006 — Symmetric related-site property
+vh:hasRelatedSite a owl:SymmetricProperty .
+
+# AX-007 — Property hierarchy (builtBy subPropertyOf associatedWithPerson)
+vh:builtBy rdfs:subPropertyOf vh:associatedWithPerson .
+
+# AX-008 — Disjoint union cho 3 subclass của IntangibleHeritage
+vh:IntangibleHeritage owl:disjointUnionOf (
+    vh:RepresentativeIntangibleHeritage
+    vh:UrgentSafeguardingIntangibleHeritage
+    vh:NationalIntangibleHeritage
+) .
+
+# AX-009 — Functional datatype properties (0..1 cardinality)
+vh:constructionYear a owl:FunctionalProperty .
+vh:recognitionYear  a owl:FunctionalProperty .
+vh:address          a owl:FunctionalProperty .
+vh:sourcePageId     a owl:FunctionalProperty .
+vh:sourceTitle      a owl:FunctionalProperty .
+vh:birthYear        a owl:FunctionalProperty .
+vh:deathYear        a owl:FunctionalProperty .
+vh:areaLevel        a owl:FunctionalProperty .
