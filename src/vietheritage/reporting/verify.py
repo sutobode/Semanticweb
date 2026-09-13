@@ -40,6 +40,15 @@ def _health(url: str) -> bool:
         return False
 
 
+
+def _latest_cypher_report() -> dict:
+    reports = list((REPO_ROOT / "reports").glob("20*/cypher_results.json"))
+    if not reports:
+        return {}
+    latest = max(reports, key=lambda path: path.stat().st_mtime)
+    return json.loads(latest.read_text(encoding="utf-8"))
+
+
 def run(run_mode: str = "sample") -> int:
     checks: dict[str, str] = {}
     checks["validation"] = "PASS" if validate_run(run_mode) == 0 else "FAIL"
@@ -49,6 +58,8 @@ def run(run_mode: str = "sample") -> int:
     ) else "FAIL"
     cq_status = cq_run()
     checks["cq"] = "PASS" if cq_status == 0 else "FAIL"
+    cypher_report = _latest_cypher_report()
+    checks["cypher_parity"] = "PASS" if cypher_report.get("status") == "PASS" else "FAIL"
     checks["reasoning"] = "PASS" if (REPO_ROOT / "data/rdf/inferred.ttl").exists() else "FAIL"
     checks["neo4j"] = "PASS" if (REPO_ROOT / "reports" / run_mode / "neo4j_load.json").exists() else "FAIL"
     checks["fuseki"] = "PASS" if (REPO_ROOT / "data/rdf/vietheritage.ttl").exists() else "FAIL"
@@ -85,6 +96,8 @@ def run(run_mode: str = "sample") -> int:
             "verified_external_links": verified_links,
             "coverage_claim": coverage.get("claim"),
             "registry_total": coverage.get("registry_total"),
+            "cypher_passed": cypher_report.get("passed", 0),
+            "cypher_total": cypher_report.get("total", 0),
         },
         "status": "PASS" if passed else "FAIL",
     }
