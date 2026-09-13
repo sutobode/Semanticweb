@@ -1,0 +1,217 @@
+base_url: https://dsvh.gov.vn/
+request:
+  timeout_seconds: 30
+  retries: 3
+  backoff_seconds: [2, 4, 8]
+  user_agent: "VietHeritageLOD/1.0 (+registry collector)"
+defaults:
+  row_selector: "table tbody tr"
+  next_page_selector: "a[rel=next]"
+  footer_patterns: ["^Tổng số", "^Total"]
+categories:
+  - key: world_heritage
+    url: https://dsvh.gov.vn/di-san-van-hoa-va-thien-nhien-the-gioi-1754
+    entity_type: HeritageSite
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: national_special_monuments
+    url: https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752
+    entity_type: HeritageSite
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: national_monuments
+    url: https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-1753
+    entity_type: HeritageSite
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: intangible_representative
+    url: https://dsvh.gov.vn/di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1755
+    entity_type: IntangibleHeritage
+    ontology_subclass: vh:RepresentativeIntangibleHeritage
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: intangible_urgent
+    url: https://dsvh.gov.vn/di-san-van-hoa-phi-vat-the-can-bao-ve-khan-cap-1756
+    entity_type: IntangibleHeritage
+    ontology_subclass: vh:UrgentSafeguardingIntangibleHeritage
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: national_intangible
+    url: https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789
+    entity_type: IntangibleHeritage
+    ontology_subclass: vh:NationalIntangibleHeritage
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: artisans
+    url: https://dsvh.gov.vn/danh-sach-nghe-nhan-1777
+    entity_type: Artisan
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: national_treasures
+    url: https://dsvh.gov.vn/bao-vat-quoc-gia-1758
+    entity_type: NationalTreasure
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: artifacts_antiquities
+    url: https://dsvh.gov.vn/di-vat-co-vat
+    entity_type: CulturalObject
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: national_artisans
+    url: https://dsvh.gov.vn/nghe-nhan-nhan-dan-1764
+    entity_type: Artisan
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: meritorious_artisans
+    url: https://dsvh.gov.vn/nghe-nhan-uu-tu-1762
+    entity_type: Artisan
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"
+
+  - key: national_museums
+    url: https://dsvh.gov.vn/bao-tang-quoc-gia-1784
+    entity_type: Museum
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: ministry_museums
+    url: https://dsvh.gov.vn/bao-tang-chuyen-nganh-thuoc-bo-nganh-to-chuc-chinh-tri-xa-hoi-trung-uong-1783
+    entity_type: Museum
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: central_organization_museums
+    url: https://dsvh.gov.vn/bao-tang-chuyen-nganh-thuoc-cac-don-vi-truc-thuoc-bo-nganh-to-chuc-chinh-tri-xa-hoi-trung-uong-1782
+    entity_type: Museum
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: provincial_museums
+    url: https://dsvh.gov.vn/bao-tang-cap-tinh-1779
+    entity_type: Museum
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: private_museums
+    url: https://dsvh.gov.vn/bao-tang-ngoai-cong-lap
+    entity_type: Museum
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: "td:nth-child(2) a"
+    next_page_selector: "a[rel=next]"
+
+  - key: documentary_heritage
+    url: https://dsvh.gov.vn/di-san-tu-lieu-2862
+    entity_type: DocumentaryHeritage
+    row_selector: "table tbody tr"
+    columns:
+      ordinal: 0
+      label_vi: 1
+      recognition_text: 2
+      location: 3
+    detail_link_selector: null
+    next_page_selector: "a[rel=next]"

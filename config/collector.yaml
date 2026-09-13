@@ -1,0 +1,21 @@
+api_url: https://vi.wikipedia.org/w/api.php
+request:
+  timeout_seconds: 30
+  retries: 3
+  backoff_seconds: [2, 4, 8]
+query:
+  formatversion: 2
+  prop: "pageprops|revisions|coordinates|categories|extracts|links"
+  rvprop: "ids|timestamp|content"
+  rvslots: main
+  exintro: 1
+  explaintext: 1
+  cllimit: max
+  pllimit: max
+matching:
+  strategy: exact_normalized_title_then_alias
+  confirm_with_qid: true
+  allow_fuzzy: false
+infobox:
+  take_first_template_only: true
+  keep_unknown_keys: true
