@@ -12,8 +12,8 @@
 |---|---|
 | Project Name | VietHeritageLOD |
 | Tên đầy đủ | Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam |
-| Specification Version | 1.1.0 |
-| Status | Implementation baseline — FROZEN |
+| Specification Version | 1.2.0 |
+| Status | Implementation baseline — FINAL |
 | Ngày phát hành specification | 2026-09-12 |
 | Deadline presentation | 2026-10-10 |
 | Thời lượng | 7 tuần |
@@ -141,7 +141,49 @@ Project MUST thể hiện đủ các điểm sau:
 
 Project MUST NOT trở thành một web application thông thường rồi chỉ thêm RDF ở cuối.
 
-## 1.4 Output cuối cùng
+## 1.5 Nguyên lý Semantic Web áp dụng vào domain
+
+Project MUST áp dụng, không chỉ định nghĩa suông, bốn nguyên lý cốt lõi của Semantic Web vào domain di sản văn hóa Việt Nam.
+
+### 1.5.1 Open World Assumption (OWA)
+
+> Không có `registry+wikipedia` hoặc `owl:sameAs` cho một entity KHÔNG có nghĩa entity đó không tồn tại link hoặc không có enrichment. Nó chỉ có nghĩa project chưa quan sát được fact đó tại snapshot hiện tại.
+
+Áp dụng cụ thể:
+
+- Registry entity thiếu Wikipedia page vẫn giữ `source_status=registry_only` (Section 12.4.1), KHÔNG bị coi là "không có mô tả".
+- `ASK` query kiểm tra `owl:sameAs` trả `false` chỉ có nghĩa chưa tìm được verified link, KHÔNG được diễn giải thành "entity này chắc chắn không tồn tại trên Wikidata/DBpedia".
+- Coverage claim (Section 12.4.2) là closed-world CÓ CHỦ ĐÍCH: `registry_valid_records == canonical_registry_derived_entities` biến full-domain claim thành một tập đóng có thể kiểm chứng, khác với OWA mặc định của RDF. Đây là lý do coverage phải dùng invariant riêng thay vì dựa vào `ASK`/absence-as-false.
+
+### 1.5.2 Non-Unique Name Assumption (NUNA)
+
+> Hai URI khác nhau (một `vhr:registry-...` nội bộ và một Wikidata QID) không mặc nhiên là hai entity khác nhau, và cũng không mặc nhiên là cùng một entity.
+
+Áp dụng cụ thể:
+
+- `owl:sameAs` CHỈ được sinh khi có QID deterministic hoặc DBpedia candidate `verified` (Section 22–23); KHÔNG suy luận từ label giống nhau.
+- Identity contract (Section 13) không dùng fuzzy matching chính vì NUNA: hai label giống nhau không đủ để khẳng định cùng một thực thể.
+- Khi cần khẳng định hai resource nội bộ khác nhau (ví dụ hai di tích trùng tên ở hai tỉnh), RDF generator SHOULD cân nhắc `owl:differentFrom` cho fixture golden dataset để minh họa NUNA, dù không phải blocking requirement.
+
+### 1.5.3 AAA — Anybody can say Anything about Anything
+
+> Wikipedia, Wikidata và DBpedia có thể phát biểu thêm về một resource do registry định nghĩa; điều này không làm registry mất authority.
+
+Áp dụng cụ thể:
+
+- DEC-002/DEC-027/DEC-028 (Phụ lục A) đã chính thức hóa: registry là membership authority, Wikipedia/Wikidata/DBpedia chỉ enrich hoặc link (Section 12.4.1).
+- Mỗi assertion enrichment MUST giữ `dcterms:source`/`prov:wasDerivedFrom` (Section 21.1) để phân biệt "registry nói gì" với "Wikipedia nói gì về cùng resource", đúng tinh thần AAA: không trộn provenance của các nguồn khác nhau thành một fact vô danh.
+
+### 1.5.4 T-Box và A-Box
+
+| Lớp | Nội dung trong VietHeritageLOD | Vị trí trong spec |
+|---|---|---|
+| T-Box (schema) | 23 classes, 12 object properties, 10 datatype properties, `rdfs:subClassOf`, `rdfs:domain`, `rdfs:range`, `owl:inverseOf`, `owl:TransitiveProperty`, `owl:SymmetricProperty`, `owl:disjointWith`, `owl:equivalentClass` | Section 15, 15.0, 16 |
+| A-Box (instance data) | Canonical entity từ registry/enrichment: `vhr:site-van-mieu`, `vhr:person-ly-thuong-kiet`, v.v. | Section 12, 20 |
+
+Việc tách rõ T-Box/A-Box giúp trả lời được các câu hỏi reasoning kinh điển của môn học ngay trên domain này: *"Mọi `UNESCOHeritageSite` có phải là `HeritageSite`?"* (T-Box, suy ra từ `rdfs:subClassOf`, AX-001) và *"`vhr:site-van-mieu` có phải instance của `HeritageSite` không?"* (A-Box, kiểm tra bằng SPARQL `ASK`).
+
+## 1.6 Output cuối cùng
 
 Repository hoàn thành MUST có:
 
@@ -173,7 +215,7 @@ Repository hoàn thành MUST có:
 5. Có 23 class chính đã freeze.
 5. Có 12 object properties do project sở hữu.
 6. Có 10 datatype properties do project sở hữu hoặc được mapping rõ tới vocabulary chuẩn.
-7. Có ít nhất 5 OWL axioms/restrictions có ý nghĩa.
+7. Có 7 OWL axioms/restrictions có ý nghĩa (AX-001 đến AX-007).
 8. Sinh Turtle hợp lệ.
 9. Mỗi entity có stable URI.
 10. Vietnamese labels dùng language tag `@vi`.
@@ -249,7 +291,7 @@ Các mục sau bị loại khỏi implementation baseline:
 | MET-001 | Primary classes | 23 | 23 | Parse `ontology/vietheritage.ttl` |
 | MET-002 | Object property project-owned | 12 | 12 | SPARQL ontology inventory |
 | MET-003 | Datatype property project-owned | 10 | 10 | SPARQL ontology inventory |
-| MET-004 | OWL axioms/restrictions | 5 | 5 | `tests/semantic/test_axioms.py` |
+| MET-004 | OWL axioms/restrictions | 7 | 7 | `tests/semantic/test_axioms.py` |
 | MET-005 | Official registry entities | 100% of registry snapshot | 100% of registry snapshot | Coverage report + canonical inventory |
 | MET-005a | Heritage-site subset | ≥100 when snapshot permits | 150–250 when snapshot permits | Entity-type inventory |
 | MET-006 | Total resources | 300 | ≥500 | RDF resource inventory |
@@ -594,7 +636,7 @@ Wikipedia category discovery MAY được dùng để tìm enrichment candidate,
 | Engine | Apache Jena OWL Mini reasoner (`http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner`) trong CLI; HermiT chỉ dùng SHOULD cho review Protégé |
 | Checks | subclass, inverse, transitive, disjointness, UNESCO classification fixture |
 | Failure | Missing expected inference hoặc inconsistency làm stage FAIL |
-| Test | `TEST-041` đến `TEST-045` |
+| Test | `TEST-041` đến `TEST-045`, `TEST-082`, `TEST-083` |
 
 ## COMP-009 — Fuseki Loader
 
@@ -1312,10 +1354,8 @@ flowchart LR
         ASSERTED["Asserted graph"]
     end
     subgraph SCHEMA["RDFS / OWL schema"]
-        RDFS["RDFS
-Class / subClassOf / domain / range"]
-        OWL["OWL
-inverse / transitive / disjoint"]
+        RDFS["RDFS: Class / subClassOf / domain / range"]
+        OWL["OWL: inverse / transitive / disjoint"]
     end
     INFERRED["Inferred graph"]
     FUSEKI["Fuseki"]
@@ -1392,7 +1432,7 @@ vhr:site-van-mieu vh:partOf vhr:complex-thang-long
   ⇒ vhr:complex-thang-long vh:hasPart vhr:site-van-mieu (OWL inverseOf)
 ```
 
-Các axiom còn lại được freeze tại AX-001…AX-005 ở Section 16 và phải được kiểm tra trước/sau reasoning; không được chỉ trình bày ontology như một bảng class không có inference thực tế.
+Các axiom còn lại được freeze tại AX-001…AX-007 ở Section 16 và phải được kiểm tra trước/sau reasoning; không được chỉ trình bày ontology như một bảng class không có inference thực tế.
 
 ### 15.0.3 Từ canonical data đến 4-Star rồi 5-Star LOD
 
@@ -1404,17 +1444,11 @@ flowchart TD
     classDef level4 fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
     classDef level5 fill:#FEF2F2,stroke:#DC2626,color:#7F1D1D
 
-    REG["Registry snapshot"] --> CAN["Canonical JSONL"] --> S1["? 1
-License + endpoint"]
-    S1 --> S2["?? 2
-Structured data"]
-    S2 --> S3["??? 3
-Open Turtle / RDF"]
-    S3 --> S4["???? 4
-URI + RDF/RDFS/OWL
-+ SPARQL"]
-    S4 --> REVIEW["Link review"] --> S5["????? 5
-Verified external links"]
+    REG["Registry snapshot"] --> CAN["Canonical JSONL"] --> S1["Star 1: License + endpoint"]
+    S1 --> S2["Star 2: Structured data"]
+    S2 --> S3["Star 3: Open Turtle / RDF"]
+    S3 --> S4["Star 4: URI + RDF/RDFS/OWL + SPARQL"]
+    S4 --> REVIEW["Link review"] --> S5["Star 5: Verified external links"]
 
     class REG,CAN level1
     class S1 level2
@@ -1473,7 +1507,7 @@ Các yêu cầu tối thiểu của đề bài được trace như sau:
 
 | Yêu cầu đề bài | Section/Artifact trong spec | Acceptance |
 |---|---|---|
-| Define ontology | Section 15.0, 15.1–15.3, `ontology/vietheritage.ttl` | `AC-014`, `TEST-033`, `TEST-041`–`TEST-045` |
+| Define ontology | Section 15.0, 15.1–15.3, `ontology/vietheritage.ttl` | `AC-014`, `TEST-033`, `TEST-041`–`TEST-045`, `TEST-082`, `TEST-083` |
 | Collect relevant data | COMP-000/001, Sections 10–12, registry coverage report | `AC-002`, `AC-024`–`AC-026` |
 | Transform to 4-Star | Sections 19–21, 27–29, RDF/URI/provenance/Fuseki | `AC-005`, `AC-006`, `AC-011`, `AC-019` |
 | Link to reach 5-Star | Sections 22–23, link review, verified `owl:sameAs` | `AC-012`, `AC-020` |
@@ -1556,7 +1590,7 @@ flowchart LR
 | `vh:recognizedBy` | `vh:HeritageSite` | `vh:Organization` | none | none |
 | `vh:hasArchitecturalStyle` | `vh:HeritageSite` | `vh:ArchitecturalStyle` | none | none |
 | `vh:hasMember` | `vh:HeritageComplex` | `vh:CulturalHeritageEntity` | none | none |
-| `vh:hasRelatedSite` | `vh:HeritageSite` | `vh:HeritageSite` | none | symmetric không khai báo |
+| `vh:hasRelatedSite` | `vh:HeritageSite` | `vh:HeritageSite` | none | `owl:SymmetricProperty` |
 | `vh:hasHistoricalSuccessor` | `vh:HistoricalEvent` | `vh:HistoricalEvent` | none | none |
 
 `vh:builtBy` dùng range là union của `vh:HistoricalPerson` và `vh:Organization`:
@@ -1671,6 +1705,32 @@ vhr:site-unesco a vh:HeritageSite ;
 
 Expected inference: `vhr:site-unesco a vh:UNESCOHeritageSite`.
 
+## AX-006 — Symmetric related-site property
+
+```turtle
+vh:hasRelatedSite a owl:SymmetricProperty .
+```
+
+Input fixture: `vhr:site-a vh:hasRelatedSite vhr:site-b`.
+
+Expected inference: `vhr:site-b vh:hasRelatedSite vhr:site-a`.
+
+`vh:hasRelatedSite` KHÔNG được declare `owl:FunctionalProperty` hoặc `owl:InverseFunctionalProperty` vì một site có thể liên quan tới nhiều site khác và không có bằng chứng identity duy nhất.
+
+## AX-007 — Property hierarchy (`rdfs:subPropertyOf`)
+
+`vh:builtBy` là property tổng quát; khi object của `vh:builtBy` là một `vh:HistoricalPerson`, quan hệ đó cũng là một trường hợp cụ thể của `vh:associatedWithPerson`. Ontology khai báo:
+
+```turtle
+vh:builtBy rdfs:subPropertyOf vh:associatedWithPerson .
+```
+
+Input fixture: `vhr:site-a vh:builtBy vhr:person-kien-truc-su`.
+
+Expected inference: `vhr:site-a vh:associatedWithPerson vhr:person-kien-truc-su`.
+
+Đây là minh họa trực tiếp RDFS property hierarchy (Section 4.2 course reference): mọi fact dùng sub-property tự động suy ra fact dùng super-property, không cần thêm object property mới ngoài 12 property đã freeze ở Section 15.2. Khi object của `vh:builtBy` là `vh:Organization` thay vì `vh:HistoricalPerson`, inference trên KHÔNG áp dụng vì `vh:associatedWithPerson` có range là `vh:HistoricalPerson`.
+
 ---
 
 # 17. Normalization Rules
@@ -1734,6 +1794,16 @@ resolve(record):
 ---
 
 # 19. Ontology Mapping
+
+VietHeritageLOD tích hợp bốn nguồn có cả ba loại heterogeneity kinh điển của data integration:
+
+| Loại heterogeneity | Biểu hiện trong project | Cách xử lý |
+|---|---|---|
+| Syntactic | Registry là HTML table; Wikipedia trả JSON qua MediaWiki API; Wikidata/DBpedia là RDF/SPARQL | COMP-000/COMP-001 parse riêng từng syntax về `raw-page.schema.json` chung (Section 11) |
+| Semantic | `"Di tích quốc gia đặc biệt"` (registry) và infobox `loai=di tích lịch sử` (Wikipedia) mô tả cùng khái niệm heritage site bằng thuật ngữ khác nhau | `config/mapping.yaml` (bảng dưới) là mapping table tường minh, ánh xạ mọi thuật ngữ nguồn về một `entity_type`/class ontology duy nhất |
+| Access | Registry cần HTML scraping có retry; Wikipedia dùng REST API; Wikidata/DBpedia dùng SPARQL endpoint liên bang | Mỗi COMP có adapter riêng (Section 7) nhưng cùng đổ về `canonical.jsonl`; không có access pattern nào được phép bypass coverage authority (Section 12.4.1) |
+
+Project KHÔNG dùng Virtual Knowledge Graph (không map trực tiếp từ database sống); mọi nguồn được materialize thành `canonical.jsonl` trước khi sinh RDF, vì coverage claim (Section 12.4.2) cần một snapshot cố định để invariant `registry_valid_records == canonical_registry_derived_entities` có thể kiểm chứng lại được — Virtual KG với live query sẽ làm invariant này không ổn định giữa hai lần chạy.
 
 File `config/mapping.yaml` là nguồn mapping authoritative.
 
@@ -1920,6 +1990,32 @@ type_compatible = true/false
 ```
 
 Quy tắc:
+
+```mermaid
+flowchart TD
+    classDef reject fill:#FEF2F2,stroke:#DC2626,color:#7F1D1D
+    classDef review fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
+    classDef auto fill:#ECFDF5,stroke:#059669,color:#064E3B
+
+    START["DBpedia candidate"] --> TYPE{"type_compatible?"}
+    TYPE -->|false| REJ1["rejected"]
+    TYPE -->|true| SCORE{"label_similarity"}
+    SCORE -->|"< 0.70"| REJ2["rejected"]
+    SCORE -->|"0.70 - 0.90"| DIST1{"distance_km"}
+    SCORE -->|">= 0.90"| DIST2{"distance_km"}
+    DIST1 -->|"<= 20km"| REVIEW1["manual_review"]
+    DIST1 -->|"> 20km"| REJ3["rejected"]
+    DIST2 -->|"<= 5km + both coords"| AUTO["auto_candidate"]
+    DIST2 -->|"missing one coord"| REVIEW2["manual_review"]
+    DIST2 -->|"> 20km"| REJ4["rejected"]
+    AUTO --> HUMAN["Human review"] --> VERIFIED["verified -> external-links.ttl"]
+    REVIEW1 --> HUMAN
+    REVIEW2 --> HUMAN
+
+    class REJ1,REJ2,REJ3,REJ4 reject
+    class REVIEW1,REVIEW2 review
+    class AUTO,VERIFIED auto
+```
 
 | Điều kiện | Status |
 |---|---|
@@ -2240,10 +2336,13 @@ Input:
 @prefix vhr: <http://localhost:3030/vietheritage/resource/> .
 
 vhr:site-a a vh:HeritageSite ;
-    vh:recognizedBy vhr:organization-unesco .
+    vh:recognizedBy vhr:organization-unesco ;
+    vh:hasRelatedSite vhr:site-c ;
+    vh:builtBy vhr:person-kien-truc-su .
 
 vhr:site-b vh:partOf vhr:complex-1 .
 vhr:complex-1 vh:partOf vhr:complex-2 .
+vhr:person-kien-truc-su a vh:HistoricalPerson .
 ```
 
 Expected inferred:
@@ -2253,9 +2352,11 @@ vhr:site-a a vh:UNESCOHeritageSite .
 vhr:site-b vh:partOf vhr:complex-2 .
 vhr:complex-1 vh:hasPart vhr:site-b .
 vhr:complex-2 vh:hasPart vhr:complex-1, vhr:site-b .
+vhr:site-c vh:hasRelatedSite vhr:site-a .
+vhr:site-a vh:associatedWithPerson vhr:person-kien-truc-su .
 ```
 
-Reasoner MUST produce at least these exact inferred triples; extra standard closure triples are allowed only when they do not violate AX-004.
+Reasoner MUST produce at least these exact inferred triples; extra standard closure triples are allowed only when they do not violate AX-004. Ba dòng cuối minh họa AX-006 (`owl:SymmetricProperty`) và AX-007 (`rdfs:subPropertyOf`).
 
 ## 26.3 Consistency
 
@@ -2429,15 +2530,10 @@ flowchart TD
     classDef star fill:#EFF6FF,stroke:#2563EB,color:#0F172A
     classDef link fill:#FEF2F2,stroke:#DC2626,color:#7F1D1D
 
-    S1["? 1
-License + endpoint"] --> S2["?? 2
-Structured data"]
-    S2 --> S3["??? 3
-Open format"]
-    S3 --> S4["???? 4
-HTTP URI + RDF + SPARQL"]
-    S4 --> S5["????? 5
-Verified Wikidata / DBpedia links"]
+    S1["Star 1: License + endpoint"] --> S2["Star 2: Structured data"]
+    S2 --> S3["Star 3: Open format"]
+    S3 --> S4["Star 4: HTTP URI + RDF + SPARQL"]
+    S4 --> S5["Star 5: Verified Wikidata / DBpedia links"]
 
     class S1,S2,S3,S4 star
     class S5 link
@@ -2806,6 +2902,8 @@ make verify
 | TEST-043 | AX-003 | chain fixture | reason | transitive triple | Yes |
 | TEST-044 | AX-004 | contradictory fixture | reason | inconsistency | Yes |
 | TEST-045 | AX-005 | UNESCO fixture | reason | UNESCO class | Yes |
+| TEST-082 | AX-006 | symmetric relation fixture | reason | inferred inverse-direction triple | Yes |
+| TEST-083 | AX-007 | builtBy person fixture | reason | inferred `vh:associatedWithPerson` triple | Yes |
 | TEST-046 | FR-012 | docker compose | fuseki-up | health 200 | Yes |
 | TEST-047 | FR-012 | final TTL | fuseki-load | graph loaded | Yes |
 | TEST-048 | FR-017 | site URI | linked-data-test | RDF 200 | Yes |
@@ -2834,7 +2932,7 @@ Mỗi AC là binary PASS/FAIL.
 | AC-004 | Duplicate/collision fixtures | `make resolve` | duplicate merge; collision exits 1 |
 | AC-005 | Canonical fixture | `make generate-rdf` | Turtle parse bằng RDFLib PASS |
 | AC-006 | Generated RDF | `make validate` | RDF validation PASS, all site label `@vi` |
-| AC-007 | Ontology + reasoning fixture | `make reason` | AX-001…AX-005 expected results PASS |
+| AC-007 | Ontology + reasoning fixture | `make reason` | AX-001…AX-007 expected results PASS |
 | AC-008 | Docker available | `make fuseki-up` | Fuseki health HTTP 200 |
 | AC-009 | Final artifact | `make fuseki-load` | dataset `vietheritage` chứa expected graph |
 | AC-010 | Loaded dataset | `make cq-test` | CQ01–CQ10 = 10/10 PASS |
@@ -2870,7 +2968,7 @@ Mỗi AC là binary PASS/FAIL.
 | FR-008 DBpedia | `silk/linkage-rules.xml`, linker | TEST-036…038 | AC-012 |
 | FR-009 Review | `data/linking/link_review.csv` | TEST-039/040 | AC-012 |
 | FR-010 Validation | `src/vietheritage/validation/` | TEST-028…033 | AC-006 |
-| FR-011 Reasoning | `src/vietheritage/reasoning/` | TEST-041…045 | AC-007 |
+| FR-011 Reasoning | `src/vietheritage/reasoning/` | TEST-041…045, TEST-082, TEST-083 | AC-007 |
 | FR-012 Fuseki | `docker-compose.yml`, `deployment/fuseki/` | TEST-046…050 | AC-008/009 |
 | FR-013 CQ | `sparql/`, CQ runner | TEST-051…060 | AC-010 |
 | FR-014 Report | `schema/run-report.schema.json` | contract tests | AC-015 |
@@ -3535,6 +3633,8 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-027 | Full-domain authority | Official Cục Di sản văn hóa categories at `dsvh.gov.vn` are the selected coverage baseline | A bounded official snapshot makes the claim "complete" falsifiable |
 | DEC-028 | Multi-source role | Registry decides membership; Wikipedia enriches; Wikidata/DBpedia link or enrich | Missing enrichment must not remove a registry entity |
 | DEC-029 | Coverage gate | Full mode requires `registry_valid_records == canonical_registry_derived_entities`, zero registry failures and 100% coverage | Prevents silently shipping a subset while claiming full-domain data |
+| DEC-030 | Property hierarchy demonstration | `vh:hasRelatedSite` là `owl:SymmetricProperty`; `vh:builtBy rdfs:subPropertyOf vh:associatedWithPerson` | Chứng minh cụ thể RDFS property hierarchy và OWL property characteristics đúng course requirement, không thêm property mới ngoài 12 đã freeze |
+| DEC-031 | OWA/NUNA/AAA/T-Box-A-Box | Ghi nhận tường minh tại Section 1.5, gắn với coverage claim, identity contract và provenance thực tế | Course yêu cầu áp dụng nguyên lý Semantic Web vào domain cụ thể, không chỉ định nghĩa lý thuyết |
 
 Mọi thay đổi một quyết định phải cập nhật `Specification Version`, bảng này, component contract, test và traceability matrix trong cùng một commit.
 
