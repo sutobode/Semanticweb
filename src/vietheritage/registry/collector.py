@@ -163,7 +163,7 @@ def _strip_tags(cell_html: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def parse_table_rows(page_html: str, footer_patterns: list[str]) -> list[dict[str, Any]]:
+def parse_table_rows(page_html: str, footer_patterns: list[str], label_column_index: int = 1) -> list[dict[str, Any]]:
     """Parser HTML tối giản dùng regex có kiểm soát cho fixture table đơn giản.
 
     Đây KHÔNG phải một HTML parser đầy đủ; nó chỉ đọc đúng cấu trúc
@@ -172,6 +172,11 @@ def parse_table_rows(page_html: str, footer_patterns: list[str]) -> list[dict[st
     JS-rendered), COMP-000 MUST được nâng cấp sang một HTML parser thật
     (ví dụ BeautifulSoup) — đây là giới hạn được ghi nhận công khai, không che
     giấu.
+
+    ``label_column_index`` được giữ lại cho tương thích API nhưng không còn
+    dùng trực tiếp — footer detection hiện kiểm tra MỌI cell (xem chú thích
+    dưới) để hỗ trợ cả layout colspan (fixture) và layout mỗi cột một `<td>`
+    riêng (site thật dsvh.gov.vn).
     """
     rows: list[dict[str, Any]] = []
     footer_res = [re.compile(pat) for pat in footer_patterns]
@@ -183,9 +188,21 @@ def parse_table_rows(page_html: str, footer_patterns: list[str]) -> list[dict[st
         cells = [_strip_tags(c) for c in cells_raw]
         if not any(cells):
             continue
-        first_cell = cells[0]
-        if any(fr.match(first_cell) for fr in footer_res):
+
+        # Footer detection: kiểm tra MỌI cell (không chỉ cell đầu) vì site thật
+        # (dsvh.gov.vn) đặt "Tổng số" ở cột label_vi khi mỗi cột là <td> riêng,
+        # còn fixture/site khác có thể gộp cả dòng footer thành 1 cell qua
+        # colspan. Kiểm tra toàn bộ cell tránh phải biết trước layout cụ thể.
+        if any(any(fr.match(cell) for fr in footer_res) for cell in cells):
             continue
+
+        first_cell = cells[0]
+        # Header row detection: site thật (dsvh.gov.vn) dùng <td> cho cả header
+        # và data row (không có <th>), nên phân biệt bằng nội dung nhãn cột
+        # tiêu đề thường gặp, tránh lẫn header vào dữ liệu thật.
+        if first_cell in {"TT", "STT", "Số TT", "No", "No."}:
+            continue
+
         hrefs = _A_HREF_RE.findall(tr_html)
         rows.append({"cells": cells, "hrefs": hrefs})
     return rows
@@ -269,7 +286,7 @@ def collect(
         try:
             page_html = fetcher(category.url, request_cfg)
             source_checksums[category.url] = hashlib.sha256(page_html.encode("utf-8")).hexdigest()
-            rows = parse_table_rows(page_html, footer_patterns)
+            rows = parse_table_rows(page_html, footer_patterns, label_column_index=category.columns.get("label_vi", 1))
             records = rows_to_records(rows, category, coverage_snapshot, retrieved_at, raw_cfg["base_url"])
 
             for rec in records:
