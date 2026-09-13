@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Deterministic candidate rule; acceptance remains controlled by linker review thresholds. -->
+<LinkageRule xmlns="http://silkframework.org/">
+  <LinkType>http://www.w3.org/2002/07/owl#sameAs</LinkType>
+  <SourceDataset dataSource="vietheritage" var="source" />
+  <TargetDataset dataSource="dbpedia" var="target" />
+  <Aggregate type="weightedMean">
+    <Compare metric="levenshteinDistanceNormalized" path="rdfs:label" threshold="0.90" weight="1.0" />
+  </Aggregate>
+</LinkageRule>

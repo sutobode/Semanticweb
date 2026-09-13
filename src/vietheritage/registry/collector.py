@@ -431,9 +431,33 @@ def collect_sample() -> int:
 
 
 def collect_full() -> int:
-    """`make collect` — crawl thật toàn bộ 17 category (Giai đoạn B)."""
+    """`make collect` — crawl official registry and enrich it via Wikipedia."""
     report = collect()
+    records_path = RAW_DIR / "registry_records.jsonl"
+    labels = []
+    if records_path.exists():
+        with records_path.open(encoding="utf-8") as fh:
+            labels = [json.loads(line)["label_vi"] for line in fh if line.strip()]
+    from vietheritage.collector.wikipedia import enrich_many
+
+    enrichment = enrich_many(labels)
+    report["wikipedia_matched"] = enrichment["matched"]
+    report["wikidata_linked"] = enrichment.get("wikidata_linked", 0)
+    by_label = {record["label_vi"]: record["registry_id"] for record in (
+        json.loads(line) for line in records_path.read_text(encoding="utf-8").splitlines() if line.strip()
+    )}
+    failures_path = RAW_DIR / "enrichment_failures.jsonl"
+    report["unresolved_registry_ids"] = [
+        by_label.get(item.get("label_vi"), item.get("label_vi", ""))
+        for item in (
+            json.loads(line) for line in failures_path.read_text(encoding="utf-8").splitlines() if line.strip()
+        )
+    ] if failures_path.exists() else []
     run_id = report["snapshot_id"]
     path = write_coverage_report(report, run_id)
-    print(f"collect: wrote {path}, claim={report['claim']}")
+    print(
+        f"collect: wrote {path}, registry={report['registry_total']}, "
+        f"wikipedia={enrichment['matched']}/{enrichment['total']}, claim={report['claim']}"
+    )
     return 0 if report["claim"] == "100% of selected official registry snapshot" else 1
+

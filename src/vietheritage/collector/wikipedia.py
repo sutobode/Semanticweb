@@ -256,3 +256,52 @@ def enrich(
         "pages_path": str(pages_path),
         "failures_path": str(failures_path),
     }
+
+
+
+def enrich_many(
+    registry_labels: list[str],
+    config_path: Path = CONFIG_PATH,
+    fetcher=fetch_query,
+    output_dir: Path = RAW_DIR,
+    chunk_size: int = 50,
+) -> dict[str, Any]:
+    """Enrich all registry labels in bounded MediaWiki API batches.
+
+    MediaWiki limits title batches, so full mode must not send one oversized
+    request. Missing pages are retained in the failure manifest and never
+    remove registry records.
+    """
+    cfg = load_config(config_path)
+    retrieved_at = utc_now_iso()
+    all_pages: list[WikipediaPage] = []
+    all_failures: list[dict[str, Any]] = []
+    seen_page_ids: set[int] = set()
+    for start in range(0, len(registry_labels), chunk_size):
+        batch = registry_labels[start : start + chunk_size]
+        params = build_query_params(batch, cfg.get("query", {}))
+        response = fetcher(cfg["api_url"], params, cfg.get("request", {}))
+        pages, failures = match_registry_labels_to_pages(batch, response, retrieved_at)
+        for page in pages:
+            if page.page_id not in seen_page_ids:
+                seen_page_ids.add(page.page_id)
+                all_pages.append(page)
+        all_failures.extend(failures)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    pages_path = output_dir / "pages.jsonl"
+    failures_path = output_dir / "enrichment_failures.jsonl"
+    with pages_path.open("w", encoding="utf-8") as fh:
+        for page in all_pages:
+            fh.write(json.dumps(page.to_dict(), ensure_ascii=False) + "\n")
+    with failures_path.open("w", encoding="utf-8") as fh:
+        for failure in all_failures:
+            fh.write(json.dumps(failure, ensure_ascii=False) + "\n")
+    return {
+        "matched": len(all_pages),
+        "missing": len(all_failures),
+        "total": len(registry_labels),
+        "wikidata_linked": sum(1 for page in all_pages if page.wikidata_id),
+        "pages_path": str(pages_path),
+        "failures_path": str(failures_path),
+    }

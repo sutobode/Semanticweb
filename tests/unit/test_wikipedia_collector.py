@@ -10,6 +10,7 @@ import pytest
 from vietheritage.collector.wikipedia import (
     build_query_params,
     enrich,
+    enrich_many,
     load_config,
     match_registry_labels_to_pages,
     normalize_title,
@@ -156,3 +157,20 @@ def test_enrich_writes_pages_and_failures_jsonl(tmp_path: Path) -> None:
     page_record = json.loads(pages_path.read_text(encoding="utf-8").strip())
     for required_field in ["page_id", "title", "source_url", "retrieved_at"]:
         assert required_field in page_record
+
+
+
+def test_enrich_many_batches_titles_and_reports_qids(tmp_path: Path) -> None:
+    calls: list[int] = []
+
+    def mock_fetcher(api_url: str, params: dict, request_cfg: dict) -> dict:  # noqa: ARG001
+        titles = params["titles"].split("|")
+        calls.append(len(titles))
+        return {"query": {"pages": [
+            {"pageid": len(calls), "title": titles[0], "pageprops": {"wikibase_item": "Q1"}, "revisions": []}
+        ]}}
+
+    result = enrich_many(["A", "B", "C"], fetcher=mock_fetcher, output_dir=tmp_path, chunk_size=2)
+    assert calls == [2, 1]
+    assert result["matched"] == 2
+    assert result["wikidata_linked"] == 2
