@@ -31,3 +31,19 @@ def test_dbpedia_candidate_only_verified_candidate_enters_verified_links() -> No
     assert len(reviews) == 2
     assert len(verified) == 1
     assert verified[0]["target_uri"].endswith("Ha_Long_Bay")
+
+
+
+def test_loader_reads_explicit_dbpedia_wikidata_manifest(tmp_path, monkeypatch) -> None:
+    import json
+    import vietheritage.linking.linker as linker_module
+
+    raw = tmp_path / "data" / "raw"
+    raw.mkdir(parents=True)
+    (raw / "dbpedia_wikidata_candidates.jsonl").write_text(
+        json.dumps({"entity_id": "registry-a", "uri": "http://dbpedia.org/resource/A"}) + "\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(linker_module, "REPO_ROOT", tmp_path)
+    candidates = linker_module._load_dbpedia_candidates()
+    assert candidates["registry-a"][0]["uri"].endswith("/A")

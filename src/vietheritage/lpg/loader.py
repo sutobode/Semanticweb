@@ -10,6 +10,7 @@ from neo4j import GraphDatabase
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
+LINKING_DIR = REPO_ROOT / "data" / "linking"
 REPORTS_DIR = REPO_ROOT / "reports"
 _RELATION_TYPES = {
     "located_in": "LOCATED_IN",
@@ -97,6 +98,35 @@ def load_records(session: Any, records: list[dict[str, Any]]) -> int:
     return count
 
 
+def _load_verified_link_rows() -> list[dict[str, Any]]:
+    path = LINKING_DIR / "link-review.jsonl"
+    if not path.exists():
+        return []
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            row = json.loads(line)
+            if row.get("status") == "verified":
+                rows.append(row)
+    return rows
+
+
+def _project_verified_links(session: Any, rows: list[dict[str, Any]]) -> None:
+    for row in rows:
+        source_uri = str(row.get("source_uri", ""))
+        target_uri = row.get("target_uri")
+        if "/vietheritage/resource/" not in source_uri or not target_uri:
+            continue
+        entity_id = source_uri.rsplit("/", 1)[-1]
+        session.run(
+            """MATCH (n:Entity {entityId: $entity_id})
+               MERGE (external:External {uri: $uri})
+               MERGE (n)-[:SAME_AS]->(external)""",
+            entity_id=entity_id,
+            uri=target_uri,
+        )
+
+
 def run(run_mode: str = "sample") -> int:
     path = PROCESSED_DIR / "canonical.jsonl"
     if not path.exists():
@@ -117,6 +147,7 @@ def run(run_mode: str = "sample") -> int:
                        n.labelEn = 'UNESCO'""",
                 entity_id="organization-unesco",
             )
+            _project_verified_links(session, _load_verified_link_rows())
         driver.close()
     except Exception as exc:  # driver exposes several connection exception types
         print(f"neo4j-load: FAIL - {exc}")

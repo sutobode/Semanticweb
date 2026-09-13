@@ -28,14 +28,15 @@ def _now() -> str:
 
 
 def _load_dbpedia_candidates() -> dict[str, list[dict[str, Any]]]:
-    path = REPO_ROOT / "data" / "raw" / "dbpedia_lookup_candidates.jsonl"
     result: dict[str, list[dict[str, Any]]] = {}
-    if not path.exists():
-        return result
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            row = json.loads(line)
-            result.setdefault(row["entity_id"], []).append(row)
+    for filename in ("dbpedia_lookup_candidates.jsonl", "dbpedia_wikidata_candidates.jsonl"):
+        path = REPO_ROOT / "data" / "raw" / filename
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row = json.loads(line)
+                result.setdefault(row["entity_id"], []).append(row)
     return result
 
 
@@ -114,7 +115,17 @@ def link_records(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], l
             score = float(candidate.get("score", dbpedia_score(record.get("label_vi", ""), target_label, compatible)))
             distance = candidate.get("distance_km")
             status = review_dbpedia_candidate(score, distance, compatible)
-            row = _review_row(source_uri, target_uri, "dbpedia", "silk", score, status, distance_km=distance, type_compatible=compatible, reason="deterministic label/type/distance review")
+            row = _review_row(
+                source_uri,
+                target_uri,
+                "dbpedia",
+                "silk",
+                score,
+                status,
+                distance_km=distance,
+                type_compatible=compatible,
+                reason=candidate.get("evidence") or "deterministic label/type/distance review",
+            )
             reviews.append(row)
             if status == "verified":
                 verified.append(row)

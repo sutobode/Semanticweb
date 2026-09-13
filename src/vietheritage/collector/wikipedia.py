@@ -78,6 +78,7 @@ def build_query_params(titles: list[str], query_cfg: dict[str, Any]) -> dict[str
         "format": "json",
         "formatversion": query_cfg.get("formatversion", 2),
         "titles": "|".join(titles),
+        "redirects": 1,
         "prop": query_cfg.get("prop", "pageprops|revisions|coordinates|categories|extracts|links"),
         "rvprop": query_cfg.get("rvprop", "ids|timestamp|content"),
         "rvslots": query_cfg.get("rvslots", "main"),
@@ -154,7 +155,11 @@ def fetch_query(api_url: str, params: dict[str, Any], request_cfg: dict[str, Any
     raise EnrichmentMissingError(f"failed to query {api_url}: {last_exc}") from last_exc
 
 
-def page_from_api_response(page_json: dict[str, Any], retrieved_at: str) -> WikipediaPage | None:
+def page_from_api_response(
+    page_json: dict[str, Any],
+    retrieved_at: str,
+    requested_title: str | None = None,
+) -> WikipediaPage | None:
     if page_json.get("missing"):
         return None
 
@@ -187,7 +192,7 @@ def page_from_api_response(page_json: dict[str, Any], retrieved_at: str) -> Wiki
         if content:
             infobox = parse_first_infobox(content)
 
-    title = page_json.get("title", "")
+    title = requested_title or page_json.get("title", "")
     page_id = page_json.get("pageid")
     source_url = f"https://vi.wikipedia.org/wiki/{title.replace(' ', '_')}"
 
@@ -218,24 +223,30 @@ def match_registry_labels_to_pages(
     """
     pages_json = api_response.get("query", {}).get("pages", [])
     normalized_lookup = {normalize_title(p.get("title", "")): p for p in pages_json if not p.get("missing")}
+    redirect_lookup = {
+        normalize_title(row.get("from", "")): normalize_title(row.get("to", ""))
+        for row in api_response.get("query", {}).get("redirects", [])
+    }
 
     pages: list[WikipediaPage] = []
     failures: list[dict[str, Any]] = []
-    seen_page_ids: set[int] = set()
+    seen_page_keys: set[tuple[int, str]] = set()
 
     for label in registry_labels:
         norm = normalize_title(label)
-        page_json = normalized_lookup.get(norm)
+        target_norm = redirect_lookup.get(norm, norm)
+        page_json = normalized_lookup.get(target_norm)
         if page_json is None:
             failures.append({"label_vi": label, "error_code": "ENRICHMENT_MISSING", "reason": "no exact title match"})
             continue
-        page = page_from_api_response(page_json, retrieved_at)
+        page = page_from_api_response(page_json, retrieved_at, requested_title=label)
         if page is None:
             failures.append({"label_vi": label, "error_code": "ENRICHMENT_MISSING", "reason": "page missing"})
             continue
-        if page.page_id in seen_page_ids:
+        page_key = (page.page_id, norm)
+        if page_key in seen_page_keys:
             continue
-        seen_page_ids.add(page.page_id)
+        seen_page_keys.add(page_key)
         pages.append(page)
 
     return pages, failures
@@ -290,15 +301,16 @@ def enrich_many(
     retrieved_at = utc_now_iso()
     all_pages: list[WikipediaPage] = []
     all_failures: list[dict[str, Any]] = []
-    seen_page_ids: set[int] = set()
+    seen_page_keys: set[tuple[int, str]] = set()
     for start in range(0, len(registry_labels), chunk_size):
         batch = registry_labels[start : start + chunk_size]
         params = build_query_params(batch, cfg.get("query", {}))
         response = fetcher(cfg["api_url"], params, cfg.get("request", {}))
         pages, failures = match_registry_labels_to_pages(batch, response, retrieved_at)
         for page in pages:
-            if page.page_id not in seen_page_ids:
-                seen_page_ids.add(page.page_id)
+            page_key = (page.page_id, normalize_title(page.title))
+            if page_key not in seen_page_keys:
+                seen_page_keys.add(page_key)
                 all_pages.append(page)
         all_failures.extend(failures)
 

@@ -174,3 +174,30 @@ def test_enrich_many_batches_titles_and_reports_qids(tmp_path: Path) -> None:
     assert calls == [2, 1]
     assert result["matched"] == 2
     assert result["wikidata_linked"] == 2
+
+
+
+def test_build_query_params_follows_redirects() -> None:
+    cfg = load_config(CONFIG_PATH)
+    assert build_query_params(["Tranh dân gian Đông Hồ"], cfg["query"])["redirects"] == 1
+
+
+def test_match_registry_labels_resolves_redirect_target_qid() -> None:
+    api_response = {
+        "query": {
+            "redirects": [{"from": "Alias di sản", "to": "Trang đích"}],
+            "pages": [{
+                "pageid": 99,
+                "title": "Trang đích",
+                "pageprops": {"wikibase_item": "Q999"},
+                "revisions": [],
+            }],
+        }
+    }
+    pages, failures = match_registry_labels_to_pages(
+        ["Alias di sản"], api_response, "2026-09-13T00:00:00Z"
+    )
+    assert not failures
+    assert pages[0].title == "Alias di sản"
+    assert pages[0].page_id == 99
+    assert pages[0].wikidata_id == "Q999"
