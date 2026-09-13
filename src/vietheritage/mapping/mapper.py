@@ -42,6 +42,22 @@ def _load_category_types() -> dict[str, str]:
     return {item["key"]: item["entity_type"] for item in config["categories"]}
 
 
+def _load_exact_wikidata() -> dict[str, str]:
+    result: dict[str, str] = {}
+    for filename in ("wikidata_exact_enrichment.jsonl", "wikidata_sparql_exact_enrichment.jsonl"):
+        path = RAW_DIR / filename
+        if not path.exists():
+            continue
+        with path.open(encoding="utf-8") as handle:
+            for line in handle:
+                if line.strip():
+                    row = json.loads(line)
+                    if row.get("entity_id") and row.get("wikidata_id"):
+                        result.setdefault(row["entity_id"], row["wikidata_id"])
+    return result
+
+
+
 def _load_pages() -> dict[str, dict[str, Any]]:
     path = RAW_DIR / "pages.jsonl"
     if not path.exists():
@@ -65,6 +81,7 @@ def map_record(
     entity: dict[str, Any],
     category_types: dict[str, str],
     pages: dict[str, dict[str, Any]] | None = None,
+    exact_wikidata: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     category = entity.get("registry_category")
     entity_type = category_types.get(category)
@@ -77,7 +94,11 @@ def map_record(
     fields = entity.get("registry_fields") or {}
     page = (pages or {}).get(_norm_title(entity.get("label_vi", "")))
     external_ids: dict[str, str] = {}
-    qid = entity.get("wikidata_id") or (page or {}).get("wikidata_id")
+    qid = (
+        entity.get("wikidata_id")
+        or (page or {}).get("wikidata_id")
+        or (exact_wikidata or {}).get(entity_id)
+    )
     if qid:
         external_ids["wikidata"] = qid
 
@@ -127,6 +148,7 @@ def run(run_mode: str = "sample") -> int:
         return 1
     category_types = _load_category_types()
     pages = _load_pages()
+    exact_wikidata = _load_exact_wikidata()
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     output = PROCESSED_DIR / "canonical.jsonl"
     count = 0
@@ -134,7 +156,7 @@ def run(run_mode: str = "sample") -> int:
         for line in source:
             if not line.strip():
                 continue
-            canonical = map_record(json.loads(line), category_types, pages)
+            canonical = map_record(json.loads(line), category_types, pages, exact_wikidata)
             target.write(json.dumps(canonical, ensure_ascii=False) + "\n")
             count += 1
     print(f"map ({run_mode}): {count} canonical records -> {output}")

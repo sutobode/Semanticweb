@@ -57,8 +57,8 @@ def canonical_identity_key(label_vi: str) -> str:
     return text.casefold()
 
 
-_YEAR_RE = re.compile(r"(\d{3,4})")
-_YEAR_RANGE_RE = re.compile(r"(\d{3,4})\s*[-\u2012\u2013\u2014]\s*(\d{3,4})")
+_YEAR_RE = re.compile(r"(?<!\d)(\d{4})(?!\d)")
+_YEAR_RANGE_RE = re.compile(r"(?<!\d)(\d{4})\s*[-\u2012\u2013\u2014]\s*(\d{4})(?!\d)")
 
 
 def parse_year(value: str) -> int | None:

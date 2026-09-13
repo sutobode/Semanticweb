@@ -71,6 +71,11 @@ def test_nor006_year_range() -> None:
     assert parse_year_range("1070-1075") == (1070, 1075)
 
 
+def test_nor005_rejects_three_digit_fragment() -> None:
+    assert parse_year("Quyết định số 548") is None
+
+
+
 def test_nor007_unknown_values_map_to_none() -> None:
     assert is_unknown_value("N/A") is True
     assert is_unknown_value("?") is True

@@ -26,6 +26,19 @@ def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+
+def _load_dbpedia_candidates() -> dict[str, list[dict[str, Any]]]:
+    path = REPO_ROOT / "data" / "raw" / "dbpedia_lookup_candidates.jsonl"
+    result: dict[str, list[dict[str, Any]]] = {}
+    if not path.exists():
+        return result
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            row = json.loads(line)
+            result.setdefault(row["entity_id"], []).append(row)
+    return result
+
+
 def _link_key(value: str) -> str:
     text = unicodedata.normalize("NFC", value).casefold()
     return "".join(ch for ch in text if ch.isalnum() or ch.isspace()).strip()
@@ -131,6 +144,11 @@ def run(run_mode: str = "sample") -> int:
         print(f"link: {canonical_path} not found; run map first")
         return 1
     records = [json.loads(line) for line in canonical_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    dbpedia_candidates = _load_dbpedia_candidates()
+    for record in records:
+        candidates = dbpedia_candidates.get(record["entity_id"])
+        if candidates:
+            record["dbpedia_candidates"] = candidates
     reviews, verified = link_records(records)
     LINKING_DIR.mkdir(parents=True, exist_ok=True)
     (LINKING_DIR / "link-review.jsonl").write_text("\n".join(json.dumps(row, ensure_ascii=False) for row in reviews) + ("\n" if reviews else ""), encoding="utf-8")

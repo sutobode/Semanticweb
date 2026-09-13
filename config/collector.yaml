@@ -1,8 +1,8 @@
 api_url: https://vi.wikipedia.org/w/api.php
 request:
   timeout_seconds: 30
-  retries: 3
-  backoff_seconds: [2, 4, 8]
+  retries: 4
+  backoff_seconds: [5, 15, 30, 60]
 query:
   formatversion: 2
   prop: "pageprops|revisions|coordinates|categories|extracts|links"

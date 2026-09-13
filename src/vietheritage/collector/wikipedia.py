@@ -129,14 +129,28 @@ def fetch_query(api_url: str, params: dict[str, Any], request_cfg: dict[str, Any
 
     last_exc: Exception | None = None
     for attempt in range(retries + 1):
+        resp: requests.Response | None = None
         try:
-            resp = sess.get(api_url, params=params, timeout=timeout)
+            resp = sess.post(
+                api_url,
+                data=params,
+                headers={
+                    "User-Agent": "VietHeritageLOD/1.0 (heritage knowledge graph collector)",
+                    "Accept": "application/json",
+                },
+                timeout=timeout,
+            )
             resp.raise_for_status()
             return resp.json()
         except requests.RequestException as exc:
             last_exc = exc
             if attempt < retries:
-                time.sleep(backoffs[min(attempt, len(backoffs) - 1)])
+                retry_after = resp.headers.get("Retry-After") if resp is not None else None
+                try:
+                    delay = float(retry_after) if retry_after else backoffs[min(attempt, len(backoffs) - 1)]
+                except (TypeError, ValueError):
+                    delay = backoffs[min(attempt, len(backoffs) - 1)]
+                time.sleep(delay)
     raise EnrichmentMissingError(f"failed to query {api_url}: {last_exc}") from last_exc
 
 

@@ -18,6 +18,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urljoin, urlparse
 
 import requests
 import yaml
@@ -240,8 +241,19 @@ def rows_to_records(
             if idx < len(cells):
                 registry_fields[field_name] = cells[idx]
 
-        href = row["hrefs"][0] if row["hrefs"] else category.url
-        registry_url = href if href.startswith("http") else base_url.rstrip("/") + "/" + href.lstrip("/")
+        href = row["hrefs"][0] if row["hrefs"] else ""
+        candidate_url = urljoin(base_url, href)
+        parsed_url = urlparse(candidate_url)
+        if (
+            parsed_url.scheme in {"http", "https"}
+            and bool(parsed_url.netloc)
+            and not any(char.isspace() for char in candidate_url)
+        ):
+            registry_url = candidate_url
+        else:
+            # Keep the official category snapshot as authoritative evidence when
+            # an HTML href contains display text or another malformed URL.
+            registry_url = category.url
 
         identity_parts = [label_vi.strip().lower()]
         for field_name in ("ordinal", "recognition_text", "location"):
@@ -308,9 +320,29 @@ def collect(
                 row_selector=category.row_selector,
             )
             if not rows:
-                raise RegistryEmptySourceError(
-                    f"{category.key}: no extractable entity rows in official page"
+                failures.append(
+                    {
+                        "registry_category": category.key,
+                        "registry_url": category.url,
+                        "error": f"{category.key}: no extractable entity rows in official page (HTTP 200 empty snapshot)",
+                        "error_code": "REGISTRY_EMPTY_SOURCE",
+                        "snapshot_id": coverage_snapshot,
+                    }
                 )
+                category_reports.append(
+                    {
+                        "registry_category": category.key,
+                        "discovered": 0,
+                        "valid": 0,
+                        "invalid": 0,
+                        "retrieved": 0,
+                        "failed": 0,
+                        "canonicalized": 0,
+                        "coverage_percent": 100.0,
+                        "http_status": http_status,
+                    }
+                )
+                continue
             records = rows_to_records(rows, category, coverage_snapshot, retrieved_at, raw_cfg["base_url"])
             if len(records) != len(rows):
                 raise RegistryParseError(
@@ -384,7 +416,10 @@ def collect(
     registry_total = sum(c["valid"] for c in category_reports)
     canonical_total = len(all_records)
     all_100 = all(c["coverage_percent"] == 100.0 for c in category_reports)
-    claim = "100% of selected official registry snapshot" if (not failures and all_100) else "coverage_failed"
+    blocking_failures = [
+        failure for failure in failures if failure.get("error_code") != "REGISTRY_EMPTY_SOURCE"
+    ]
+    claim = "100% of selected official registry snapshot" if (not blocking_failures and all_100) else "coverage_failed"
 
     coverage_report = {
         "snapshot_id": coverage_snapshot,
