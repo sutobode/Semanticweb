@@ -1,1 +1,1 @@
-"""Run report and logging (Section 33, 34)."""
+"""Runtime health and reporting adapters."""
