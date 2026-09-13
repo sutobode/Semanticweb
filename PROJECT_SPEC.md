@@ -81,15 +81,41 @@ Project không claim đã thu thập mọi fact lịch sử, mọi bài viết h
 
 ```mermaid
 flowchart LR
-    REG[Official registry\nCục Di sản văn hóa] --> MEMBERSHIP[Domain membership]
-    WIKI[Vietnamese Wikipedia\nMediaWiki API] --> ENRICH[Description / infobox / QID]
-    WD[Wikidata] --> LINKS[External identity]
-    DB[DBpedia] --> LINKS
-    MEMBERSHIP --> CAN[Canonical dataset]
-    ENRICH --> CAN
-    LINKS --> RDF[RDF/Turtle]
+    classDef source fill:#E8F1FF,stroke:#2563EB,color:#0F172A
+    classDef process fill:#ECFDF5,stroke:#059669,color:#064E3B
+    classDef output fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
+
+    subgraph SOURCES["Data sources"]
+        direction TB
+        REG["Official registry"]
+        WIKI["Wikipedia VI"]
+        WD["Wikidata"]
+        DB["DBpedia"]
+    end
+    subgraph CORE["Canonical layer"]
+        direction TB
+        MEMBERSHIP["Domain membership"]
+        ENRICH["Enrichment fields"]
+        LINKS["Verified links"]
+        CAN["Canonical dataset"]
+    end
+    subgraph OUTPUTS["Projections"]
+        direction TB
+        RDF["RDF / Turtle"]
+        LPG["LPG projection"]
+    end
+
+    REG --> MEMBERSHIP --> CAN
+    WIKI --> ENRICH --> CAN
+    WD --> LINKS
+    DB --> LINKS
     CAN --> RDF
-    CAN --> LPG[Neo4j LPG projection]
+    CAN --> LPG
+    LINKS --> RDF
+
+    class REG,WIKI,WD,DB source
+    class MEMBERSHIP,ENRICH,LINKS,CAN process
+    class RDF,LPG output
 ```
 
 ## 1.2 Đối tượng sử dụng
@@ -315,32 +341,46 @@ Mỗi requirement MUST được liên kết với component, test và Acceptance
 
 ```mermaid
 flowchart TD
-    REG[Official cultural heritage registry - dsvh.gov.vn] --> RC[COMP-000 Registry Collector]
-    RC --> RR[data/raw/registry_records.jsonl]
-    RR --> COV[Coverage Validator]
-    WIKI[Vietnamese Wikipedia - MediaWiki API] --> WE[COMP-001 Enrichment Collector]
-    WE --> WR[data/raw/pages.jsonl]
-    RR --> NORM[COMP-002 Normalizer]
-    WR --> NORM
-    COV --> NORM
-    NORM --> NR[data/processed/normalized.jsonl]
-    NR --> ER[COMP-003 Entity Resolver]
-    ER --> CM[COMP-004 Canonical Mapper]
-    CM --> CAN[data/processed/canonical.jsonl]
-    CAN --> RDFG[COMP-005 RDF Generator]
-    RDFG --> RDF[data/rdf/vietheritage.ttl]
-    RDF --> VAL[COMP-006 RDF Validator]
-    RDF --> LINK[COMP-007 External Linker]
-    LINK --> EXT[data/rdf/external-links.ttl]
-    EXT --> REASON[COMP-008 OWL Mini Reasoner]
-    REASON --> FINAL[Final RDF + inferred report]
-    FINAL --> FUSEKI[Apache Jena Fuseki TDB2]
-    FUSEKI --> SPARQL[SPARQL endpoint]
-    FUSEKI --> LD[Linked Data resource URI]
-    SPARQL --> CQ[10 SPARQL CQ tests]
-    CAN --> LPG[COMP-011 Neo4j LPG Loader]
-    LPG --> NEO4J[Neo4j 5 LPG store]
-    NEO4J --> CYPHER[Cypher queries + visualization]
+    classDef source fill:#E8F1FF,stroke:#2563EB,color:#0F172A
+    classDef stage fill:#ECFDF5,stroke:#059669,color:#064E3B
+    classDef semantic fill:#F5F3FF,stroke:#7C3AED,color:#3B0764
+    classDef service fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
+
+    subgraph INPUTS["1. Sources"]
+        direction LR
+        REG["Registry"] --> COL["Registry collector"] --> RAW["Raw registry"]
+        WIKI["Wikipedia VI"] --> ENR["Enrichment collector"] --> PAGES["Raw pages"]
+    end
+    subgraph PIPELINE["2. Canonical pipeline"]
+        direction LR
+        RAW --> NORM["Normalize"]
+        PAGES --> NORM
+        NORM --> RESOLVE["Resolve identity"] --> CAN["Canonical JSONL"]
+    end
+    subgraph SEMANTICS["3. Semantic layer"]
+        direction LR
+        CAN --> RDFGEN["Generate RDF"] --> TTL["Asserted Turtle"]
+        TTL --> VALIDATE["Validate RDF"]
+        TTL --> LINK["Review external links"] --> EXT["Verified links"]
+        TTL --> REASON["OWL Mini reasoning"] --> INF["Inferred Turtle"]
+    end
+    subgraph SERVICES["4. Query and publication"]
+        direction LR
+        TTL --> FUSEKI["Fuseki / TDB2"]
+        EXT --> FUSEKI
+        INF --> FUSEKI
+        FUSEKI --> SPARQL["SPARQL / CQ01-CQ10"]
+        FUSEKI --> LD["Resource URI"]
+    end
+    subgraph LPG["5. Optional projection layer"]
+        direction LR
+        CAN --> LOAD["LPG loader"] --> NEO4J["Neo4j"] --> CYPHER["Cypher / visualisation"]
+    end
+
+    class REG,WIKI source
+    class COL,ENR,RAW,PAGES,NORM,RESOLVE,CAN stage
+    class RDFGEN,TTL,VALIDATE,LINK,EXT,REASON,INF semantic
+    class FUSEKI,SPARQL,LD,LOAD,NEO4J,CYPHER service
 ```
 
 ## 6.1 Hai projection từ cùng một canonical dataset
@@ -905,7 +945,7 @@ Museum, IntangibleHeritage, NationalTreasure, DocumentaryHeritage,
 Artisan, CulturalObject
 ```
 
-`source_status=registry_only` is valid and MUST NOT be filtered out because Wikipedia enrichment is missing.
+`source_status=registry_only` là trạng thái hợp lệ và MUST NOT bị lọc bỏ chỉ vì thiếu Wikipedia enrichment.
 
 ### `HeritageSite`
 
@@ -1054,15 +1094,16 @@ coverage_percent == 100.0
 
 ```mermaid
 stateDiagram-v2
+    direction LR
     [*] --> Discovered
-    Discovered --> Retrieved: GET thành công
-    Discovered --> Failed: network/HTTP error
-    Retrieved --> Parsed: HTML/table hợp lệ
-    Retrieved --> Failed: REGISTRY_PARSE_ERROR
-    Parsed --> Canonicalized: registry_id + required fields PASS
-    Parsed --> Failed: field validation FAIL
-    Canonicalized --> CoveragePASS: mọi category đạt 100%
-    Failed --> CoverageFAIL: có failure manifest
+    Discovered --> Retrieved: HTTP 2xx
+    Discovered --> Failed: network error
+    Retrieved --> Parsed: parse OK
+    Retrieved --> Failed: parse error
+    Parsed --> Canonicalized: core fields OK
+    Parsed --> Failed: validation error
+    Canonicalized --> CoveragePASS: all categories 100%
+    Failed --> CoverageFAIL: failure manifest
     CoveragePASS --> [*]
     CoverageFAIL --> [*]
 ```
@@ -1107,7 +1148,7 @@ Hash MUST là SHA-256 trên chuỗi canonical normalized UTF-8, lấy 12 ký t�
 5. Deterministic SHA-256 key
 ```
 
-A registry-derived identity MUST NOT be replaced by a Wikipedia page ID or a fuzzy match. Fuzzy matching is not allowed in core identity.
+Identity có nguồn từ registry MUST NOT bị thay bằng Wikipedia page ID hoặc fuzzy match. Fuzzy matching không được phép trong core identity.
 
 ## 13.3 Duplicate
 
@@ -1155,7 +1196,7 @@ http://localhost:3030/vietheritage
 {BASE}/graph/inferred
 ```
 
-`entity_id` uses `registry-` for registry-derived entities and a type-prefix for explicitly represented derived entities (`person-`, `area-`, `event-`, `period-`, `complex-`, `organization-`, `style-`). Resource URI does not add another type segment. Examples:
+`entity_id` dùng `registry-` cho entity có nguồn từ registry và type-prefix cho entity derived được biểu diễn rõ ràng (`person-`, `area-`, `event-`, `period-`, `complex-`, `organization-`, `style-`). Resource URI không thêm một segment type khác. Ví dụ:
 
 ```text
 http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001
@@ -1193,6 +1234,251 @@ Namespace:
 @prefix schema: <https://schema.org/> .
 ```
 
+## 15.0 Thiết kế Ontology, RDF/RDFS/OWL và LOD nhìn thấy được
+
+### 15.0.1 Ontology hierarchy đầy đủ
+
+Ontology của VietHeritageLOD có 23 class project-owned. `vh:CulturalHeritageEntity` là root của các entity di sản; các entity ngữ cảnh như người, sự kiện, thời kỳ, khu vực và tổ chức vẫn là `owl:Thing` độc lập để tránh suy luận rằng mọi đối tượng liên quan đều là di sản.
+
+```mermaid
+classDiagram
+    direction TB
+    class Thing
+    class CulturalHeritageEntity
+    class HeritageSite
+    class UNESCOHeritageSite
+    class HistoricalSite
+    class ReligiousSite
+    class ArchaeologicalSite
+    class ArchitecturalSite
+    class HeritageComplex
+    class Museum
+    class IntangibleHeritage
+    class RepresentativeIntangibleHeritage
+    class UrgentSafeguardingIntangibleHeritage
+    class NationalIntangibleHeritage
+    class NationalTreasure
+    class DocumentaryHeritage
+    class CulturalObject
+    class HistoricalPerson
+    class HistoricalEvent
+    class HistoricalPeriod
+    class ArchitecturalStyle
+    class AdministrativeArea
+    class Organization
+    class Artisan
+
+    CulturalHeritageEntity <|-- HeritageSite
+    HeritageSite <|-- UNESCOHeritageSite
+    HeritageSite <|-- HistoricalSite
+    HeritageSite <|-- ReligiousSite
+    HeritageSite <|-- ArchaeologicalSite
+    HeritageSite <|-- ArchitecturalSite
+    CulturalHeritageEntity <|-- HeritageComplex
+    CulturalHeritageEntity <|-- Museum
+    CulturalHeritageEntity <|-- IntangibleHeritage
+    IntangibleHeritage <|-- RepresentativeIntangibleHeritage
+    IntangibleHeritage <|-- UrgentSafeguardingIntangibleHeritage
+    IntangibleHeritage <|-- NationalIntangibleHeritage
+    CulturalHeritageEntity <|-- NationalTreasure
+    CulturalHeritageEntity <|-- DocumentaryHeritage
+    CulturalHeritageEntity <|-- CulturalObject
+    Thing <|-- HistoricalPerson
+    Thing <|-- HistoricalEvent
+    Thing <|-- HistoricalPeriod
+    Thing <|-- ArchitecturalStyle
+    Thing <|-- AdministrativeArea
+    Thing <|-- Organization
+    Thing <|-- Artisan
+```
+
+Quy ước quan trọng:
+
+- `rdfs:subClassOf` thể hiện hierarchy; một resource có thể thuộc nhiều subclass site cùng lúc.
+- `rdfs:domain` và `rdfs:range` mô tả semantics và hỗ trợ inference; chúng không thay thế validation. Validator MUST kiểm tra domain/range và required fields trước khi load RDF.
+- `owl:inverseOf`, `owl:TransitiveProperty`, `owl:disjointWith` và `owl:equivalentClass` là OWL semantics, không phải thuộc tính LPG.
+- `vh:partOf`/`vh:hasPart` là cặp inverse và `vh:partOf` là transitive; `vh:locatedIn` không transitive.
+
+### 15.0.2 RDF → RDFS → OWL → SPARQL
+
+```mermaid
+flowchart LR
+    classDef data fill:#E8F1FF,stroke:#2563EB,color:#0F172A
+    classDef schema fill:#F5F3FF,stroke:#7C3AED,color:#3B0764
+    classDef store fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
+
+    subgraph RDFGRAPH["RDF graph"]
+        TRIPLE["Instance triples"]
+        ASSERTED["Asserted graph"]
+    end
+    subgraph SCHEMA["RDFS / OWL schema"]
+        RDFS["RDFS
+Class / subClassOf / domain / range"]
+        OWL["OWL
+inverse / transitive / disjoint"]
+    end
+    INFERRED["Inferred graph"]
+    FUSEKI["Fuseki"]
+    QUERY["SPARQL endpoint"]
+
+    TRIPLE --> ASSERTED
+    ASSERTED --> RDFS --> OWL --> INFERRED
+    ASSERTED --> FUSEKI
+    INFERRED --> FUSEKI
+    FUSEKI --> QUERY
+
+    class TRIPLE,ASSERTED data
+    class RDFS,OWL schema
+    class INFERRED,FUSEKI,QUERY store
+```
+
+Một RDF graph tối thiểu MUST thể hiện đồng thời ba lớp sau. Trong Turtle, ký hiệu rút gọn `a` trong các ví dụ dưới đây chính là predicate chuẩn `rdf:type`.
+
+| Lớp | Nội dung bắt buộc | Ví dụ nhìn thấy trong Turtle |
+|---|---|---|
+| RDF instance | Entity và quan hệ thực tế | `vhr:site-1 vh:locatedIn vhr:area-hanoi` |
+| RDFS schema | Class/property hierarchy và domain/range | `vh:HeritageSite rdfs:subClassOf vh:CulturalHeritageEntity` |
+| OWL semantics | Axiom tạo inference hoặc consistency check | `vh:partOf owl:inverseOf vh:hasPart` |
+
+Turtle normative tối thiểu:
+
+```turtle
+@prefix vh:   <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr:  <http://localhost:3030/vietheritage/resource/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+vh:CulturalHeritageEntity
+    a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Thực thể di sản văn hóa"@vi .
+
+vh:HeritageSite
+    a owl:Class ;
+    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:label "Địa điểm di sản"@vi .
+
+vh:locatedIn
+    a owl:ObjectProperty, rdf:Property ;
+    rdfs:domain vh:CulturalHeritageEntity ;
+    rdfs:range vh:AdministrativeArea ;
+    rdfs:label "nằm tại"@vi .
+
+vh:constructionYear
+    a owl:DatatypeProperty, rdf:Property ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "năm xây dựng"@vi .
+
+vh:partOf owl:inverseOf vh:hasPart ;
+    a owl:TransitiveProperty .
+
+vhr:site-van-mieu
+    a vh:HeritageSite ;
+    rdfs:label "Văn Miếu – Quốc Tử Giám"@vi ;
+    vh:locatedIn vhr:area-hanoi ;
+    vh:constructionYear "1070"^^xsd:gYear .
+```
+
+Inference bắt buộc phải nhìn thấy được từ fixture:
+
+```text
+vhr:site-van-mieu a vh:HeritageSite
+  ⇒ vhr:site-van-mieu a vh:CulturalHeritageEntity       (RDFS subClassOf)
+
+vhr:site-van-mieu vh:partOf vhr:complex-thang-long
+  ⇒ vhr:complex-thang-long vh:hasPart vhr:site-van-mieu (OWL inverseOf)
+```
+
+Các axiom còn lại được freeze tại AX-001…AX-005 ở Section 16 và phải được kiểm tra trước/sau reasoning; không được chỉ trình bày ontology như một bảng class không có inference thực tế.
+
+### 15.0.3 Từ canonical data đến 4-Star rồi 5-Star LOD
+
+```mermaid
+flowchart TD
+    classDef level1 fill:#F8FAFC,stroke:#64748B,color:#0F172A
+    classDef level2 fill:#EFF6FF,stroke:#2563EB,color:#0F172A
+    classDef level3 fill:#ECFDF5,stroke:#059669,color:#064E3B
+    classDef level4 fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
+    classDef level5 fill:#FEF2F2,stroke:#DC2626,color:#7F1D1D
+
+    REG["Registry snapshot"] --> CAN["Canonical JSONL"] --> S1["? 1
+License + endpoint"]
+    S1 --> S2["?? 2
+Structured data"]
+    S2 --> S3["??? 3
+Open Turtle / RDF"]
+    S3 --> S4["???? 4
+URI + RDF/RDFS/OWL
++ SPARQL"]
+    S4 --> REVIEW["Link review"] --> S5["????? 5
+Verified external links"]
+
+    class REG,CAN level1
+    class S1 level2
+    class S2 level2
+    class S3 level3
+    class S4 level4
+    class REVIEW level4
+    class S5 level5
+```
+
+| Gate | Điều project MUST chứng minh | Artifact/query | Mapping |
+|---|---|---|---|
+| 1-Star | License, metadata và endpoint được công bố | `dataset-metadata.ttl`, README, Fuseki URL | `TEST-061`, `AC-019` |
+| 2-Star | Dữ liệu có cấu trúc machine-readable | Raw/canonical JSONL và RDF graph | `TEST-062` |
+| 3-Star | Dùng format mở, không độc quyền | Turtle `.ttl`, JSONL `.jsonl` | `TEST-063`, `AC-005` |
+| 4-Star | URI HTTP ổn định, RDF/RDFS/OWL hợp lệ và truy vấn được bằng SPARQL | ontology/data Turtle, resource URI, `/sparql` | `TEST-064`, `AC-006`, `AC-010`, `AC-011` |
+| 5-Star | Chỉ link external có status `verified` mới xuất hiện trong final RDF | `link_review.csv`, `external-links.ttl` | `TEST-065`, `AC-012`, `AC-020` |
+
+Không được tính việc có Neo4j/Cypher là bằng chứng cho Star 4 hoặc Star 5. Star 4/5 chỉ được đánh giá trên RDF, URI, Fuseki/SPARQL, provenance và external links verified.
+
+### 15.0.4 SPARQL endpoint và terminal interface
+
+```mermaid
+sequenceDiagram
+    participant U as User / terminal
+    participant Q as Query runner
+    participant F as Fuseki
+    participant G as RDF graph
+
+    U->>Q: Run CQ or QUERY
+    Q->>Q: Parse + hash query
+    Q->>F: SPARQL GET/POST
+    F->>G: Evaluate graph pattern
+    G-->>F: Bindings
+    F-->>Q: JSON / CSV / Turtle
+    Q-->>U: Result + PASS/FAIL
+```
+
+Interface tối thiểu phải sử dụng được từ terminal, không cần frontend:
+
+```bash
+curl --get "http://localhost:3030/vietheritage/sparql" \
+  --data-urlencode 'query=SELECT ?site ?label WHERE { ?site a <http://localhost:3030/vietheritage/ontology/HeritageSite> ; <http://www.w3.org/2000/01/rdf-schema#label> ?label . FILTER(LANG(?label) = "vi") } LIMIT 10' \
+  -H 'Accept: application/sparql-results+json'
+```
+
+Query runner MUST:
+
+1. Đọc `sparql/CQ01...CQ10` hoặc nhận `QUERY` từ terminal.
+2. Parse query trước khi gửi tới Fuseki.
+3. Ghi query hash, endpoint, HTTP status, thời gian và expected columns.
+4. So sánh bindings với golden expected result.
+5. Trả machine-readable `PASS`/`FAIL`; `make cq-test` MUST fail nếu bất kỳ CQ blocking nào fail.
+
+Các yêu cầu tối thiểu của đề bài được trace như sau:
+
+| Yêu cầu đề bài | Section/Artifact trong spec | Acceptance |
+|---|---|---|
+| Define ontology | Section 15.0, 15.1–15.3, `ontology/vietheritage.ttl` | `AC-014`, `TEST-033`, `TEST-041`–`TEST-045` |
+| Collect relevant data | COMP-000/001, Sections 10–12, registry coverage report | `AC-002`, `AC-024`–`AC-026` |
+| Transform to 4-Star | Sections 19–21, 27–29, RDF/URI/provenance/Fuseki | `AC-005`, `AC-006`, `AC-011`, `AC-019` |
+| Link to reach 5-Star | Sections 22–23, link review, verified `owl:sameAs` | `AC-012`, `AC-020` |
+| SPARQL endpoint/terminal | Sections 24–25, 27.4–28, `make query`, `make cq-test` | `AC-010`, `AC-011` |
+
 ## 15.1 Classes - 23 primary classes
 
 | URI | Parent | Label VI | Label EN | Description |
@@ -1223,29 +1509,37 @@ Namespace:
 | `vh:CulturalObject` | `vh:CulturalHeritageEntity` | Di vật/cổ vật | Cultural object | Di vật hoặc cổ vật thuộc danh mục chính thức |
 
 ```mermaid
-classDiagram
-    class CulturalHeritageEntity
-    class HeritageSite
-    class HeritageComplex
-    class Museum
-    class IntangibleHeritage
-    class NationalTreasure
-    class DocumentaryHeritage
-    class Artisan
-    class CulturalObject
-    class AdministrativeArea
-    CulturalHeritageEntity <|-- HeritageSite
-    CulturalHeritageEntity <|-- HeritageComplex
-    CulturalHeritageEntity <|-- Museum
-    CulturalHeritageEntity <|-- IntangibleHeritage
-    CulturalHeritageEntity <|-- NationalTreasure
-    CulturalHeritageEntity <|-- DocumentaryHeritage
-    CulturalHeritageEntity <|-- CulturalObject
-    IntangibleHeritage <|-- RepresentativeIntangibleHeritage
-    IntangibleHeritage <|-- UrgentSafeguardingIntangibleHeritage
-    IntangibleHeritage <|-- NationalIntangibleHeritage
-    HeritageComplex o-- HeritageSite : hasMember
-    HeritageSite --> AdministrativeArea : locatedIn
+flowchart LR
+    classDef site fill:#E8F1FF,stroke:#2563EB,color:#0F172A
+    classDef context fill:#ECFDF5,stroke:#059669,color:#064E3B
+    classDef relation fill:#FFF7ED,stroke:#EA580C,color:#7C2D12
+
+    SITE["HeritageSite"]
+    COMPLEX["HeritageComplex"]
+    AREA["AdministrativeArea"]
+    PERSON["HistoricalPerson"]
+    EVENT["HistoricalEvent"]
+    PERIOD["HistoricalPeriod"]
+    ORG["Organization"]
+    STYLE["ArchitecturalStyle"]
+    ENTITY["CulturalHeritageEntity"]
+
+    SITE -->|locatedIn| AREA
+    SITE -->|partOf| COMPLEX
+    COMPLEX -->|hasPart| SITE
+    SITE -->|associatedWithPerson| PERSON
+    SITE -->|associatedWithEvent| EVENT
+    SITE -->|belongsToPeriod| PERIOD
+    SITE -->|builtBy| ORG
+    SITE -->|recognizedBy| ORG
+    SITE -->|hasArchitecturalStyle| STYLE
+    COMPLEX -->|hasMember| ENTITY
+    SITE -->|hasRelatedSite| SITE
+    EVENT -->|hasHistoricalSuccessor| EVENT
+
+    class SITE,COMPLEX site
+    class AREA,PERSON,EVENT,PERIOD,ORG,STYLE context
+    class ENTITY relation
 ```
 
 ## 15.2 Object properties — 12 property project-owned
@@ -2131,11 +2425,22 @@ Fuseki Main không tự dereference URI này, vì vậy baseline MUST cung cấp
 # 29. Five-Star LOD Contract
 
 ```mermaid
-flowchart LR
-    S1[Star 1\nLicense + endpoint] --> S2[Star 2\nStructured machine-readable data]
-    S2 --> S3[Star 3\nOpen non-proprietary format]
-    S3 --> S4[Star 4\nHTTP URI + RDF + SPARQL]
-    S4 --> S5[Star 5\nVerified links to Wikidata/DBpedia]
+flowchart TD
+    classDef star fill:#EFF6FF,stroke:#2563EB,color:#0F172A
+    classDef link fill:#FEF2F2,stroke:#DC2626,color:#7F1D1D
+
+    S1["? 1
+License + endpoint"] --> S2["?? 2
+Structured data"]
+    S2 --> S3["??? 3
+Open format"]
+    S3 --> S4["???? 4
+HTTP URI + RDF + SPARQL"]
+    S4 --> S5["????? 5
+Verified Wikidata / DBpedia links"]
+
+    class S1,S2,S3,S4 star
+    class S5 link
 ```
 
 | Star | Requirement | Evidence | Test |
