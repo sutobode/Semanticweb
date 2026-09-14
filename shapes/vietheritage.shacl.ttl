@@ -1,0 +1,61 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+# Public entity contract: every source-derived resource with an rdfs:label
+# has identity, a label, and provenance. Optional enrichment remains optional.
+<http://localhost:3030/vietheritage/shapes/PublicEntityShape>
+    a sh:NodeShape ;
+    sh:targetSubjectsOf rdfs:label ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A public entity must have at least one rdf:type."@en
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A public entity must have an rdfs:label."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:source ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "A public entity must retain a source URI."@en
+    ] ;
+    sh:property [
+        sh:path prov:wasDerivedFrom ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "A public entity must retain provenance."@en
+    ] .
+
+<http://localhost:3030/vietheritage/shapes/LatitudeShape>
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geo:lat ;
+    sh:property [
+        sh:path geo:lat ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive -90 ;
+        sh:maxInclusive 90 ;
+        sh:severity sh:Violation
+    ] .
+
+<http://localhost:3030/vietheritage/shapes/LongitudeShape>
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geo:long ;
+    sh:property [
+        sh:path geo:long ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive -180 ;
+        sh:maxInclusive 180 ;
+        sh:severity sh:Violation
+    ] .

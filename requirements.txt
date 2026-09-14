@@ -6,3 +6,5 @@ pytest==8.3.4
 neo4j==5.26.0
 parsel==1.9.1
 Scrapy==2.13.3
+
+pyshacl==0.26.0

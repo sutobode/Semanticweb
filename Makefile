@@ -4,7 +4,7 @@ RUN_MODE ?= sample
 
 .PHONY: setup test collect-sample collect normalize resolve map generate-rdf link \
         validate reason fuseki-up fuseki-down fuseki-reset fuseki-load \
-        linked-data-test neo4j-up neo4j-down neo4j-reset neo4j-load cypher-test \
+        linked-data-test app-up app-down app-test app-smoke api-docs neo4j-up neo4j-down neo4j-reset neo4j-load cypher-test \
         traceability-check query cq-test pipeline-sample pipeline verify
 
 ## make setup — Python/Docker -> venv, dependencies
@@ -73,6 +73,26 @@ fuseki-load:
 ## make linked-data-test — running Fuseki + site URI -> HTTP RDF response
 linked-data-test:
 	$(PYTHON) -m vietheritage.cli linked-data-test
+
+## make app-up — Docker -> running read-only explorer
+app-up:
+	docker compose up -d --build --no-deps explorer
+
+## make app-down — running explorer -> stopped explorer
+app-down:
+	docker compose stop explorer
+
+## make app-test — web API/server tests
+app-test:
+	$(PYTHON) -m pytest tests/unit/test_web_api.py tests/unit/test_web_server.py -q
+
+## make app-smoke — running explorer -> HTTP smoke checks
+app-smoke:
+	$(PYTHON) -m vietheritage.web.smoke
+
+## make api-docs — print local API documentation URL
+api-docs:
+	@echo http://localhost:8000/docs
 
 ## make neo4j-up — Docker -> running Neo4j
 neo4j-up:

@@ -66,7 +66,7 @@ make test
 Expected release baseline:
 
 ```text
-136 passed
+149 passed
 ```
 
 Một số collector tests ghi fixture vào các thư mục output dùng chung. Vì vậy phải chạy `make test` trước sample/full pipeline, hoặc dùng checkout riêng. Nếu chạy test sau khi đã có full snapshot, cần chạy lại full pipeline trước khi staging dữ liệu.
@@ -167,7 +167,27 @@ Neo4j Bolt:    bolt://localhost:7687
 
 `cypher-test` so sánh kết quả LPG với kết quả RDF/SPARQL. Warning về relationship type không có instance trong snapshot có thể xuất hiện; điều kiện chấp nhận là kết quả cuối phải là `10/10 PASS` và không có `LPG_RDF_MISMATCH`.
 
-## 8. Full acceptance verification
+## 8. Khởi động explorer và smoke test UX/API
+
+```powershell
+make app-up
+make app-smoke
+```
+
+Mở trình duyệt:
+
+```text
+http://localhost:8000
+```
+
+API docs:
+
+```text
+http://localhost:8000/docs
+http://localhost:8000/openapi.json
+```
+
+## 9. Full acceptance verification
 
 ```powershell
 make traceability-check
@@ -186,12 +206,12 @@ Release baseline hiện tại:
 - Registry coverage: `100%` trên 17 category đã cấu hình.
 - Wikipedia pages: `42`.
 - Verified external links: `114`.
-- RDF triples: `6,224`.
+- RDF triples: `7,249`.
 - Inferred triples: `1,782`.
 - SPARQL: `10/10 PASS`.
 - Cypher/RDF parity: `10/10 PASS`.
 
-## 9. Xem evidence và trạng thái service
+## 10. Xem evidence và trạng thái service
 
 ```powershell
 Get-Content .\reports\full\verify.json
@@ -202,16 +222,17 @@ git status --short
 
 `reports/` và `logs/` là runtime evidence, không phải credentials và thường bị ignore bởi Git. Raw release data nằm trong `data/raw/`.
 
-## 10. Dừng services sau khi chạy
+## 11. Dừng services sau khi chạy
 
 ```powershell
+make app-down
 make fuseki-down
 make neo4j-down
 ```
 
 Không dùng `make fuseki-reset` hoặc `make neo4j-reset` trên dữ liệu cần giữ; các target reset xóa Docker volume.
 
-## 11. Nếu cần chạy lại từ đầu
+## 12. Nếu cần chạy lại từ đầu
 
 ### Checkout sạch, giữ raw release
 
@@ -241,7 +262,7 @@ make neo4j-up
 
 Sau đó chạy lại từ bước 5. `*-reset` là thao tác destructive đối với Docker volumes; không chạy trên máy dùng chung nếu chưa có backup.
 
-## 12. Quy tắc không làm sai full snapshot
+## 13. Quy tắc không làm sai full snapshot
 
 - Không dùng `git add .`.
 - Không commit `.env`.

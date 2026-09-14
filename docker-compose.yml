@@ -25,6 +25,25 @@ services:
     volumes:
       - neo4j-data:/data
     restart: unless-stopped
+  explorer:
+    build:
+      context: .
+      dockerfile: deployment/explorer/Dockerfile
+    image: vietheritage/explorer:0.1.0
+    container_name: vietheritage-explorer
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      VH_BASE_URI: http://localhost:3030/vietheritage
+      FUSEKI_QUERY_URL: http://fuseki:3030/vietheritage/sparql
+      FUSEKI_DATASET: vietheritage
+      FUSEKI_USER: ${FUSEKI_USER:-admin}
+      FUSEKI_ADMIN_PASSWORD: ${FUSEKI_ADMIN_PASSWORD:-change-me-local-only}
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      - fuseki
+    restart: unless-stopped
 
 volumes:
   fuseki-data:

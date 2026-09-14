@@ -15,11 +15,11 @@ Full release snapshot đã được thu thập và kiểm chứng. Phạm vi cla
 | Wikidata links verified | `89` |
 | DBpedia links verified | `25` |
 | Verified external links | `114` |
-| RDF triples | `6,224` |
+| RDF triples | `7,249` |
 | Inferred triples | `1,782` |
 | SPARQL competency questions | `10/10 PASS` |
 | Cypher/RDF parity | `10/10 PASS` |
-| Regression tests | `136 passed` |
+| Regression tests | `149 passed` |
 
 Evidence acceptance cuối: `reports/full/verify.json` và log: `logs/full-pipeline-utf8.log` (hai thư mục này là runtime evidence và đang bị ignore). Full verification đã trả `FINAL STATUS: PASS`.
 
@@ -39,6 +39,8 @@ make cq-test
 make neo4j-up
 make neo4j-load RUN_MODE=full
 make cypher-test
+make app-up
+make app-smoke
 make verify RUN_MODE=full
 ```
 
@@ -53,6 +55,8 @@ make fuseki-up && make fuseki-load RUN_MODE=full
 make cq-test
 make neo4j-up && make neo4j-load RUN_MODE=full
 make cypher-test
+make app-up
+make app-smoke
 make verify RUN_MODE=full
 ```
 
@@ -62,9 +66,12 @@ make verify RUN_MODE=full
 
 ## Services và endpoint
 
+- Web Explorer: `http://localhost:8000`
+- Read-only API docs: `http://localhost:8000/docs`
+- OpenAPI JSON: `http://localhost:8000/openapi.json`
+- Linked-data resource: `http://localhost:8000/resource/{entity_id}`
 - Fuseki SPARQL: `http://localhost:3030/vietheritage/sparql`
 - Fuseki service/UI: `http://localhost:3030`
-- Linked-data resource adapter: `http://localhost:3030/resource/{entity_id}` khi adapter được triển khai theo spec
 - Neo4j Browser: `http://localhost:7474`
 - Neo4j Bolt: `bolt://localhost:7687`
 
@@ -85,7 +92,7 @@ Full raw audit không phát hiện credential/private-key/API-key pattern. Khôn
 
 ## Acceptance và requirements
 
-Pipeline đã bao phủ các phần blocking của `PROJECT_SPEC.md`: official collection, raw validation, normalization, deterministic identity/collision check, ontology mapping, RDF generation/validation, OWL reasoning, Wikidata/DBpedia verified linking, Fuseki, 10 SPARQL CQ, Neo4j LPG, Cypher/RDF parity, reports và CLI Make targets. Các commit implementation gần nhất:
+Pipeline đã bao phủ các phần blocking của `PROJECT_SPEC.md`: official collection, raw validation, normalization, deterministic identity/collision check, ontology mapping, RDF generation/validation, SHACL public-graph validation, OWL reasoning, Wikidata/DBpedia verified linking, Fuseki, 10 SPARQL CQ, Neo4j LPG, Cypher/RDF parity, read-only Linked Data API, dereferenceable Turtle/JSON-LD resources, browser explorer, reports và CLI Make targets. Các commit implementation gần nhất:
 
 - `ceea695` — verified DBpedia identity links.
 - `61e9d30` — RDF/LPG competency parity.
@@ -101,5 +108,9 @@ Pipeline đã bao phủ các phần blocking của `PROJECT_SPEC.md`: official c
 
 - [`PROJECT_SPEC.md`](./PROJECT_SPEC.md) — specification authoritative.
 - [`PLAN.md`](./PLAN.md) — plan theo component/member.
+- [`docs/E2E.md`](./docs/E2E.md) — end-to-end setup and execution.
+- [`docs/API.md`](./docs/API.md) — read-only Semantic Web API contract.
+- [`docs/USER_GUIDE.md`](./docs/USER_GUIDE.md) — browser explorer guide for non-SPARQL users.
+- [`docs/UX_DESIGN.md`](./docs/UX_DESIGN.md) — URI, RDF, provenance, and UX design.
 - [`docs/RELEASE.md`](./docs/RELEASE.md) — release inventory, validation và post-release checklist.
 - Section 9 của `PROJECT_SPEC.md` — repository structure đầy đủ.

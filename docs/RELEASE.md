@@ -2,11 +2,11 @@
 
 ## Release snapshot
 
-- Registry snapshot: `20260914T032615Z` (final post-regression collection).
+- Registry snapshot: `20260914T040348Z` (final post-regression collection).
 - Collection result: `860` registry records; `10` expected `REGISTRY_EMPTY_SOURCE` entries for official pages returning HTTP 200 with no extractable rows.
 - Registry coverage: `100%` for all valid records in the 17 configured official categories. Ten currently empty categories have `0` discovered records and are retained in the coverage manifest rather than silently omitted.
 - Wikipedia enrichment: `42` matched pages; missing matches remain as registry entities.
-- Downstream rebuild: `860` normalized, `0` skipped, `860` resolved, `0` identity collisions, `6,224` RDF triples, `1,782` inferred triples, `114/114` reviewed links verified.
+- Downstream rebuild: `860` normalized, `0` skipped, `860` resolved, `0` identity collisions, `7,249` RDF triples, `1,782` inferred triples, `114/114` reviewed links verified.
 - External links: `89` Wikidata and `25` DBpedia verified links.
 
 The final acceptance evidence is generated locally in `reports/full/verify.json`; the stage log is `logs/full-pipeline-utf8.log`. Runtime reports and logs are intentionally ignored by Git.
@@ -45,12 +45,14 @@ make cq-test
 make neo4j-up
 make neo4j-load RUN_MODE=full
 make cypher-test
+make app-up
+make app-smoke
 make verify RUN_MODE=full
 ```
 
 Expected final checks:
 
-- `python -m pytest -q` → `136 passed`.
+- `python -m pytest -q` → `149 passed`.
 - Full verification → `FINAL STATUS: PASS`.
 - Full metrics → `860` canonical/registry records, `114` verified external links, `10/10` Cypher checks.
 

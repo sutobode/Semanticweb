@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from rdflib import Graph, Literal, URIRef
-from rdflib.namespace import DCTERMS, OWL, PROV, RDF, RDFS, XSD
+from rdflib.namespace import DCTERMS, OWL, PROV, RDF, RDFS, SKOS, XSD
 
 from vietheritage.rdf.generator import (
     VH,
@@ -94,6 +94,22 @@ def test_add_relations_built_by_organization_uses_recognizedby_not_builtby() -> 
     add_relations(g, "registry-x", record)
     assert (VHR["registry-x"], VH.builtBy, VHR["organization-x"]) not in g
     assert (VHR["registry-x"], VH.recognizedBy, VHR["organization-x"]) in g
+
+
+def test_record_emits_standard_category_alias_and_all_sources() -> None:
+    record = dict(
+        SAMPLE_HERITAGE_SITE,
+        registry_category="world_heritage",
+        aliases_vi=["Văn Miếu Quốc Tử Giám"],
+        source_url="https://vi.wikipedia.org/wiki/Van_Mieu",
+    )
+    g = build_graph([record])
+    subject = VHR[record["entity_id"]]
+    category_uri = URIRef("http://localhost:3030/vietheritage/resource/category/world_heritage")
+    assert (subject, DCTERMS.subject, category_uri) in g
+    assert (category_uri, RDF.type, SKOS.Concept) in g
+    assert any(str(value) == "Văn Miếu Quốc Tử Giám" for value in g.objects(subject, SKOS.altLabel))
+    assert (subject, PROV.wasDerivedFrom, URIRef(record["source_url"])) in g
 
 
 def test_add_provenance_creates_dcterms_source_and_prov_wasderivedfrom() -> None:

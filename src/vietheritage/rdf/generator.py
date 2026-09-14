@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
-from rdflib.namespace import DCTERMS, OWL, PROV, RDF, RDFS, XSD
+from rdflib.namespace import DCTERMS, OWL, PROV, RDF, RDFS, SKOS, XSD
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
@@ -86,7 +86,13 @@ def add_label_and_literals(g: Graph, entity_id: str, record: dict[str, Any]) -> 
     if record.get("label_vi"):
         g.add((subject, RDFS.label, Literal(record["label_vi"], lang="vi")))
     if record.get("description_vi"):
-        g.add((subject, RDFS.comment, Literal(record["description_vi"], lang="vi")))
+        description = Literal(record["description_vi"], lang="vi")
+        g.add((subject, RDFS.comment, description))
+        g.add((subject, DCTERMS.description, description))
+
+    for alias in record.get("aliases_vi", []) or []:
+        if alias and alias != record.get("label_vi"):
+            g.add((subject, SKOS.altLabel, Literal(alias, lang="vi")))
 
     if record.get("construction_year"):
         g.add((subject, VH.constructionYear, Literal(str(record["construction_year"]), datatype=XSD.gYear)))
@@ -108,6 +114,18 @@ def add_label_and_literals(g: Graph, entity_id: str, record: dict[str, Any]) -> 
         g.add((subject, VH.sourcePageId, Literal(record["source_page_id"], datatype=XSD.integer)))
     if record.get("title"):
         g.add((subject, VH.sourceTitle, Literal(record["title"])))
+
+
+def add_registry_semantics(g: Graph, entity_id: str, record: dict[str, Any]) -> None:
+    """Emit standard vocabulary metadata needed by semantic API projections."""
+    subject = entity_uri(entity_id)
+    category = record.get("registry_category")
+    if category:
+        category_slug = str(category).strip().lower().replace(" ", "-")
+        category_uri = URIRef(f"{VHR}category/{category_slug}")
+        g.add((subject, DCTERMS.subject, category_uri))
+        g.add((category_uri, RDF.type, SKOS.Concept))
+        g.add((category_uri, SKOS.prefLabel, Literal(str(category), lang="en")))
 
 
 def add_relations(g: Graph, entity_id: str, record: dict[str, Any]) -> None:
@@ -142,8 +160,15 @@ def add_provenance(g: Graph, entity_id: str, record: dict[str, Any]) -> None:
     """Section 21.1 — mọi source-derived entity MUST có dcterms:source + prov:wasDerivedFrom."""
     subject = entity_uri(entity_id)
     provenance = record.get("provenance", {}) or {}
-    source = provenance.get("source") or record.get("source_url") or record.get("registry_url")
-    if source:
+    sources: list[str] = []
+    for candidate in (
+        provenance.get("source"),
+        record.get("registry_url"),
+        record.get("source_url"),
+    ):
+        if candidate and candidate not in sources:
+            sources.append(str(candidate))
+    for source in sources:
         g.add((subject, DCTERMS.source, URIRef(source)))
         g.add((subject, PROV.wasDerivedFrom, URIRef(source)))
     license_value = provenance.get("license")
@@ -159,6 +184,7 @@ def record_to_triples(g: Graph, record: dict[str, Any]) -> None:
     entity_id = record["entity_id"]
     add_entity_type_triples(g, entity_id, record)
     add_label_and_literals(g, entity_id, record)
+    add_registry_semantics(g, entity_id, record)
     add_relations(g, entity_id, record)
     add_provenance(g, entity_id, record)
 
