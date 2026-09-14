@@ -1,6 +1,7 @@
 # VietHeritageLOD
 
 Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam. `PROJECT_SPEC.md` là nguồn yêu cầu có thẩm quyền; `PLAN.md` mô tả phân công và trình tự triển khai.
+Hướng dẫn chạy lại đầy đủ từ checkout sạch: [`docs/E2E.md`](./docs/E2E.md).
 
 ## Trạng thái release
 

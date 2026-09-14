@@ -54,7 +54,9 @@ Expected final checks:
 - Full verification → `FINAL STATUS: PASS`.
 - Full metrics → `860` canonical/registry records, `114` verified external links, `10/10` Cypher checks.
 
-For a faster fixture run use `make pipeline-sample`, but do so in an isolated checkout/worktree because sample and full stages share output paths.
+See [`docs/E2E.md`](./E2E.md) for the complete Windows PowerShell procedure.
+
+For a faster fixture run use `make pipeline-sample`, but do so in an isolated checkout/worktree because sample and full stages, as well as some collector tests, share output paths.
 
 ## Explicit release staging policy
 
