@@ -133,3 +133,11 @@ def test_config_exposes_canonical_read_only_endpoints() -> None:
     assert result["resource_template"].endswith("/resource/{entity_id}")
     assert result["sparql_endpoint"].endswith("/vietheritage/sparql")
     assert result["read_only"] is True
+
+
+def test_stats_query_matches_verified_snapshot_metrics() -> None:
+    transport = FakeTransport()
+    result = make_api(transport).stats()
+    assert result["@id"].endswith("/resource/dataset/vietheritage")
+    assert any("CulturalHeritageEntity" in query for query in transport.queries)
+    assert any("COUNT(*)" in query for query in transport.queries)

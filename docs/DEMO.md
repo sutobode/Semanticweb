@@ -202,7 +202,7 @@ The browser audit runs Chromium headless at `320x800`, `768x1024`, `1280x800`, a
 Expected result:
 
 ```text
-browser-ux-audit: PASS (6/6)
+browser-ux-audit: PASS (7/7)
 ```
 
 It writes `browser_ux.json`, `visual_regression.json`, and deterministic viewport screenshots under a snapshot-bound `reports/<run_id>/` directory. The automated browser result does not replace a human screen-reader audit.

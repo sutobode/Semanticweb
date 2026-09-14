@@ -18,6 +18,8 @@ After this iteration:
 - Search supports labeled filters for Vietnamese keyword, entity type, registry category, location, and year.
 - Explorer markup has a skip link, semantic landmarks, explicit labels, live regions, focus management, error/retry states, reduced-motion support, and responsive styling.
 - API mutation methods `POST`, `PUT`, `PATCH`, and `DELETE` return `405` with `Allow: GET`.
+- Dashboard metrics are bound to the active verified snapshot: `860` canonical entities and `114` verified identity statements; duplicate external targets are not silently presented as missing links.
+- Route-heading focus no longer creates a heavy non-interactive black outline; visible focus remains reserved for keyboard-operable controls.
 - Offline demo and audit commands are documented and produce snapshot-bound evidence.
 
 ## 2. Semantic UX acceptance
@@ -25,6 +27,7 @@ After this iteration:
 | Criterion | Evidence | Result |
 |---|---|---|
 | Visitor search journey | `app-smoke: 16/16 PASS`; browser search via keyboard and Vietnamese `Huế` path | PASS |
+| Dashboard snapshot binding | Live `/api/stats` matches canonical/link manifests: `860` entities and `114` verified identity statements | PASS |
 | Researcher URI/provenance journey | Direct resource HTML/Turtle/JSON-LD checks; browser detail check `canonical`, `turtle`, `jsonld`, `provenance` all true | PASS |
 | Asserted/inferred/closure semantics | Direct HTML and browser checks verify all three labels; each triple displays graph identifier | PASS |
 | Verified identity distinction | UI labels `Verified external identity` and `verified`; API retains `owl:sameAs` semantics | PASS |
@@ -39,7 +42,7 @@ The UI does not read raw JSONL. Its data path remains UI → API → Fuseki/RDF 
 Static accessibility audit:
 
 ```text
-ux-audit: PASS (14/14 runtime checks, 11/11 static accessibility checks)
+ux-audit: PASS (15/15 runtime checks, 11/11 static accessibility checks)
 ```
 
 Static checks include:
@@ -87,13 +90,13 @@ All four viewports passed:
 Deterministic screenshots were written under:
 
 ```text
-reports/20260914T094900Z/screenshots/
+reports/20260914T102549Z/screenshots/
 ```
 
 The machine-readable visual artifact is:
 
 ```text
-reports/20260914T094900Z/visual_regression.json
+reports/20260914T102549Z/visual_regression.json
 ```
 
 ## 5. Performance and resilience
@@ -101,17 +104,17 @@ reports/20260914T094900Z/visual_regression.json
 The local audit uses a documented `3000 ms` per-request budget and three samples per flow. Final report:
 
 ```text
-reports/20260914T094542Z/performance.json
+reports/20260914T102236Z/performance.json
 ```
 
 Measured p50/p95 values were within the local budget:
 
 | Flow | p50 | p95 | HTTP |
 |---|---:|---:|---|
-| Home | `2038.24 ms` | `2038.24 ms` | `200` |
-| Search | `2186.95 ms` | `2186.95 ms` | `200` |
-| Entity | `2056.16 ms` | `2056.16 ms` | `200` |
-| CQ | `2078.80 ms` | `2078.80 ms` | `200` |
+| Home | `2048.97 ms` | `2048.97 ms` | `200` |
+| Search | `2162.57 ms` | `2162.57 ms` | `200` |
+| Entity | `2064.23 ms` | `2064.23 ms` | `200` |
+| CQ | `2067.35 ms` | `2067.35 ms` | `200` |
 
 These are local measurements, not production SLAs. The browser audit simulated a `503` API/Fuseki dependency failure and verified one accessible `role="alert"` error state. Empty result, loading, retry, and malformed/unavailable response paths are covered by client behavior and live audit checks.
 
@@ -150,11 +153,11 @@ The active snapshot ID is recorded in each Python audit artifact and in browser 
 Final validation after the UX changes:
 
 ```text
-python -m pytest -q                         155 passed
+python -m pytest -q                         156 passed
 linked-data-test                            PASS (200, 19 triples)
-app-test                                    14 passed
+app-test                                    15 passed
 app-smoke                                   16/16 PASS
-ux-audit                                    14/14 runtime, 11/11 static PASS
+ux-audit                                    15/15 runtime, 11/11 static PASS
 browser-ux-audit                            7/7 PASS
 cq-test                                     10/10 PASS
 cypher-test                                 10/10 PASS

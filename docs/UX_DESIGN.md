@@ -56,4 +56,4 @@ The reproducible offline journey is documented in [`DEMO.md`](./DEMO.md). `make 
 
 
 
-The pinned Chromium audit at `tools/browser_ux_audit.cjs` checks four viewport sizes, horizontal overflow, accessible control names, keyboard activation from navigation through entity detail, canonical/RDF representation links, and simulated API failure. The current evidence is `browser-ux-audit: PASS (6/6)`. A human screen-reader audit remains a separate follow-up and is not claimed by the automated result.
+The pinned Chromium audit at `tools/browser_ux_audit.cjs` checks four viewport sizes, horizontal overflow, accessible control names, keyboard activation from navigation through entity detail, canonical/RDF representation links, and simulated API failure. The current evidence is `browser-ux-audit: PASS (7/7)`. A human screen-reader audit remains a separate follow-up and is not claimed by the automated result.

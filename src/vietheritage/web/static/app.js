@@ -14,6 +14,7 @@ function setBusy(value) {
 function focusHeading() {
   const heading = app.querySelector('h1');
   if (heading) {
+    heading.classList.add('route-heading');
     heading.setAttribute('tabindex', '-1');
     heading.focus({ preventScroll: true });
   }
@@ -78,7 +79,7 @@ async function home() {
   loading();
   try {
     const [stats] = await Promise.all([api('/api/stats'), loadConfig()]);
-    render(`<section class="hero" aria-labelledby="home-title"><p class="eyebrow">Linked Open Data Explorer</p><h1 id="home-title">Khám phá Di sản Văn hóa Việt Nam</h1><p>Trải nghiệm cùng một RDF graph qua tìm kiếm, provenance, Turtle, JSON-LD và competency questions — không cần viết SPARQL.</p><div class="actions"><a class="button" href="#/search">Bắt đầu tìm kiếm</a><a class="button secondary" href="#/queries">Xem competency questions</a></div></section><section class="grid" aria-label="Thống kê dataset"><div class="card"><div class="metric">${esc(stats.total_entities)}</div><div>Entities trong RDF graph</div></div><div class="card"><div class="metric">${esc(stats.verified_external_links)}</div><div>Verified external links</div></div><div class="card"><div class="metric">${esc(stats.classes?.length || 0)}</div><div>Ontology types có dữ liệu</div></div><div class="card"><div class="metric">${esc(stats.categories?.length || 0)}</div><div>Registry categories</div></div></section><section class="card semantic-access" aria-labelledby="access-title"><h2 id="access-title">Semantic Web access</h2><p>Dataset: <code>${esc(stats['@id'])}</code></p><p><a href="/docs">API documentation</a> · <a id="home-sparql" href="${esc(safeHref(config.sparql_endpoint))}" target="_blank" rel="noopener">Public SPARQL endpoint</a> · <a href="${esc(safeHref(stats['@id']))}" target="_blank" rel="noopener">Dataset URI</a></p></section>`, { focus: true });
+    render(`<section class="hero" aria-labelledby="home-title"><p class="eyebrow">Linked Open Data Explorer</p><h1 id="home-title">Khám phá Di sản Văn hóa Việt Nam</h1><p>Trải nghiệm cùng một RDF graph qua tìm kiếm, provenance, Turtle, JSON-LD và competency questions — không cần viết SPARQL.</p><div class="actions"><a class="button" href="#/search">Bắt đầu tìm kiếm</a><a class="button secondary" href="#/queries">Xem competency questions</a></div></section><section class="grid" aria-label="Thống kê dataset"><div class="card"><div class="metric">${esc(stats.total_entities)}</div><div>Entities trong verified registry snapshot</div></div><div class="card"><div class="metric">${esc(stats.verified_external_links)}</div><div>Verified identity statements</div></div><div class="card"><div class="metric">${esc(stats.classes?.length || 0)}</div><div>Ontology types có dữ liệu</div></div><div class="card"><div class="metric">${esc(stats.categories?.length || 0)}</div><div>Registry categories</div></div></section><section class="card semantic-access" aria-labelledby="access-title"><h2 id="access-title">Semantic Web access</h2><p>Dataset: <code>${esc(stats['@id'])}</code></p><p><a href="/docs">API documentation</a> · <a id="home-sparql" href="${esc(safeHref(config.sparql_endpoint))}" target="_blank" rel="noopener">Public SPARQL endpoint</a> · <a href="${esc(safeHref(stats['@id']))}" target="_blank" rel="noopener">Dataset URI</a></p></section>`, { focus: true });
     document.getElementById('home-sparql').href = safeHref(config.sparql_endpoint);
   } catch (error) { errorView(error, home); }
 }
@@ -153,8 +154,19 @@ async function queries() {
   } catch (error) { errorView(error, queries); }
 }
 
+function updateNavigation(hash) {
+  const route = hash === '/' ? '#/' : `#${hash.split('?')[0]}`;
+  document.querySelectorAll('nav a[href^="#/"]').forEach((link) => {
+    const active = link.getAttribute('href') === route;
+    link.classList.toggle('nav-link-active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+}
+
 function route() {
   const hash = location.hash.slice(1) || '/';
+  updateNavigation(hash);
   if (hash === '/') return home();
   if (hash === '/search') return search();
   if (hash === '/queries') return queries();

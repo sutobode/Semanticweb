@@ -71,8 +71,9 @@ async function audit() {
     labels: [...document.querySelectorAll('input,select')].every((control) => control.id && document.querySelector(`label[for="${control.id}"]`)),
     liveResults: Boolean(document.querySelector('#results[aria-live="polite"]')),
     skipLink: Boolean(document.querySelector('.skip-link')),
+    headingFocusOutline: getComputedStyle(document.querySelector('#search-title')).outlineStyle,
   }));
-  check('keyboard_search_navigation', keyboardSearch && searchAccessible.labels && searchAccessible.liveResults && searchAccessible.skipLink, { keyboardSearch, searchAccessible });
+  check('keyboard_search_navigation', keyboardSearch && searchAccessible.labels && searchAccessible.liveResults && searchAccessible.skipLink && searchAccessible.headingFocusOutline === 'none', { keyboardSearch, searchAccessible });
 
   await page.locator('#search-q').fill('Huế');
   await page.locator('#search-q').press('Enter');

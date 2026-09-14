@@ -116,7 +116,14 @@ def main() -> int:
         config = request("GET", f"{EXPLORER}/api/config")
         config_json = config.json()
         checks.append(check_response("semantic_endpoint_config", config, config.status_code == 200 and config_json.get("read_only") is True and config_json.get("resource_template", "").endswith("/resource/{entity_id}")))
-        demo_steps.append({"step": "Open Explorer and endpoint config", "status": "PASS", "evidence": [f"{EXPLORER}/", f"{EXPLORER}/api/config"]})
+        canonical_path = ROOT / "data" / "processed" / "canonical.jsonl"
+        review_path = ROOT / "data" / "linking" / "link-review.jsonl"
+        expected_entities = sum(1 for line in canonical_path.read_text(encoding="utf-8").splitlines() if line.strip()) if canonical_path.exists() else None
+        expected_links = sum(1 for line in review_path.read_text(encoding="utf-8").splitlines() if line.strip() and json.loads(line).get("status") == "verified") if review_path.exists() else None
+        stats = request("GET", f"{EXPLORER}/api/stats")
+        stats_json = stats.json()
+        checks.append(check_response("snapshot_metric_binding", stats, stats.status_code == 200 and stats_json.get("total_entities") == expected_entities and stats_json.get("verified_external_links") == expected_links, {"expected_entities": expected_entities, "actual_entities": stats_json.get("total_entities"), "expected_verified_links": expected_links, "actual_verified_links": stats_json.get("verified_external_links")}))
+        demo_steps.append({"step": "Open Explorer and endpoint config", "status": "PASS", "evidence": [f"{EXPLORER}/", f"{EXPLORER}/api/config", f"{EXPLORER}/api/stats"]})
 
         html_resource = request("GET", resource, headers={"Accept": "text/html"})
         checks.append(check_response("resource_html", html_resource, html_resource.status_code == 200 and "text/html" in html_resource.headers.get("Content-Type", "") and html_resource.headers.get("Vary") == "Accept" and "Graph semantics" in html_resource.text))
