@@ -1,6 +1,6 @@
 # VietHeritageLOD API
 
-Base URL: `http://localhost:8000`
+Base URL: `http://localhost:3030`
 
 The API is read-only and Fuseki-backed. RDF remains authoritative; JSON responses are convenience projections with `@id`, `@type`, and `@context`.
 
@@ -12,7 +12,7 @@ The API is read-only and Fuseki-backed. RDF remains authoritative; JSON response
 | GET | `/api/stats` | Graph entity/class/category/link counts |
 | GET | `/api/search` | Paginated RDF search |
 | GET | `/api/entities/{entity_id}` | Semantic entity detail |
-| GET | `/resource/{entity_id}` | Content-negotiated linked-data resource |
+| GET | `/vietheritage/resource/{entity_id}` | Content-negotiated linked-data resource |
 | GET | `/api/queries` | Allowlisted CQ catalogue |
 | GET | `/api/queries/{CQ01..CQ10}/run` | Read-only competency query |
 | GET | `/openapi.json` | Machine-readable API description |
@@ -32,8 +32,8 @@ Supported filters: `q`, `entity_type`, `registry_category`, `location`, `year`, 
 
 ```powershell
 curl http://localhost:8000/api/entities/registry-b043193f37c5
-curl -H "Accept: text/turtle" http://localhost:8000/resource/registry-b043193f37c5
-curl -H "Accept: application/ld+json" http://localhost:8000/resource/registry-b043193f37c5
+curl -H "Accept: text/turtle" http://localhost:3030/vietheritage/resource/registry-b043193f37c5
+curl -H "Accept: application/ld+json" http://localhost:3030/vietheritage/resource/registry-b043193f37c5
 ```
 
 Supported representations:
@@ -54,5 +54,5 @@ JSON-LD context maps convenience fields to RDF vocabulary. Entity detail disting
 The API exposes only the existing ten read-only SPARQL files. It does not accept arbitrary update queries. The canonical power-user endpoint remains:
 
 ```text
-http://localhost:3030/vietheritage/sparql
+http://localhost:3031/vietheritage/sparql
 ```

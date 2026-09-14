@@ -4,10 +4,16 @@
 @prefix tdb2:    <http://jena.apache.org/2016/tdb#> .
 
 [] rdf:type fuseki:Server ;
-   fuseki:services ( :service ) .
+   fuseki:services ( :public-service :admin-service ) .
 
-:service rdf:type fuseki:Service ;
+:public-service rdf:type fuseki:Service ;
     fuseki:name "vietheritage" ;
+    fuseki:dataset :dataset ;
+    fuseki:serviceQuery "sparql" ;
+    fuseki:serviceReadGraphStore "data" .
+
+:admin-service rdf:type fuseki:Service ;
+    fuseki:name "vietheritage-admin" ;
     fuseki:dataset :dataset ;
     fuseki:serviceQuery "sparql" ;
     fuseki:serviceUpdate "update" ;

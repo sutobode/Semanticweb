@@ -69,3 +69,18 @@ def test_docs_and_openapi_are_available() -> None:
 def test_unknown_route_is_api_error() -> None:
     with pytest.raises(Exception):
         router().handle("/resource/not found", {"accept": "text/turtle"})
+
+
+
+def test_canonical_resource_path_is_dereferenceable() -> None:
+    status, headers, body = router().handle("/vietheritage/resource/site-a", {"accept": "text/turtle"})
+    assert status == 200
+    assert headers["Content-Type"].startswith("text/turtle")
+    assert b"Hu" in body
+
+
+def test_canonical_ontology_path_is_dereferenceable() -> None:
+    status, headers, body = router().handle("/vietheritage/ontology/", {"accept": "text/turtle"})
+    assert status == 200
+    assert headers["Content-Type"].startswith("text/turtle")
+    assert b"VietHeritageLOD" in body

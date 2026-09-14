@@ -10,8 +10,8 @@ import requests
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RDF_DIR = REPO_ROOT / "data" / "rdf"
 ONTOLOGY_PATH = REPO_ROOT / "ontology" / "vietheritage.ttl"
-FUSEKI_URL = os.getenv("FUSEKI_URL", "http://localhost:3030").rstrip("/")
-DATASET = os.getenv("FUSEKI_DATASET", "vietheritage")
+FUSEKI_URL = os.getenv("FUSEKI_URL", "http://localhost:3031").rstrip("/")
+DATASET = os.getenv("FUSEKI_LOAD_DATASET", "vietheritage-admin")
 
 
 def load_plan() -> list[tuple[str, Path, str | None]]:
@@ -51,7 +51,7 @@ def run(run_mode: str = "sample") -> int:
     loaded: list[str] = []
     for name, path, graph in load_plan():
         if not path.exists():
-            if name in {"inferred", "metadata", "external-links"}:
+            if name in {"external-links", "inferred"}:
                 continue
             print(f"fuseki-load: required artifact missing: {path}")
             return 1

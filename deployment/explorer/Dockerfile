@@ -7,6 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 COPY pyproject.toml requirements.txt ./
 COPY src ./src
 COPY sparql ./sparql
+COPY ontology ./ontology
 RUN pip install --no-cache-dir \
       rdflib==7.1.3 \
       requests==2.32.3 \

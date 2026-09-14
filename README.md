@@ -19,7 +19,7 @@ Full release snapshot đã được thu thập và kiểm chứng. Phạm vi cla
 | Inferred triples | `1,782` |
 | SPARQL competency questions | `10/10 PASS` |
 | Cypher/RDF parity | `10/10 PASS` |
-| Regression tests | `149 passed` |
+| Regression tests | `153 passed` |
 
 Evidence acceptance cuối: `reports/full/verify.json` và log: `logs/full-pipeline-utf8.log` (hai thư mục này là runtime evidence và đang bị ignore). Full verification đã trả `FINAL STATUS: PASS`.
 
@@ -66,12 +66,12 @@ make verify RUN_MODE=full
 
 ## Services và endpoint
 
-- Web Explorer: `http://localhost:8000`
-- Read-only API docs: `http://localhost:8000/docs`
-- OpenAPI JSON: `http://localhost:8000/openapi.json`
-- Linked-data resource: `http://localhost:8000/resource/{entity_id}`
-- Fuseki SPARQL: `http://localhost:3030/vietheritage/sparql`
-- Fuseki service/UI: `http://localhost:3030`
+- Web Explorer: `http://localhost:3030`
+- Read-only API docs: `http://localhost:3030/docs`
+- OpenAPI JSON: `http://localhost:3030/openapi.json`
+- Linked-data resource: `http://localhost:3030/vietheritage/resource/{entity_id}`
+- Fuseki SPARQL: `http://localhost:3031/vietheritage/sparql`
+- Fuseki service/UI: `http://localhost:3031`
 - Neo4j Browser: `http://localhost:7474`
 - Neo4j Bolt: `bolt://localhost:7687`
 

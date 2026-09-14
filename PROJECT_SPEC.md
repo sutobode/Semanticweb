@@ -26,6 +26,10 @@
 | Task runner duy nhất | GNU Make (`Makefile`) |
 | Development base URI | `http://localhost:3030/vietheritage` |
 | Fuseki dataset | `vietheritage` |
+| Canonical Linked Data gateway | `http://localhost:3030/vietheritage` | Explorer origin serving URI/content negotiation |
+| Public Fuseki query endpoint | `http://localhost:3031/vietheritage/sparql` | Query/read Graph Store only |
+| Private Fuseki loader service | `http://localhost:3031/vietheritage-admin` | Local loader/admin writes only |
+
 | Coverage baseline | Official Cục Di sản văn hóa registry snapshot at `https://dsvh.gov.vn/` |
 | Coverage claim | 100% of valid records in selected official registry categories; no unbounded claim over all cultural facts |
 
@@ -352,7 +356,7 @@ Mỗi requirement MUST được liên kết với component, test và Acceptance
 | FR-009 | Link review | MUST | Candidate CSV | Chỉ accept record status `verified` | `external-links.ttl` | Candidate chưa verify không được sinh `owl:sameAs` |
 | FR-010 | RDF validation | MUST | Turtle files | RDFLib parse và vocabulary checks | Validation report | Blocking FAIL |
 | FR-011 | Reasoning | MUST | Ontology + fixture | Chạy Jena OWL Mini reasoner | `data/rdf/inferred.ttl` và report | Inference thiếu làm test FAIL |
-| FR-012 | Fuseki | MUST | Final Turtle | Load TDB2 dataset | Endpoint `localhost:3030/vietheritage` | Health/load failure làm `make verify` FAIL |
+| FR-012 | Fuseki | MUST | Final Turtle + metadata | Load TDB2 dataset through private admin service | Public query endpoint `localhost:3031/vietheritage`; canonical Linked Data gateway `localhost:3030/vietheritage` | Health/load failure làm `make verify` FAIL |
 | FR-013 | SPARQL CQ | MUST | Fuseki dataset | Chạy CQ01–CQ10 | JSON result + PASS/FAIL | Bất kỳ CQ blocking FAIL |
 | FR-014 | Run report | MUST | Mọi stage counters | Ghi report schema mục 34 | `reports/<run_id>/run_report.json` | Report không hợp lệ làm run FAIL |
 | FR-015 | CLI pipeline | MUST | Make targets | Chạy stage theo thứ tự | Artifacts deterministic | Stage blocking fail-fast |
@@ -816,9 +820,10 @@ VH_REGISTRY_SNAPSHOT=latest
 VH_WIKIPEDIA_API_URL=https://vi.wikipedia.org/w/api.php
 VH_WIKIDATA_SPARQL_URL=https://query.wikidata.org/sparql
 VH_DBPEDIA_SPARQL_URL=https://dbpedia.org/sparql
-FUSEKI_URL=http://localhost:3030
+FUSEKI_URL=http://localhost:3031
 FUSEKI_DATASET=vietheritage
-FUSEKI_PORT=3030
+FUSEKI_LOAD_DATASET=vietheritage-admin
+FUSEKI_PORT=3031
 JENA_VERSION=4.10.0
 HTTP_TIMEOUT_SECONDS=30
 HTTP_MAX_RETRIES=3
@@ -1547,7 +1552,7 @@ sequenceDiagram
 Interface tối thiểu phải sử dụng được từ terminal, không cần frontend:
 
 ```bash
-curl --get "http://localhost:3030/vietheritage/sparql" \
+curl --get "http://localhost:3031/vietheritage/sparql" \
   --data-urlencode 'query=SELECT ?site ?label WHERE { ?site a <http://localhost:3030/vietheritage/ontology/HeritageSite> ; <http://www.w3.org/2000/01/rdf-schema#label> ?label . FILTER(LANG(?label) = "vi") } LIMIT 10' \
   -H 'Accept: application/sparql-results+json'
 ```
@@ -2244,8 +2249,8 @@ vhr:dataset-vietheritage
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:created "2026-09-12"^^xsd:date ;
     dcterms:modified "2026-09-12"^^xsd:date ;
-    dcat:accessURL <http://localhost:3030/vietheritage/sparql> ;
-    dcat:downloadURL <http://localhost:3030/vietheritage/data> .
+    dcat:accessURL <http://localhost:3031/vietheritage/sparql> ;
+    dcat:downloadURL <http://localhost:3031/vietheritage/data> .
 ```
 
 License mặc định của artifact do project tạo là CC BY-SA 4.0; source license của Wikipedia MUST được ghi trong docs và metadata.
@@ -2746,11 +2751,11 @@ services:
     image: vietheritage/fuseki:4.10.0
     container_name: vietheritage-fuseki
     ports:
-      - "127.0.0.1:3030:3030"
+      - "127.0.0.1:3031:3030"
     volumes:
       - fuseki-data:/fuseki/databases
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS 'http://localhost:3030/vietheritage/sparql?query=ASK%20WHERE%7B%7D' | grep -q true"]
+      test: ["CMD-SHELL", "curl -fsS 'http://localhost:3031/vietheritage/sparql?query=ASK%20WHERE%7B%7D' | grep -q true"]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -2786,11 +2791,11 @@ Healthcheck của Fuseki MUST dùng tên dataset literal `vietheritage`. `NEO4J_
 ## 27.4 Endpoints
 
 ```text
-SPARQL query:      http://localhost:3030/vietheritage/sparql
-SPARQL query (alt): http://localhost:3030/vietheritage
-SPARQL update:     http://localhost:3030/vietheritage/update
-Graph Store (rw):  http://localhost:3030/vietheritage/data
-Graph Store (ro):  http://localhost:3030/vietheritage/get
+SPARQL query:      http://localhost:3031/vietheritage/sparql
+SPARQL query (alt): http://localhost:3031/vietheritage
+SPARQL update:     private admin only at http://localhost:3031/vietheritage-admin/update
+Graph Store (ro):  http://localhost:3031/vietheritage/data
+Graph Store (rw):  private admin only at http://localhost:3031/vietheritage-admin/data
 ```
 
 Baseline dùng Fuseki Main nên không có web UI và không có admin endpoint. Health check MUST dựa trên SPARQL `ASK WHERE {}`, không dựa trên `/$/ping`.
@@ -2802,23 +2807,23 @@ Loader MUST dùng Graph Store Protocol với named graph tương ứng:
 ```bash
 curl -X PUT -H 'Content-Type: text/turtle' \
   --data-binary @ontology/vietheritage.ttl \
-  'http://localhost:3030/vietheritage/data?graph=http://localhost:3030/vietheritage/graph/ontology'
+  'http://localhost:3031/vietheritage-admin/data?graph=http://localhost:3030/vietheritage/graph/ontology'
 
 curl -X PUT -H 'Content-Type: text/turtle' \
   --data-binary @data/rdf/vietheritage.ttl \
-  'http://localhost:3030/vietheritage/data?graph=http://localhost:3030/vietheritage/graph/data'
+  'http://localhost:3031/vietheritage-admin/data?graph=http://localhost:3030/vietheritage/graph/data'
 
 curl -X PUT -H 'Content-Type: text/turtle' \
   --data-binary @data/rdf/external-links.ttl \
-  'http://localhost:3030/vietheritage/data?graph=http://localhost:3030/vietheritage/graph/external-links'
+  'http://localhost:3031/vietheritage-admin/data?graph=http://localhost:3030/vietheritage/graph/external-links'
 
 curl -X PUT -H 'Content-Type: text/turtle' \
   --data-binary @data/rdf/inferred.ttl \
-  'http://localhost:3030/vietheritage/data?graph=http://localhost:3030/vietheritage/graph/inferred'
+  'http://localhost:3031/vietheritage-admin/data?graph=http://localhost:3030/vietheritage/graph/inferred'
 
 curl -X PUT -H 'Content-Type: text/turtle' \
   --data-binary @data/rdf/dataset-metadata.ttl \
-  'http://localhost:3030/vietheritage/data?graph=http://localhost:3030/vietheritage/graph/metadata'
+  'http://localhost:3031/vietheritage-admin/data?graph=http://localhost:3030/vietheritage/graph/metadata'
 ```
 
 `PUT` MUST được dùng để load idempotent, thay thế nội dung graph cũ.
@@ -2828,7 +2833,7 @@ curl -X PUT -H 'Content-Type: text/turtle' \
 - `make fuseki-reset`: `docker compose down -v`; destructive, chỉ dùng development.
 - `make fuseki-down`: `docker compose down`, giữ volume.
 
-## 27.6 Dereferenceable resource
+### 27.6 Dereferenceable resource
 
 Resource URI:
 
@@ -2836,12 +2841,15 @@ Resource URI:
 http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001
 ```
 
-Fuseki Main không tự dereference URI này, vì vậy baseline MUST cung cấp adapter `deployment/linked-data/resource_query.py`:
+The canonical URI is served by the read-only Explorer gateway on host port `3030`, while public Fuseki SPARQL is on host port `3031` and private loader writes use the `vietheritage-admin` service. The gateway MUST support:
 
-- Adapter là HTTP server nhỏ, chạy trên `127.0.0.1:8080`.
-- Adapter map `GET /resource/{entity_id}` sang `DESCRIBE <{VH_BASE_URI}/resource/{entity_id}>` gửi tới `http://localhost:3030/vietheritage/sparql`.
-- Adapter trả `200` với `Content-Type: text/turtle` khi có triple; trả `404` khi không có triple nào.
-- `make linked-data-test` MUST kiểm tra adapter bằng HTTP với fixture `registry-dsvh-national-monument-000001`.
+- `GET /vietheritage/resource/{entity_id}` with HTML, Turtle and JSON-LD content negotiation.
+- `Vary: Accept` and a canonical `Link` header.
+- `GET /vietheritage/ontology/` for the ontology namespace.
+- `404` for an unknown resource and `406` for an unsupported media type.
+- JSON-LD identity consistent with the canonical URI.
+
+`make linked-data-test` MUST call the canonical URI directly, not a separate internal port or legacy alias.
 - Không dùng Pubby trong baseline.
 
 ---

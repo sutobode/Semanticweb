@@ -59,3 +59,54 @@
         sh:maxInclusive 180 ;
         sh:severity sh:Violation
     ] .
+
+
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+
+<http://localhost:3030/vietheritage/shapes/DatasetShape>
+    a sh:NodeShape ;
+    sh:targetClass dcat:Dataset ;
+    sh:property [
+        sh:path dcterms:identifier ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Violation ;
+        sh:message "A dataset must have a snapshot identifier."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:title ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A dataset must have a title."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:license ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "A dataset must have an IRI license."@en
+    ] ;
+    sh:property [
+        sh:path prov:wasGeneratedBy ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "A dataset must identify its generation activity."@en
+    ] ;
+    sh:property [
+        sh:path dcat:distribution ;
+        sh:minCount 5 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "A dataset must expose ontology, asserted, links, inferred, and metadata distributions."@en
+    ] .
+
+<http://localhost:3030/vietheritage/shapes/ActivityShape>
+    a sh:NodeShape ;
+    sh:targetClass prov:Activity ;
+    sh:property [
+        sh:path prov:startedAtTime ;
+        sh:minCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:severity sh:Violation
+    ] .

@@ -103,6 +103,8 @@ def test_entity_preserves_provenance_external_links_and_asserted_inferred_split(
     assert "https://dsvh.gov.vn/hue" in result["sources"]
     assert result["external_links"][0]["verified"] is True
     assert result["asserted_triples"]
+    assert "inferred_triples" in result
+    assert "closure_triples" in result
 
 
 def test_resource_serializations_are_parseable() -> None:
@@ -112,6 +114,9 @@ def test_resource_serializations_are_parseable() -> None:
     assert "Huế" in turtle
     parsed = json.loads(jsonld)
     assert parsed
+    assert "@context" in parsed
+    assert parsed.get("@id", "").endswith("site-a")
+    assert parsed.get("@type")
 
 
 def test_allowlist_rejects_arbitrary_query_id() -> None:

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import requests
@@ -12,14 +13,17 @@ from vietheritage.validation.validator import run as validate_run
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
-def _latest_coverage() -> dict:
-    reports = []
-    for path in (REPO_ROOT / "reports").glob("20*/coverage.json"):
-        reports.append(path)
+def _coverage_for_snapshot(snapshot_id: str | None) -> dict:
+    reports = sorted((REPO_ROOT / "reports").glob("20*/coverage.json"), key=lambda path: path.stat().st_mtime)
+    if snapshot_id:
+        for path in reversed(reports):
+            report = json.loads(path.read_text(encoding="utf-8"))
+            if report.get("snapshot_id") == snapshot_id:
+                return report
+        return {}
     if not reports:
         return {}
-    latest = max(reports, key=lambda path: path.stat().st_mtime)
-    return json.loads(latest.read_text(encoding="utf-8"))
+    return json.loads(reports[-1].read_text(encoding="utf-8"))
 
 
 def _verified_link_count() -> int:
@@ -37,6 +41,19 @@ def _health(url: str) -> bool:
     try:
         return requests.get(url, timeout=5).status_code < 500
     except requests.RequestException:
+        return False
+
+
+
+def _resource_health() -> bool:
+    base = os.getenv("VH_BASE_URI", "http://localhost:3030/vietheritage").rstrip("/")
+    canonical = REPO_ROOT / "data" / "processed" / "canonical.jsonl"
+    try:
+        first = next(line for line in canonical.read_text(encoding="utf-8").splitlines() if line.strip())
+        entity_id = json.loads(first)["entity_id"]
+        response = requests.get(f"{base}/resource/{entity_id}", headers={"Accept": "text/turtle"}, timeout=10)
+        return response.status_code == 200 and bool(response.content)
+    except (OSError, StopIteration, KeyError, json.JSONDecodeError, requests.RequestException):
         return False
 
 
@@ -63,12 +80,16 @@ def run(run_mode: str = "sample") -> int:
     checks["reasoning"] = "PASS" if (REPO_ROOT / "data/rdf/inferred.ttl").exists() else "FAIL"
     checks["neo4j"] = "PASS" if (REPO_ROOT / "reports" / run_mode / "neo4j_load.json").exists() else "FAIL"
     checks["fuseki"] = "PASS" if (REPO_ROOT / "data/rdf/vietheritage.ttl").exists() else "FAIL"
-    checks["fuseki_health"] = "PASS" if _health("http://localhost:3030/$/ping") else "FAIL"
+    checks["metadata"] = "PASS" if (REPO_ROOT / "data/rdf/dataset-metadata.ttl").exists() else "FAIL"
+    checks["canonical_resource"] = "PASS" if _resource_health() else "FAIL"
+    checks["fuseki_health"] = "PASS" if _health("http://localhost:3031/$/ping") else "FAIL"
     checks["neo4j_health"] = "PASS" if _health("http://localhost:7474") else "FAIL"
 
-    coverage = _latest_coverage()
-    canonical_path = REPO_ROOT / "data" / "processed" / "canonical.jsonl"
-    canonical_count = sum(1 for line in canonical_path.open(encoding="utf-8") if line.strip()) if canonical_path.exists() else 0
+    coverage_path = REPO_ROOT / "data" / "processed" / "canonical.jsonl"
+    canonical_records = [json.loads(line) for line in coverage_path.read_text(encoding="utf-8").splitlines() if line.strip()] if coverage_path.exists() else []
+    canonical_count = len(canonical_records)
+    snapshot_id = str(canonical_records[0].get("coverage_snapshot")) if canonical_records else None
+    coverage = _coverage_for_snapshot(snapshot_id)
     category_coverage_ok = bool(coverage.get("categories")) and all(
         item.get("coverage_percent") == 100.0 for item in coverage["categories"]
     )
@@ -92,6 +113,7 @@ def run(run_mode: str = "sample") -> int:
         "run_mode": run_mode,
         "checks": checks,
         "metrics": {
+            "snapshot_id": snapshot_id,
             "canonical_records": canonical_count,
             "verified_external_links": verified_links,
             "coverage_claim": coverage.get("claim"),

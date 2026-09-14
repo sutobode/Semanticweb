@@ -22,6 +22,7 @@ RDF_DIR = REPO_ROOT / "data" / "rdf"
 VH = Namespace("http://localhost:3030/vietheritage/ontology/")
 VHR = Namespace("http://localhost:3030/vietheritage/resource/")
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
+DCAT = Namespace("http://www.w3.org/ns/dcat#")
 
 _ENTITY_TYPE_TO_CLASS = {
     "HeritageSite": VH.HeritageSite,
@@ -211,6 +212,109 @@ def serialize_deterministic(g: Graph) -> str:
     return sorted_graph.serialize(format="turtle")
 
 
+def _latest_coverage() -> dict[str, Any]:
+    reports = sorted((REPO_ROOT / "reports").glob("20*/coverage.json"), key=lambda path: path.stat().st_mtime)
+    if not reports:
+        return {}
+    return json.loads(reports[-1].read_text(encoding="utf-8"))
+
+
+def _verified_link_count() -> int:
+    path = REPO_ROOT / "data" / "linking" / "link-review.jsonl"
+    if not path.exists():
+        return 0
+    return sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line.strip() and json.loads(line).get("status") == "verified")
+
+
+def _metadata_counts(asserted_count: int, records: list[dict[str, Any]]) -> dict[str, int]:
+    inferred_path = RDF_DIR / "inferred.ttl"
+    reasoning_path = RDF_DIR / "reasoning-report.json"
+    inferred_count = len(Graph().parse(inferred_path, format="turtle")) if inferred_path.exists() else 0
+    reasoning = json.loads(reasoning_path.read_text(encoding="utf-8")) if reasoning_path.exists() else {}
+    return {
+        "registry_records": len(records),
+        "canonical_records": len(records),
+        "asserted_triples": asserted_count,
+        "inferred_closure_triples": inferred_count,
+        "inferred_delta_triples": int(reasoning.get("inferred_triples", 0)),
+        "verified_external_links": _verified_link_count(),
+    }
+
+
+def build_dataset_metadata(records: list[dict[str, Any]], asserted_count: int) -> Graph:
+    coverage = _latest_coverage()
+    snapshot = str((records[0] if records else {}).get("coverage_snapshot") or coverage.get("snapshot_id") or "unknown")
+    dataset = URIRef(f"{VHR}dataset/vietheritage")
+    activity = URIRef(f"{VHR}activity/{snapshot}")
+    manifest = URIRef(f"{VHR}manifest/{snapshot}")
+    graph = Graph()
+    graph.bind("vhr", VHR)
+    graph.bind("dcat", DCAT)
+    graph.bind("dcterms", DCTERMS)
+    graph.bind("prov", PROV)
+    graph.bind("xsd", XSD)
+    graph.add((dataset, RDF.type, DCAT.Dataset))
+    graph.add((dataset, DCTERMS.title, Literal("VietHeritageLOD dataset", lang="en")))
+    graph.add((dataset, DCTERMS.title, Literal("Bộ dữ liệu VietHeritageLOD", lang="vi")))
+    graph.add((dataset, DCTERMS.description, Literal("Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình.", lang="vi")))
+    graph.add((dataset, DCTERMS.identifier, Literal(snapshot)))
+    graph.add((dataset, DCTERMS.license, URIRef("https://creativecommons.org/licenses/by-sa/4.0/")))
+    graph.add((dataset, PROV.wasGeneratedBy, activity))
+    graph.add((dataset, PROV.wasDerivedFrom, manifest))
+    graph.add((activity, RDF.type, PROV.Activity))
+    graph.add((activity, DCTERMS.identifier, Literal(snapshot)))
+    graph.add((manifest, RDF.type, PROV.Entity))
+    graph.add((manifest, DCTERMS.identifier, Literal(snapshot)))
+    timestamps = [str(record.get("retrieved_at")) for record in records if record.get("retrieved_at")]
+    if timestamps:
+        graph.add((activity, PROV.startedAtTime, Literal(min(timestamps), datatype=XSD.dateTime)))
+        graph.add((activity, PROV.endedAtTime, Literal(max(timestamps), datatype=XSD.dateTime)))
+        graph.add((dataset, DCTERMS.modified, Literal(max(timestamps), datatype=XSD.dateTime)))
+    graph.add((dataset, DCTERMS.issued, Literal(snapshot, datatype=XSD.string)))
+    source_urls = set(coverage.get("source_urls", []))
+    source_urls.update(str(record.get("registry_url")) for record in records if record.get("registry_url"))
+    source_urls.update(str(record.get("source_url")) for record in records if record.get("source_url"))
+    for source in sorted(source_urls):
+        source_uri = URIRef(source)
+        graph.add((dataset, DCTERMS.source, source_uri))
+        checksum = coverage.get("source_checksums", {}).get(source)
+        if checksum:
+            graph.add((manifest, DCTERMS.description, Literal(f"{source} sha256={checksum}")))
+    for key, value in _metadata_counts(asserted_count, records).items():
+        graph.add((dataset, DCTERMS.extent, Literal(f"{key}={value}")))
+    distributions = {
+        "ontology": ("text/turtle", "http://localhost:3030/vietheritage/graph/ontology"),
+        "asserted": ("text/turtle", "http://localhost:3030/vietheritage/graph/data"),
+        "external-links": ("text/turtle", "http://localhost:3030/vietheritage/graph/external-links"),
+        "inferred": ("text/turtle", "http://localhost:3030/vietheritage/graph/inferred"),
+        "metadata": ("text/turtle", "http://localhost:3030/vietheritage/graph/metadata"),
+    }
+    for name, (media_type, graph_uri) in distributions.items():
+        distribution = URIRef(f"{dataset}/distribution/{name}")
+        graph.add((dataset, DCAT.distribution, distribution))
+        graph.add((distribution, RDF.type, DCAT.Distribution))
+        graph.add((distribution, DCAT.mediaType, Literal(media_type)))
+        graph.add((distribution, DCTERMS.identifier, URIRef(graph_uri)))
+        graph.add((distribution, DCAT.accessURL, URIRef(f"http://localhost:3031/vietheritage/data?graph={graph_uri}")))
+    return graph
+
+
+def refresh_dataset_metadata_metrics() -> None:
+    path = RDF_DIR / "dataset-metadata.ttl"
+    asserted_path = RDF_DIR / "vietheritage.ttl"
+    canonical_path = PROCESSED_DIR / "canonical.jsonl"
+    if not path.exists() or not asserted_path.exists() or not canonical_path.exists():
+        return
+    records = [json.loads(line) for line in canonical_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    graph = Graph().parse(path, format="turtle")
+    dataset = URIRef(f"{VHR}dataset/vietheritage")
+    for triple in list(graph.triples((dataset, DCTERMS.extent, None))):
+        graph.remove(triple)
+    for key, value in _metadata_counts(len(Graph().parse(asserted_path, format="turtle")), records).items():
+        graph.add((dataset, DCTERMS.extent, Literal(f"{key}={value}")))
+    graph.serialize(destination=path, format="turtle")
+
+
 def run(run_mode: str = "sample") -> int:
     """`make generate-rdf` — canonical.jsonl -> vietheritage.ttl."""
     canonical_path = PROCESSED_DIR / "canonical.jsonl"
@@ -237,5 +341,11 @@ def run(run_mode: str = "sample") -> int:
     validation_graph = Graph()
     validation_graph.parse(data=turtle_output, format="turtle")
 
-    print(f"generate-rdf ({run_mode}): {len(records)} entities, {len(g)} triples -> {output_path}")
+    metadata_graph = build_dataset_metadata(records, len(g))
+    metadata_output = serialize_deterministic(metadata_graph)
+    metadata_path = RDF_DIR / "dataset-metadata.ttl"
+    metadata_path.write_text(metadata_output, encoding="utf-8")
+    Graph().parse(data=metadata_output, format="turtle")
+
+    print(f"generate-rdf ({run_mode}): {len(records)} entities, {len(g)} triples -> {output_path}; metadata -> {metadata_path}")
     return 0

@@ -8,7 +8,7 @@ import requests
 
 
 def wait_fuseki(timeout_seconds: int = 60) -> int:
-    base = os.getenv("FUSEKI_URL", "http://localhost:3030").rstrip("/")
+    base = os.getenv("FUSEKI_URL", "http://localhost:3031").rstrip("/")
     deadline = time.monotonic() + timeout_seconds
     url = f"{base}/$/ping"
     while time.monotonic() < deadline:

@@ -66,7 +66,7 @@ make test
 Expected release baseline:
 
 ```text
-149 passed
+153 passed
 ```
 
 Một số collector tests ghi fixture vào các thư mục output dùng chung. Vì vậy phải chạy `make test` trước sample/full pipeline, hoặc dùng checkout riêng. Nếu chạy test sau khi đã có full snapshot, cần chạy lại full pipeline trước khi staging dữ liệu.
@@ -141,7 +141,7 @@ make cq-test
 Endpoint:
 
 ```text
-http://localhost:3030/vietheritage/sparql
+http://localhost:3031/vietheritage/sparql
 ```
 
 Có thể kiểm tra linked-data adapter nếu stage đó được triển khai:
@@ -183,7 +183,7 @@ http://localhost:8000
 API docs:
 
 ```text
-http://localhost:8000/docs
+http://localhost:3030/docs
 http://localhost:8000/openapi.json
 ```
 

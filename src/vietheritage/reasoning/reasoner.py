@@ -85,6 +85,12 @@ def run(run_mode: str = "sample") -> int:
     inferred, inferred_count = reason([ontology, asserted])
     RDF_DIR.mkdir(parents=True, exist_ok=True)
     inferred.serialize(destination=INFERRED, format="turtle")
-    REPORT.write_text(json.dumps({"status": "PASS", "inferred_triples": inferred_count}, indent=2), encoding="utf-8")
+    report_payload = {"run_mode": run_mode, "status": "PASS", "inferred_triples": inferred_count, "closure_triples": len(inferred), "source_triples": len(ontology) + len(asserted)}
+    REPORT.write_text(json.dumps(report_payload, indent=2), encoding="utf-8")
+    report_dir = REPO_ROOT / "reports" / run_mode
+    report_dir.mkdir(parents=True, exist_ok=True)
+    (report_dir / "reasoning.json").write_text(json.dumps(report_payload, indent=2), encoding="utf-8")
+    from vietheritage.rdf.generator import refresh_dataset_metadata_metrics
+    refresh_dataset_metadata_metrics()
     print(f"reason ({run_mode}): {inferred_count} inferred triples -> {INFERRED}")
     return 0

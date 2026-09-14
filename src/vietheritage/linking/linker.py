@@ -81,8 +81,8 @@ def _review_row(source_uri: str, target_uri: str, dataset: str, method: str, sco
         "distance_km": extra.get("distance_km"),
         "type_compatible": bool(extra.get("type_compatible", True)),
         "status": status,
-        "reviewer": None,
-        "reviewed_at": None,
+        "reviewer": extra.get("reviewer") or ("automated:vietheritage-linker/0.1.0" if status == "verified" else None),
+        "reviewed_at": extra.get("reviewed_at") or (_now() if status == "verified" else None),
         "reason": extra.get("reason"),
     }
 
@@ -175,5 +175,7 @@ def run(run_mode: str = "sample") -> int:
         writer.writeheader()
         writer.writerows({key: row.get(key) for key in fields} for row in candidates)
     _write_turtle(verified, RDF_DIR / "external-links.ttl")
+    from vietheritage.rdf.generator import refresh_dataset_metadata_metrics
+    refresh_dataset_metadata_metrics()
     print(f"link ({run_mode}): {len(verified)} verified, {len(reviews)} reviewed")
     return 0

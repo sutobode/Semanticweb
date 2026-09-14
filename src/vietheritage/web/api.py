@@ -14,7 +14,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 import requests
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
@@ -23,9 +23,11 @@ from rdflib.namespace import DCTERMS, OWL, PROV, RDF, RDFS, SKOS, XSD
 REPO_ROOT = Path(__file__).resolve().parents[3]
 QUERY_DIR = REPO_ROOT / "sparql"
 DEFAULT_BASE_URI = os.getenv("VH_BASE_URI", "http://localhost:3030/vietheritage").rstrip("/")
+CANONICAL_PATH = urlparse(DEFAULT_BASE_URI).path.rstrip("/") or "/"
+RESOURCE_PATH = f"{CANONICAL_PATH}/resource" if CANONICAL_PATH != "/" else "/resource"
 DEFAULT_FUSEKI_ENDPOINT = os.getenv(
     "FUSEKI_QUERY_URL",
-    f"{os.getenv('FUSEKI_URL', 'http://localhost:3030').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/sparql",
+    f"{os.getenv('FUSEKI_URL', 'http://localhost:3031').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/sparql",
 )
 VH = Namespace(f"{DEFAULT_BASE_URI}/ontology/")
 VHR = Namespace(f"{DEFAULT_BASE_URI}/resource/")
@@ -353,6 +355,7 @@ class SemanticAPI:
             "relations": [],
             "asserted_triples": [],
             "inferred_triples": [],
+            "closure_triples": [],
         }
         for row in rows:
             predicate = _binding_value(row.get("predicate")) or ""
@@ -360,8 +363,10 @@ class SemanticAPI:
             object_binding = row.get("object", {})
             graph = _binding_value(row.get("graph")) or ""
             triple = {"predicate": predicate, "object": object_value, "object_type": object_binding.get("type", "literal"), "graph": graph}
-            target = result["inferred_triples"] if "/graph/inferred" in graph else result["asserted_triples"]
-            target.append(triple)
+            if "/graph/inferred" in graph:
+                result["closure_triples"].append(triple)
+            else:
+                result["asserted_triples"].append(triple)
             if predicate == str(RDF.type) and object_value != str(OWL.Thing):
                 if object_value not in result["@type"]:
                     result["@type"].append(object_value)
@@ -386,6 +391,14 @@ class SemanticAPI:
                 result["coordinates"]["lon"] = object_value
             elif object_binding.get("type") == "uri":
                 result["relations"].append({"predicate": predicate, "object": object_value})
+        asserted_keys = {
+            (item["predicate"], item["object"], item["object_type"])
+            for item in result["asserted_triples"]
+        }
+        result["inferred_triples"] = [
+            item for item in result["closure_triples"]
+            if (item["predicate"], item["object"], item["object_type"]) not in asserted_keys
+        ]
         result["source_status"] = "registry+wikipedia" if any("wikipedia.org" in source for source in result["sources"]) else "registry_only"
         if not result["coordinates"]:
             result.pop("coordinates")
@@ -415,7 +428,23 @@ class SemanticAPI:
 
     def resource_jsonld(self, entity_id: str) -> bytes:
         payload = self.entity_graph(entity_id).serialize(format="json-ld", context=JSONLD_CONTEXT, auto_compact=True)
-        return str(payload).encode("utf-8")
+        document = json.loads(str(payload))
+        if isinstance(document, dict) and isinstance(document.get("@graph"), list):
+            nodes = document["@graph"]
+            primary = next((node for node in nodes if (node.get("@id") or node.get("id", "")).endswith(str(_entity_uri(entity_id)).rsplit("/", 1)[-1])), None)
+            if primary is not None:
+                document = {"@context": JSONLD_CONTEXT, "@id": primary.get("@id") or primary.get("id")}
+                if primary.get("@type") or primary.get("type"):
+                    document["@type"] = primary.get("@type") or primary.get("type")
+                document.update({key: value for key, value in primary.items() if key not in {"@id", "id", "@type", "type"}})
+                included = [node for node in nodes if node is not primary]
+                if included:
+                    document["@included"] = included
+        if isinstance(document, dict) and "@id" not in document and "id" in document:
+            document["@id"] = document.pop("id")
+        if isinstance(document, dict) and "@type" not in document and "type" in document:
+            document["@type"] = document.pop("type")
+        return json.dumps(document, ensure_ascii=False, indent=2).encode("utf-8")
 
     def queries(self) -> list[dict[str, Any]]:
         result = []
@@ -437,13 +466,13 @@ class SemanticAPI:
         return {
             "openapi": "3.0.3",
             "info": {"title": "VietHeritageLOD Read-only Linked Data API", "version": "1.0.0"},
-            "servers": [{"url": "http://localhost:8000"}],
+            "servers": [{"url": "http://localhost:3030"}],
             "paths": {
                 "/api/health": {"get": {"responses": {"200": {"description": "Health"}}}},
                 "/api/stats": {"get": {"responses": {"200": {"description": "RDF graph statistics"}}}},
                 "/api/search": {"get": {"parameters": [{"name": "q", "in": "query"}, {"name": "page", "in": "query"}, {"name": "page_size", "in": "query"}], "responses": {"200": {"description": "Search results"}}}},
                 "/api/entities/{entity_id}": {"get": {"responses": {"200": {"description": "Entity detail"}, "404": {"description": "Not found"}}}},
-                "/resource/{entity_id}": {"get": {"responses": {"200": {"description": "Content-negotiated linked-data resource"}, "404": {"description": "Not found"}}}},
+                f"{CANONICAL_PATH}/resource/{{entity_id}}": {"get": {"responses": {"200": {"description": "Content-negotiated linked-data resource"}, "404": {"description": "Not found"}}}},
             },
         }
 
@@ -454,7 +483,7 @@ def render_entity_html(detail: dict[str, Any], entity_id: str) -> bytes:
     sources = "".join(f"<li><a rel=\"prov:wasDerivedFrom\" href=\"{html.escape(value)}\">{html.escape(value)}</a></li>" for value in detail.get("sources", []))
     links = "".join(f"<li><a rel=\"owl:sameAs\" href=\"{html.escape(value['@id'])}\">{html.escape(value['@id'])}</a></li>" for value in detail.get("external_links", []))
     description = "<br/>".join(html.escape(item.get("@value", "")) for item in detail.get("description", []))
-    turtle_url = f"/resource/{quote(entity_id)}?format=turtle"
-    jsonld_url = f"/resource/{quote(entity_id)}?format=jsonld"
+    turtle_url = f"{RESOURCE_PATH}/{quote(entity_id)}?format=turtle"
+    jsonld_url = f"{RESOURCE_PATH}/{quote(entity_id)}?format=jsonld"
     body = f"""<!doctype html><html lang=\"vi\"><head><meta charset=\"utf-8\"><title>{html.escape(label)} — VietHeritageLOD</title><link rel=\"canonical\" href=\"{html.escape(detail['@id'])}\"><link rel=\"alternate\" type=\"text/turtle\" href=\"{turtle_url}\"><link rel=\"alternate\" type=\"application/ld+json\" href=\"{jsonld_url}\"><link rel=\"stylesheet\" href=\"/styles.css\"></head><body><main class=\"container\"><p><a href=\"/\">← VietHeritageLOD Explorer</a></p><h1>{html.escape(label)}</h1><p class=\"uri\"><a href=\"{html.escape(detail['@id'])}\">{html.escape(detail['@id'])}</a></p><h2>Ontology types</h2><ul>{types}</ul><h2>Mô tả</h2><p>{description or 'Chưa có mô tả.'}</p><h2>Provenance</h2><ul>{sources or '<li>Chưa có source.</li>'}</ul><h2>Verified external links</h2><ul>{links or '<li>Không có verified external link.</li>'}</ul><p class=\"actions\"><a href=\"{turtle_url}\" class=\"button\">Xem Turtle</a><a href=\"{jsonld_url}\" class=\"button\">Xem JSON-LD</a></p></main></body></html>"""
     return body.encode("utf-8")

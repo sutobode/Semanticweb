@@ -12,7 +12,7 @@ RDF/Turtle, the VietHeritage ontology, reasoning output, and Fuseki SPARQL remai
 
 ## URI and representations
 
-Entity URIs use `VH_BASE_URI/resource/{entity_id}` and ontology terms use `VH_BASE_URI/ontology/{term}`. The resource route returns HTML, Turtle, JSON-LD, or convenience JSON according to `Accept`; it sets `Vary: Accept`, preserves `@id`/`@type`, and links back to the canonical URI. HTML contains alternate links for RDF representations.
+Entity URIs use `VH_BASE_URI/resource/{entity_id}` and ontology terms use `VH_BASE_URI/ontology/{term}`. In the local Compose profile, the canonical base `http://localhost:3030/vietheritage` is served by the Explorer gateway; Fuseki public SPARQL is exposed at `http://localhost:3031/vietheritage/sparql`, while loader writes use the private admin service. The resource route returns HTML, Turtle, JSON-LD, or convenience JSON according to `Accept`; it sets `Vary: Accept`, preserves `@id`/`@type`, and links back to the canonical URI. HTML contains alternate links for RDF representations.
 
 The local service uses direct HTTP 200 representations. This is documented as the local deployment choice instead of a 303 redirect because the same stable resource endpoint performs content negotiation.
 

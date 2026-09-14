@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 
 import requests
+from rdflib import Graph
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
@@ -19,14 +20,16 @@ def run() -> int:
     if not first:
         print("linked-data-test: no entity")
         return 1
-    uri = f"http://localhost:3030/vietheritage/resource/{first['entity_id']}"
-    endpoint = f"{os.getenv('FUSEKI_URL', 'http://localhost:3030').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/sparql"
-    query = f"DESCRIBE <{uri}>"
+    uri = f"{os.getenv('VH_BASE_URI', 'http://localhost:3030/vietheritage').rstrip('/')}/resource/{first['entity_id']}"
     try:
-        response = requests.get(endpoint, params={"query": query}, headers={"Accept": "text/turtle"}, auth=("admin", os.getenv("FUSEKI_ADMIN_PASSWORD", "change-me-local-only")), timeout=30)
+        response = requests.get(uri, headers={"Accept": "text/turtle"}, timeout=30)
         response.raise_for_status()
-    except requests.RequestException as exc:
+        graph = Graph().parse(data=response.content, format="turtle")
+    except Exception as exc:
         print(f"linked-data-test: FAIL - {exc}")
         return 1
-    print(f"linked-data-test: PASS ({response.status_code}) {uri}")
+    if len(graph) == 0:
+        print(f"linked-data-test: FAIL - empty RDF response for {uri}")
+        return 1
+    print(f"linked-data-test: PASS ({response.status_code}, {len(graph)} triples) {uri}")
     return 0

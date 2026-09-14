@@ -8,9 +8,12 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
-from .api import APIError, SemanticAPI, render_entity_html
+from rdflib import Graph
+
+from .api import APIError, CANONICAL_PATH, DEFAULT_BASE_URI, JSONLD_CONTEXT, SemanticAPI, render_entity_html
 
 STATIC_DIR = Path(__file__).with_name("static")
+ONTOLOGY_PATH = Path(__file__).resolve().parents[3] / "ontology" / "vietheritage.ttl"
 
 
 def _json_bytes(value: Any) -> bytes:
@@ -41,15 +44,42 @@ class Router:
             raise APIError(404, "NOT_FOUND", "resource was not found")
         return 200, {"Content-Type": _content_type(str(target))}, target.read_bytes()
 
+    def _ontology(self, headers: dict[str, str]) -> tuple[int, dict[str, str], bytes]:
+        if not ONTOLOGY_PATH.is_file():
+            raise APIError(404, "NOT_FOUND", "ontology was not found")
+        canonical = f"{DEFAULT_BASE_URI}/ontology/"
+        accept = headers.get("accept", "text/html").lower()
+        common = {"Vary": "Accept", "Link": f'<{canonical}>; rel="canonical"'}
+        graph = Graph().parse(ONTOLOGY_PATH, format="turtle")
+        if "application/ld+json" in accept:
+            body = graph.serialize(format="json-ld", context=JSONLD_CONTEXT, auto_compact=True).encode("utf-8")
+            common["Content-Type"] = "application/ld+json; charset=utf-8"
+            return 200, common, body
+        if "text/turtle" in accept:
+            common["Content-Type"] = "text/turtle; charset=utf-8"
+            return 200, common, ONTOLOGY_PATH.read_bytes()
+        if "text/html" in accept or accept in {"", "*/*"}:
+            body = f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>VietHeritageLOD Ontology</title><link rel="canonical" href="{canonical}"></head><body><main><h1>VietHeritageLOD Ontology</h1><p><a href="{canonical}">{canonical}</a></p></main></body></html>'.encode("utf-8")
+            common["Content-Type"] = "text/html; charset=utf-8"
+            return 200, common, body
+        raise APIError(406, "NOT_ACCEPTABLE", "supported representations are text/html, text/turtle, and application/ld+json")
+
     def handle(self, path: str, headers: dict[str, str]) -> tuple[int, dict[str, str], bytes]:
         parsed = urlparse(path)
         route = parsed.path.rstrip("/") or "/"
+        if CANONICAL_PATH != "/":
+            if route == CANONICAL_PATH:
+                route = "/"
+            elif route.startswith(f"{CANONICAL_PATH}/"):
+                route = route[len(CANONICAL_PATH):] or "/"
         params = {key: values[-1] for key, values in parse_qs(parsed.query, keep_blank_values=True).items()}
 
         if route in {"/", "/app.js", "/styles.css"}:
             return self._static(route)
+        if route in {"/ontology", "/ontology/"}:
+            return self._ontology(headers)
         if route == "/docs":
-            body = """<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>VietHeritageLOD API</title><link rel=\"stylesheet\" href=\"/styles.css\"></head><body><main class=\"container\"><h1>VietHeritageLOD Read-only API</h1><p><a href=\"/openapi.json\">OpenAPI JSON</a></p><p>SPARQL endpoint: <a href=\"http://localhost:3030/vietheritage/sparql\">Fuseki</a></p><ul><li><code>GET /api/health</code></li><li><code>GET /api/stats</code></li><li><code>GET /api/search?q=Huế</code></li><li><code>GET /resource/&lt;entity_id&gt;</code> with Turtle or JSON-LD Accept</li></ul></main></body></html>"""
+            body = """<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>VietHeritageLOD API</title><link rel=\"stylesheet\" href=\"/styles.css\"></head><body><main class=\"container\"><h1>VietHeritageLOD Read-only API</h1><p><a href=\"/openapi.json\">OpenAPI JSON</a></p><p>SPARQL endpoint: <a href=\"http://localhost:3031/vietheritage/sparql\">Fuseki</a></p><ul><li><code>GET /api/health</code></li><li><code>GET /api/stats</code></li><li><code>GET /api/search?q=Huế</code></li><li><code>GET /vietheritage/resource/&lt;entity_id&gt;</code> with Turtle or JSON-LD Accept</li></ul></main></body></html>"""
             return 200, {"Content-Type": "text/html; charset=utf-8"}, body.encode("utf-8")
         if route == "/openapi.json":
             return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.openapi())
@@ -66,7 +96,7 @@ class Router:
             return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes({"items": self.api.queries()})
         if route.startswith("/api/queries/") and route.endswith("/run"):
             query_id = route.split("/")[3]
-            return 200, {"Content-Type": "application/sparql-results+json; charset=utf-8"}, _json_bytes(self.api.run_query(query_id))
+            return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.run_query(query_id))
         if route.startswith("/api/entities/"):
             entity_id = route.removeprefix("/api/entities/")
             return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.entity(entity_id))

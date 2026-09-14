@@ -19,7 +19,8 @@ def run(run_mode: str = "sample") -> int:
     canonical = PROCESSED / "canonical.jsonl"
     asserted = RDF_DIR / "vietheritage.ttl"
     ontology = REPO_ROOT / "ontology" / "vietheritage.ttl"
-    if not canonical.exists() or not asserted.exists() or not ontology.exists():
+    metadata = RDF_DIR / "dataset-metadata.ttl"
+    if not canonical.exists() or not asserted.exists() or not ontology.exists() or not metadata.exists():
         print("validate: required artifact missing")
         return 1
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
@@ -30,7 +31,7 @@ def run(run_mode: str = "sample") -> int:
             continue
         count += 1
         errors.extend(error.message for error in Draft202012Validator(schema).iter_errors(json.loads(line)))
-    for path in (asserted, ontology):
+    for path in (asserted, ontology, metadata):
         try:
             Graph().parse(path, format="turtle")
         except Exception as exc:
@@ -47,5 +48,6 @@ def run(run_mode: str = "sample") -> int:
     out = REPO_ROOT / "reports" / run_mode
     out.mkdir(parents=True, exist_ok=True)
     (out / "validation.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out / "rdf_validation.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"validate ({run_mode}): {report['status']} ({count} canonical records)")
     return 0 if not errors else 1

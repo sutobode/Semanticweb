@@ -25,7 +25,7 @@ def query_fuseki(
     endpoint: str | None = None,
     request_get: Callable[..., Any] = requests.get,
 ) -> dict[str, Any]:
-    url = endpoint or f"{os.getenv('FUSEKI_URL', 'http://localhost:3030').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/sparql"
+    url = endpoint or f"{os.getenv('FUSEKI_URL', 'http://localhost:3031').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/sparql"
     auth = (os.getenv("FUSEKI_USER", "admin"), os.getenv("FUSEKI_ADMIN_PASSWORD", "change-me-local-only"))
     response = request_get(url, params={"query": query, "format": "json"}, auth=auth, timeout=30)
     response.raise_for_status()

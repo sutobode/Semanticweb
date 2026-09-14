@@ -103,18 +103,18 @@ def test_deterministic_registry_id_prefers_official_id() -> None:
     assert result == "dsvh-12345"
 
 
-def test_collect_with_fixture_fetcher_produces_valid_coverage_report() -> None:
+def test_collect_with_fixture_fetcher_produces_valid_coverage_report(tmp_path: Path) -> None:
     def fixture_fetcher(url: str, request_cfg: dict) -> str:  # noqa: ARG001
         return FIXTURE_HTML
 
-    report = collect(fetcher=fixture_fetcher, category_keys=["world_heritage"])
+    report = collect(fetcher=fixture_fetcher, category_keys=["world_heritage"], output_dir=tmp_path)
     assert report["canonical_total"] == 2
     assert report["registry_total"] == 2
     assert report["failure_manifest"] == []
     assert report["claim"] == "100% of selected official registry snapshot"
 
 
-def test_collect_records_have_required_raw_page_schema_fields() -> None:
+def test_collect_records_have_required_raw_page_schema_fields(tmp_path: Path) -> None:
     def fixture_fetcher(url: str, request_cfg: dict) -> str:  # noqa: ARG001
         return FIXTURE_HTML
 
@@ -125,7 +125,7 @@ def test_collect_records_have_required_raw_page_schema_fields() -> None:
     def fixture_fetcher2(url: str, request_cfg: dict) -> str:  # noqa: ARG001
         return FIXTURE_HTML
 
-    report = collect(fetcher=fixture_fetcher2, category_keys=["world_heritage"])
+    report = collect(fetcher=fixture_fetcher2, category_keys=["world_heritage"], output_dir=tmp_path)
     assert report["categories"][0]["registry_category"] == "world_heritage"
     assert report["categories"][0]["coverage_percent"] == 100.0
 

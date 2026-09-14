@@ -52,7 +52,7 @@ make verify RUN_MODE=full
 
 Expected final checks:
 
-- `python -m pytest -q` → `149 passed`.
+- `python -m pytest -q` → `153 passed`.
 - Full verification → `FINAL STATUS: PASS`.
 - Full metrics → `860` canonical/registry records, `114` verified external links, `10/10` Cypher checks.
 

@@ -92,7 +92,7 @@ app-smoke:
 
 ## make api-docs — print local API documentation URL
 api-docs:
-	@echo http://localhost:8000/docs
+	@echo http://localhost:3030/docs
 
 ## make neo4j-up — Docker -> running Neo4j
 neo4j-up:
