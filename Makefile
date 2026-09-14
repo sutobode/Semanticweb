@@ -5,7 +5,7 @@ RUN_MODE ?= sample
 .PHONY: setup test collect-sample collect normalize resolve map generate-rdf link \
         validate reason fuseki-up fuseki-down fuseki-reset fuseki-load \
         linked-data-test app-up app-down app-test app-smoke api-docs neo4j-up neo4j-down neo4j-reset neo4j-load cypher-test \
-        traceability-check query cq-test pipeline-sample pipeline verify
+        traceability-check query cq-test ux-audit demo-smoke pipeline-sample pipeline verify
 
 ## make setup — Python/Docker -> venv, dependencies
 setup:
@@ -152,3 +152,11 @@ pipeline:
 ## make verify — repository + services -> final report (FINAL STATUS PASS)
 verify:
 	$(PYTHON) -m vietheritage.cli verify --run-mode $(RUN_MODE)
+
+
+## make ux-audit — running local services + snapshot -> UX/accessibility/performance/demo reports
+ux-audit:
+	$(PYTHON) tools/ux_audit.py
+
+## make demo-smoke — offline local demo preflight and semantic journey audit
+demo-smoke: ux-audit

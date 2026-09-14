@@ -111,6 +111,7 @@ Pipeline đã bao phủ các phần blocking của `PROJECT_SPEC.md`: official c
 - [`docs/E2E.md`](./docs/E2E.md) — end-to-end setup and execution.
 - [`docs/API.md`](./docs/API.md) — read-only Semantic Web API contract.
 - [`docs/USER_GUIDE.md`](./docs/USER_GUIDE.md) — browser explorer guide for non-SPARQL users.
+- [`docs/DEMO.md`](./docs/DEMO.md) — reproducible offline Semantic Web demo runbook.
 - [`docs/UX_DESIGN.md`](./docs/UX_DESIGN.md) — URI, RDF, provenance, and UX design.
 - [`docs/RELEASE.md`](./docs/RELEASE.md) — release inventory, validation và post-release checklist.
 - Section 9 của `PROJECT_SPEC.md` — repository structure đầy đủ.

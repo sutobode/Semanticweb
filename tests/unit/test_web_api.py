@@ -124,3 +124,12 @@ def test_allowlist_rejects_arbitrary_query_id() -> None:
         make_api(FakeTransport()).run_query("UPDATE")
     assert error.value.status == 404
     assert error.value.code == "QUERY_NOT_FOUND"
+
+
+
+def test_config_exposes_canonical_read_only_endpoints() -> None:
+    result = make_api(FakeTransport()).config()
+    assert result["@id"].endswith("/resource/dataset/vietheritage")
+    assert result["resource_template"].endswith("/resource/{entity_id}")
+    assert result["sparql_endpoint"].endswith("/vietheritage/sparql")
+    assert result["read_only"] is True

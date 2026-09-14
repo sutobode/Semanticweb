@@ -8,18 +8,19 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<a class="skip-link" href="#app">Bỏ qua đến nội dung chính</a>
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="#/">VietHeritageLOD</a>
+    <a class="brand" href="#/" aria-label="VietHeritageLOD, trang chủ">VietHeritageLOD</a>
     <nav aria-label="Điều hướng chính">
       <a href="#/search">Tìm kiếm</a>
       <a href="#/queries">Competency Questions</a>
       <a href="/docs">API</a>
-      <a href="http://localhost:3031/vietheritage/sparql" target="_blank" rel="noopener">SPARQL</a>
+      <a id="sparql-link" href="/docs#sparql" target="_blank" rel="noopener">SPARQL</a>
     </nav>
   </div>
 </header>
-<main id="app" class="container" aria-live="polite"></main>
+<main id="app" class="container" tabindex="-1" aria-live="polite" aria-busy="false"></main>
 <footer class="site-footer"><div class="container">VietHeritageLOD — RDF/RDFS/OWL, SPARQL và Linked Data</div></footer>
 <script src="/app.js" defer></script>
 </body>

@@ -29,15 +29,20 @@ def _get(path: str, **kwargs: object) -> requests.Response:
 def main() -> int:
     entity_id = _entity_id()
     checks: list[tuple[str, bool]] = []
-    checks.append(("home", _get("/").headers.get("content-type", "").startswith("text/html")))
+    home_response = _get("/")
+    checks.append(("home", home_response.headers.get("content-type", "").startswith("text/html") and "skip-link" in home_response.text and 'id="app"' in home_response.text))
     health = _get("/api/health").json()
     checks.append(("health", health.get("status") == "ok" and health.get("fuseki") == "ok"))
     stats = _get("/api/stats").json()
     checks.append(("stats", stats.get("total_entities", 0) > 0))
+    config = _get("/api/config").json()
+    checks.append(("config", config.get("read_only") is True and config.get("resource_template", "").endswith("/resource/{entity_id}") and config.get("sparql_endpoint", "").endswith("/vietheritage/sparql")))
     search = _get("/api/search", params={"q": "Huế", "page": 1, "page_size": 5}).json()
     checks.append(("search", isinstance(search.get("items"), list) and "@context" in search))
     detail = _get(f"/api/entities/{entity_id}").json()
     checks.append(("entity", detail.get("@id", "").endswith(entity_id) and "@type" in detail))
+    html_resource = _get(f"/vietheritage/resource/{entity_id}", headers={"Accept": "text/html"})
+    checks.append(("html_resource", "skip-link" in html_resource.text and "Graph semantics" in html_resource.text and "application/ld+json" in html_resource.text and entity_id in html_resource.text))
     turtle = _get(f"/vietheritage/resource/{entity_id}", headers={"Accept": "text/turtle"})
     checks.append(("turtle", turtle.headers.get("content-type", "").startswith("text/turtle") and turtle.headers.get("Vary") == "Accept" and entity_id in turtle.text and len(turtle.content) > 0))
     jsonld = _get(f"/vietheritage/resource/{entity_id}", headers={"Accept": "application/ld+json"})
@@ -60,6 +65,8 @@ def main() -> int:
         requests.post(f"{os.getenv('FUSEKI_URL', 'http://localhost:3031').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/update", data={"update": "INSERT DATA {}"}, timeout=10).status_code,
     ]
     checks.append(("public_write_rejection", all(status in {401, 403, 404, 405} for status in write_statuses)))
+    api_mutation_statuses = [requests.request(method, f"{BASE}/api/config", timeout=10).status_code for method in ("POST", "PUT", "PATCH", "DELETE")]
+    checks.append(("api_read_only", all(status == 405 for status in api_mutation_statuses)))
     missing = requests.get(f"{BASE}/api/entities/does-not-exist", timeout=10)
     checks.append(("404", missing.status_code == 404 and missing.json().get("error", {}).get("code") == "ENTITY_NOT_FOUND"))
     failed = [name for name, passed in checks if not passed]

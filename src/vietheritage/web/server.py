@@ -88,6 +88,8 @@ class Router:
             payload = self.api.health()
             status = 200 if payload["status"] == "ok" else 503
             return status, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(payload)
+        if route == "/api/config":
+            return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.config())
         if route == "/api/stats":
             return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.stats())
         if route == "/api/search":
@@ -151,8 +153,20 @@ class RequestHandler(BaseHTTPRequestHandler):
             body = _json_bytes({"error": {"code": "INTERNAL_ERROR", "message": "internal server error"}})
         self._send(status, headers, body)
 
-    def do_POST(self) -> None:  # noqa: N802
+    def _method_not_allowed(self) -> None:
         self._send(405, {"Content-Type": "application/json; charset=utf-8", "Allow": "GET"}, _json_bytes({"error": {"code": "METHOD_NOT_ALLOWED", "message": "read-only API accepts GET only"}}))
+
+    def do_POST(self) -> None:  # noqa: N802
+        self._method_not_allowed()
+
+    def do_PUT(self) -> None:  # noqa: N802
+        self._method_not_allowed()
+
+    def do_PATCH(self) -> None:  # noqa: N802
+        self._method_not_allowed()
+
+    def do_DELETE(self) -> None:  # noqa: N802
+        self._method_not_allowed()
 
     def log_message(self, format: str, *args: Any) -> None:
         # Keep request logging, but never log query bodies or credentials.

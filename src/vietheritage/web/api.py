@@ -29,6 +29,8 @@ DEFAULT_FUSEKI_ENDPOINT = os.getenv(
     "FUSEKI_QUERY_URL",
     f"{os.getenv('FUSEKI_URL', 'http://localhost:3031').rstrip('/')}/{os.getenv('FUSEKI_DATASET', 'vietheritage')}/sparql",
 )
+PUBLIC_FUSEKI_ENDPOINT = os.getenv("PUBLIC_FUSEKI_URL", DEFAULT_FUSEKI_ENDPOINT)
+PUBLIC_GRAPH_STORE = os.getenv("PUBLIC_GRAPH_STORE_URL", PUBLIC_FUSEKI_ENDPOINT.removesuffix("/sparql") + "/data")
 VH = Namespace(f"{DEFAULT_BASE_URI}/ontology/")
 VHR = Namespace(f"{DEFAULT_BASE_URI}/resource/")
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
@@ -307,6 +309,19 @@ class SemanticAPI:
             item["source_status"] = "registry+wikipedia" if any("wikipedia.org" in source for source in item["sources"]) else "registry_only"
         return list(grouped.values())
 
+    def config(self) -> dict[str, Any]:
+        return {
+            "@context": JSONLD_CONTEXT,
+            "@id": f"{DEFAULT_BASE_URI}/resource/dataset/vietheritage",
+            "canonical_base": DEFAULT_BASE_URI,
+            "resource_template": f"{DEFAULT_BASE_URI}/resource/{{entity_id}}",
+            "ontology_base": f"{DEFAULT_BASE_URI}/ontology/",
+            "sparql_endpoint": PUBLIC_FUSEKI_ENDPOINT,
+            "graph_store": PUBLIC_GRAPH_STORE,
+            "dataset": os.getenv("FUSEKI_DATASET", "vietheritage"),
+            "read_only": True,
+        }
+
     def stats(self) -> dict[str, Any]:
         prefix = f"PREFIX rdfs: <{RDFS}> PREFIX rdf: <{RDF}> PREFIX owl: <{OWL}> PREFIX dcterms: <{DCTERMS}>"
         total = self.client.query(prefix + f' SELECT (COUNT(DISTINCT ?entity) AS ?total) WHERE {{ ?entity a ?type ; rdfs:label ?label . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
@@ -316,7 +331,7 @@ class SemanticAPI:
         return {
             "@context": JSONLD_CONTEXT,
             "dataset": os.getenv("FUSEKI_DATASET", "vietheritage"),
-            "@id": f"{DEFAULT_BASE_URI}/dataset/vietheritage",
+            "@id": f"{DEFAULT_BASE_URI}/resource/dataset/vietheritage",
             "total_entities": _binding_int((total.get("results", {}).get("bindings") or [{}])[0].get("total")),
             "verified_external_links": _binding_int((links.get("results", {}).get("bindings") or [{}])[0].get("count")),
             "classes": [
@@ -469,6 +484,7 @@ class SemanticAPI:
             "servers": [{"url": "http://localhost:3030"}],
             "paths": {
                 "/api/health": {"get": {"responses": {"200": {"description": "Health"}}}},
+                "/api/config": {"get": {"responses": {"200": {"description": "Canonical and public read-only endpoint configuration"}}}},
                 "/api/stats": {"get": {"responses": {"200": {"description": "RDF graph statistics"}}}},
                 "/api/search": {"get": {"parameters": [{"name": "q", "in": "query"}, {"name": "page", "in": "query"}, {"name": "page_size", "in": "query"}], "responses": {"200": {"description": "Search results"}}}},
                 "/api/entities/{entity_id}": {"get": {"responses": {"200": {"description": "Entity detail"}, "404": {"description": "Not found"}}}},
@@ -479,11 +495,44 @@ class SemanticAPI:
 
 def render_entity_html(detail: dict[str, Any], entity_id: str) -> bytes:
     label = detail.get("label", [{"@value": entity_id}])[0].get("@value", entity_id)
-    types = "".join(f"<li><a href=\"{html.escape(value)}\">{html.escape(value.rsplit('/', 1)[-1])}</a></li>" for value in detail.get("@type", []))
-    sources = "".join(f"<li><a rel=\"prov:wasDerivedFrom\" href=\"{html.escape(value)}\">{html.escape(value)}</a></li>" for value in detail.get("sources", []))
-    links = "".join(f"<li><a rel=\"owl:sameAs\" href=\"{html.escape(value['@id'])}\">{html.escape(value['@id'])}</a></li>" for value in detail.get("external_links", []))
-    description = "<br/>".join(html.escape(item.get("@value", "")) for item in detail.get("description", []))
+    canonical = str(detail.get("@id", _entity_uri(entity_id)))
+    types = "".join(
+        f'<li><a href="{html.escape(value, quote=True)}" target="_blank" rel="noopener rdf:type">{html.escape(value.rsplit("/", 1)[-1])}</a></li>'
+        for value in detail.get("@type", [])
+    ) or "<li>Chưa có RDF type.</li>"
+    sources = "".join(
+        f'<li><a href="{html.escape(value, quote=True)}" rel="noopener dcterms:source prov:wasDerivedFrom" target="_blank">{html.escape(value)}</a></li>'
+        for value in detail.get("sources", [])
+    ) or "<li>Chưa có source.</li>"
+    links = "".join(
+        f'<li><a href="{html.escape(value["@id"], quote=True)}" rel="noopener owl:sameAs" target="_blank">{html.escape(value["@id"])}</a> <span class="badge">verified</span></li>'
+        for value in detail.get("external_links", [])
+    ) or "<li>Không có verified external link.</li>"
+    description = "<br>".join(html.escape(item.get("@value", "")) for item in detail.get("description", [])) or "Chưa có mô tả."
     turtle_url = f"{RESOURCE_PATH}/{quote(entity_id)}?format=turtle"
     jsonld_url = f"{RESOURCE_PATH}/{quote(entity_id)}?format=jsonld"
-    body = f"""<!doctype html><html lang=\"vi\"><head><meta charset=\"utf-8\"><title>{html.escape(label)} — VietHeritageLOD</title><link rel=\"canonical\" href=\"{html.escape(detail['@id'])}\"><link rel=\"alternate\" type=\"text/turtle\" href=\"{turtle_url}\"><link rel=\"alternate\" type=\"application/ld+json\" href=\"{jsonld_url}\"><link rel=\"stylesheet\" href=\"/styles.css\"></head><body><main class=\"container\"><p><a href=\"/\">← VietHeritageLOD Explorer</a></p><h1>{html.escape(label)}</h1><p class=\"uri\"><a href=\"{html.escape(detail['@id'])}\">{html.escape(detail['@id'])}</a></p><h2>Ontology types</h2><ul>{types}</ul><h2>Mô tả</h2><p>{description or 'Chưa có mô tả.'}</p><h2>Provenance</h2><ul>{sources or '<li>Chưa có source.</li>'}</ul><h2>Verified external links</h2><ul>{links or '<li>Không có verified external link.</li>'}</ul><p class=\"actions\"><a href=\"{turtle_url}\" class=\"button\">Xem Turtle</a><a href=\"{jsonld_url}\" class=\"button\">Xem JSON-LD</a></p></main></body></html>"""
+
+    def triples(items: list[dict[str, Any]], empty: str) -> str:
+        if not items:
+            return f"<p class=\"muted\">{empty}</p>"
+        rows = []
+        for item in items:
+            predicate = html.escape(item.get("predicate", ""), quote=True)
+            object_value = item.get("object", "")
+            object_markup = (
+                f'<a href="{html.escape(object_value, quote=True)}" target="_blank" rel="noopener">{html.escape(object_value)}</a>'
+                if str(object_value).startswith(("http://", "https://"))
+                else html.escape(str(object_value))
+            )
+            rows.append(f'<li><code>{predicate}</code> → {object_markup}<small>graph: {html.escape(item.get("graph", ""))}</small></li>')
+        return "<ul class=\"triple-list\">" + "".join(rows) + "</ul>"
+
+    body = f"""<!doctype html>
+<html lang=\"vi\">
+<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>{html.escape(label)} — VietHeritageLOD</title><meta name=\"description\" content=\"Semantic resource {html.escape(canonical, quote=True)}\"><link rel=\"canonical\" href=\"{html.escape(canonical, quote=True)}\"><link rel=\"alternate\" type=\"text/turtle\" href=\"{html.escape(turtle_url, quote=True)}\"><link rel=\"alternate\" type=\"application/ld+json\" href=\"{html.escape(jsonld_url, quote=True)}\"><link rel=\"stylesheet\" href=\"/styles.css\"></head>
+<body><a class=\"skip-link\" href=\"#resource-main\">Bỏ qua đến nội dung chính</a><header class=\"site-header\"><div class=\"container header-inner\"><a class=\"brand\" href=\"/\">VietHeritageLOD</a><nav aria-label=\"Điều hướng resource\"><a href=\"/\">Explorer</a><a href=\"{html.escape(turtle_url, quote=True)}\">Turtle</a><a href=\"{html.escape(jsonld_url, quote=True)}\">JSON-LD</a></nav></div></header>
+<main id=\"resource-main\" class=\"container\" tabindex=\"-1\"><p><a href=\"/\">← VietHeritageLOD Explorer</a></p><p class=\"eyebrow\">Semantic resource</p><h1>{html.escape(label)}</h1><p class=\"uri\"><a href=\"{html.escape(canonical, quote=True)}\" rel=\"canonical\">{html.escape(canonical)}</a></p><div class=\"actions\" aria-label=\"Linked Data representations\"><a href=\"{html.escape(canonical, quote=True)}\" class=\"button\">HTML resource</a><a href=\"{html.escape(turtle_url, quote=True)}\" class=\"button secondary\" type=\"text/turtle\">Turtle</a><a href=\"{html.escape(jsonld_url, quote=True)}\" class=\"button secondary\" type=\"application/ld+json\">JSON-LD</a></div>
+<section class=\"card\" aria-labelledby=\"identity-title\"><h2 id=\"identity-title\">Identity and ontology</h2><h3>RDF types</h3><ul>{types}</ul><h3>Mô tả</h3><p>{description}</p><h3>Categories</h3><p>{" ".join(html.escape(value.rsplit("/", 1)[-1]) for value in detail.get("categories", [])) or "Chưa có category."}</p></section>
+<section class=\"card\" aria-labelledby=\"provenance-title\"><h2 id=\"provenance-title\">Provenance and external identity</h2><h3>Source / derivation</h3><ul>{sources}</ul><h3>Verified external identity</h3><ul>{links}</ul></section>
+<section class=\"card\" aria-labelledby=\"semantics-title\"><h2 id=\"semantics-title\">Graph semantics</h2><p>Asserted: <strong>{len(detail.get("asserted_triples", []))}</strong> · Novel inferred: <strong>{len(detail.get("inferred_triples", []))}</strong> · Closure: <strong>{len(detail.get("closure_triples", []))}</strong></p><details><summary>Asserted từ dữ liệu nguồn</summary>{triples(detail.get("asserted_triples", []), "Không có asserted triple.")}</details><details><summary>Inferred bởi reasoning (novel)</summary>{triples(detail.get("inferred_triples", []), "Không có novel inferred triple.")}</details><details><summary>Closure graph</summary>{triples(detail.get("closure_triples", []), "Không có closure triple.")}</details></section></main><footer class=\"site-footer\"><div class=\"container\">VietHeritageLOD — RDF/RDFS/OWL, SPARQL và Linked Data</div></footer></body></html>"""
     return body.encode("utf-8")

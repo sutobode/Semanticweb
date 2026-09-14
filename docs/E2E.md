@@ -177,14 +177,14 @@ make app-smoke
 Mở trình duyệt:
 
 ```text
-http://localhost:8000
+http://localhost:3030
 ```
 
 API docs:
 
 ```text
 http://localhost:3030/docs
-http://localhost:8000/openapi.json
+http://localhost:3030/openapi.json
 ```
 
 ## 9. Full acceptance verification

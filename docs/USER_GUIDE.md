@@ -14,7 +14,7 @@ make app-smoke
 Open:
 
 ```text
-http://localhost:8000
+http://localhost:3030
 ```
 
 If the full data has not been built yet, follow [`E2E.md`](./E2E.md) first.
@@ -32,7 +32,7 @@ If the full data has not been built yet, follow [`E2E.md`](./E2E.md) first.
 
 - SPARQL 1.1: `http://localhost:3031/vietheritage/sparql`
 - API documentation: `http://localhost:3030/docs`
-- OpenAPI JSON: `http://localhost:8000/openapi.json`
+- OpenAPI JSON: `http://localhost:3030/openapi.json`
 - Resource URI: `http://localhost:3030/vietheritage/resource/{entity_id}`
 
 Use SPARQL directly when you need graph patterns, aggregation, paths, inference-aware analysis, or a custom research query. The explorer is intended to make the same linked data approachable to people who do not know SPARQL.

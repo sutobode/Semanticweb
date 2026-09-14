@@ -35,3 +35,25 @@ The public service is GET-only and read-only. UI queries are generated from vali
 ## Accessibility and errors
 
 The UI uses semantic HTML, labels, keyboard-friendly controls, responsive CSS, visible empty/loading/error states, and Vietnamese labels. Fuseki outage returns a safe 503 JSON error from the API and a human-readable browser error page.
+
+
+
+## Runtime endpoint discovery
+
+The Explorer reads `/api/config` for the canonical resource template, ontology base, public SPARQL endpoint, and read-only Graph Store URL. This prevents UI components from inventing a second URI namespace or linking the home page to a different Fuseki port. The local defaults remain documented as `localhost:3030` for Explorer and `localhost:3031` for public Fuseki.
+
+## Semantic entity presentation
+
+Direct HTML resources expose the same semantic identity as their RDF representations. The page links to the canonical URI, Turtle, and JSON-LD; displays ontology types as ontology links; labels source and derivation links; marks verified `owl:sameAs` links; and separates asserted triples, novel inferred triples, and closure triples. Each triple displays its named graph identifier.
+
+## Accessibility and responsive evidence
+
+The Explorer uses a skip link, semantic landmarks, explicit form labels, visible keyboard focus, live regions for loading/results/errors, accessible button names, reduced-motion handling, and a 320px-safe responsive layout. `make ux-audit` checks these static contracts and records the result. Keyboard and screen-reader checks remain manual evidence activities and must be recorded separately before claiming a full WCAG 2.2 AA audit.
+
+## Demo and resilience
+
+The reproducible offline journey is documented in [`DEMO.md`](./DEMO.md). `make ux-audit` exercises local search, entity detail, canonical HTML/Turtle/JSON-LD, allowlisted CQ, public read-only Fuseki behavior, API mutation rejection, missing-resource behavior, and timing samples. It writes snapshot-bound evidence under `reports/<run_id>/` without contacting external data sources.
+
+
+
+The pinned Chromium audit at `tools/browser_ux_audit.cjs` checks four viewport sizes, horizontal overflow, accessible control names, keyboard activation from navigation through entity detail, canonical/RDF representation links, and simulated API failure. The current evidence is `browser-ux-audit: PASS (6/6)`. A human screen-reader audit remains a separate follow-up and is not claimed by the automated result.

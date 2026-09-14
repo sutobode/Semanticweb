@@ -84,3 +84,17 @@ def test_canonical_ontology_path_is_dereferenceable() -> None:
     assert status == 200
     assert headers["Content-Type"].startswith("text/turtle")
     assert b"VietHeritageLOD" in body
+
+
+
+def test_config_route_and_html_semantic_sections() -> None:
+    config_status, config_headers, config_body = router().handle("/api/config", {})
+    html_status, html_headers, html_body = router().handle("/vietheritage/resource/site-a", {"accept": "text/html"})
+    assert config_status == 200
+    assert config_headers["Content-Type"].startswith("application/json")
+    assert b"sparql_endpoint" in config_body
+    assert html_status == 200
+    assert html_headers["Vary"] == "Accept"
+    assert b"application/ld+json" in html_body
+    assert b"Graph semantics" in html_body
+    assert b"Asserted" in html_body

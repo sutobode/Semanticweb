@@ -9,6 +9,7 @@ The API is read-only and Fuseki-backed. RDF remains authoritative; JSON response
 | Method | Path | Purpose |
 |---|---|---|
 | GET | `/api/health` | Fuseki/service health |
+| GET | `/api/config` | Canonical URI and public read-only endpoint configuration |
 | GET | `/api/stats` | Graph entity/class/category/link counts |
 | GET | `/api/search` | Paginated RDF search |
 | GET | `/api/entities/{entity_id}` | Semantic entity detail |
@@ -31,7 +32,7 @@ Supported filters: `q`, `entity_type`, `registry_category`, `location`, `year`, 
 ## Entity and content negotiation
 
 ```powershell
-curl http://localhost:8000/api/entities/registry-b043193f37c5
+curl http://localhost:3030/api/entities/registry-b043193f37c5
 curl -H "Accept: text/turtle" http://localhost:3030/vietheritage/resource/registry-b043193f37c5
 curl -H "Accept: application/ld+json" http://localhost:3030/vietheritage/resource/registry-b043193f37c5
 ```
