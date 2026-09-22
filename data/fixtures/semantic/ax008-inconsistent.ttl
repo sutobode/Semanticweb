@@ -1,0 +1,7 @@
+@prefix vh:  <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+
+vhr:registry-fixture-intangible-ax008-invalid
+    a vh:IntangibleHeritage,
+      vh:RepresentativeIntangibleHeritage,
+      vh:UrgentSafeguardingIntangibleHeritage .

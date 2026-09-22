@@ -1,0 +1,24 @@
+{
+  "AX-004": {
+    "valid_input": "data/fixtures/semantic/axioms-valid.ttl",
+    "valid_status": "PASS",
+    "invalid_input": "data/fixtures/semantic/ax004-inconsistent.ttl",
+    "invalid_status": "FAIL",
+    "expected_error_code": "ONTOLOGY_INCONSISTENT"
+  },
+  "AX-008": {
+    "valid_input": "data/fixtures/semantic/axioms-valid.ttl",
+    "valid_status": "PASS",
+    "invalid_input": "data/fixtures/semantic/ax008-inconsistent.ttl",
+    "invalid_status": "FAIL",
+    "expected_error_code": "ONTOLOGY_INCONSISTENT"
+  },
+  "AX-009": {
+    "valid_input": "data/fixtures/semantic/axioms-valid.ttl",
+    "valid_status": "PASS",
+    "invalid_input": "data/fixtures/semantic/ax009-cardinality-violation.ttl",
+    "invalid_status": "FAIL",
+    "expected_error_code": "CARDINALITY_VIOLATION",
+    "property": "http://localhost:3030/vietheritage/ontology/constructionYear"
+  }
+}

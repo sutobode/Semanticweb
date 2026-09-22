@@ -1,0 +1,8 @@
+@prefix vh:  <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+vhr:site-ax009-invalid
+    a vh:HeritageSite ;
+    vh:constructionYear "1070"^^xsd:gYear,
+                        "1080"^^xsd:gYear .

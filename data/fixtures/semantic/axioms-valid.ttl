@@ -1,0 +1,41 @@
+@prefix vh:  <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# AX-001: subclass inference.
+vhr:site-ax001 a vh:UNESCOHeritageSite .
+
+# AX-002 and AX-003: inverse and minimum transitive partOf chain.
+vhr:site-ax002
+    a vh:HeritageSite ;
+    vh:partOf vhr:complex-ax002-inner .
+
+vhr:complex-ax002-inner
+    a vh:HeritageComplex ;
+    vh:partOf vhr:complex-ax003-outer .
+
+vhr:complex-ax003-outer a vh:HeritageComplex .
+
+# AX-005: UNESCO type is intentionally not asserted.
+vhr:site-ax005
+    a vh:HeritageSite ;
+    vh:recognizedBy vhr:organization-unesco .
+
+# AX-006: symmetric relation.
+vhr:site-ax006-a
+    a vh:HeritageSite ;
+    vh:hasRelatedSite vhr:site-ax006-b .
+
+vhr:site-ax006-b a vh:HeritageSite .
+
+# AX-007 and AX-009 valid case.
+vhr:site-ax007
+    a vh:HeritageSite ;
+    vh:builtBy vhr:person-ax007 ;
+    vh:constructionYear "1070"^^xsd:gYear .
+
+vhr:person-ax007 a vh:HistoricalPerson .
+
+# AX-008 valid case: exactly one intangible subclass.
+vhr:registry-fixture-intangible-ax008-valid
+    a vh:IntangibleHeritage, vh:RepresentativeIntangibleHeritage .

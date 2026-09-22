@@ -1,0 +1,22 @@
+@prefix vh:  <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+
+# Required inferred subset; additional valid closure triples are allowed.
+
+# AX-001
+vhr:site-ax001 a vh:HeritageSite .
+
+# AX-002
+vhr:complex-ax002-inner vh:hasPart vhr:site-ax002 .
+
+# AX-003
+vhr:site-ax002 vh:partOf vhr:complex-ax003-outer .
+
+# AX-005
+vhr:site-ax005 a vh:UNESCOHeritageSite .
+
+# AX-006
+vhr:site-ax006-b vh:hasRelatedSite vhr:site-ax006-a .
+
+# AX-007
+vhr:site-ax007 vh:associatedWithPerson vhr:person-ax007 .

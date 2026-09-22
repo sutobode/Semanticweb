@@ -1,0 +1,5 @@
+@prefix vh:  <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+
+vhr:site-ax004-invalid
+    a vh:HeritageSite, vh:HistoricalPerson .
