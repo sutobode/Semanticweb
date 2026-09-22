@@ -43,8 +43,8 @@ Không ai làm việc một mình 7 tuần liên tục — Section "Cross-review
 | FR-007 Wikidata linking | COMP-007 | M3 | TEST-034/035 | AC-012 |
 | FR-008 DBpedia candidate linking | COMP-007 | M3 | TEST-036…038 | AC-012 |
 | FR-009 Link review | COMP-007 | M3 | TEST-039/040 | AC-012 |
-| FR-010 RDF validation | COMP-006 | M1 | TEST-028…033 | AC-006 |
-| FR-011 Reasoning | COMP-008 | M1 | TEST-041…045, TEST-082…085 | AC-007 |
+| FR-010 RDF validation | COMP-006 | M1 | TEST-028…033, TEST-084/085 | AC-006/007 |
+| FR-011 Reasoning | COMP-008 | M1 | TEST-041…045, TEST-082/083; aggregate TEST-084/085 | AC-007 |
 | FR-012 Fuseki | COMP-009 | M4 | TEST-046…050 | AC-008/009 |
 | FR-013 SPARQL CQ | COMP-010 | M4 (runner) + M1 (query đúng ontology) | TEST-051…060, TEST-086 | AC-010 |
 | FR-014 Run report | reporting | M4 | contract tests | AC-015 |
@@ -73,8 +73,8 @@ Không có ô nào bị bỏ trống — nếu một requirement không xuất h
 | 2 | Viết `src/vietheritage/rdf/` — RDF Generator dùng RDFLib 7.1.3, sort triple deterministic (Section 20.1) | `data/fixtures/canonical.jsonl` (từ M2) | `data/rdf/vietheritage.ttl` | `TEST-021`…`TEST-027`, `AC-005` |
 | 2 | Sinh `dataset-metadata.ttl` với `dcat:Dataset`, license, provenance (Section 21.2) | ontology + canonical | `data/rdf/dataset-metadata.ttl` | `TEST-061`, `AC-019` |
 | 3 | Cài đủ 9 axiom `AX-001`…`AX-009` vào ontology (Section 16), bao gồm `owl:AllDisjointClasses` cho 7 nhánh chính (AX-004) và `owl:disjointUnionOf` cho 3 subclass intangible (AX-008) | ontology v0.1 | ontology v1 **frozen** | Không đổi ontology lớn sau tuần 3 |
-| 3 | Viết `src/vietheritage/validation/` — parse, namespace, required label, datatype, provenance, URI check (Section 26.1.1 gồm cả `CARDINALITY_VIOLATION` cho AX-009) | RDF + ontology | `reports/<run_id>/rdf_validation.json` | `TEST-028`…`TEST-033`, `AC-006` |
-| 5 | Viết `src/vietheritage/reasoning/` dùng Jena OWL Mini reasoner qua CLI (Section 26.1, `http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner`) | ontology + data | `data/rdf/inferred.ttl`, `reports/<run_id>/reasoning.json` | `TEST-041`…`045`, `TEST-082`…`085`, `AC-007` |
+| 3 | Viết `src/vietheritage/validation/` — parse, namespace, required label, datatype, provenance, URI check; đánh giá AX-008 disjoint-union consistency và AX-009 closed-world cardinality (Section 26.1.1) | RDF + ontology | `reports/<run_id>/rdf_validation.json` | `TEST-028`…`TEST-033`, `TEST-084`/`085`, `AC-006`/`007` |
+| 5 | Viết `src/vietheritage/reasoning/` dùng Jena OWL Mini cho AX-001…AX-007 và để `make reason` tổng hợp kết quả semantic validation của AX-008/AX-009 (Section 26.1.1) | ontology + data + validation result | `data/rdf/inferred.ttl`, `reports/<run_id>/reasoning.json` aggregate AX-001…AX-009 | `TEST-041`…`045`, `TEST-082`/`083`; aggregate `TEST-084`/`085`, `AC-007` |
 | 5 | Chạy before/after reasoning demo theo fixture Section 26.2 (UNESCO inference, symmetric `hasRelatedSite`, `builtBy`→`associatedWithPerson`) | fixture Section 26.2 | reasoning report có đủ 6 inferred triple kỳ vọng | `AC-007` |
 | 6 | Review 10 file SPARQL (`sparql/CQ01`…`CQ10`) do M4 chạy — xác nhận mọi class/property dùng trong query có tồn tại trong ontology | `sparql/*.rq` | Sign-off ghi trong PR | `TEST-051`…`060` |
 | 7 | Viết Section "Ontology Design" của report (2–3 trang, Section 53.2 mục 3), review consistency cuối cùng | ontology final | phần report | — |

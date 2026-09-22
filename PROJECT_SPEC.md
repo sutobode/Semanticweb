@@ -12,9 +12,9 @@
 |---|---|
 | Project Name | VietHeritageLOD |
 | Tên đầy đủ | Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam |
-| Specification Version | 1.6.1 |
+| Specification Version | 1.6.2 |
 | Status | Implementation baseline — FINAL |
-| Ngày phát hành specification | 2026-09-12 |
+| Ngày phát hành specification | 2026-09-22 |
 | Deadline presentation | 2026-10-10 |
 | Thời lượng | 7 tuần |
 | Team size | 4 thành viên |
@@ -621,9 +621,9 @@ Wikipedia category discovery MAY được dùng để tìm enrichment candidate,
 |---|---|
 | Input | Ontology + generated RDF + fixtures |
 | Output | `reports/<run_id>/rdf_validation.json` |
-| Checks | Parse, namespace, required label, datatype, provenance, URI, no invalid literal subject |
+| Checks | Parse, namespace, required label, datatype, provenance, URI, no invalid literal subject; AX-008 disjoint-union consistency; AX-009 closed-world cardinality |
 | Failure | Blocking error làm `make validate` exit 1 |
-| Test | `TEST-028` đến `TEST-033` |
+| Test | `TEST-028` đến `TEST-033`, `TEST-084`, `TEST-085` |
 
 ## COMP-007 — External Linker
 
@@ -643,10 +643,10 @@ Wikipedia category discovery MAY được dùng để tìm enrichment candidate,
 |---|---|
 | Input | Ontology + final data + reasoning fixture |
 | Output | `data/rdf/inferred.ttl`, `reports/<run_id>/reasoning.json` |
-| Engine | Apache Jena OWL Mini reasoner (`http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner`) trong CLI; HermiT chỉ dùng SHOULD cho review Protégé |
-| Checks | subclass, inverse, transitive, disjointness, UNESCO classification fixture |
-| Failure | Missing expected inference hoặc inconsistency làm stage FAIL |
-| Test | `TEST-041` đến `TEST-045`, `TEST-082`–`TEST-085` |
+| Engine | Apache Jena OWL Mini reasoner (`http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner`) cho AX-001…AX-007; CLI orchestration nhận kết quả semantic validation cho AX-008/AX-009; HermiT chỉ dùng SHOULD cho review Protégé |
+| Checks | Aggregate AX-001…AX-009: OWL inference/consistency cho AX-001…AX-007 và validation result cho AX-008/AX-009 |
+| Failure | Missing expected inference, inconsistency hoặc AX-008/AX-009 validation failure làm aggregate stage FAIL |
+| Test | `TEST-041` đến `TEST-045`, `TEST-082`, `TEST-083`; aggregate thêm `TEST-084`, `TEST-085` |
 
 ## COMP-009 — Fuseki Loader
 
@@ -966,6 +966,7 @@ Canonical record có envelope chung:
   "source_status": "registry+wikipedia",
   "coverage_snapshot": "2026-09-12T03:00:00Z",
   "source_page_id": 100001,
+  "source_title": "Văn Miếu – Quốc Tử Giám",
   "source_url": "https://vi.wikipedia.org/wiki/...",
   "retrieved_at": "2026-09-12T03:00:00Z",
   "aliases_vi": [],
@@ -989,7 +990,8 @@ Canonical record có envelope chung:
 | `entity_id` | string | Yes | No | Stable internal ID |
 | `entity_type` | enum | Yes | No | One of 14 canonical entity types |
 | `label_vi` | string | Yes | No | Nhãn chuẩn tiếng Việt |
-| `source_page_id` | integer | Yes cho source entity | Yes cho derived entity | Page nguồn |
+| `source_page_id` | integer | Conditional: successful Wikipedia enrichment | Yes only when not required | MediaWiki page ID |
+| `source_title` | string | Conditional: successful Wikipedia enrichment | Yes only when not required | MediaWiki page title |
 | `source_url` | URI | Yes | No | Nguồn chính |
 | `retrieved_at` | RFC3339 | Yes | No | Retrieval time |
 | `aliases_vi` | array string | No | No | Tên thay thế |
@@ -1010,11 +1012,13 @@ Museum, IntangibleHeritage, NationalTreasure, DocumentaryHeritage,
 Artisan, CulturalObject
 ```
 
-`source_status=registry_only` là trạng thái hợp lệ và MUST NOT bị lọc bỏ chỉ vì thiếu Wikipedia enrichment.
+`source_status=registry_only` là trạng thái hợp lệ và MUST NOT bị lọc bỏ chỉ vì thiếu Wikipedia enrichment. `source_page_id` và `source_title` chỉ MUST có khi entity đã enrichment Wikipedia thành công (`source_status=registry+wikipedia` hoặc `source_status=registry+enriched`); chúng MAY vắng mặt hoặc `null` với `registry_only`.
 
 ### `HeritageSite`
 
-Required: `entity_id`, `entity_type`, `label_vi`, `source_page_id`, `source_url`, `retrieved_at`, `provenance`.
+Required: `entity_id`, `entity_type`, `label_vi`, `source_url`, `retrieved_at`, `provenance`.
+
+Conditional: `source_page_id`, `source_title` khi Wikipedia enrichment thành công. Hai field này không bắt buộc với `source_status=registry_only`.
 
 Optional: `aliases_vi`, `description_vi`, `construction_year`, `recognition_year`, `address`, `coordinates`, `site_types`, `located_in`, `associated_persons`, `associated_events`, `periods`, `built_by`, `recognized_by`, `architectural_styles`, `part_of`.
 
@@ -1109,6 +1113,7 @@ Optional: `description_vi`, `object_type`, `custodian`, `location`, `external_id
   "source_status": "registry+wikipedia",
   "coverage_snapshot": "2026-09-12T03:00:00Z",
   "source_page_id": 100001,
+  "source_title": "Văn Miếu – Quốc Tử Giám",
   "source_url": "https://vi.wikipedia.org/wiki/V%C4%83n_Mi%E1%BA%BFu_%E2%80%93_Qu%E1%BB%91c_T%E1%BB%AD_Gi%C3%A1m",
   "retrieved_at": "2026-09-12T03:00:00Z",
   "aliases_vi": ["Văn Miếu Quốc Tử Giám"],
@@ -1330,9 +1335,9 @@ Theo quy chuẩn W3C OWL 2 và methodology ontology engineering (course referenc
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.6.1" ;
+    owl:versionInfo "1.6.2" ;
     dcterms:created "2026-09-12"^^xsd:date ;
-    dcterms:modified "2026-09-13"^^xsd:date .
+    dcterms:modified "2026-09-22"^^xsd:date .
 ```
 
 `owl:versionInfo` MUST khớp `Specification Version` ở Section 0 tại mỗi lần freeze ontology. Thiếu ontology header là lỗi blocking của `TEST-033` (namespace inventory).
@@ -1648,7 +1653,6 @@ flowchart LR
     SITE -->|associatedWithPerson| PERSON
     SITE -->|associatedWithEvent| EVENT
     SITE -->|belongsToPeriod| PERIOD
-    SITE -->|builtBy| ORG
     SITE -->|builtBy| PERSON
     SITE -->|recognizedBy| ORG
     SITE -->|hasArchitecturalStyle| STYLE
@@ -1669,7 +1673,7 @@ flowchart LR
     class MUSEUM,INTANGIBLE,TREASURE,DOCHERITAGE,ARTISAN,OBJECT newclass
 ```
 
-Ghi chú đọc hình: 12 mũi tên nét liền là 12 object property project-owned áp dụng trực tiếp cho `HeritageSite`/`HeritageComplex`/`HistoricalEvent` (domain hẹp). 6 class mới (`Museum`, `IntangibleHeritage`, `NationalTreasure`, `DocumentaryHeritage`, `Artisan`, `CulturalObject`) không có object property riêng — chúng kế thừa `vh:locatedIn`/`vh:recognizedBy` qua domain rộng `vh:CulturalHeritageEntity` (nét đứt) và dùng field JSON riêng như `associated_intangible_heritage`, `custodian`, `current_holder` (Section 12.2) chứ không tạo thêm object property mới ngoài 12 đã freeze.
+Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain khai trong bảng Section 15.2. Các class `Museum`, `IntangibleHeritage`, `NationalTreasure`, `DocumentaryHeritage` và `CulturalObject` có thể dùng `vh:locatedIn` nhờ domain rộng `vh:CulturalHeritageEntity`; `vh:Artisan` là `owl:Thing` và liên kết qua field `associated_intangible_heritage`. `vh:recognizedBy` giữ domain hẹp `vh:HeritageSite` và MUST NOT dùng cho các nhánh không phải `HeritageSite`. Các field JSON riêng như `custodian` hoặc `current_holder` không tạo thêm object property ngoài 12 property đã freeze.
 
 ## 15.2 Object properties — 12 property project-owned
 
@@ -1681,7 +1685,7 @@ Ghi chú đọc hình: 12 mũi tên nét liền là 12 object property project-o
 | `vh:associatedWithPerson` | `vh:HeritageSite` | `vh:HistoricalPerson` | none | none |
 | `vh:associatedWithEvent` | `vh:HeritageSite` | `vh:HistoricalEvent` | none | none |
 | `vh:belongsToPeriod` | `vh:HeritageSite` | `vh:HistoricalPeriod` | none | none |
-| `vh:builtBy` | `vh:HeritageSite` | `vh:HistoricalPerson` or `vh:Organization` | none | `rdfs:subPropertyOf vh:associatedWithPerson` |
+| `vh:builtBy` | `vh:HeritageSite` | `vh:HistoricalPerson` | none | `rdfs:subPropertyOf vh:associatedWithPerson` |
 | `vh:recognizedBy` | `vh:HeritageSite` | `vh:Organization` | none | none |
 | `vh:hasArchitecturalStyle` | `vh:HeritageSite` | `vh:ArchitecturalStyle` | none | none |
 | `vh:hasMember` | `vh:HeritageComplex` | `vh:CulturalHeritageEntity` | none | `rdfs:subPropertyOf vh:hasPart` |
@@ -1728,18 +1732,13 @@ vh:hasMember rdfs:subPropertyOf vh:hasPart .
 - `vh:hasPart` là quan hệ cấu thành tổng quát, là inverse của `vh:partOf` và hưởng lợi từ tính transitive của `vh:partOf`.
 - `vh:hasMember` là danh sách thành viên được registry liệt kê tường minh (`member_sites` ở Section 12.2). Mọi member đều là part, nhưng không phải part nào cũng được registry liệt kê thành member.
 
-`vh:builtBy` dùng range là union của `vh:HistoricalPerson` và `vh:Organization`:
+`vh:builtBy` chỉ dùng cho một `vh:HistoricalPerson`:
 
 ```turtle
-vh:builtBy rdfs:range [
-    a owl:Class ;
-    owl:unionOf (vh:HistoricalPerson vh:Organization)
-] .
+vh:builtBy rdfs:range vh:HistoricalPerson .
 ```
 
-Generator MUST tạo object đúng type khi dữ liệu có type; không tạo type nếu source không đủ bằng chứng.
-
-Ràng buộc bắt buộc kèm theo AX-007: mặc dù range khai union, RDF generator MUST chỉ sinh triple `vh:builtBy` khi object là `vh:HistoricalPerson`. Nếu người/tổ chức xây dựng là `vh:Organization`, generator MUST dùng `vh:recognizedBy` hoặc bỏ qua triple. Lý do và cơ chế chặn được trình bày đầy đủ ở AX-007 (Section 16); nếu bỏ ràng buộc này, RDFS sẽ suy ra `vh:Organization` là `vh:HistoricalPerson`.
+Generator MUST chỉ sinh triple `vh:builtBy` khi target đã được xác định là `vh:HistoricalPerson`; target `vh:Organization` MUST bị bỏ qua. `vh:recognizedBy` chỉ được sinh từ quan hệ công nhận độc lập, không được dùng để thay nghĩa "tổ chức xây dựng". Ràng buộc này bảo toàn AX-007 và ngăn RDFS suy sai `vh:Organization` thành `vh:HistoricalPerson`.
 
 ## 15.3 Datatype properties — 10 property project-owned
 
@@ -1758,7 +1757,7 @@ Ràng buộc bắt buộc kèm theo AX-007: mặc dù range khai union, RDF gene
 
 ### 15.3.1 Vocabulary reuse (tránh trùng ngữ nghĩa với property có sẵn)
 
-Theo nguyên tắc ontology engineering "không tạo property mới nếu vocabulary phổ biến đã có nghĩa tương đương" (course reference Section 10.8), `vh:sourcePageId` và `vh:sourceTitle` là project-specific shorthand cho identity/tiêu đề của trang nguồn — về ngữ nghĩa chúng là sub-property của `dcterms:source`/`dcterms:title`. Ontology MUST khai báo tường minh quan hệ này để một reasoner hoặc SPARQL client chỉ biết `dcterms` vẫn suy ra được fact tương ứng:
+Theo nguyên tắc ontology engineering "không tạo property mới nếu vocabulary phổ biến đã có nghĩa tương đương" (course reference Section 10.8), `vh:sourcePageId` và `vh:sourceTitle` là project-specific shorthand cho định danh/tiêu đề của trang Wikipedia nguồn — về ngữ nghĩa chúng là sub-property của `dcterms:identifier`/`dcterms:title`. Ontology MUST khai báo tường minh quan hệ này để một reasoner hoặc SPARQL client chỉ biết `dcterms` vẫn suy ra được fact tương ứng. Provenance của source URI dùng riêng `dcterms:source` và `prov:wasDerivedFrom` theo Section 21.1:
 
 ```turtle
 vh:sourcePageId rdfs:subPropertyOf dcterms:identifier .
@@ -1930,7 +1929,7 @@ Expected inference: `vhr:site-b vh:hasRelatedSite vhr:site-a`.
 
 ## AX-007 — Property hierarchy (`rdfs:subPropertyOf`)
 
-`vh:builtBy` là property tổng quát; khi object của `vh:builtBy` là một `vh:HistoricalPerson`, quan hệ đó cũng là một trường hợp cụ thể của `vh:associatedWithPerson`. Ontology khai báo:
+`vh:builtBy` có target bắt buộc là `vh:HistoricalPerson`; mọi quan hệ này đồng thời là một trường hợp cụ thể của `vh:associatedWithPerson`. Ontology khai báo:
 
 ```turtle
 vh:builtBy rdfs:subPropertyOf vh:associatedWithPerson .
@@ -1942,18 +1941,13 @@ Expected inference: `vhr:site-a vh:associatedWithPerson vhr:person-kien-truc-su`
 
 Đây là minh họa trực tiếp RDFS property hierarchy (Section 4.2 course reference): mọi fact dùng sub-property tự động suy ra fact dùng super-property, không cần thêm object property mới ngoài 12 property đã freeze ở Section 15.2.
 
-**Cảnh báo semantics quan trọng.** `vh:builtBy` có range là union `vh:HistoricalPerson ∨ vh:Organization`, còn `vh:associatedWithPerson` có range hẹp `vh:HistoricalPerson`. Theo RDFS, `rdfs:subPropertyOf` áp dụng **vô điều kiện**: nếu `site vh:builtBy org-x` thì reasoner suy ra `site vh:associatedWithPerson org-x`, rồi range inference suy tiếp `org-x a vh:HistoricalPerson` — **sai**, và vì `vh:Organization` không disjoint với `vh:HistoricalPerson` nên reasoner KHÔNG báo mâu thuẫn. Không được cho rằng "inference chỉ áp dụng khi object là person"; RDFS không có điều kiện kiểu đó.
-
-Vì vậy ontology MUST áp dụng đúng một trong hai cơ chế chặn sau, và baseline chọn cơ chế (A):
-
-- **(A) Baseline — tách vai trò ở tầng generator (MUST):** RDF generator MUST NOT sinh `vh:builtBy` khi object là `vh:Organization`; trường hợp tổ chức xây dựng/công nhận MUST dùng `vh:recognizedBy`, hoặc giữ quan hệ ở canonical field `built_by` mà không sinh triple `vh:builtBy`. Nhờ đó `vh:builtBy` trên thực tế chỉ có object là `vh:HistoricalPerson` và AX-007 an toàn. Range union ở Section 15.2 được giữ để mô tả khả năng của property, nhưng generator thu hẹp lại khi sinh dữ liệu.
-- **(B) Phương án thay thế (MAY, cần cập nhật spec):** bỏ `rdfs:range vh:HistoricalPerson` khỏi `vh:associatedWithPerson`. Không chọn vì làm mất semantics hữu ích của property đó.
+**Cảnh báo semantics quan trọng.** `rdfs:subPropertyOf` áp dụng vô điều kiện. Vì vậy RDF generator và validator MUST từ chối `vh:builtBy` có target `vh:Organization`; không được giả định inference chỉ áp dụng có điều kiện theo type. Quan hệ công nhận bởi một organization dùng `vh:recognizedBy` chỉ khi source thực sự mô tả hành vi công nhận.
 
 Input fixture: `vhr:site-a vh:builtBy vhr:person-kien-truc-su` với `vhr:person-kien-truc-su a vh:HistoricalPerson`.
 
 Expected inference: `vhr:site-a vh:associatedWithPerson vhr:person-kien-truc-su`.
 
-Test bắt buộc bổ sung: fixture `vhr:site-b vh:builtBy vhr:organization-x` MUST bị RDF generator từ chối sinh triple `vh:builtBy` (chuyển sang `vh:recognizedBy`), và validator MUST khẳng định không tồn tại resource nào vừa `a vh:Organization` vừa `a vh:HistoricalPerson` trong graph đã reasoning — xem `TEST-087`.
+Test bắt buộc bổ sung: fixture `vhr:site-b vh:builtBy vhr:organization-x` MUST bị RDF generator từ chối sinh triple `vh:builtBy`; generator MUST NOT tự chuyển assertion này thành `vh:recognizedBy`. Validator MUST khẳng định không tồn tại resource nào vừa `a vh:Organization` vừa `a vh:HistoricalPerson` trong graph đã reasoning — xem `TEST-087`.
 
 ## AX-008 — Disjoint union cho danh mục di sản phi vật thể
 
@@ -1969,7 +1963,7 @@ vh:IntangibleHeritage owl:disjointUnionOf (
 
 Input fixture: `vhr:heritage-a a vh:RepresentativeIntangibleHeritage, vh:UrgentSafeguardingIntangibleHeritage`.
 
-Expected: reasoner MUST report `ONTOLOGY_INCONSISTENT` vì hai subclass bị disjoint theo `owl:disjointUnionOf`. Nếu OWL Mini reasoner (Section 26.1) không hỗ trợ trực tiếp `owl:disjointUnionOf`, validator MUST expand nó thành ba cặp `owl:disjointWith` tương đương trước khi nạp ontology, và ghi rõ trong `reports/<run_id>/reasoning.json` rằng expansion đã được áp dụng.
+Expected: semantic validator MUST report `ONTOLOGY_INCONSISTENT` vì hai subclass bị disjoint theo `owl:disjointUnionOf`. Validator MAY expand axiom thành ba cặp `owl:disjointWith` tương đương như một cơ chế nội bộ và MUST ghi kết quả AX-008 vào validation report; `make reason` đưa kết quả đó vào aggregate AX-001…AX-009 report. Jena OWL Mini không chịu trách nhiệm đánh giá AX-008.
 
 ## AX-009 — Functional datatype properties (`0..1` phải là axiom, không chỉ là bảng)
 
@@ -1990,7 +1984,7 @@ vh:areaLevel        a owl:FunctionalProperty .
 
 Input fixture: `vhr:site-a vh:constructionYear "1070"^^xsd:gYear, "1080"^^xsd:gYear`.
 
-Expected: reasoner hoặc validator MUST báo lỗi. Lưu ý theo OWA/NUNA (Section 1.4), reasoner OWL sẽ suy ra hai literal này `owl:sameAs` nhau rồi phát hiện mâu thuẫn datatype thay vì báo "vi phạm cardinality" như một database; vì vậy `make validate` MUST kiểm tra bổ sung ở tầng validation với mã lỗi `CARDINALITY_VIOLATION` để thông báo rõ ràng cho người dùng.
+Expected: semantic validator MUST báo `CARDINALITY_VIOLATION`. Do OWA/NUNA (Section 1.4), Jena OWL Mini không được dùng làm cơ chế closed-world cardinality và không chịu trách nhiệm đánh giá AX-009; `make reason` chỉ tổng hợp kết quả AX-009 từ semantic validation.
 
 ---
 
@@ -2094,8 +2088,10 @@ File `config/mapping.yaml` là nguồn mapping authoritative.
 | `periods` | period ID exists | `vh:belongsToPeriod` | URI | omit relation |
 | `part_of` | complex ID exists | `vh:partOf` | URI | omit relation |
 | `member_sites` | member site IDs exist | `vh:hasMember` | one URI triple per member | omit relation |
-| `recognized_by` | organization ID exists | `vh:recognizedBy` | URI | omit relation |
-| `built_by` | person or organization ID exists | `vh:builtBy` | URI | omit relation |
+| `recognized_by` | subject là `HeritageSite`, organization ID exists | `vh:recognizedBy` | URI | omit relation |
+| `built_by` | HistoricalPerson ID exists | `vh:builtBy` | URI | omit relation; Organization target MUST NOT emit |
+| `source_page_id` | successful Wikipedia enrichment | `vh:sourcePageId` | `xsd:integer` | omit for `registry_only` |
+| `source_title` | successful Wikipedia enrichment | `vh:sourceTitle` | `xsd:string` | omit for `registry_only` |
 | `architectural_styles` | style ID exists | `vh:hasArchitecturalStyle` | URI | omit relation |
 | `source_url` | valid URI | `dcterms:source`, `prov:wasDerivedFrom` | URI | record invalid |
 | `wikidata_id` | QID valid | `owl:sameAs` | Wikidata URI | omit |
@@ -2132,7 +2128,8 @@ Ba category `artisans`, `national_artisans`, `meritorious_artisans` đều map v
 - Input là canonical JSONL đã validate.
 - Output là Turtle UTF-8.
 - Mọi entity MUST có `rdf:type` và ít nhất một `rdfs:label` `@vi`.
-- Mọi site MUST có `dcterms:source`, `prov:wasDerivedFrom`, `vh:sourcePageId`, `vh:sourceTitle`.
+- Mọi source-derived entity, kể cả `registry_only`, MUST có official-registry `dcterms:source` và `prov:wasDerivedFrom`.
+- `vh:sourcePageId` và `vh:sourceTitle` chỉ MUST có cho entity đã enrichment Wikipedia thành công; `registry_only` hợp lệ khi không có hai triple này.
 - Literal numeric/date MUST có XSD datatype.
 - Không sinh triple có object `null`.
 - Không sinh duplicate triple.
@@ -2236,12 +2233,14 @@ entity dcterms:modified retrievalDate .
 entity prov:wasGeneratedBy runActivity .
 ```
 
+Với entity có nguồn registry, `sourceURI` MUST bao gồm official registry URI ngay cả khi Wikipedia enrichment không tồn tại. Nếu enrichment Wikipedia thành công, entity MAY có thêm provenance tới Wikipedia và MUST có `vh:sourcePageId`/`vh:sourceTitle`; hai property này không thay thế `dcterms:source` hoặc `prov:wasDerivedFrom`.
+
 ## 21.2 Dataset-level
 
-Dataset URI `vh:dataset-vietheritage` MUST có:
+Canonical dataset URI duy nhất là `{BASE}/dataset/vietheritage`. Với development base URI, resource này MUST là `<http://localhost:3030/vietheritage/dataset/vietheritage>`:
 
 ```turtle
-vhr:dataset-vietheritage
+<http://localhost:3030/vietheritage/dataset/vietheritage>
     a dcat:Dataset ;
     dcterms:title "VietHeritageLOD"@en ;
     dcterms:description "Knowledge Graph về di sản văn hóa Việt Nam"@vi ;
@@ -2252,6 +2251,8 @@ vhr:dataset-vietheritage
     dcat:accessURL <http://localhost:3031/vietheritage/sparql> ;
     dcat:downloadURL <http://localhost:3031/vietheritage/data> .
 ```
+
+Hai dạng project-owned cũ `vh:dataset-vietheritage` và `vhr:dataset-vietheritage` là obsolete examples và MUST NOT được sinh hoặc dùng làm dataset identity.
 
 License mặc định của artifact do project tạo là CC BY-SA 4.0; source license của Wikipedia MUST được ghi trong docs và metadata.
 
@@ -2639,8 +2640,10 @@ Bảng dưới đây là contract bắt buộc: mỗi axiom được kiểm bằ
 | AX-005 | `owl:equivalentClass` + `owl:hasValue` | Jena OWL Mini | `make reason` / `TEST-045` |
 | AX-006 | `owl:SymmetricProperty` | Jena OWL Mini (thuộc RDFS/OWL rule set của Mini) | `make reason` / `TEST-082` |
 | AX-007 | `rdfs:subPropertyOf` | Jena OWL Mini (RDFS closure) | `make reason` / `TEST-083` |
-| AX-008 | `owl:disjointUnionOf` | Validator expand thành `owl:disjointWith` trước khi nạp, sau đó OWL Mini kiểm consistency | `make validate` → `make reason` / `TEST-084` |
-| AX-009 | `owl:FunctionalProperty` | Validator (`CARDINALITY_VIOLATION`); reasoner KHÔNG báo lỗi kiểu database do OWA | `make validate` / `TEST-085` |
+| AX-008 | `owl:disjointUnionOf` | Semantic validator kiểm disjoint-union consistency, có thể expand thành các cặp `owl:disjointWith` nội bộ | `make validate`; aggregate bởi `make reason` / `TEST-084` |
+| AX-009 | `owl:FunctionalProperty` | Semantic validator kiểm closed-world cardinality (`CARDINALITY_VIOLATION`) | `make validate`; aggregate bởi `make reason` / `TEST-085` |
+
+`make reason` MUST orchestrate hoặc tiêu thụ kết quả của cả hai cơ chế: chạy Jena OWL Mini cho AX-001…AX-007 và semantic validation cho AX-008/AX-009, sau đó ghi một aggregate result AX-001…AX-009 vào `reports/<run_id>/reasoning.json`. Bất kỳ axiom nào FAIL đều làm `make reason` exit khác `0`, đúng AC-007. Jena OWL Mini MUST NOT bị yêu cầu thực thi closed-world cardinality của AX-009.
 
 Nếu khi triển khai phát hiện Jena OWL Mini `4.10.0` không sinh được inference cho AX-006 hoặc AX-007, stage MUST NOT hạ yêu cầu: chuyển axiom đó sang cột validator giống AX-008/AX-009, ghi lý do vào `reports/<run_id>/reasoning.json` và cập nhật bảng này cùng Decision Register trong cùng một commit.
 
@@ -3269,7 +3272,7 @@ make verify
 | TEST-022 | FR-006 | Vietnamese label | RDF generate | `@vi` | Yes |
 | TEST-023 | FR-006 | year | RDF generate | `xsd:gYear` | Yes |
 | TEST-024 | FR-006 | coordinates | RDF generate | geo decimal | Yes |
-| TEST-025 | FR-006 | provenance | RDF generate | source/prov triples | Yes |
+| TEST-025 | FR-006 | enriched + `registry_only` provenance fixtures | RDF generate | official source/prov cho cả hai; page ID/title chỉ bắt buộc cho enriched entity | Yes |
 | TEST-026 | NFR-002 | run twice | RDF generate | stable sorted output | Yes |
 | TEST-027 | FR-006 | null field | RDF generate | no null triple | Yes |
 | TEST-028 | FR-010 | valid Turtle | validate | PASS | Yes |
@@ -3292,7 +3295,7 @@ make verify
 | TEST-045 | AX-005 | UNESCO fixture | reason | UNESCO class | Yes |
 | TEST-082 | AX-006 | symmetric relation fixture | reason | inferred inverse-direction triple | Yes |
 | TEST-083 | AX-007 | builtBy person fixture | reason | inferred `vh:associatedWithPerson` triple | Yes |
-| TEST-084 | AX-008 | dual-category intangible fixture | validate + reason | `ONTOLOGY_INCONSISTENT` reported | Yes |
+| TEST-084 | AX-008 | dual-category intangible fixture | validate; aggregate result qua reason | `ONTOLOGY_INCONSISTENT` reported | Yes |
 | TEST-085 | AX-009 | duplicate constructionYear fixture | validate | `CARDINALITY_VIOLATION` reported | Yes |
 | TEST-086 | CQ-01 | nested area fixture (`site → ward → district → Hà Nội`) | cq-test | CQ01 trả về site thuộc đơn vị hành chính con | Yes |
 | TEST-087 | AX-007 | `builtBy` trỏ tới `vh:Organization` | generate-rdf + validate | không sinh `vh:builtBy`; không resource nào vừa `Organization` vừa `HistoricalPerson` | Yes |
@@ -3314,7 +3317,7 @@ make verify
 | TEST-058 | FR-013 | CQ08 golden fixture | cq-test | CQ08 property path đúng | Yes |
 | TEST-059 | FR-013 | CQ09 golden fixture | cq-test | CQ09 chỉ trả verified link | Yes |
 | TEST-060 | FR-013 | CQ10 offline snapshot | cq-test | CQ10 trả label `@en` từ snapshot local | Yes |
-| TEST-061 | Section 29 | `dataset-metadata.ttl` + README | verify | Star 1 license/endpoint PASS | Yes |
+| TEST-061 | Section 21/29 | `dataset-metadata.ttl` + README | verify | canonical dataset URI, license và endpoint PASS | Yes |
 | TEST-062 | Section 29 | canonical JSONL + RDF | verify | Star 2 structured data PASS | Yes |
 | TEST-063 | Section 29 | `.ttl`/`.jsonl` artifacts | verify | Star 3 open format PASS | Yes |
 | TEST-064 | Section 29 | ontology + endpoint | verify | Star 4 URI/RDF/SPARQL PASS | Yes |
@@ -3340,7 +3343,7 @@ Mỗi AC là binary PASS/FAIL.
 | AC-004 | Duplicate/collision fixtures | `make resolve` | duplicate merge; collision exits 1 |
 | AC-005 | Canonical fixture | `make generate-rdf` | Turtle parse bằng RDFLib PASS |
 | AC-006 | Generated RDF | `make validate` | RDF validation PASS, all site label `@vi` |
-| AC-007 | Ontology + reasoning fixture | `make reason` | AX-001…AX-009 expected results PASS |
+| AC-007 | Ontology + reasoning fixture | `make reason` | Aggregate AX-001…AX-009 PASS: Jena OWL Mini đánh giá AX-001…AX-007; semantic validation đánh giá AX-008/AX-009 |
 | AC-008 | Docker available | `make fuseki-up` | Fuseki health HTTP 200 |
 | AC-009 | Final artifact | `make fuseki-load` | dataset `vietheritage` chứa expected graph |
 | AC-010 | Loaded dataset | `make cq-test` | CQ01–CQ10 = 10/10 PASS |
@@ -3375,8 +3378,8 @@ Mỗi AC là binary PASS/FAIL.
 | FR-007 Wikidata | `src/vietheritage/linking/wikidata.py` | TEST-034/035 | AC-012 |
 | FR-008 DBpedia | `silk/linkage-rules.xml`, linker | TEST-036…038 | AC-012 |
 | FR-009 Review | `data/linking/link_review.csv` | TEST-039/040 | AC-012 |
-| FR-010 Validation | `src/vietheritage/validation/` | TEST-028…033 | AC-006 |
-| FR-011 Reasoning | `src/vietheritage/reasoning/` | TEST-041…045, TEST-082…085 | AC-007 |
+| FR-010 Validation | `src/vietheritage/validation/` | TEST-028…033, TEST-084/085 | AC-006/007 |
+| FR-011 Reasoning | `src/vietheritage/reasoning/` | TEST-041…045, TEST-082/083; aggregate TEST-084/085 | AC-007 |
 | FR-012 Fuseki | `docker-compose.yml`, `deployment/fuseki/` | TEST-046…050 | AC-008/009 |
 | FR-013 CQ | `sparql/`, CQ runner | TEST-051…060, TEST-086 | AC-010 |
 | FR-014 Report | `schema/run-report.schema.json` | contract tests | AC-015 |
@@ -4031,7 +4034,7 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | ID | Vấn đề | Quyết định cuối cùng | Lý do |
 |---|---|---|---|
 | DEC-001 | RDF serialization | Turtle là format chính duy nhất | Dễ review, phù hợp RDFLib/Fuseki và diff deterministic |
-| DEC-002 | Coverage baseline and enrichment | Official Cục Di sản văn hóa registry defines membership; Vietnamese MediaWiki API enriches registry entities | Wikipedia alone cannot prove full-domain coverage; registry-only entities must remain valid |
+| DEC-002 | Coverage baseline and enrichment | Official Cục Di sản văn hóa registry defines membership; Vietnamese MediaWiki API enriches registry entities; `sourcePageId`/`sourceTitle` chỉ bắt buộc khi Wikipedia enrichment thành công | Wikipedia alone cannot prove full-domain coverage; registry-only entities must remain valid và vẫn giữ official-registry provenance |
 | DEC-003 | Triple store | Apache Jena Fuseki Main 4.10.0 + TDB2, image build cục bộ từ `jena-fuseki-server` jar | Tag third-party không đảm bảo tồn tại; build cục bộ pin đúng version |
 | DEC-004 | Resource publication | Fuseki SPARQL endpoint + adapter `resource_query.py` | Fuseki Main không dereference URI; không thêm Pubby dependency |
 | DEC-005 | Development base URI | `http://localhost:3030/vietheritage` | Reproduce local không phụ thuộc host chưa biết |
@@ -4063,19 +4066,21 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-031 | OWA/NUNA/AAA/T-Box-A-Box | Ghi nhận tường minh tại Section 1.4, gắn với coverage claim, identity contract và provenance thực tế | Course yêu cầu áp dụng nguyên lý Semantic Web vào domain cụ thể, không chỉ định nghĩa lý thuyết |
 | DEC-032 | Ontology metadata header | `ontology/vietheritage.ttl` MUST có `owl:Ontology` declaration với `dcterms:title`, `owl:versionInfo`, license | Mọi ontology chuẩn quốc tế (DBpedia, FOAF, Schema.org) tự mô tả namespace; thiếu header là dấu hiệu ontology chưa hoàn thiện |
 | DEC-033 | Disjoint union cho intangible heritage | `vh:IntangibleHeritage owl:disjointUnionOf` ba subclass đại diện/khẩn cấp/quốc gia (AX-008) | Một di sản phi vật thể chỉ thuộc một danh mục tại một thời điểm; `disjointUnionOf` khẳng định cả completeness và exclusiveness đúng OWL 2 |
-| DEC-034 | Vocabulary reuse và multilingual labeling | `vh:sourcePageId`/`vh:sourceTitle` là `rdfs:subPropertyOf` của `dcterms:identifier`/`dcterms:title`; mọi class/property MUST có `rdfs:label` cả `@vi` và `@en` | Tránh trùng ngữ nghĩa với vocabulary phổ biến và đảm bảo T-Box dùng được cho người dùng không nói tiếng Việt, đúng methodology ontology engineering |
+| DEC-034 | Vocabulary reuse và multilingual labeling | `vh:sourcePageId`/`vh:sourceTitle` là `rdfs:subPropertyOf` của `dcterms:identifier`/`dcterms:title`; provenance dùng `dcterms:source`/`prov:wasDerivedFrom`; mọi class/property MUST có `rdfs:label` cả `@vi` và `@en` | Phân biệt định danh/tiêu đề trang với provenance URI, tránh trùng ngữ nghĩa và đảm bảo T-Box đa ngôn ngữ |
 | DEC-035 | Domain của `vh:locatedIn` | Mở rộng thành union `vh:CulturalHeritageEntity` hoặc `vh:AdministrativeArea`; map thêm `parent_area` → `vh:locatedIn` | CQ01 dùng `vh:locatedIn+` để tìm site trong đơn vị hành chính con; domain cũ khiến area-to-area triple suy ra sai type và CQ01 không trả đủ kết quả |
 | DEC-036 | Phân biệt `hasPart` và `hasMember` | `vh:hasMember rdfs:subPropertyOf vh:hasPart` | Hai property có cùng domain/range; nếu không khai quan hệ thì trở thành hai tên gọi trùng nghĩa, vi phạm nguyên tắc naming rõ ràng |
 | DEC-037 | Person class reuse và disjointness | `vh:HistoricalPerson`/`vh:Artisan` cùng `rdfs:subClassOf foaf:Person`; `vh:Artisan` được thêm vào AX-004 | FOAF đã khai prefix nhưng gần như không dùng; `vh:Artisan` trước đây không nằm trong bất kỳ disjointness axiom nên lỗi type không bị phát hiện |
 | DEC-038 | Cardinality là axiom, không chỉ là bảng | 8 datatype property `0..1` MUST khai `owl:FunctionalProperty` (AX-009); validation bổ sung mã `CARDINALITY_VIOLATION` | Cardinality chỉ ghi trong bảng không tồn tại trong ontology; do OWA reasoner không báo lỗi kiểu database nên cần validation layer để thông báo rõ ràng |
 | DEC-039 | Java runtime | Eclipse Temurin `21-jre`, khớp `deployment/fuseki/Dockerfile`; Silk chỉ là policy source nên không ràng buộc runtime | Section 8 trước đây ghi `17.0.12` MUST trong khi Dockerfile dùng `21-jre` — hai MUST mâu thuẫn khiến build không xác định |
-| DEC-040 | Engine cho từng axiom | Bảng Section 26.1.1 chỉ định rõ AX-001…AX-007 do OWL Mini, AX-008/AX-009 do validator | TEST-082…085 trước đây không rõ chạy bằng reasoner hay validator; coding agent sẽ phải đoán |
-| DEC-041 | Chặn inference `builtBy` → `Organization` | Generator MUST chỉ sinh `vh:builtBy` khi object là `vh:HistoricalPerson` (`config/mapping.yaml`: `object_must_be`) | `rdfs:subPropertyOf` áp dụng vô điều kiện nên Organization sẽ bị suy ra là HistoricalPerson; ghi chú cũ mô tả sai semantics RDFS |
+| DEC-040 | Engine cho từng axiom | AX-001…AX-007 do OWL Mini; AX-008/AX-009 do semantic validator; `make reason` tổng hợp cả hai thành aggregate AX-001…AX-009 result | Không ép OWL reasoner thực thi closed-world cardinality nhưng AC-007 vẫn có một gate tổng hợp không mơ hồ |
+| DEC-041 | Chặn inference `builtBy` → `Organization` | `vh:builtBy` có target `vh:HistoricalPerson`; generator MUST bỏ qua Organization target và MUST NOT tự chuyển thành `vh:recognizedBy`; AX-007 được giữ nguyên | `rdfs:subPropertyOf` áp dụng vô điều kiện nên Organization target sẽ bị suy ra sai thành HistoricalPerson |
 | DEC-042 | Type exclusivity ở tầng OWL | `owl:AllDisjointClasses` cho 7 nhánh chính dưới `vh:CulturalHeritageEntity` | `entity_type` là enum đơn trị nhưng OWL trước đây không enforce, nên lỗi gán hai type không bị phát hiện |
 | DEC-043 | Config files là normative | Phụ lục D định nghĩa `registry_sources.yaml`, `collector.yaml`, `mapping.yaml`, `uri.yaml`, `requirements.yaml`; Phụ lục B.5 thêm `coverage.schema.json` | Năm file này là input MUST nhưng trước đây chỉ có prose; selector/pagination và traceability gate không thể code deterministic |
 | DEC-044 | Tách `entity_type` và `ontology_subclass` | `entity_type` chỉ nhận 1 trong 14 canonical type; subclass ontology (ví dụ `vh:NationalIntangibleHeritage`) được gán qua `registry_category_subclass` (Section 19.1) | Config trước đây khai `entity_type: NationalIntangibleHeritage` — ngoài enum schema; đồng thời 3 subclass của AX-008 không có đường nào để nhận instance |
 | DEC-045 | Canonical dash trong identity key | `canonical_dash` chuẩn hóa `-`/`‒`/`–`/`—` thành `-` trước khi tạo identity key (NOR-004) | Hai bản ghi chỉ khác loại dash trước đây tạo hai entity trùng; display literal vẫn giữ ký tự gốc |
 | DEC-046 | Python interpreter version cho môi trường local | Nới `AC-001` từ `Python 3.12.8` cứng thành `Python >=3.12,<3.14` cho môi trường phát triển local; `pyproject.toml` khai `requires-python = ">=3.12,<3.14"` | Máy triển khai thực tế chạy Python 3.13.13; pin cứng `3.12.8` sẽ chặn `make setup` ngay từ Gate G0 mà không có lợi ích semantics nào cho RDF/OWL/SPARQL; giới hạn trên `<3.14` để tránh breaking change chưa kiểm chứng của minor version tương lai |
+| DEC-047 | Domain của `vh:recognizedBy` | Giữ `rdfs:domain vh:HeritageSite` như ontology 1.6.1; MUST NOT dùng property này cho Museum, IntangibleHeritage, NationalTreasure, DocumentaryHeritage hoặc nhánh non-HeritageSite khác | Tránh domain inference biến non-site entity thành HeritageSite và xung đột disjointness |
+| DEC-048 | Canonical dataset URI | Dataset identity duy nhất là `{BASE}/dataset/vietheritage`; các dạng `vh:dataset-vietheritage` và `vhr:dataset-vietheritage` là obsolete | Một stable URI duy nhất cho metadata, publication và graph loading |
 
 Mọi thay đổi một quyết định phải cập nhật `Specification Version`, bảng này, component contract, test và traceability matrix trong cùng một commit.
 
@@ -4146,6 +4151,7 @@ Các schema dưới đây là nội dung normative của các file tương ứng
     "source_status": {"enum": ["registry_only", "registry+wikipedia", "registry+enriched", "derived"]},
     "coverage_snapshot": {"type": ["string", "null"], "minLength": 1},
     "source_page_id": {"type": ["integer", "null"], "minimum": 1},
+    "source_title": {"type": ["string", "null"], "minLength": 1},
     "source_url": {"type": ["string", "null"], "format": "uri"},
     "retrieved_at": {"type": "string", "format": "date-time"},
     "aliases_vi": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
@@ -4196,6 +4202,16 @@ Các schema dưới đây là nội dung normative của các file tương ứng
     {
       "if": {"properties": {"source_status": {"enum": ["registry_only", "registry+wikipedia", "registry+enriched"]}}},
       "then": {"required": ["registry_id", "registry_category", "registry_url", "coverage_snapshot"]}
+    },
+    {
+      "if": {"properties": {"source_status": {"enum": ["registry+wikipedia", "registry+enriched"]}}},
+      "then": {
+        "required": ["source_page_id", "source_title"],
+        "properties": {
+          "source_page_id": {"type": "integer", "minimum": 1},
+          "source_title": {"type": "string", "minLength": 1}
+        }
+      }
     }
   ]
 }
@@ -4714,6 +4730,8 @@ literal_properties:
   construction_year: {predicate: "vh:constructionYear", datatype: "xsd:gYear", required: false}
   recognition_year:  {predicate: "vh:recognitionYear", datatype: "xsd:gYear", required: false}
   address:         {predicate: "vh:address", datatype: "xsd:string", required: false}
+  source_page_id:  {predicate: "vh:sourcePageId", datatype: "xsd:integer", required_when: "wikipedia_enriched"}
+  source_title:    {predicate: "vh:sourceTitle", datatype: "xsd:string", required_when: "wikipedia_enriched"}
 coordinate_properties:
   lat: {predicate: "geo:lat", datatype: "xsd:decimal"}
   lon: {predicate: "geo:long", datatype: "xsd:decimal"}
@@ -4733,6 +4751,8 @@ provenance_properties:
 ```
 
 `built_by.object_must_be` là cơ chế thực thi ràng buộc chặn inference ở AX-007: generator MUST bỏ qua triple khi object không phải `vh:HistoricalPerson`.
+
+`recognized_by` chỉ hợp lệ khi subject là `vh:HeritageSite`, đúng domain freeze tại Section 15.2; mapping MUST bỏ qua relation này cho mọi canonical entity type khác.
 
 ## D.4 `config/uri.yaml`
 

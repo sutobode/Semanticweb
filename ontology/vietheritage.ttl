@@ -22,9 +22,9 @@
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.6.1" ;
+    owl:versionInfo "1.6.2" ;
     dcterms:created "2026-09-12"^^xsd:date ;
-    dcterms:modified "2026-09-13"^^xsd:date .
+    dcterms:modified "2026-09-22"^^xsd:date .
 
 #################################################################
 # 15.1 — Classes (23 primary classes)
@@ -246,10 +246,7 @@ vh:builtBy
     a owl:ObjectProperty, rdf:Property ;
     rdfs:subPropertyOf vh:associatedWithPerson ;
     rdfs:domain vh:HeritageSite ;
-    rdfs:range [
-        a owl:Class ;
-        owl:unionOf ( vh:HistoricalPerson vh:Organization )
-    ] ;
+    rdfs:range vh:HistoricalPerson ;
     rdfs:label "được xây dựng bởi"@vi ;
     rdfs:label "built by"@en .
 
