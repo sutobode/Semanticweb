@@ -68,9 +68,10 @@ def _jena_command() -> list[str]:
         classpath = str(Path(home).resolve() / "lib" / "*")
 
     java_home = os.environ.get("JAVA_HOME")
+    java_name = "java.exe" if os.name == "nt" else "java"
     java = (
-        shutil.which(str(Path(java_home) / "bin" / "java"))
-        if java_home else shutil.which("java")
+        shutil.which(str(Path(java_home) / "bin" / java_name))
+        if java_home else shutil.which(java_name)
     )
     if not java:
         raise ReasoningError(

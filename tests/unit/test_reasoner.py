@@ -1,5 +1,6 @@
 """Reasoning adapter failure/report contracts, independent of Jena availability."""
 import json
+import os
 import re
 from pathlib import Path
 
@@ -25,6 +26,18 @@ def test_missing_jena_fails_without_fallback(monkeypatch, tmp_path: Path) -> Non
     with pytest.raises(reasoner.ReasoningError, match="Apache Jena 4.10.0") as caught:
         reasoner.reason([fixture])
     assert caught.value.code == "JENA_UNAVAILABLE"
+
+
+def test_java_home_resolves_executable_with_spaces(monkeypatch, tmp_path: Path) -> None:
+    java_home = tmp_path / "local jdk"
+    java = java_home / "bin" / ("java.exe" if os.name == "nt" else "java")
+    java.parent.mkdir(parents=True)
+    java.touch()
+    java.chmod(0o755)
+    monkeypatch.setenv("JAVA_HOME", str(java_home))
+    monkeypatch.setenv("JENA_CLASSPATH", "local-jena.jar")
+    monkeypatch.setenv("PATH", "")
+    assert reasoner._jena_command()[0] == str(java)
 
 
 def test_unavailable_jena_reports_failure(monkeypatch, output_paths: Path) -> None:
