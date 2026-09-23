@@ -1,0 +1,17 @@
+{
+  "head": {"vars": ["site", "label", "externalResource"]},
+  "results": {
+    "bindings": [
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001"},
+        "label": {"type": "literal", "xml:lang": "vi", "value": "Văn Miếu – Quốc Tử Giám"},
+        "externalResource": {"type": "uri", "value": "http://dbpedia.org/resource/Example_Site"}
+      },
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001"},
+        "label": {"type": "literal", "xml:lang": "vi", "value": "Văn Miếu – Quốc Tử Giám"},
+        "externalResource": {"type": "uri", "value": "https://www.wikidata.org/entity/Q900000001"}
+      }
+    ]
+  }
+}

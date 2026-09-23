@@ -1,0 +1,11 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?person ?name (COUNT(DISTINCT ?site) AS ?siteCount)
+WHERE {
+  ?site a vh:HeritageSite ; vh:associatedWithPerson ?person .
+  ?person rdfs:label ?name .
+  FILTER(LANG(?name) = "vi")
+}
+GROUP BY ?person ?name
+HAVING(COUNT(DISTINCT ?site) > 1)
+ORDER BY DESC(?siteCount) ?name

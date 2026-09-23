@@ -1,5 +1,11 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
-SELECT ?entity ?external WHERE {
-  ?entity owl:sameAs ?external .
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?site ?label ?externalResource
+WHERE {
+  ?site a vh:HeritageSite ; rdfs:label ?label ; owl:sameAs ?externalResource .
+  FILTER(LANG(?label) = "vi")
+  FILTER(?site != ?externalResource)
 }
-ORDER BY ?entity ?external
+ORDER BY ?site ?externalResource
+LIMIT 50

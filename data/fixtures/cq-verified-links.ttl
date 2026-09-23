@@ -1,0 +1,9 @@
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Fixture-verified public links from PROJECT_SPEC 1.6.2 Sections 20.6 and 35.
+# These synthetic identities are approved fixture inputs, not live assertions.
+# No canonical candidate IDs or unreviewed links are loaded by the CQ tests.
+vhr:registry-dsvh-national-monument-000001
+    owl:sameAs <https://www.wikidata.org/entity/Q900000001>,
+               <http://dbpedia.org/resource/Example_Site> .

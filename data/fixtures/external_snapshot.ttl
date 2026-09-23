@@ -1,0 +1,5 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Offline synthetic snapshot for CQ10 (PROJECT_SPEC Sections 24 and 35).
+# Intentionally different from the internal English label: CQ10 must join.
+<http://dbpedia.org/resource/Example_Site> rdfs:label "Example Site"@en .

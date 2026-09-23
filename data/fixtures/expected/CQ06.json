@@ -1,0 +1,17 @@
+{
+  "head": {"vars": ["area", "areaLabel", "siteCount"]},
+  "results": {
+    "bindings": [
+      {
+        "area": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/area-ba-dinh"},
+        "areaLabel": {"type": "literal", "xml:lang": "vi", "value": "Ba Đình"},
+        "siteCount": {"type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#integer", "value": "1"}
+      },
+      {
+        "area": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/area-hanoi"},
+        "areaLabel": {"type": "literal", "xml:lang": "vi", "value": "Hà Nội"},
+        "siteCount": {"type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#integer", "value": "1"}
+      }
+    ]
+  }
+}

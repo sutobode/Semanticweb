@@ -1,7 +1,12 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?entity ?label WHERE {
-  ?entity rdfs:label ?label .
-  FILTER(lang(?label) = "en")
-  FILTER(STRSTARTS(STR(?entity), "http://localhost:3030/vietheritage/resource/"))
+SELECT ?site ?viLabel ?externalResource ?enLabel
+WHERE {
+  ?site a vh:HeritageSite ; rdfs:label ?viLabel ; owl:sameAs ?externalResource .
+  ?externalResource rdfs:label ?enLabel .
+  FILTER(LANG(?viLabel) = "vi")
+  FILTER(LANG(?enLabel) = "en")
+  FILTER(?site != ?externalResource)
 }
-ORDER BY ?entity
+ORDER BY ?site

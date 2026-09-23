@@ -1,9 +1,9 @@
 PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX vhr: <http://localhost:3030/vietheritage/resource/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?site ?label
 WHERE {
-  ?site a vh:HeritageSite ; rdfs:label ?label ; vh:locatedIn+ ?area .
-  ?area rdfs:label "Hà Nội"@vi .
+  ?site a vh:HeritageSite ; rdfs:label ?label ; vh:partOf+ vhr:complex-thang-long .
   FILTER(LANG(?label) = "vi")
 }
 ORDER BY ?label

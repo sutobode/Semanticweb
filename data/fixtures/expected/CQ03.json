@@ -1,0 +1,11 @@
+{
+  "head": {"vars": ["site", "label"]},
+  "results": {
+    "bindings": [
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/site-archaeological-1"},
+        "label": {"type": "literal", "xml:lang": "vi", "value": "Di chỉ khảo cổ mẫu"}
+      }
+    ]
+  }
+}

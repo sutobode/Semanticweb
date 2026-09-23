@@ -1,0 +1,13 @@
+{
+  "head": {"vars": ["site", "viLabel", "externalResource", "enLabel"]},
+  "results": {
+    "bindings": [
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001"},
+        "viLabel": {"type": "literal", "xml:lang": "vi", "value": "Văn Miếu – Quốc Tử Giám"},
+        "externalResource": {"type": "uri", "value": "http://dbpedia.org/resource/Example_Site"},
+        "enLabel": {"type": "literal", "xml:lang": "en", "value": "Example Site"}
+      }
+    ]
+  }
+}

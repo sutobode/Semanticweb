@@ -1,0 +1,12 @@
+{
+  "head": {"vars": ["site", "label", "year"]},
+  "results": {
+    "bindings": [
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/site-unesco-1"},
+        "label": {"type": "literal", "xml:lang": "vi", "value": "Di sản UNESCO mẫu"},
+        "year": {"type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#gYear", "value": "1994"}
+      }
+    ]
+  }
+}

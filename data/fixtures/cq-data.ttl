@@ -1,0 +1,63 @@
+@prefix vh: <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Minimal CQ-only projection of PROJECT_SPEC 1.6.2, Sections 20, 24 and 35.
+# All resources here are synthetic fixtures, including the spec's registry ID.
+# Labels not fixed by the spec are descriptive test labels, not production facts.
+# Expected bindings in expected/CQ01.json ... CQ10.json are hand-derived:
+# CQ01: nested site, registry site (Vietnamese label order).
+# CQ02: UNESCO 1994; CQ03: archaeological site.
+# CQ04: person-linked-2, religious-1, registry site (Vietnamese label order).
+# CQ05/CQ08: registry site only; CQ06: Ba Dinh=1, Hanoi=1 (direct edges).
+# CQ07: Ly Thuong Kiet=3, including the AX-007 association below.
+# CQ09: two fixture-verified identities; CQ10: DBpedia snapshot label only.
+
+vhr:registry-dsvh-national-monument-000001
+    a vh:HeritageSite, vh:HistoricalSite ;
+    rdfs:label "Văn Miếu – Quốc Tử Giám"@vi, "Temple of Literature"@en ;
+    vh:locatedIn vhr:area-hanoi ;
+    vh:associatedWithPerson vhr:person-ly-thuong-kiet ;
+    vh:associatedWithEvent vhr:event-example ;
+    vh:belongsToPeriod vhr:period-example ;
+    vh:partOf vhr:complex-thang-long .
+
+# AX-005 supplies UNESCOHeritageSite; it is deliberately not asserted here.
+vhr:site-unesco-1
+    a vh:HeritageSite ;
+    rdfs:label "Di sản UNESCO mẫu"@vi ;
+    vh:recognizedBy vhr:organization-unesco ;
+    vh:recognitionYear "1994"^^xsd:gYear .
+
+vhr:site-archaeological-1
+    a vh:ArchaeologicalSite ;
+    rdfs:label "Di chỉ khảo cổ mẫu"@vi .
+
+vhr:site-religious-1
+    a vh:HeritageSite, vh:ReligiousSite, vh:HistoricalSite ;
+    rdfs:label "Di tích tôn giáo mẫu"@vi ;
+    vh:associatedWithPerson vhr:person-ly-thuong-kiet .
+
+# The third association required by CQ04/07 is supplied through AX-007.
+vhr:site-person-linked-2
+    a vh:HeritageSite, vh:HistoricalSite ;
+    rdfs:label "Di tích liên quan nhân vật 2"@vi ;
+    vh:builtBy vhr:person-ly-thuong-kiet .
+
+vhr:site-in-sub-area-1
+    a vh:HeritageSite ;
+    rdfs:label "Di tích trong Ba Đình"@vi ;
+    vh:locatedIn vhr:area-ba-dinh .
+
+vhr:area-hanoi a vh:AdministrativeArea ; rdfs:label "Hà Nội"@vi .
+vhr:area-ba-dinh
+    a vh:AdministrativeArea ;
+    rdfs:label "Ba Đình"@vi ;
+    vh:locatedIn vhr:area-hanoi .
+
+vhr:person-ly-thuong-kiet a vh:HistoricalPerson ; rdfs:label "Lý Thường Kiệt"@vi .
+vhr:event-example a vh:HistoricalEvent ; rdfs:label "Sự kiện mẫu"@vi .
+vhr:period-example a vh:HistoricalPeriod ; rdfs:label "Thời kỳ mẫu"@vi .
+vhr:complex-thang-long a vh:HeritageComplex ; rdfs:label "Quần thể mẫu"@vi .
+vhr:organization-unesco a vh:Organization .

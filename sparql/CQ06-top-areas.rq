@@ -1,0 +1,11 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?area ?areaLabel (COUNT(DISTINCT ?site) AS ?siteCount)
+WHERE {
+  ?site a vh:HeritageSite ; vh:locatedIn ?area .
+  ?area rdfs:label ?areaLabel .
+  FILTER(LANG(?areaLabel) = "vi")
+}
+GROUP BY ?area ?areaLabel
+ORDER BY DESC(?siteCount) ?areaLabel
+LIMIT 10

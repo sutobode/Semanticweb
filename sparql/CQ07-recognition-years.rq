@@ -1,6 +1,0 @@
-PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?entity ?label ?year WHERE {
-  ?entity rdfs:label ?label ; vh:recognitionYear ?year .
-}
-ORDER BY ?year ?entity

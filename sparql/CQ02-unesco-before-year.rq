@@ -1,0 +1,10 @@
+PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?site ?label ?year
+WHERE {
+  ?site a vh:UNESCOHeritageSite ; rdfs:label ?label ; vh:recognitionYear ?year .
+  FILTER(?year < "2000"^^xsd:gYear)
+  FILTER(LANG(?label) = "vi")
+}
+ORDER BY ?year

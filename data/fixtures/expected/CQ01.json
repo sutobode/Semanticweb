@@ -1,0 +1,15 @@
+{
+  "head": {"vars": ["site", "label"]},
+  "results": {
+    "bindings": [
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/site-in-sub-area-1"},
+        "label": {"type": "literal", "xml:lang": "vi", "value": "Di tích trong Ba Đình"}
+      },
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001"},
+        "label": {"type": "literal", "xml:lang": "vi", "value": "Văn Miếu – Quốc Tử Giám"}
+      }
+    ]
+  }
+}

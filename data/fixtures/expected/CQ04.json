@@ -1,0 +1,19 @@
+{
+  "head": {"vars": ["site", "siteLabel"]},
+  "results": {
+    "bindings": [
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/site-person-linked-2"},
+        "siteLabel": {"type": "literal", "xml:lang": "vi", "value": "Di tích liên quan nhân vật 2"}
+      },
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/site-religious-1"},
+        "siteLabel": {"type": "literal", "xml:lang": "vi", "value": "Di tích tôn giáo mẫu"}
+      },
+      {
+        "site": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001"},
+        "siteLabel": {"type": "literal", "xml:lang": "vi", "value": "Văn Miếu – Quốc Tử Giám"}
+      }
+    ]
+  }
+}

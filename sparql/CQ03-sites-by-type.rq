@@ -1,6 +1,8 @@
 PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?entity ?label WHERE {
-  ?entity a vh:HeritageSite ; rdfs:label ?label .
+SELECT DISTINCT ?site ?label
+WHERE {
+  ?site a vh:ArchaeologicalSite ; rdfs:label ?label .
+  FILTER(LANG(?label) = "vi")
 }
 ORDER BY ?label

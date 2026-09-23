@@ -1,0 +1,12 @@
+{
+  "head": {"vars": ["person", "name", "siteCount"]},
+  "results": {
+    "bindings": [
+      {
+        "person": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/person-ly-thuong-kiet"},
+        "name": {"type": "literal", "xml:lang": "vi", "value": "Lý Thường Kiệt"},
+        "siteCount": {"type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#integer", "value": "3"}
+      }
+    ]
+  }
+}
