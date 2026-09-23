@@ -22,7 +22,7 @@ CONFIG_PATH = REPO_ROOT / "config" / "registry_sources.yaml"
 
 _CANONICAL_FIELDS = {
     "entity_id", "entity_type", "label_vi", "registry_id", "registry_category",
-    "registry_url", "source_status", "coverage_snapshot", "source_page_id",
+    "registry_url", "source_status", "coverage_snapshot", "source_page_id", "source_title",
     "source_url", "retrieved_at", "aliases_vi", "description_vi", "coordinates",
     "external_ids", "relations", "site_types", "construction_year",
     "recognition_year", "address", "birth_year", "death_year", "start_year",
@@ -115,6 +115,7 @@ def map_record(
         "source_status": source_status,
         "coverage_snapshot": entity.get("coverage_snapshot"),
         "source_page_id": (page or {}).get("page_id"),
+        "source_title": (page or {}).get("title"),
         "source_url": (page or {}).get("source_url") or source_url,
         "retrieved_at": entity["retrieved_at"],
         "aliases_vi": list(dict.fromkeys(entity.get("aliases_vi") or [])),
@@ -122,6 +123,7 @@ def map_record(
         "coordinates": (page or {}).get("coordinates") or entity.get("coordinates"),
         "external_ids": external_ids,
         "relations": entity.get("relations") or {},
+        "parent_area": entity.get("parent_area"),
         "site_types": [],
         "recognition_year": _first_year(fields.get("recognition_text")),
         "address": fields.get("location"),

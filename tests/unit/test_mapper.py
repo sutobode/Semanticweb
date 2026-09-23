@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import pytest
 from jsonschema import Draft202012Validator
 
 from vietheritage.mapping.mapper import map_record
@@ -29,6 +30,8 @@ def test_mapper_uses_registry_category_for_canonical_entity_type() -> None:
     assert result["source_status"] == "registry_only"
     assert result["recognition_year"] == 1994
     assert result["site_types"] == ["Tự nhiên"]
+    assert "source_page_id" not in result
+    assert "source_title" not in result
 
 
 def test_mapper_merges_wikipedia_page_without_changing_membership() -> None:
@@ -45,7 +48,10 @@ def test_mapper_merges_wikipedia_page_without_changing_membership() -> None:
     assert result["source_status"] == "registry+wikipedia"
     assert result["external_ids"] == {"wikidata": "Q18280"}
     assert result["source_page_id"] == 123
+    assert result["source_title"] == page["title"]
     assert result["registry_id"] == "registry-abc123"
+    schema = json.loads((ROOT / "schema/canonical-record.schema.json").read_text(encoding="utf-8"))
+    assert not list(Draft202012Validator(schema).iter_errors(result))
 
 
 def test_mapper_output_validates_against_canonical_schema() -> None:
@@ -53,3 +59,18 @@ def test_mapper_output_validates_against_canonical_schema() -> None:
     result = map_record(_entity(), {"world_heritage": "HeritageSite"})
     errors = list(Draft202012Validator(schema).iter_errors(result))
     assert errors == []
+
+
+def test_mapper_preserves_administrative_parent_id():
+    entity = dict(_entity(), registry_category="derived_area", parent_area="area-parent")
+    result = map_record(entity, {"derived_area": "AdministrativeArea"})
+    assert result["parent_area"] == "area-parent"
+
+
+@pytest.mark.parametrize("missing", ["source_page_id", "source_title"])
+def test_enriched_canonical_schema_rejects_missing_page_metadata(missing):
+    record = map_record(_entity(), {"world_heritage": "HeritageSite"})
+    record.update(source_status="registry+wikipedia", source_page_id=123, source_title="Vịnh Hạ Long")
+    record.pop(missing)
+    schema = json.loads((ROOT / "schema/canonical-record.schema.json").read_text(encoding="utf-8"))
+    assert list(Draft202012Validator(schema).iter_errors(record))

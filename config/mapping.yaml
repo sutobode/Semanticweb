@@ -1,0 +1,52 @@
+# Authoritative canonical -> RDF mapping (PROJECT_SPEC 1.6.2, Sections 19 / D.3).
+entity_types:
+  HeritageSite: {class: "vh:HeritageSite"}
+  AdministrativeArea: {class: "vh:AdministrativeArea"}
+  HistoricalPerson: {class: "vh:HistoricalPerson"}
+  HistoricalEvent: {class: "vh:HistoricalEvent"}
+  HistoricalPeriod: {class: "vh:HistoricalPeriod"}
+  HeritageComplex: {class: "vh:HeritageComplex"}
+  Organization: {class: "vh:Organization"}
+  ArchitecturalStyle: {class: "vh:ArchitecturalStyle"}
+  Museum: {class: "vh:Museum"}
+  IntangibleHeritage: {class: "vh:IntangibleHeritage"}
+  NationalTreasure: {class: "vh:NationalTreasure"}
+  DocumentaryHeritage: {class: "vh:DocumentaryHeritage"}
+  Artisan: {class: "vh:Artisan"}
+  CulturalObject: {class: "vh:CulturalObject"}
+site_type_tokens:
+  "lịch sử": vh:HistoricalSite
+  "tôn giáo": vh:ReligiousSite
+  "khảo cổ": vh:ArchaeologicalSite
+  "kiến trúc": vh:ArchitecturalSite
+registry_category_subclass:
+  intangible_representative: vh:RepresentativeIntangibleHeritage
+  intangible_urgent: vh:UrgentSafeguardingIntangibleHeritage
+  national_intangible: vh:NationalIntangibleHeritage
+literal_properties:
+  label_vi: {predicate: "rdfs:label", lang: vi, required: true}
+  description_vi: {predicate: "rdfs:comment", lang: vi, required: false}
+  construction_year: {predicate: "vh:constructionYear", datatype: "xsd:gYear", required: false}
+  recognition_year: {predicate: "vh:recognitionYear", datatype: "xsd:gYear", required: false}
+  birth_year: {predicate: "vh:birthYear", datatype: "xsd:gYear", required: false}
+  death_year: {predicate: "vh:deathYear", datatype: "xsd:gYear", required: false}
+  address: {predicate: "vh:address", datatype: "xsd:string", required: false}
+  level: {predicate: "vh:areaLevel", datatype: "xsd:string", required: false}
+  source_page_id: {predicate: "vh:sourcePageId", datatype: "xsd:integer", required_when: wikipedia_enriched}
+  source_title: {predicate: "vh:sourceTitle", datatype: "xsd:string", required_when: wikipedia_enriched}
+coordinate_properties:
+  lat: {predicate: "geo:lat", datatype: "xsd:decimal"}
+  lon: {predicate: "geo:long", datatype: "xsd:decimal"}
+relation_properties:
+  located_in: {predicate: "vh:locatedIn"}
+  parent_area: {predicate: "vh:locatedIn"}
+  associated_persons: {predicate: "vh:associatedWithPerson"}
+  associated_events: {predicate: "vh:associatedWithEvent"}
+  periods: {predicate: "vh:belongsToPeriod"}
+  part_of: {predicate: "vh:partOf"}
+  member_sites: {predicate: "vh:hasMember"}
+  recognized_by: {predicate: "vh:recognizedBy"}
+  built_by: {predicate: "vh:builtBy", object_must_be: "vh:HistoricalPerson"}
+  architectural_styles: {predicate: "vh:hasArchitecturalStyle"}
+provenance_properties:
+  source_url: {predicates: ["dcterms:source", "prov:wasDerivedFrom"], required: true}
