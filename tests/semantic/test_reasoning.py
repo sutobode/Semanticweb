@@ -94,6 +94,8 @@ def test_reason_stage_artifact_and_status(valid, inputs, monkeypatch, tmp_path: 
     report = json.loads((tmp_path / "reports" / run_id / "reasoning.json").read_text())
     assert report["engine"] == "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
     assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)]
+    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 10)]
+    assert set(report["axioms"]) == set(report["aggregate_scope"])
     if valid:
         assert result == 0, report
         assert report["status"] == "PASS"

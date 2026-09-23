@@ -5,12 +5,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix vh: <http://localhost:3030/vietheritage/ontology/> .
 
-# Public entity contract: every source-derived resource with an rdfs:label
-# has identity, a label, and provenance. Optional enrichment remains optional.
+# Class targets catch a completely missing label. The validator also supplies
+# targetNode entries for project entity IRIs lacking a type altogether.
 <http://localhost:3030/vietheritage/shapes/PublicEntityShape>
     a sh:NodeShape ;
-    sh:targetSubjectsOf rdfs:label ;
+    sh:targetClass vh:CulturalHeritageEntity, vh:HistoricalPerson, vh:Artisan,
+        vh:AdministrativeArea, vh:HistoricalEvent, vh:HistoricalPeriod,
+        vh:Organization, vh:ArchitecturalStyle ;
     sh:property [
         sh:path rdf:type ;
         sh:minCount 1 ;
@@ -20,9 +23,16 @@
     sh:property [
         sh:path rdfs:label ;
         sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:qualifiedValueShape [ sh:languageIn ( "vi" ) ; sh:minLength 1 ] ;
+        sh:qualifiedMinCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "A public entity must have an rdfs:label."@en
-    ] ;
+        sh:message "A public entity must have a nonempty rdfs:label@vi."@en
+    ] .
+
+<http://localhost:3030/vietheritage/shapes/SourceEntityShape>
+    a sh:NodeShape ;
+    sh:targetSubjectsOf dcterms:source, prov:wasDerivedFrom, vh:sourcePageId, vh:sourceTitle ;
     sh:property [
         sh:path dcterms:source ;
         sh:minCount 1 ;
@@ -36,6 +46,15 @@
         sh:nodeKind sh:IRI ;
         sh:severity sh:Violation ;
         sh:message "A public entity must retain provenance."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:modified ; sh:minCount 1 ; sh:datatype xsd:date ;
+        sh:message "A source-derived entity must retain its retrieval date."@en
+    ] ;
+    sh:property [
+        sh:path prov:wasGeneratedBy ; sh:minCount 1 ; sh:nodeKind sh:IRI ;
+        sh:class prov:Activity ;
+        sh:message "A source-derived entity must identify its generation activity."@en
     ] .
 
 <http://localhost:3030/vietheritage/shapes/LatitudeShape>
@@ -83,6 +102,7 @@
         sh:path dcterms:license ;
         sh:minCount 1 ;
         sh:nodeKind sh:IRI ;
+        sh:hasValue <https://creativecommons.org/licenses/by-sa/4.0/> ;
         sh:severity sh:Violation ;
         sh:message "A dataset must have an IRI license."@en
     ] ;
@@ -99,11 +119,19 @@
         sh:nodeKind sh:IRI ;
         sh:severity sh:Violation ;
         sh:message "A dataset must expose ontology, asserted, links, inferred, and metadata distributions."@en
-    ] .
+    ] ;
+    sh:property [ sh:path dcterms:description ; sh:minCount 1 ; sh:nodeKind sh:Literal ] ;
+    sh:property [ sh:path dcterms:creator ; sh:minCount 1 ] ;
+    sh:property [ sh:path dcterms:created ; sh:minCount 1 ; sh:datatype xsd:date ] ;
+    sh:property [ sh:path dcterms:modified ; sh:minCount 1 ; sh:datatype xsd:date ] ;
+    sh:property [ sh:path dcat:accessURL ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path dcat:downloadURL ; sh:minCount 1 ; sh:nodeKind sh:IRI ] .
 
 <http://localhost:3030/vietheritage/shapes/ActivityShape>
     a sh:NodeShape ;
     sh:targetClass prov:Activity ;
+    sh:targetObjectsOf prov:wasGeneratedBy ;
+    sh:property [ sh:path rdf:type ; sh:hasValue prov:Activity ] ;
     sh:property [
         sh:path prov:startedAtTime ;
         sh:minCount 1 ;

@@ -14,6 +14,10 @@ def _write_graph(path: Path, with_source: bool) -> None:
     graph = Graph()
     graph.add((EX.entity, RDF.type, EX.HeritageSite))
     graph.add((EX.entity, RDFS.label, Literal("Huế", lang="vi")))
+    graph.add((EX.entity, DCTERMS.modified, Literal("2026-09-23", datatype=XSD.date)))
+    graph.add((EX.entity, PROV.wasGeneratedBy, EX.activity))
+    graph.add((EX.activity, RDF.type, PROV.Activity))
+    graph.add((EX.activity, PROV.startedAtTime, Literal("2026-09-23T00:00:00Z", datatype=XSD.dateTime)))
     if with_source:
         graph.add((EX.entity, DCTERMS.source, URIRef("https://dsvh.gov.vn/hue")))
         graph.add((EX.entity, PROV.wasDerivedFrom, URIRef("https://dsvh.gov.vn/hue")))
@@ -44,6 +48,12 @@ def _write_dataset(path: Path, with_license: bool) -> None:
     graph.add((dataset, RDF.type, dcat.Dataset))
     graph.add((dataset, DCTERMS.identifier, Literal("snapshot-1")))
     graph.add((dataset, DCTERMS.title, Literal("Dataset", lang="en")))
+    graph.add((dataset, DCTERMS.description, Literal("Validation test dataset", lang="en")))
+    graph.add((dataset, DCTERMS.creator, Literal("Team")))
+    graph.add((dataset, DCTERMS.created, Literal("2026-09-14", datatype=XSD.date)))
+    graph.add((dataset, DCTERMS.modified, Literal("2026-09-14", datatype=XSD.date)))
+    graph.add((dataset, dcat.accessURL, EX.sparql))
+    graph.add((dataset, dcat.downloadURL, EX["data.ttl"]))
     if with_license:
         graph.add((dataset, DCTERMS.license, URIRef("https://creativecommons.org/licenses/by-sa/4.0/")))
     graph.add((dataset, PROV.wasGeneratedBy, activity))

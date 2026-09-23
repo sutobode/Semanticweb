@@ -51,7 +51,8 @@ def test_unavailable_jena_reports_failure(monkeypatch, output_paths: Path) -> No
     assert reports[0].parent.name == report["run_id"]
     assert report["status"] == "FAIL"
     assert report["error_code"] == "JENA_UNAVAILABLE"
-    assert set(report["axioms"].values()) == {"NOT_RUN"}
+    assert {report["axioms"][axiom] for axiom in reasoner.AXIOMS} == {"NOT_RUN"}
+    assert {report["axioms"][axiom] for axiom in reasoner.SEMANTIC_AXIOMS} == {"PASS"}
     assert not reasoner.INFERRED.exists()
 
 
@@ -83,4 +84,24 @@ def test_inconsistency_propagates_to_report(monkeypatch, output_paths: Path) -> 
     assert report["error_code"] == "ONTOLOGY_INCONSISTENT"
     assert report["axioms"]["AX-004"] == "ONTOLOGY_INCONSISTENT"
     assert "Jena consistency diagnostic" in report["message"]
+    assert not reasoner.INFERRED.exists()
+
+
+@pytest.mark.parametrize("axiom", ["AX-008", "AX-009"])
+def test_semantic_failure_blocks_aggregate_with_specific_code(axiom, monkeypatch, output_paths):
+    expected = json.loads((reasoner.FIXTURES / "expected/semantic-validation.json").read_text())[axiom]
+    monkeypatch.setattr(reasoner, "ASSERTED", reasoner.FIXTURES.parents[1] / expected["invalid_input"])
+    # No inference substitute: invalid semantic input is rejected before Jena.
+    def unexpected_reason(graphs):
+        pytest.fail("Jena must not be used to adjudicate AX-008/009 validation failures")
+
+    monkeypatch.setattr(reasoner, "reason", unexpected_reason)
+    assert reasoner.run(run_id="semantic-failure") == 1
+    result = json.loads((output_paths / "reports/semantic-failure/reasoning.json").read_text())
+    assert result["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 10)]
+    assert set(result["axioms"]) == set(result["aggregate_scope"])
+    assert result["status"] == result["axioms"][axiom] == "FAIL"
+    assert result["error_code"] == expected["expected_error_code"]
+    assert result["semantic_validation"]["errors"][0]["code"] == expected["expected_error_code"]
+    assert result["axioms"]["AX-004"] == "NOT_RUN"
     assert not reasoner.INFERRED.exists()

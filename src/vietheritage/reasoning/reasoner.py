@@ -19,6 +19,8 @@ from uuid import uuid4
 
 from rdflib import Graph, Namespace
 
+from vietheritage.validation.semantic import report, validate_axioms
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RDF_DIR = REPO_ROOT / "data" / "rdf"
 ONTOLOGY = REPO_ROOT / "ontology" / "vietheritage.ttl"
@@ -32,6 +34,7 @@ JAVA_SOURCE = Path(__file__).with_name("OwlMiniReasoner.java")
 ENGINE = "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
 JENA_VERSION = "4.10.0"
 AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8))
+SEMANTIC_AXIOMS = ("AX-008", "AX-009")
 VHR = Namespace("http://localhost:3030/vietheritage/resource/")
 # Subjects identify each case in the authoritative expected subset.
 EXPECTED_SUBJECTS = {
@@ -119,23 +122,36 @@ def reason(graphs: Iterable[Graph]) -> tuple[Graph, int]:
     return inferred, len(inferred)
 
 
+def _check_semantic_axioms(data: Graph, ontology: Graph, payload: dict) -> None:
+    result = validate_axioms(data, ontology)
+    axioms = {axiom: result["axioms"][axiom] for axiom in SEMANTIC_AXIOMS}
+    errors = [error for error in result["errors"] if error.get("axiom") in SEMANTIC_AXIOMS]
+    payload["semantic_validation"] = report(errors, axioms=axioms)
+    payload["axioms"].update(axioms)
+    if errors:
+        raise ReasoningError(errors[0]["code"], "; ".join(error["message"] for error in errors))
+
+
 def run(run_mode: str = "sample", *, run_id: str | None = None) -> int:
     run_id = run_id or f"{datetime.now(UTC):%Y%m%dT%H%M%SZ}-{uuid4().hex[:6]}"
     report_payload = {
         "run_id": run_id, "run_mode": run_mode, "engine": ENGINE,
         "jena_version": JENA_VERSION, "scope": list(AXIOMS), "status": "FAIL",
-        "axioms": dict.fromkeys(AXIOMS, "NOT_RUN"),
+        "aggregate_scope": list(AXIOMS + SEMANTIC_AXIOMS),
+        "axioms": dict.fromkeys(AXIOMS + SEMANTIC_AXIOMS, "NOT_RUN"),
         "source_triples": 0, "inferred_triples": 0, "closure_triples": 0,
     }
     try:
         for path in (ONTOLOGY, ASSERTED, VALID_FIXTURE, EXPECTED):
             if not path.is_file():
                 raise ReasoningError("REASONING_INPUT_MISSING", f"Turtle input missing: {path}")
-        source = Graph()
-        for path in (ONTOLOGY, ASSERTED, VALID_FIXTURE):
+        ontology = Graph().parse(ONTOLOGY, format="turtle")
+        source = ontology + Graph()
+        for path in (ASSERTED, VALID_FIXTURE):
             source += Graph().parse(path, format="turtle")
         expected = Graph().parse(EXPECTED, format="turtle")
         report_payload["source_triples"] = len(source)
+        _check_semantic_axioms(source, ontology, report_payload)
         inferred, inferred_count = reason([source])
         report_payload["axioms"]["AX-004"] = "PASS"
         for axiom, subject in EXPECTED_SUBJECTS.items():
@@ -149,6 +165,7 @@ def run(run_mode: str = "sample", *, run_id: str | None = None) -> int:
         report_payload["missing_triples"] = missing
         if missing or "FAIL" in report_payload["axioms"].values():
             raise ReasoningError("INFERENCE_MISSING", "Required fixture entailments are missing.")
+        _check_semantic_axioms(source + inferred, ontology, report_payload)
         INFERRED.parent.mkdir(parents=True, exist_ok=True)
         inferred.serialize(destination=INFERRED, format="turtle")
         report_payload.update(
@@ -159,7 +176,7 @@ def run(run_mode: str = "sample", *, run_id: str | None = None) -> int:
         INFERRED.unlink(missing_ok=True)
         report_payload["error_code"] = error.code
         report_payload["message"] = str(error)
-        if error.code == "ONTOLOGY_INCONSISTENT":
+        if isinstance(error, OntologyInconsistent):
             report_payload["status"] = error.code
             report_payload["axioms"]["AX-004"] = error.code
 

@@ -56,13 +56,13 @@ def _cmd_link(args: argparse.Namespace) -> int:
 def _cmd_validate(args: argparse.Namespace) -> int:
     from vietheritage.validation.validator import run as validate_run
 
-    return validate_run(run_mode=args.run_mode)
+    return validate_run(run_mode=args.run_mode, run_id=args.run_id)
 
 
 def _cmd_reason(args: argparse.Namespace) -> int:
     from vietheritage.reasoning.reasoner import run as reason_run
 
-    return reason_run(run_mode=args.run_mode)
+    return reason_run(run_mode=args.run_mode, run_id=args.run_id)
 
 
 def _cmd_wait_fuseki(args: argparse.Namespace) -> int:
@@ -133,6 +133,8 @@ def build_parser() -> argparse.ArgumentParser:
         p = sub.add_parser(name)
         if needs_run_mode:
             p.add_argument("--run-mode", default="sample", choices=["sample", "full"])
+        if name in {"validate", "reason"}:
+            p.add_argument("--run-id")
         p.set_defaults(handler=handler)
 
     add("collect-sample", _cmd_collect_sample)
