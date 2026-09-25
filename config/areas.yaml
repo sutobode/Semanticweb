@@ -1,0 +1,149 @@
+# Bảng chuẩn hóa đơn vị hành chính cấp tỉnh (M2-10, DEC-M2-004).
+#
+# Hai lớp:
+#   1. `areas` (63 tỉnh/thành TRƯỚC sắp xếp 2025) — lớp SO KHỚP. Registry dsvh.gov.vn và
+#      nhiều bài Wikipedia vẫn ghi tên cũ, nên resolver nhận diện theo 63 tên này.
+#   2. `merged_areas` (34 tỉnh/thành SAU sắp xếp, Nghị quyết 202/2025/QH15) — lớp CÔNG BỐ.
+#      Khi `publish_level: merged_2025`, mapper sinh `relations.located_in` và entity
+#      AdministrativeArea theo 34 đơn vị này (mỗi tỉnh cũ -> `merged_into`), bỏ trùng
+#      (ví dụ "tỉnh Hải Dương (nay là TP Hải Phòng)" -> chỉ Hải Phòng).
+#      `publish_level: source` quay về công bố đúng 63 tên như registry.
+#   Ô địa điểm gốc vẫn giữ nguyên ở field `address` của record (provenance).
+#
+# Quy tắc khớp (deterministic, KHÔNG fuzzy — DEC-007):
+#   - so khớp chính xác theo khóa chuẩn hóa: NFC, casefold, canonical dash,
+#     chuẩn hóa vị trí dấu thanh kiểu cũ/mới (hoá = hóa), gộp khoảng trắng;
+#   - label + mọi `match_variants` đều là chuỗi chính xác, liệt kê tường minh;
+#   - bỏ qua lần xuất hiện đứng ngay sau tiền tố cấp dưới tỉnh
+#     (xã, phường, thị trấn, huyện, quận, thị xã, thôn, làng) trong cùng đoạn;
+#   - `district_hints` chỉ dùng khi không tìm thấy tên tỉnh nào.
+#
+# areas[*]:
+#   label           : tên tỉnh cũ (dùng để khớp; công bố khi publish_level = source).
+#   display_aliases : tên đầy đủ (skos:altLabel khi publish_level = source).
+#   match_variants  : biến thể chỉ dùng để khớp (lỗi chính tả, viết tắt) — không công bố.
+#   level           : vh:areaLevel khi publish_level = source.
+#   merged_into     : label của đơn vị trong `merged_areas` (bắt buộc tồn tại). Dùng cho
+#                     (a) công bố located_in khi publish_level = merged_2025,
+#                     (b) so khớp bằng chứng tỉnh với Wikipedia / bài viết dsvh.
+# merged_areas[*]:
+#   label           : rdfs:label@vi công bố (CQ01 so khớp "Hà Nội"@vi).
+#   level           : vh:areaLevel.
+#   display_aliases : skos:altLabel.
+
+publish_level: merged_2025        # merged_2025 | source
+
+country_code: VN
+sub_provincial_prefixes: ["xã", "phường", "thị trấn", "huyện", "quận", "thị xã", "thôn", "làng", "x.", "tx.", "tt.", "p."]
+
+areas:
+  - {label: "Hà Nội", level: "thành phố trực thuộc trung ương", merged_into: "Hà Nội", display_aliases: ["Thành phố Hà Nội"], match_variants: ["Hà Nội"]}
+  - {label: "Thành phố Hồ Chí Minh", level: "thành phố trực thuộc trung ương", merged_into: "Thành phố Hồ Chí Minh", display_aliases: [], match_variants: ["Hồ Chí Minh", "TP HCM", "TP.HCM", "TPHCM"]}
+  - {label: "Hải Phòng", level: "thành phố trực thuộc trung ương", merged_into: "Hải Phòng", display_aliases: ["Thành phố Hải Phòng"], match_variants: []}
+  - {label: "Đà Nẵng", level: "thành phố trực thuộc trung ương", merged_into: "Đà Nẵng", display_aliases: ["Thành phố Đà Nẵng"], match_variants: []}
+  - {label: "Cần Thơ", level: "thành phố trực thuộc trung ương", merged_into: "Cần Thơ", display_aliases: ["Thành phố Cần Thơ"], match_variants: []}
+  - {label: "An Giang", level: "tỉnh", merged_into: "An Giang", display_aliases: ["Tỉnh An Giang"], match_variants: []}
+  - {label: "Bà Rịa - Vũng Tàu", level: "tỉnh", merged_into: "Thành phố Hồ Chí Minh", display_aliases: ["Tỉnh Bà Rịa - Vũng Tàu"], match_variants: []}
+  - {label: "Bạc Liêu", level: "tỉnh", merged_into: "Cà Mau", display_aliases: ["Tỉnh Bạc Liêu"], match_variants: []}
+  - {label: "Bắc Giang", level: "tỉnh", merged_into: "Bắc Ninh", display_aliases: ["Tỉnh Bắc Giang"], match_variants: []}
+  - {label: "Bắc Kạn", level: "tỉnh", merged_into: "Thái Nguyên", display_aliases: ["Tỉnh Bắc Kạn"], match_variants: ["Bắc Cạn"]}
+  - {label: "Bắc Ninh", level: "tỉnh", merged_into: "Bắc Ninh", display_aliases: ["Tỉnh Bắc Ninh"], match_variants: []}
+  - {label: "Bến Tre", level: "tỉnh", merged_into: "Vĩnh Long", display_aliases: ["Tỉnh Bến Tre"], match_variants: []}
+  - {label: "Bình Dương", level: "tỉnh", merged_into: "Thành phố Hồ Chí Minh", display_aliases: ["Tỉnh Bình Dương"], match_variants: []}
+  - {label: "Bình Định", level: "tỉnh", merged_into: "Gia Lai", display_aliases: ["Tỉnh Bình Định"], match_variants: []}
+  - {label: "Bình Phước", level: "tỉnh", merged_into: "Đồng Nai", display_aliases: ["Tỉnh Bình Phước"], match_variants: []}
+  - {label: "Bình Thuận", level: "tỉnh", merged_into: "Lâm Đồng", display_aliases: ["Tỉnh Bình Thuận"], match_variants: []}
+  - {label: "Cà Mau", level: "tỉnh", merged_into: "Cà Mau", display_aliases: ["Tỉnh Cà Mau"], match_variants: []}
+  - {label: "Cao Bằng", level: "tỉnh", merged_into: "Cao Bằng", display_aliases: ["Tỉnh Cao Bằng"], match_variants: []}
+  - {label: "Đắk Lắk", level: "tỉnh", merged_into: "Đắk Lắk", display_aliases: ["Tỉnh Đắk Lắk"], match_variants: ["Đăk Lăk", "Đắc Lắc", "Đắk Lăk", "Daklak"]}
+  - {label: "Đắk Nông", level: "tỉnh", merged_into: "Lâm Đồng", display_aliases: ["Tỉnh Đắk Nông"], match_variants: ["Đăk Nông", "Đắc Nông"]}
+  - {label: "Điện Biên", level: "tỉnh", merged_into: "Điện Biên", display_aliases: ["Tỉnh Điện Biên"], match_variants: []}
+  - {label: "Đồng Nai", level: "tỉnh", merged_into: "Đồng Nai", display_aliases: ["Tỉnh Đồng Nai"], match_variants: []}
+  - {label: "Đồng Tháp", level: "tỉnh", merged_into: "Đồng Tháp", display_aliases: ["Tỉnh Đồng Tháp"], match_variants: []}
+  - {label: "Gia Lai", level: "tỉnh", merged_into: "Gia Lai", display_aliases: ["Tỉnh Gia Lai"], match_variants: []}
+  - {label: "Hà Giang", level: "tỉnh", merged_into: "Tuyên Quang", display_aliases: ["Tỉnh Hà Giang"], match_variants: []}
+  - {label: "Hà Nam", level: "tỉnh", merged_into: "Ninh Bình", display_aliases: ["Tỉnh Hà Nam"], match_variants: []}
+  - {label: "Hà Tĩnh", level: "tỉnh", merged_into: "Hà Tĩnh", display_aliases: ["Tỉnh Hà Tĩnh"], match_variants: []}
+  - {label: "Hải Dương", level: "tỉnh", merged_into: "Hải Phòng", display_aliases: ["Tỉnh Hải Dương"], match_variants: []}
+  - {label: "Hậu Giang", level: "tỉnh", merged_into: "Cần Thơ", display_aliases: ["Tỉnh Hậu Giang"], match_variants: []}
+  - {label: "Hòa Bình", level: "tỉnh", merged_into: "Phú Thọ", display_aliases: ["Tỉnh Hòa Bình"], match_variants: []}
+  - {label: "Hưng Yên", level: "tỉnh", merged_into: "Hưng Yên", display_aliases: ["Tỉnh Hưng Yên"], match_variants: []}
+  - {label: "Khánh Hòa", level: "tỉnh", merged_into: "Khánh Hòa", display_aliases: ["Tỉnh Khánh Hòa"], match_variants: []}
+  - {label: "Kiên Giang", level: "tỉnh", merged_into: "An Giang", display_aliases: ["Tỉnh Kiên Giang"], match_variants: []}
+  - {label: "Kon Tum", level: "tỉnh", merged_into: "Quảng Ngãi", display_aliases: ["Tỉnh Kon Tum"], match_variants: ["KonTum"]}
+  - {label: "Lai Châu", level: "tỉnh", merged_into: "Lai Châu", display_aliases: ["Tỉnh Lai Châu"], match_variants: []}
+  - {label: "Lâm Đồng", level: "tỉnh", merged_into: "Lâm Đồng", display_aliases: ["Tỉnh Lâm Đồng"], match_variants: []}
+  - {label: "Lạng Sơn", level: "tỉnh", merged_into: "Lạng Sơn", display_aliases: ["Tỉnh Lạng Sơn"], match_variants: []}
+  - {label: "Lào Cai", level: "tỉnh", merged_into: "Lào Cai", display_aliases: ["Tỉnh Lào Cai"], match_variants: []}
+  - {label: "Long An", level: "tỉnh", merged_into: "Tây Ninh", display_aliases: ["Tỉnh Long An"], match_variants: []}
+  - {label: "Nam Định", level: "tỉnh", merged_into: "Ninh Bình", display_aliases: ["Tỉnh Nam Định"], match_variants: []}
+  - {label: "Nghệ An", level: "tỉnh", merged_into: "Nghệ An", display_aliases: ["Tỉnh Nghệ An"], match_variants: []}
+  - {label: "Ninh Bình", level: "tỉnh", merged_into: "Ninh Bình", display_aliases: ["Tỉnh Ninh Bình"], match_variants: []}
+  - {label: "Ninh Thuận", level: "tỉnh", merged_into: "Khánh Hòa", display_aliases: ["Tỉnh Ninh Thuận"], match_variants: []}
+  - {label: "Phú Thọ", level: "tỉnh", merged_into: "Phú Thọ", display_aliases: ["Tỉnh Phú Thọ"], match_variants: []}
+  - {label: "Phú Yên", level: "tỉnh", merged_into: "Đắk Lắk", display_aliases: ["Tỉnh Phú Yên"], match_variants: []}
+  - {label: "Quảng Bình", level: "tỉnh", merged_into: "Quảng Trị", display_aliases: ["Tỉnh Quảng Bình"], match_variants: []}
+  - {label: "Quảng Nam", level: "tỉnh", merged_into: "Đà Nẵng", display_aliases: ["Tỉnh Quảng Nam"], match_variants: []}
+  - {label: "Quảng Ngãi", level: "tỉnh", merged_into: "Quảng Ngãi", display_aliases: ["Tỉnh Quảng Ngãi"], match_variants: []}
+  - {label: "Quảng Ninh", level: "tỉnh", merged_into: "Quảng Ninh", display_aliases: ["Tỉnh Quảng Ninh"], match_variants: ["Quảng Nình"]}
+  - {label: "Quảng Trị", level: "tỉnh", merged_into: "Quảng Trị", display_aliases: ["Tỉnh Quảng Trị"], match_variants: []}
+  - {label: "Sóc Trăng", level: "tỉnh", merged_into: "Cần Thơ", display_aliases: ["Tỉnh Sóc Trăng"], match_variants: []}
+  - {label: "Sơn La", level: "tỉnh", merged_into: "Sơn La", display_aliases: ["Tỉnh Sơn La"], match_variants: []}
+  - {label: "Tây Ninh", level: "tỉnh", merged_into: "Tây Ninh", display_aliases: ["Tỉnh Tây Ninh"], match_variants: []}
+  - {label: "Thái Bình", level: "tỉnh", merged_into: "Hưng Yên", display_aliases: ["Tỉnh Thái Bình"], match_variants: []}
+  - {label: "Thái Nguyên", level: "tỉnh", merged_into: "Thái Nguyên", display_aliases: ["Tỉnh Thái Nguyên"], match_variants: []}
+  - {label: "Thanh Hóa", level: "tỉnh", merged_into: "Thanh Hóa", display_aliases: ["Tỉnh Thanh Hóa"], match_variants: []}
+  - {label: "Thừa Thiên Huế", level: "tỉnh", merged_into: "Huế", display_aliases: ["Tỉnh Thừa Thiên Huế"], match_variants: ["Thừa Thiên - Huế", "TT Huế", "TT-Huế", "TT. Huế", "Huế"]}
+  - {label: "Tiền Giang", level: "tỉnh", merged_into: "Đồng Tháp", display_aliases: ["Tỉnh Tiền Giang"], match_variants: []}
+  - {label: "Trà Vinh", level: "tỉnh", merged_into: "Vĩnh Long", display_aliases: ["Tỉnh Trà Vinh"], match_variants: []}
+  - {label: "Tuyên Quang", level: "tỉnh", merged_into: "Tuyên Quang", display_aliases: ["Tỉnh Tuyên Quang"], match_variants: []}
+  - {label: "Vĩnh Long", level: "tỉnh", merged_into: "Vĩnh Long", display_aliases: ["Tỉnh Vĩnh Long"], match_variants: []}
+  - {label: "Vĩnh Phúc", level: "tỉnh", merged_into: "Phú Thọ", display_aliases: ["Tỉnh Vĩnh Phúc"], match_variants: []}
+  - {label: "Yên Bái", level: "tỉnh", merged_into: "Lào Cai", display_aliases: ["Tỉnh Yên Bái"], match_variants: []}
+
+# 34 tỉnh/thành sau sắp xếp (Nghị quyết 202/2025/QH15): 6 thành phố trực thuộc trung ương + 28 tỉnh.
+merged_areas:
+  - {label: "Hà Nội", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Hà Nội"]}
+  - {label: "Huế", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Huế"]}
+  - {label: "Hải Phòng", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Hải Phòng"]}
+  - {label: "Đà Nẵng", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Đà Nẵng"]}
+  - {label: "Thành phố Hồ Chí Minh", level: "thành phố trực thuộc trung ương", display_aliases: []}
+  - {label: "Cần Thơ", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Cần Thơ"]}
+  - {label: "An Giang", level: "tỉnh", display_aliases: ["Tỉnh An Giang"]}
+  - {label: "Bắc Ninh", level: "tỉnh", display_aliases: ["Tỉnh Bắc Ninh"]}
+  - {label: "Cà Mau", level: "tỉnh", display_aliases: ["Tỉnh Cà Mau"]}
+  - {label: "Cao Bằng", level: "tỉnh", display_aliases: ["Tỉnh Cao Bằng"]}
+  - {label: "Đắk Lắk", level: "tỉnh", display_aliases: ["Tỉnh Đắk Lắk"]}
+  - {label: "Điện Biên", level: "tỉnh", display_aliases: ["Tỉnh Điện Biên"]}
+  - {label: "Đồng Nai", level: "tỉnh", display_aliases: ["Tỉnh Đồng Nai"]}
+  - {label: "Đồng Tháp", level: "tỉnh", display_aliases: ["Tỉnh Đồng Tháp"]}
+  - {label: "Gia Lai", level: "tỉnh", display_aliases: ["Tỉnh Gia Lai"]}
+  - {label: "Hà Tĩnh", level: "tỉnh", display_aliases: ["Tỉnh Hà Tĩnh"]}
+  - {label: "Hưng Yên", level: "tỉnh", display_aliases: ["Tỉnh Hưng Yên"]}
+  - {label: "Khánh Hòa", level: "tỉnh", display_aliases: ["Tỉnh Khánh Hòa"]}
+  - {label: "Lai Châu", level: "tỉnh", display_aliases: ["Tỉnh Lai Châu"]}
+  - {label: "Lâm Đồng", level: "tỉnh", display_aliases: ["Tỉnh Lâm Đồng"]}
+  - {label: "Lạng Sơn", level: "tỉnh", display_aliases: ["Tỉnh Lạng Sơn"]}
+  - {label: "Lào Cai", level: "tỉnh", display_aliases: ["Tỉnh Lào Cai"]}
+  - {label: "Nghệ An", level: "tỉnh", display_aliases: ["Tỉnh Nghệ An"]}
+  - {label: "Ninh Bình", level: "tỉnh", display_aliases: ["Tỉnh Ninh Bình"]}
+  - {label: "Phú Thọ", level: "tỉnh", display_aliases: ["Tỉnh Phú Thọ"]}
+  - {label: "Quảng Ngãi", level: "tỉnh", display_aliases: ["Tỉnh Quảng Ngãi"]}
+  - {label: "Quảng Ninh", level: "tỉnh", display_aliases: ["Tỉnh Quảng Ninh"]}
+  - {label: "Quảng Trị", level: "tỉnh", display_aliases: ["Tỉnh Quảng Trị"]}
+  - {label: "Sơn La", level: "tỉnh", display_aliases: ["Tỉnh Sơn La"]}
+  - {label: "Tây Ninh", level: "tỉnh", display_aliases: ["Tỉnh Tây Ninh"]}
+  - {label: "Thái Nguyên", level: "tỉnh", display_aliases: ["Tỉnh Thái Nguyên"]}
+  - {label: "Thanh Hóa", level: "tỉnh", display_aliases: ["Tỉnh Thanh Hóa"]}
+  - {label: "Tuyên Quang", level: "tỉnh", display_aliases: ["Tỉnh Tuyên Quang"]}
+  - {label: "Vĩnh Long", level: "tỉnh", display_aliases: ["Tỉnh Vĩnh Long"]}
+
+# Gợi ý huyện/thị xã -> tỉnh, CHỈ dùng khi ô địa điểm không nêu tên tỉnh nào.
+# Chỉ liệt kê các huyện đã gặp trong snapshot và đã kiểm tra thủ công.
+district_hints:
+  "huyện định hóa": "Thái Nguyên"
+  "huyện sơn dương": "Tuyên Quang"
+  "tx. chí linh": "Hải Dương"
+  "thị xã chí linh": "Hải Dương"
+  "huyện bắc quang": "Hà Giang"
+  "huyện tây sơn": "Bình Định"

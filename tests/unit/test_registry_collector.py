@@ -216,7 +216,9 @@ def test_collect_marks_http_200_empty_source_as_failure(tmp_path: Path) -> None:
         category_keys=["world_heritage"],
         output_dir=tmp_path,
     )
-    assert report["claim"] == "100% of selected official registry snapshot"
+    # M2-04: HTTP 200 nhưng không có row là lỗi BLOCKING, không được tính 100%.
+    assert report["claim"] == "coverage_failed"
     assert report["failure_manifest"][0]["error_code"] == "REGISTRY_EMPTY_SOURCE"
-    assert report["categories"][0]["failed"] == 0
+    assert report["categories"][0]["failed"] == 1
+    assert report["categories"][0]["coverage_percent"] == 0.0
     assert report["categories"][0]["http_status"] == "200"

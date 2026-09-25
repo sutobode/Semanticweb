@@ -12,7 +12,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
+
+import yaml
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -33,7 +36,10 @@ def sha256_12(value: str) -> str:
 
 def registry_entity_id(registry_id: str) -> str:
     """Section 13.1 — registry-derived entity dùng registry-{slug(registry_id)}."""
-    slug = registry_id.strip().lower().replace(" ", "-")
+    slug = re.sub(r"[^a-z0-9-]+", "-", registry_id.strip().lower()).strip("-")
+    slug = re.sub(r"-{2,}", "-", slug)
+    if not slug:
+        raise ValueError(f"INVALID_REGISTRY_ID: {registry_id!r}")
     if slug.startswith("registry-"):
         return slug
     return f"registry-{slug}"
@@ -61,6 +67,11 @@ def area_entity_id(qid: str | None, normalized_name: str) -> str:
 def event_entity_id(normalized_name: str, start_year: int | str | None) -> str:
     year_part = str(start_year) if start_year else ""
     return f"event-{sha256_12(normalized_name + year_part)}"
+
+
+def style_entity_id(normalized_name: str) -> str:
+    """ArchitecturalStyle — ``style-{sha256(normalized_name)[:12]}`` (cùng họ ID với event/period)."""
+    return f"style-{sha256_12(normalized_name)}"
 
 
 def period_entity_id(normalized_name: str, start_year: Any, end_year: Any) -> str:
@@ -148,6 +159,38 @@ def merge_duplicates(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
     return list(by_id.values()), identity_map
 
 
+MAPPING_PATH = Path(__file__).resolve().parents[3] / "config" / "mapping.yaml"
+
+
+def supplement_merges(records: list[dict[str, Any]], config: dict[str, Any] | None) -> dict[str, str]:
+    """Bản ghi "(bổ sung …)" -> entity_id của bản gốc cùng category (Section 13.3 merge).
+
+    Trả {registry_id của bản bổ sung: entity_id bản gốc}. Chỉ gộp khi có đúng bản gốc
+    (tên trùng sau khi bỏ viết tắt loại hình và phần bổ sung).
+    """
+    if not config:
+        return {}
+    from vietheritage.normalization.normalizer import canonical_identity_key
+
+    supplement_re = re.compile(config["label_pattern"])
+    abbreviation_re = re.compile(config.get("type_abbreviation_pattern", r"^\b$"))
+
+    def core(label: str) -> str:
+        return canonical_identity_key(abbreviation_re.sub("", supplement_re.sub("", label)))
+
+    bases: dict[tuple[str, str], str] = {}
+    for record in records:
+        if record.get("registry_id") and not supplement_re.search(record.get("label_vi", "")):
+            bases.setdefault((record.get("registry_category"), core(record["label_vi"])), record["_entity_id"])
+    merges = {}
+    for record in records:
+        if record.get("registry_id") and supplement_re.search(record.get("label_vi", "")):
+            base = bases.get((record.get("registry_category"), core(record["label_vi"])))
+            if base:
+                merges[record["registry_id"]] = base
+    return merges
+
+
 def run(run_mode: str = "sample") -> int:
     """`make resolve` — normalized.jsonl -> entities.jsonl + identity_map.jsonl."""
     normalized_path = PROCESSED_DIR / "normalized.jsonl"
@@ -165,6 +208,14 @@ def run(run_mode: str = "sample") -> int:
             record["_entity_id"] = resolve_identity(record)
             records.append(record)
 
+    mapping_cfg = yaml.safe_load(MAPPING_PATH.read_text(encoding="utf-8")) if MAPPING_PATH.exists() else {}
+    supplements = supplement_merges(records, (mapping_cfg or {}).get("registry_supplements"))
+    for record in records:
+        if record.get("registry_id") in supplements:
+            record["_entity_id"] = supplements[record["registry_id"]]
+    # Bản gốc đứng trước bản bổ sung để merge_duplicates giữ nhãn/field của bản gốc.
+    records.sort(key=lambda record: record.get("registry_id") in supplements)
+
     try:
         merged, identity_map = merge_duplicates(records)
     except IdentityCollisionError as exc:
@@ -177,16 +228,35 @@ def run(run_mode: str = "sample") -> int:
 
     entities_path = PROCESSED_DIR / "entities.jsonl"
     identity_map_path = PROCESSED_DIR / "identity_map.jsonl"
+    merged_from: dict[str, list] = {}
+    for entry in identity_map:
+        merged_from.setdefault(entry["entity_id"], []).append(entry["merged_from"])
+    for record in merged:   # registry_id của entity phải là của bản gốc
+        if record.get("registry_id") in supplements:
+            raise IdentityCollisionError(f"supplement {record['registry_id']} kept as primary record")
     with entities_path.open("w", encoding="utf-8") as fh:
         for record in merged:
             fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+    # Section 13.3 — mọi entity có một dòng: nguồn identity (bậc resolution) và các record đã merge.
     with identity_map_path.open("w", encoding="utf-8") as fh:
-        for entry in identity_map:
+        for record in merged:
+            entry = {
+                "entity_id": record["_entity_id"],
+                "identity_source": "registry_id" if record.get("registry_id") else (
+                    "wikidata_id" if record.get("wikidata_id") else "page_id" if record.get("page_id") else "canonical_key"
+                ),
+                "registry_id": record.get("registry_id"),
+                "registry_category": record.get("registry_category"),
+                "merged_from": merged_from.get(record["_entity_id"], []),
+                "merge_reason": "registry_supplement" if any(
+                    rid in supplements for rid in merged_from.get(record["_entity_id"], [])) else None,
+            }
             fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
     collision_report = {"status": "PASS", "collisions": 0}
     (PROCESSED_DIR / "collision_report.json").write_text(
         json.dumps(collision_report, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+    print(f"resolve ({run_mode}): {len(supplements)} registry supplement(s) merged into base record")
     print(f"resolve ({run_mode}): {len(merged)} entities, collision=0")
     return 0

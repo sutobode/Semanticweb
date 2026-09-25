@@ -33,3 +33,6 @@ neo4j-data/
 Thumbs.db
 .vscode/
 .idea/
+
+# --- MediaWiki response cache (collector.yaml request.cache_dir) ---
+data/cache/

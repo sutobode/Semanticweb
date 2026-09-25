@@ -1,0 +1,49 @@
+# Map cứng registry -> bài Wikipedia tiếng Việt (COMP-001, ưu tiên cao nhất).
+#
+# Chỉ dùng cho trường hợp tên trên dsvh.gov.vn và tiêu đề Wikipedia khác nhau đến mức
+# không có luật tổng quát an toàn. Mỗi dòng đã được kiểm tra tay (tên, tỉnh, nội dung bài).
+# Khóa: (registry_category, label_vi) CHÍNH XÁC như trong data/raw/registry_records.jsonl.
+# titles: 1 tiêu đề -> bài của cả record; >= 2 tiêu đề -> mapper tách record thành nhiều entity.
+# Override bỏ qua luật bằng chứng tỉnh/thể loại nhưng tiêu đề vẫn phải tồn tại (theo redirect);
+# tiêu đề không tồn tại -> record vào enrichment_failures với lý do "override title …".
+#
+# Nguồn: review thủ công của M2 (Hoangnn) ngày 2026-09-24 trên file m2_wiki_unmatched.json.
+overrides:
+  # --- Di sản thế giới / di tích quốc gia đặc biệt ---
+  - {registry_category: world_heritage, label_vi: "Khu di tích Chăm Mỹ Sơn", titles: ["Thánh địa Mỹ Sơn"]}
+  - {registry_category: national_special_monuments, label_vi: "Khu đền tháp Mỹ Sơn", titles: ["Thánh địa Mỹ Sơn"]}
+  - {registry_category: national_special_monuments, label_vi: "DTKC Khu khảo cổ Cát Tiên", titles: ["Thánh địa Cát Tiên"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Khu lăng mộ và đền thờ các vị vua triều Trần", titles: ["Đền Trần (Long Hưng)"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Khu lưu niệm Chủ tịch Hồ Chí Minh tại Kim Liên", titles: ["Khu di tích lịch sử Kim Liên"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Khu lưu niệm Nguyễn Du", titles: ["Khu lưu niệm Đại thi hào Nguyễn Du"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Khu đền thờ Tây Sơn - Tam Kiệt", titles: ["Bảo tàng Quang Trung"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Tân Trào", titles: ["Chiến khu Tân Trào"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS VÀ DLTC Tây Thiên - Tam Đảo", titles: ["Khu di tích và danh thắng Tây Thiên"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS và DLTC Quần thể An Phụ - Kính Chủ - Nhẫm Dương", titles: ["Đền Cao An Phụ", "Động Kính Chủ"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS và DLTC Quần thể Hương Sơn", titles: ["Chùa Hương"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS và KTNT Khu di tích Bà Triệu", titles: ["Đền Bà Triệu"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Đường Trường Sơn - Đường Hồ Chí Minh", titles: ["Đường Trường Sơn"]}
+  - {registry_category: national_special_monuments, label_vi: "DTLS Đền Hai Bà Trưng", titles: ["Đền Hai Bà Trưng (Hạ Lôi)"]}
+  - {registry_category: national_special_monuments, label_vi: "Khu lưu niệm Chủ tịch Hồ Chí Minh tại Phủ Chủ tịch", titles: ["Khu di tích Phủ Chủ tịch"]}
+  # KHÔNG map "Địa điểm lưu niệm Cụ Nguyễn Sinh Sắc tại huyện đường Bình Khê" (Tây Sơn, Bình Định)
+  # -> "Khu di tích Nguyễn Sinh Sắc": bài đó là khu mộ ở Cao Lãnh (Đồng Tháp), khác di tích.
+
+  # --- Phi vật thể ---
+  - {registry_category: intangible_representative, label_vi: "Nghi lễ và trò chơi kéo co ở Việt Nam, Campuchia, Hàn Quốc và Philippin", titles: ["Kéo co"]}
+  - {registry_category: intangible_representative, label_vi: "Nghệ thuật Bài Chòi Trung bộ Việt Nam", titles: ["Bài chòi"]}
+  - {registry_category: intangible_representative, label_vi: "Nghệ thuật Xòe Thái", titles: ["Xòe Thái"]}
+  - {registry_category: intangible_representative, label_vi: "Thực hành Then của người Tày, Nùng, Thái", titles: ["Nghi lễ Then"]}
+  - {registry_category: intangible_representative, label_vi: "Thực hành tín ngưỡng thờ Mẫu Tam phủ của người Việt", titles: ["Tín ngưỡng thờ Mẫu Việt Nam"]}
+  - {registry_category: intangible_representative, label_vi: "Âm nhạc cung đình Việt Nam – Nhã nhạc (Triều Nguyễn)", titles: ["Nhã nhạc cung đình Huế"]}
+  - {registry_category: intangible_representative, label_vi: "Dân ca Ví, Giặm Nghệ Tĩnh", titles: ["Dân ca ví, giặm Nghệ Tĩnh"]}
+  - {registry_category: intangible_representative, label_vi: "Hội Gióng (Đền Phù Đổng và đền Sóc)", titles: ["Hội Gióng"]}
+  - {registry_category: national_intangible, label_vi: "Nhã nhạc - Âm nhạc Cung đình Việt Nam", titles: ["Nhã nhạc cung đình Huế"]}
+  - {registry_category: national_intangible, label_vi: "Dân ca Ví, Giặm xứ Nghệ", titles: ["Dân ca ví, giặm Nghệ Tĩnh"]}
+  - {registry_category: national_intangible, label_vi: "Hội Gióng đền Phù Đổng và đền Sóc", titles: ["Hội Gióng"]}
+  - {registry_category: national_intangible, label_vi: "Chợ Phong lưu (Háng Phúng Lìu) Khâu Vai", titles: ["Chợ Khau Vai"]}
+  - {registry_category: national_intangible, label_vi: "Khan (Sử thi) của người Ê Đê", titles: ["Hát Khan"]}
+  # Then: phần tử UNESCO "Thực hành Then của người Tày, Nùng, Thái" đã map "Nghi lễ Then" (ở trên);
+  # các lần ghi danh quốc gia của người Tày / Tày-Nùng là cùng loại hình. "…của người Giáy" KHÔNG
+  # thêm (chưa kiểm tra) -> để luật bằng chứng dân tộc quyết định.
+  - {registry_category: national_intangible, label_vi: "Nghi lễ Then của người Tày", titles: ["Nghi lễ Then"]}
+  - {registry_category: national_intangible, label_vi: "Nghi lễ Then của người Tày, người Nùng", titles: ["Nghi lễ Then"]}

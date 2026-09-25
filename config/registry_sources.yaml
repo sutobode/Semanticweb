@@ -1,12 +1,30 @@
+# Coverage universe (COMP-000, PROJECT_SPEC Phụ lục D.1). M2 sở hữu file này.
+#
+# Ghi chú M2 (xem docs/REGISTRY_SOURCES.md):
+# - registry_url của record lấy từ link nằm trong ô label_vi; không cần selector riêng.
+# - detail_link_selector để null: theo §7 "một list/table row hợp lệ là registry
+#   record hoàn chỉnh"; chỉ bật lại khi đã khảo sát detail page thật và khai
+#   thêm detail_fields: {ten_field: "css selector"} (M2-07). Khi đã khai, lỗi
+#   detail page là blocking (REGISTRY_DETAIL_MISSING).
+# - allow_empty_source: true — nhóm quyết định GIỮ category trong coverage universe dù
+#   trang chính thức chưa công bố dòng dữ liệu nào (DEC-M2-001, bắt buộc có
+#   empty_source_note.decision). Khi trang rỗng: category ghi 0/0 dòng, không lỗi,
+#   liệt kê trong data/raw/registry_empty_sources.jsonl. Khi trang có dữ liệu: category
+#   được thu thập bình thường ở lần crawl sau, không cần sửa code/config.
+#   10 category có khóa này được khảo sát thật ngày 2026-09-23 (7 trang chỉ có bảng khung
+#   rỗng, 3 trang không có bảng) — xem docs/REGISTRY_SOURCES.md §1.
+#   Lỗi mạng/HTTP/parse vẫn là blocking cho mọi category.
 base_url: https://dsvh.gov.vn/
 request:
   timeout_seconds: 30
   retries: 3
   backoff_seconds: [2, 4, 8]
+  delay_seconds: 1.0          # nghỉ giữa hai request tới site chính phủ
   user_agent: "VietHeritageLOD/1.0 (+registry collector)"
 defaults:
   row_selector: "table tbody tr"
   next_page_selector: "a[rel=next]"
+  max_pages: 50               # chặn vòng lặp pagination; dừng sớm khi fingerprint lặp
   footer_patterns: ["^Tổng số", "^Total"]
 categories:
   - key: world_heritage
@@ -19,7 +37,7 @@ categories:
       recognition_text: 2
       type: 3
       location: 4
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
   - key: national_special_monuments
@@ -31,7 +49,7 @@ categories:
       label_vi: 1
       recognition_text: 2
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
   - key: national_monuments
@@ -43,7 +61,7 @@ categories:
       label_vi: 1
       recognition_text: 2
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
   - key: intangible_representative
@@ -97,6 +115,12 @@ categories:
       location: 3
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức không có bảng danh mục nào (0 <table>), chỉ có nội dung điều hướng/tin bài (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/artisans.html"
+      checked_at: "2026-09-23"
 
   - key: national_treasures
     url: https://dsvh.gov.vn/bao-vat-quoc-gia-1758
@@ -107,7 +131,7 @@ categories:
       label_vi: 1
       recognition_text: 2
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
   - key: artifacts_antiquities
@@ -121,6 +145,12 @@ categories:
       location: 3
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức không có bảng danh mục nào (0 <table>), chỉ có nội dung điều hướng/tin bài (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/artifacts_antiquities.html"
+      checked_at: "2026-09-23"
 
   - key: national_artisans
     url: https://dsvh.gov.vn/nghe-nhan-nhan-dan-1764
@@ -134,6 +164,12 @@ categories:
       location: 4
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/national_artisans.html"
+      checked_at: "2026-09-23"
 
   - key: meritorious_artisans
     url: https://dsvh.gov.vn/nghe-nhan-uu-tu-1762
@@ -147,6 +183,12 @@ categories:
       location: 4
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/meritorious_artisans.html"
+      checked_at: "2026-09-23"
 
   - key: national_museums
     url: https://dsvh.gov.vn/bao-tang-quoc-gia-1784
@@ -157,8 +199,14 @@ categories:
       label_vi: 2
       recognition_text: 0
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/national_museums.html"
+      checked_at: "2026-09-23"
 
   - key: ministry_museums
     url: https://dsvh.gov.vn/bao-tang-chuyen-nganh-thuoc-bo-nganh-to-chuc-chinh-tri-xa-hoi-trung-uong-1783
@@ -169,8 +217,14 @@ categories:
       label_vi: 2
       recognition_text: 0
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/ministry_museums.html"
+      checked_at: "2026-09-23"
 
   - key: central_organization_museums
     url: https://dsvh.gov.vn/bao-tang-chuyen-nganh-thuoc-cac-don-vi-truc-thuoc-bo-nganh-to-chuc-chinh-tri-xa-hoi-trung-uong-1782
@@ -181,8 +235,14 @@ categories:
       label_vi: 2
       recognition_text: 0
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/central_organization_museums.html"
+      checked_at: "2026-09-23"
 
   - key: provincial_museums
     url: https://dsvh.gov.vn/bao-tang-cap-tinh-1779
@@ -193,8 +253,14 @@ categories:
       label_vi: 2
       recognition_text: 0
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/provincial_museums.html"
+      checked_at: "2026-09-23"
 
   - key: private_museums
     url: https://dsvh.gov.vn/bao-tang-ngoai-cong-lap
@@ -205,8 +271,14 @@ categories:
       label_vi: 2
       recognition_text: 0
       location: 3
-    detail_link_selector: "td:nth-child(2) a"
+    detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/private_museums.html"
+      checked_at: "2026-09-23"
 
   - key: documentary_heritage
     url: https://dsvh.gov.vn/di-san-tu-lieu-2862
@@ -219,3 +291,28 @@ categories:
       location: 3
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
+    allow_empty_source: true
+    empty_source_note:
+      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
+      reason: "Trang chính thức không có bảng danh mục nào (0 <table>), chỉ có nội dung điều hướng/tin bài (probe Kaggle 2026-09-23)"
+      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/documentary_heritage.html"
+      checked_at: "2026-09-23"
+
+# --- Nguồn dạng danh sách bài viết (M2-26, src/vietheritage/registry/articles.py) -----------------
+# Mục "Di tích quốc gia" chỉ có danh sách link bài giới thiệu (mỗi bài 1 di tích, ~16 trang x 10 bài),
+# không có bảng. Record sinh ra cùng schema với record dạng bảng và được CỘNG vào category
+# registry_category (bảng danh-muc-di-tich-quoc-gia-1753 chỉ có 6 dòng). Coverage của category = các
+# di tích có bài giới thiệu trên dsvh.gov.vn, KHÔNG phải toàn bộ danh mục di tích quốc gia.
+# - Bài không có số quyết định xếp hạng, bài xếp hạng "quốc gia đặc biệt", bài trùng tên với record đã có
+#   (cùng category hoặc duplicate_categories) -> data/raw/registry_article_quarantine.jsonl.
+# - Link không có breadcrumb về list_url (sidebar, "Thông báo mới"…) bị bỏ qua.
+# - item_link_selector: null -> tự nhận link /<slug>-<id>; đặt CSS nếu khảo sát HTML thật thấy cần.
+article_sources:
+  - key: national_monuments_articles
+    registry_category: national_monuments
+    list_url: https://dsvh.gov.vn/di-tich-quoc-gia-130
+    page_param: _pageIndex
+    max_pages: 40
+    item_link_selector: null
+    duplicate_categories: [national_special_monuments, world_heritage]
+    enabled: true
