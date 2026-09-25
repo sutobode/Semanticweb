@@ -1,20 +1,37 @@
 """Normalizer — NOR-001..NOR-015 (COMP-002, Section 17).
 
-Input: ``data/raw/registry_records.jsonl`` (+ ``data/raw/pages.jsonl`` khi có
-enrichment). Output: ``data/processed/normalized.jsonl``,
+Input: ``data/raw/registry_records.jsonl``. Output: ``data/processed/normalized.jsonl``,
 ``data/processed/skipped_records.jsonl``.
+
+Ghi chú M2: enrichment Wikipedia (``data/raw/pages.jsonl``) được ghép ở COMP-004
+(mapper) theo ``registry_id``; page đã được chuẩn hóa ngay trong collector
+(NFC, tiêu đề thật, URL không fragment). Stage này còn:
+
+* validate raw theo ``schema/raw-page.schema.json`` (FR-002, ``RAW_SCHEMA_INVALID``);
+* sửa ``registry_url`` của snapshot cũ (trang chủ/``http``/``https://https://``, M2-02);
+* chuẩn hóa ``retrieved_at`` về UTC ``Z`` và text trong ``registry_fields``;
+* cung cấp ``parse_recognition_year`` (M2-01) cho mapper.
 """
 from __future__ import annotations
 
 import json
 import re
 import unicodedata
+from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote, urljoin, urlsplit, urlunsplit
+
+import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RAW_DIR = REPO_ROOT / "data" / "raw"
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
+REGISTRY_CONFIG_PATH = REPO_ROOT / "config" / "registry_sources.yaml"
+RAW_SCHEMA_PATH = REPO_ROOT / "schema" / "raw-page.schema.json"
+
+OFFICIAL_REGISTRY_HOST = "dsvh.gov.vn"
 
 CORE_REQUIRED_FIELDS = [
     "registry_id", "registry_category", "label_vi", "registry_url",
@@ -152,17 +169,222 @@ def dedupe_aliases(label_vi: str, aliases: list[str]) -> list[str]:
     return result
 
 
+# ---------------------------------------------------------------------------
+# Recognition year (M2-01)
+# ---------------------------------------------------------------------------
+
+# Số hiệu văn bản như "1272/QĐ-TTg", "5079/QĐ - BVHTTDL", "1426 /QĐ-TTg" là số
+# quyết định, KHÔNG phải năm. Chúng bị loại khỏi chuỗi trước khi tìm năm.
+_DECISION_NUMBER_RE = re.compile(r"(?<!\d)\d+\s*/\s*(?:QĐ|QD|NĐ|ND|TTg|CT|TB|VBHN)\b[^\s,;]*", re.IGNORECASE)
+_FULL_DATE_RE = re.compile(r"(?<!\d)(\d{1,2})\s*[/.\-]\s*(\d{1,2})\s*[/.\-]\s*(\d{4})(?!\d)")
+_VI_DATE_RE = re.compile(r"ngày\s+\d{1,2}\s+tháng\s+\d{1,2}\s+năm\s+(\d{4})(?!\d)", re.IGNORECASE)
+_NAM_YEAR_RE = re.compile(r"năm\s+(\d{4})(?!\d)", re.IGNORECASE)
+RECOGNITION_MIN_YEAR = 1900
+
+
+def _current_year() -> int:
+    return datetime.now(timezone.utc).year
+
+
+def parse_recognition_year(value: Any, min_year: int = RECOGNITION_MIN_YEAR, max_year: int | None = None) -> int | None:
+    """M2-01 — năm công nhận/xếp hạng từ ô văn bản registry.
+
+    Thứ tự ưu tiên (quyết định đầu tiên trong ô = công nhận gốc):
+      1. ngày đầy đủ ``dd/mm/yyyy`` (hoặc ``-``/``.``);
+      2. ``ngày … tháng … năm yyyy``;
+      3. ``năm yyyy``;
+      4. năm 4 chữ số đứng riêng (ví dụ ``"1993"``, ``"1994 2000"``, ``"2003 và 2015"``).
+    Số hiệu quyết định (``1272/QĐ-TTg``) bị loại trước khi tìm. Năm ngoài
+    ``[min_year, max_year]`` trả ``None`` (OWA: thà thiếu còn hơn sai).
+    """
+    if value is None:
+        return None
+    if isinstance(value, int):
+        year = value
+    else:
+        text = normalize_nfc(normalize_text(str(value)))
+        if is_unknown_value(text):
+            return None
+        stripped = _DECISION_NUMBER_RE.sub(" ", text)
+        year = None
+        for pattern in (_FULL_DATE_RE, _VI_DATE_RE, _NAM_YEAR_RE):
+            match = pattern.search(stripped)
+            if match:
+                year = int(match.group(match.lastindex))
+                break
+        if year is None:
+            match = _YEAR_RE.search(stripped)
+            if match:
+                year = int(match.group(1))
+    upper = max_year if max_year is not None else _current_year()
+    if year is None or not (min_year <= year <= upper):
+        return None
+    return year
+
+
+# ---------------------------------------------------------------------------
+# Registry URL repair (M2-02, NOR-012)
+# ---------------------------------------------------------------------------
+
+_DOUBLE_SCHEME_RE = re.compile(r"^(?:https?://|/+)+(?=https?://)", re.IGNORECASE)  # "https://https://x", "//https://x"
+
+
+_PATH_SAFE = "/%:@!$&'()*+,;=-._~"
+_QUERY_SAFE = "/%:@!$&'()*+,;=-._~?"
+_URI_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://[\x21-\x7e]+$")
+
+
+def iri_to_uri(url: str | None) -> str | None:
+    """IRI -> URI hợp lệ RFC 3986 (percent-encode UTF-8 ngoài ASCII, host IDNA).
+
+    Ví dụ ``https://vi.wikipedia.org/wiki/Vịnh_Hạ_Long`` ->
+    ``https://vi.wikipedia.org/wiki/V%E1%BB%8Bnh_H%E1%BA%A1_Long``. Ký tự đã
+    percent-encode giữ nguyên, nên hàm idempotent.
+    """
+    if not url:
+        return url
+    parts = urlsplit(normalize_nfc(url.strip()))
+    netloc = parts.netloc
+    if parts.hostname and not parts.hostname.isascii():
+        host = parts.hostname.encode("idna").decode("ascii")
+        netloc = netloc.replace(parts.hostname, host)
+    return urlunsplit((
+        parts.scheme, netloc,
+        quote(parts.path, safe=_PATH_SAFE),
+        quote(parts.query, safe=_QUERY_SAFE),
+        quote(parts.fragment, safe=_QUERY_SAFE),
+    ))
+
+
+def is_valid_uri(value: Any) -> bool:
+    """Kiểm tra URI tuyệt đối chỉ gồm ASCII in được — không phụ thuộc thư viện format
+    tùy chọn của jsonschema (Kaggle có, máy dev có thể không)."""
+    return isinstance(value, str) and bool(_URI_RE.match(value))
+
+
+def _is_official_host(host: str | None) -> bool:
+    host = (host or "").lower()
+    return host == OFFICIAL_REGISTRY_HOST or host.endswith("." + OFFICIAL_REGISTRY_HOST)
+
+
+def normalize_registry_url(href: str | None, category_url: str, base_url: str = "https://dsvh.gov.vn/") -> tuple[str, str | None]:
+    """Trả ``(registry_url, repair_code)``.
+
+    - href rỗng/``#``/``javascript:`` hoặc resolve ra trang chủ -> URL category;
+    - sửa ``https://https://...``; ép ``https`` cho host chính thức; bỏ fragment;
+    - href trỏ ra ngoài ``dsvh.gov.vn`` -> URL category.
+    ``repair_code`` là ``None`` nếu href dùng được nguyên trạng.
+    """
+    fallback = category_url
+    raw = (href or "").strip()
+    if not raw or raw.startswith("#") or raw.lower().startswith(("javascript:", "mailto:", "tel:")):
+        return fallback, "REGISTRY_URL_EMPTY"
+    code = None
+    fixed = _DOUBLE_SCHEME_RE.sub("", raw)
+    if fixed != raw:
+        code = "REGISTRY_URL_DOUBLE_SCHEME"
+    absolute = urljoin(base_url, fixed)
+    parts = urlsplit(absolute)
+    if parts.scheme not in {"http", "https"} or not _is_official_host(parts.hostname) or any(ch.isspace() for ch in absolute):
+        return fallback, "REGISTRY_URL_NOT_OFFICIAL"
+    if parts.scheme != "https":
+        code = code or "REGISTRY_URL_HTTP"
+    path = parts.path or "/"
+    normalized = iri_to_uri(urlunsplit(("https", parts.netloc.lower(), path, parts.query, "")))
+    base_parts = urlsplit(urljoin(base_url, "/"))
+    if normalized.rstrip("/") == urlunsplit(("https", base_parts.netloc.lower(), "", "", "")).rstrip("/"):
+        return fallback, "REGISTRY_URL_HOMEPAGE"
+    return normalized, code
+
+
+@lru_cache(maxsize=4)
+def _category_urls(config_path: str) -> tuple[dict[str, str], str]:
+    path = Path(config_path)
+    if not path.exists():
+        return {}, "https://dsvh.gov.vn/"
+    config = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return {item["key"]: item["url"] for item in config.get("categories", [])}, config.get("base_url", "https://dsvh.gov.vn/")
+
+
+def repair_registry_url(record: dict[str, Any], config_path: Path | None = None) -> tuple[str | None, str | None]:
+    """Áp ``normalize_registry_url`` lên record raw đã có (snapshot cũ)."""
+    url = record.get("registry_url")
+    category = record.get("registry_category")
+    categories, base = _category_urls(str(config_path or REGISTRY_CONFIG_PATH))
+    category_url = categories.get(category)
+    if not url or not category_url:
+        return url, None
+    host = urlsplit(_DOUBLE_SCHEME_RE.sub("", url)).hostname
+    if not _is_official_host(host):
+        # URL không thuộc registry chính thức (ví dụ fixture/test): giữ nguyên.
+        return url, None
+    return normalize_registry_url(url, category_url, base)
+
+
+def normalize_timestamp_utc(value: str | None) -> str | None:
+    """RFC3339 bất kỳ -> UTC với hậu tố ``Z`` (Raw rule §11.3)."""
+    if not value:
+        return value
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return value
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+@lru_cache(maxsize=2)
+def _raw_validator(schema_path: str):
+    from jsonschema import Draft202012Validator
+
+    return Draft202012Validator(json.loads(Path(schema_path).read_text(encoding="utf-8")))
+
+
+def validate_raw_record(raw: dict[str, Any]) -> list[str]:
+    """FR-002 / TEST-005 — lỗi JSON Schema của một registry record raw."""
+    if not RAW_SCHEMA_PATH.exists():
+        return []
+    return [f"{'/'.join(map(str, error.path)) or '$'}: {error.message}" for error in _raw_validator(str(RAW_SCHEMA_PATH)).iter_errors(raw)]
+
+
 def normalize_record(raw: dict[str, Any]) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     """Áp toàn bộ 15 rule lên một raw record. Trả (normalized, skip_reason)."""
     missing = [f for f in CORE_REQUIRED_FIELDS if not raw.get(f)]
     if missing:
         return None, {"registry_id": raw.get("registry_id"), "error": "RAW_MISSING_CORE", "missing_fields": missing}
 
+    schema_errors = validate_raw_record(raw)
+    if schema_errors:
+        return None, {"registry_id": raw.get("registry_id"), "error": "RAW_SCHEMA_INVALID", "details": schema_errors}
+
     normalized: dict[str, Any] = dict(raw)
     normalized["label_vi"] = canonical_label_for_display(raw["label_vi"])
     normalized["_identity_key"] = canonical_identity_key(raw["label_vi"])
 
     warnings: list[str] = []
+
+    registry_url, url_repair = repair_registry_url(raw)
+    if url_repair:
+        warnings.append(url_repair)
+        normalized["registry_url"] = registry_url
+    elif registry_url:
+        normalized["registry_url"] = iri_to_uri(normalize_url_strip_fragment(registry_url))
+
+    for time_field in ("retrieved_at",):
+        if raw.get(time_field):
+            normalized[time_field] = normalize_timestamp_utc(raw[time_field])
+
+    fields = raw.get("registry_fields")
+    if isinstance(fields, dict):
+        normalized["registry_fields"] = {
+            key: (normalize_nfc(normalize_text(value)) if isinstance(value, str) else value)
+            for key, value in fields.items()
+        }
+
+    aliases = raw.get("aliases_vi")
+    if isinstance(aliases, list):
+        normalized["aliases_vi"] = dedupe_aliases(normalized["label_vi"], aliases)
 
     coords = raw.get("coordinates")
     if isinstance(coords, dict):

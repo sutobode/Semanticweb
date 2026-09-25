@@ -164,6 +164,8 @@ def test_enrich_many_batches_titles_and_reports_qids(tmp_path: Path) -> None:
     calls: list[int] = []
 
     def mock_fetcher(api_url: str, params: dict, request_cfg: dict) -> dict:  # noqa: ARG001
+        if params.get("list") == "prefixsearch":   # vòng tìm đúng hoa/thường cho record chưa khớp
+            return {"query": {"prefixsearch": []}}
         titles = params["titles"].split("|")
         calls.append(len(titles))
         return {"query": {"pages": [
@@ -198,6 +200,9 @@ def test_match_registry_labels_resolves_redirect_target_qid() -> None:
         ["Alias di sản"], api_response, "2026-09-13T00:00:00Z"
     )
     assert not failures
-    assert pages[0].title == "Alias di sản"
+    # M2-13: title/source_url là tiêu đề thật của page; nhãn dùng để tìm nằm ở requested_labels.
+    assert pages[0].title == "Trang đích"
+    assert pages[0].requested_labels == ["Alias di sản"]
+    assert pages[0].match_method == "redirect"
     assert pages[0].page_id == 99
     assert pages[0].wikidata_id == "Q999"

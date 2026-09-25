@@ -1,19 +1,20 @@
 # Authoritative canonical -> RDF mapping (PROJECT_SPEC 1.6.2, Sections 19 / D.3).
+# required_fields: Section 12.2 — COMP-004 quarantine record thiếu field bắt buộc.
 entity_types:
-  HeritageSite: {class: "vh:HeritageSite"}
-  AdministrativeArea: {class: "vh:AdministrativeArea"}
-  HistoricalPerson: {class: "vh:HistoricalPerson"}
-  HistoricalEvent: {class: "vh:HistoricalEvent"}
-  HistoricalPeriod: {class: "vh:HistoricalPeriod"}
-  HeritageComplex: {class: "vh:HeritageComplex"}
-  Organization: {class: "vh:Organization"}
-  ArchitecturalStyle: {class: "vh:ArchitecturalStyle"}
-  Museum: {class: "vh:Museum"}
-  IntangibleHeritage: {class: "vh:IntangibleHeritage"}
-  NationalTreasure: {class: "vh:NationalTreasure"}
-  DocumentaryHeritage: {class: "vh:DocumentaryHeritage"}
-  Artisan: {class: "vh:Artisan"}
-  CulturalObject: {class: "vh:CulturalObject"}
+  HeritageSite: {class: "vh:HeritageSite", required_fields: [entity_id, entity_type, label_vi, source_url, retrieved_at, provenance]}
+  AdministrativeArea: {class: "vh:AdministrativeArea", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  HistoricalPerson: {class: "vh:HistoricalPerson", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  HistoricalEvent: {class: "vh:HistoricalEvent", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  HistoricalPeriod: {class: "vh:HistoricalPeriod", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  HeritageComplex: {class: "vh:HeritageComplex", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  Organization: {class: "vh:Organization", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  ArchitecturalStyle: {class: "vh:ArchitecturalStyle", required_fields: [entity_id, entity_type, label_vi, provenance]}
+  Museum: {class: "vh:Museum", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
+  IntangibleHeritage: {class: "vh:IntangibleHeritage", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_category, registry_url, provenance]}
+  NationalTreasure: {class: "vh:NationalTreasure", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
+  DocumentaryHeritage: {class: "vh:DocumentaryHeritage", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
+  Artisan: {class: "vh:Artisan", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
+  CulturalObject: {class: "vh:CulturalObject", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
 site_type_tokens:
   "lịch sử": vh:HistoricalSite
   "tôn giáo": vh:ReligiousSite
@@ -50,3 +51,71 @@ relation_properties:
   architectural_styles: {predicate: "vh:hasArchitecturalStyle"}
 provenance_properties:
   source_url: {predicates: ["dcterms:source", "prov:wasDerivedFrom"], required: true}
+
+# ---------------------------------------------------------------------------
+# Phần dưới đây chỉ COMP-004 (Canonical Mapper, M2) đọc; RDF generator bỏ qua.
+# ---------------------------------------------------------------------------
+
+# Ý nghĩa của từng cột registry (registry_fields) theo category. `default` áp cho
+# mọi category không khai riêng. Giá trị là danh sách field canonical nhận cột đó:
+#   located_in       -> tách tỉnh bằng config/areas.yaml, sinh AdministrativeArea + relations.located_in
+#   recognition_year -> năm công nhận (bỏ số hiệu quyết định, M2-01)
+#   site_types       -> chỉ áp cho entity_type HeritageSite (Section 19)
+registry_field_roles:
+  default:
+    location: [address, location, located_in]
+    recognition_text: [recognition_year]
+    type: [site_types]
+  # Cột thứ 4 của bảng bảo vật là "nơi lưu giữ" (thường là tên bảo tàng), không
+  # phải địa điểm hành chính -> current_holder, không sinh located_in/address.
+  national_treasures:
+    location: [current_holder]
+    recognition_text: [recognition_year]
+
+# Năm xây dựng từ infobox Wikipedia (chỉ HeritageSite). Key infobox đã chuẩn hóa
+# (lowercase, khoảng trắng -> "_"). Giá trị ngoài [min_year, năm hiện tại] bị bỏ.
+infobox_fields:
+  construction_year:
+    key_pattern: "(?:^|_)(?:năm_xây_dựng|xây_dựng|khởi_công|khởi_dựng|thành_lập|khánh_thành|hoàn_thành|built|established|founded)(?:$|_)"
+    min_year: 1
+
+# Quan hệ Wikipedia được map khi collector đánh dấu verified=true (M2-15).
+wikipedia_relations:
+  built_by: HistoricalPerson
+  associated_persons: HistoricalPerson
+  associated_events: HistoricalEvent
+  periods: HistoricalPeriod
+  architectural_styles: ArchitecturalStyle
+
+# Entity phái sinh cố định (DEC-013: UNESCO là named individual).
+derived_entities:
+  organization-unesco:
+    entity_type: Organization
+    label_vi: "UNESCO"
+    aliases_vi: ["Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc"]
+    organization_type: "tổ chức quốc tế"
+    attach:
+      registry_category: world_heritage
+      relation: recognized_by
+
+# M2-11 — Danh mục di tích quốc gia đặc biệt ghi loại hình bằng tiền tố viết tắt
+# trong tên (ví dụ "DTLS và KTNT Cổ Loa"). Mỗi viết tắt -> một site_type; generator
+# sau đó áp site_type_tokens ở trên (lịch sử/kiến trúc/khảo cổ). Chỉ áp cho HeritageSite.
+site_type_label_abbreviations:
+  prefix_pattern: "^(?:(?:DTLS|DTKTNT|DTKC|DLTC|KTNT|KC)(?:\\s*,\\s*|\\s+(?i:và)\\s+)?)+(?=\\s)"
+  tokens:
+    DTLS: "di tích lịch sử"
+    DTKTNT: "di tích kiến trúc nghệ thuật"
+    KTNT: "di tích kiến trúc nghệ thuật"
+    DTKC: "di tích khảo cổ"
+    KC: "di tích khảo cổ"
+    DLTC: "danh lam thắng cảnh"
+
+# COMP-003 — bản ghi bổ sung: "DTLS Đường Trường Sơn - Đường Hồ Chí Minh (bổ sung thêm 09 điểm di tích)"
+# là quyết định bổ sung cho CÙNG di tích với "DTLS Đường Trường Sơn - Đường Hồ Chí Minh".
+# Resolver gộp bản bổ sung vào bản gốc (cùng category, cùng tên sau khi bỏ viết tắt loại hình
+# và phần "(bổ sung …)"); identity_map.jsonl ghi registry_id đã gộp. Không gộp nếu không có bản gốc.
+# KHÔNG gộp các dòng trùng tên khác (ví dụ 3 "Tượng Avalokitesvara" là 3 bảo vật khác nhau).
+registry_supplements:
+  label_pattern: "\\s*\\((?:bổ sung|mở rộng)[^)]*\\)\\s*$"
+  type_abbreviation_pattern: "^(?:(?:DTLS|DTKTNT|DTKC|DLTC|KTNT|KC)(?:\\s*,\\s*|\\s+(?:và|VÀ)\\s+)?)+\\s+"

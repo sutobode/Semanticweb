@@ -88,7 +88,23 @@ def run(run_mode: str = "sample") -> int:
     coverage_path = REPO_ROOT / "data" / "processed" / "canonical.jsonl"
     canonical_records = [json.loads(line) for line in coverage_path.read_text(encoding="utf-8").splitlines() if line.strip()] if coverage_path.exists() else []
     canonical_count = len(canonical_records)
-    snapshot_id = str(canonical_records[0].get("coverage_snapshot")) if canonical_records else None
+    # §12.4.2: coverage so sánh registry với entity CÓ NGUỒN REGISTRY; entity phái
+    # sinh (AdministrativeArea, Organization, …) không thuộc coverage universe.
+    registry_derived = [record for record in canonical_records if record.get("registry_id")]
+    # Đếm DÒNG registry được biểu diễn: một dòng có thể tách thành nhiều entity (di tích gộp)
+    # hoặc được gộp vào bản gốc (bản ghi "bổ sung", ghi trong identity_map.jsonl).
+    identity_map_path = REPO_ROOT / "data" / "processed" / "identity_map.jsonl"
+    merged_ids = {
+        rid
+        for line in (identity_map_path.read_text(encoding="utf-8").splitlines() if identity_map_path.exists() else [])
+        if line.strip()
+        for rid in (json.loads(line).get("merged_from") or [])
+        if isinstance(rid, str)
+    }
+    registry_derived_count = len({record["registry_id"] for record in registry_derived} | merged_ids)
+    snapshot_id = str(registry_derived[0].get("coverage_snapshot")) if registry_derived else (
+        str(canonical_records[0].get("coverage_snapshot")) if canonical_records else None
+    )
     coverage = _coverage_for_snapshot(snapshot_id)
     category_coverage_ok = bool(coverage.get("categories")) and all(
         item.get("coverage_percent") == 100.0 for item in coverage["categories"]
@@ -96,8 +112,8 @@ def run(run_mode: str = "sample") -> int:
     coverage_ok = (
         run_mode == "sample"
         or coverage.get("claim") == "100% of selected official registry snapshot"
-        and coverage.get("registry_total") == canonical_count
-        and coverage.get("canonical_total") == canonical_count
+        and coverage.get("registry_total") == registry_derived_count
+        and coverage.get("canonical_total") == registry_derived_count
         and len(coverage.get("categories", [])) == 17
         and category_coverage_ok
     )
@@ -115,6 +131,7 @@ def run(run_mode: str = "sample") -> int:
         "metrics": {
             "snapshot_id": snapshot_id,
             "canonical_records": canonical_count,
+            "registry_derived_records": registry_derived_count,
             "verified_external_links": verified_links,
             "coverage_claim": coverage.get("claim"),
             "registry_total": coverage.get("registry_total"),

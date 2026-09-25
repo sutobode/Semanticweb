@@ -1,8 +1,19 @@
+# COMP-001 — Wikipedia enrichment (PROJECT_SPEC Phụ lục D.2). M2 sở hữu file này.
 api_url: https://vi.wikipedia.org/w/api.php
 request:
   timeout_seconds: 30
-  retries: 4
-  backoff_seconds: [5, 15, 30, 60]
+  retries: 3                     # NFR-007
+  backoff_seconds: [2, 4, 8]     # NFR-007; header Retry-After của MediaWiki được ưu tiên nếu có
+  delay_seconds: 1.0             # nghỉ giữa hai lô API (action=query nhiều tiêu đề)
+  prefixsearch_delay_seconds: 0.1  # nghỉ giữa hai truy vấn prefixsearch (request nhẹ)
+  user_agent: "VietHeritageLOD/1.0 (HUST Semantic Web capstone; heritage knowledge graph collector)"
+  # Liên hệ gắn vào User-Agent theo chính sách Wikimedia; env VIETHERITAGE_CONTACT được ưu tiên.
+  # Để trống trong repo (không commit email cá nhân); notebook đặt qua biến môi trường.
+  contact: null
+  # Cache response thành công trên đĩa (theo api_url + params): chạy lại không gọi mạng cho request
+  # đã có. Xóa thư mục để lấy bản Wikipedia mới; env VIETHERITAGE_WIKI_CACHE=off để tắt.
+  cache_dir: data/cache/mediawiki
+  log_progress: true               # 1 dòng stderr cho mỗi request mạng
 query:
   formatversion: 2
   prop: "pageprops|revisions|coordinates|categories|extracts|links"
@@ -10,12 +21,169 @@ query:
   rvslots: main
   exintro: 1
   explaintext: 1
+  exlimit: max
   cllimit: max
   pllimit: max
 matching:
-  strategy: exact_normalized_title_then_alias
+  strategy: exact_title_then_rules_then_components   # DEC-007: mọi bước là so khớp chuỗi CHÍNH XÁC sau chuẩn hóa
   confirm_with_qid: true
   allow_fuzzy: false
+  overrides_file: config/wikipedia_overrides.yaml     # map cứng registry -> tiêu đề (đã kiểm tra tay), ưu tiên cao nhất
+  site_categories: [world_heritage, national_special_monuments, national_monuments]
+
+  # --- Bằng chứng tỉnh ------------------------------------------------------
+  # Match không phải exact PHẢI có bằng chứng: nhóm tỉnh (SAU sáp nhập 2025, config/areas.yaml
+  # merged_into) của registry giao với nhóm tỉnh nhắc tới trên page. Bắc Kạn (dsvh) vs Thái
+  # Nguyên (wiki) = cùng nhóm Thái Nguyên -> chấp nhận; Nam Định (dsvh, nhóm Ninh Bình) vs
+  # Thái Bình (wiki, nhóm Hưng Yên) -> xung đột -> loại, kể cả khi tiêu đề khớp exact.
+  require_evidence_for_alias: true
+  reject_province_conflict: true
+
+  # --- Bằng chứng cho di sản phi vật thể (review Kaggle 2026-09-24) ----------
+  # Bài Wikipedia về một loại hình ("Xòe Thái", "Lễ cấp sắc") hiếm khi nhắc tỉnh của từng lần ghi danh
+  # -> luật tỉnh ở trên loại oan ~50 record. Với các category dưới đây, bằng chứng cần
+  # có phụ thuộc vào luật alias đã áp để ra tiêu đề (xem wikipedia.alias_evidence). Di tích, bảo vật
+  # và record không rõ category giữ nguyên luật cũ.
+  intangible_evidence:
+    enabled: true
+    categories: [national_intangible, intangible_representative, intangible_urgent]
+    province_rules: [strip_location_phrase, strip_province_suffix]     # bỏ địa danh -> cần bằng chứng tỉnh
+    ethnic_rules: [strip_ethnic_owner]                                  # bỏ "của người Y" -> page phải nhắc người Y
+    region_rules: [strip_region_suffix]                                 # bỏ "Nam bộ", "Tây Nguyên"… -> page phải nhắc vùng đó
+    # Chỉ bỏ phần chung chung -> không cần bằng chứng ("Nghệ thuật Bài Chòi" -> "Bài chòi").
+    evidence_free_rules: [strip_heritage_type_abbreviation, strip_parenthetical, strip_genre_prefix, keep_ethnic_name]
+    min_words: 2                   # tiêu đề 1 từ ("The", "Bội") không được nhận nếu không có bằng chứng
+    evidence_free_reject_category_patterns:   # alias không bằng chứng mà rơi vào bài dân tộc/địa danh -> loại
+      - "^Thể loại:(?:Các dân tộc|Dân tộc|Nhóm sắc tộc)"
+      - "^Thể loại:(?:Địa danh|Làng|Xã|Huyện|Tỉnh)"
+    # Page nhắc >= 2 nhóm tỉnh (loại hình phổ biến nhiều nơi) -> không coi là xung đột tỉnh.
+    # Di tích (site_categories) KHÔNG áp dụng: vẫn loại "Đền Trần" Thái Bình cho record Nam Định.
+    multi_province_conflict_is_weak: true
+
+  # --- Trang định hướng: không dùng trực tiếp, mở rộng thành "<tên> (<tỉnh cũ|tỉnh mới>)" và
+  # các link "<tên> (<địa danh có trong ô địa điểm>)" trên chính trang định hướng.
+  reject_disambiguation: true
+  expand_disambiguation: true
+  dash_variants: true              # "A - B" <-> "A – B" (NOR-004)
+
+  # --- Tìm đúng tiêu đề khi khác hoa/thường ("Quần Đảo Cát Bà" -> "Quần đảo Cát Bà"):
+  # list=prefixsearch, CHỈ nhận kết quả trùng khít title_key (casefold + dấu gạch + dấu thanh).
+  prefixsearch:
+    enabled: true
+    max_forms: 4                   # số dạng tên đầu tiên (kể cả biến thể dấu gạch) của mỗi record được tra prefixsearch
+    limit: 10
+
+  # --- Sinh tên ứng viên ------------------------------------------------------
+  # Luật áp NỐI TIẾP (mode: chain) hoặc rẽ nhánh (mode: branch); mỗi bước là một ứng viên.
+  # Với danh mục di tích, trước tên "trần" không mở đầu bằng site_nouns sẽ thử site_prefixes
+  # ("Bạch Đằng" -> thử "Khu di tích lịch sử Bạch Đằng" trước, tránh ra "Sông Bạch Đằng").
+  alias_rules:
+    - name: strip_heritage_type_abbreviation
+      pattern: "^(?:(?:DTLS|DTKTNT|DTKC|DLTC|KTNT|KC)(?:\\s*,\\s*|\\s+(?:và|VÀ)\\s+)?)+\\s+"
+      replace: ""
+    - name: strip_parenthetical            # "(ATK)", "(bổ sung thêm 23 điểm di tích)", "(Sử thi)"
+      pattern: "\\s*\\([^)]*\\)"
+      replace: ""
+    - name: strip_location_phrase          # "... tại Mỹ Hòa Hưng", "... ở Phú Thọ"
+      pattern: "\\s+(?:ở|tại)\\s+.+$"
+      replace: ""
+    - name: strip_province_suffix          # "Hát xoan Phú Thọ", "... Thăng Long - Hà Nội"
+      type: province_suffix
+    - name: strip_region_suffix
+      pattern: "\\s+(?:Trung bộ Việt Nam|Nam bộ|Bắc bộ|Tây Nguyên|Việt Nam|xứ Nghệ)$"
+      replace: ""
+    - name: keep_ethnic_name               # "Chữ Nôm của người Dao" -> "Chữ Nôm Dao"
+      pattern: "\\s+của người\\s+"
+      replace: " "
+      mode: branch
+      applies_to: intangible
+    - name: strip_ethnic_owner             # "Nghi lễ Then của người Tày" -> "Nghi lễ Then"
+      pattern: "\\s+của (?:người|các dân tộc|dân tộc)\\s+.*$"
+      replace: ""
+      applies_to: intangible
+    - name: strip_generic_site_prefix
+      pattern: "^(?i:khu trung tâm|những địa điểm|các địa điểm|địa điểm|khu di tích|quần thể di tích|di tích lịch sử|di tích)\\s+"
+      replace: ""
+      applies_to: site
+    - name: strip_genre_prefix             # "Dân ca Quan họ" -> "Quan họ", "Hát Ca trù" -> "Ca trù"
+      pattern: "^(?i:dân ca|hát|nghệ thuật|thực hành)\\s+"
+      replace: ""
+      applies_to: intangible
+  site_prefixes: ["Khu di tích lịch sử ", "Khu di tích "]
+  # Sau tiền tố, các từ chung này viết thường ("Khu di tích khởi nghĩa Yên Thế").
+  prefix_lowercase_words: [Chiến, Khởi, Căn, Địa, Nhà, Đền, Chùa, Đình, Lăng, Mộ, Hang, Động, Hồ, Núi, Thành, Tháp, Làng, Khu]
+  site_nouns: [Đền, Chùa, Đình, Miếu, Phủ, Lăng, Tháp, Thành, Thành cổ, Hoàng thành, Cố đô, Văn Miếu, Hồ, Hang, Động,
+               Núi, Vịnh, Quần đảo, Đảo, Nhà, Nhà tù, Nhà đày, Địa đạo, Khu, Quần thể, Bảo tàng, Dinh, Cầu, Chợ, Làng,
+               Phố, Mộ, Lũy, Đồn, Cột cờ, Bến, Vườn, Vườn quốc gia, Thánh địa, Di chỉ, Căn cứ, Chiến khu, An toàn khu,
+               Trại, Đường, Rừng, Đèo, Cửa, Lầu, Điện, Cung, Am, Tịnh xá, Nhà thờ, Nhà thờ họ]
+  festival_prefix: {pattern: "^Hội ", replace: "Lễ hội "}   # "Hội đua bò Bảy Núi" -> "Lễ hội đua bò Bảy Núi"
+  # Khác biệt chính tả/tên gọi đã kiểm tra (thay chuỗi CHÍNH XÁC):
+  name_variants:
+    - {from: "Pô Klong", to: "Po Klong"}
+    - {from: "Buôn Mê Thuột", to: "Buôn Ma Thuột"}
+    - {from: "Trại giam", to: "Nhà tù"}
+    - {from: "Quần thể kiến trúc", to: "Quần thể di tích"}
+
+  # --- Tách di tích gộp ("Hồ Hoàn Kiếm và Đền Ngọc Sơn") -----------------------
+  # Chỉ khi TÊN ĐẦY ĐỦ không khớp (vì vậy "Côn Sơn - Kiếp Bạc" vẫn là 1 bài "Khu di tích Côn Sơn –
+  # Kiếp Bạc"). Mỗi thành phần phải có bằng chứng tỉnh và thuộc thể loại loại-hình-di-tích.
+  # 1 thành phần có bài -> dùng bài đó cho cả record; >=2 -> mapper tách thành nhiều entity.
+  components:
+    enabled: true
+    pre_strip_patterns:
+      - "^(?:(?:DTLS|DTKTNT|DTKC|DLTC|KTNT|KC)(?:\\s*,\\s*|\\s+(?:và|VÀ)\\s+)?)+\\s+"
+      - "\\s*\\([^)]*\\)"
+    separator_pattern: "\\s+(?:và|VÀ)\\s+|\\s+[-–]\\s+|,\\s*"
+    drop_pattern: "^(?:những|các|hệ thống|khu vực|vùng|địa điểm|một số)\\b"
+    min_words: 2
+    required_category_pattern: "^Thể loại:(?:Di tích|Di sản|Đền|Chùa|Đình|Miếu|Lăng|Tháp|Thành|Hồ |Hang|Động|Địa đạo|Nhà tù|Bảo tàng|Khu bảo tồn|Vườn quốc gia|Danh lam|Quần thể|Kiến trúc|Công trình|Địa điểm du lịch)"
+
+  # --- Loại page theo thể loại (xã/sông/người/khởi nghĩa…) ---------------------
+  # Khảo sát 85 page từ crawl Kaggle 2026-09-23: loại đúng "Tân Trào" (xã), "Bà Triệu" (người),
+  # "Khởi nghĩa Bắc Sơn" (sự kiện), "Sông Bạch Đằng" (sông); không loại page đúng nào. KHÔNG dùng
+  # "^Thể loại:Người " vì trùng thể loại dân tộc ("Người Mường" trên page đúng "Mo Mường").
+  reject_category_patterns:
+    - "^Thể loại:(Sinh|Mất) năm"
+    - "^Thể loại:Đơn vị hành chính"
+    - "^Thể loại:Danh sách xã"
+    - "^Thể loại:(Xã|Phường|Thị trấn) "
+    - "^Thể loại:Sông (của|tại)"
+    - "^Thể loại:Khởi nghĩa"
+    - "^Thể loại:Trận "
+  # Bảo vật quốc gia là hiện vật cụ thể: page phải thuộc thể loại bảo vật.
+  category_requirements:
+    national_treasures: "^Thể loại:Bảo vật quốc gia"
+  # Một page gán cho >1 nhãn khác nhau trong cùng category (không tính override) -> bỏ.
+  reject_shared_page_different_labels: true
+  supplement_pattern: "\\s*\\((?:bổ sung|mở rộng)[^)]*\\)\\s*$"   # "(bổ sung thêm 23 điểm di tích)" = cùng di tích
 infobox:
   take_first_template_only: true
   keep_unknown_keys: true
+  name_pattern: "(?i)(infobox|thông tin|hộp thông tin)"
+wikidata:
+  api_url: https://www.wikidata.org/w/api.php
+# M2-15 — quan hệ đề xuất từ link trong infobox. Chỉ được dùng khi page đích có
+# QID và Wikidata P31 thuộc target_classes tương ứng (verified=true).
+relations:
+  max_links_per_field: 10
+  fields:
+    built_by:
+      key_pattern: "(?:^|_)(?:người_xây_dựng|xây_dựng_bởi|kiến_trúc_sư|người_thiết_kế|người_sáng_lập|builder|architect|founder)(?:$|_)"
+      target: HistoricalPerson
+    associated_persons:
+      key_pattern: "(?:^|_)(?:thờ|thờ_phụng|tên_thần|tên_thánh|deity|nhân_vật|gắn_với|người_liên_quan|dedicated_to|dedication)(?:$|_)"
+      target: HistoricalPerson
+    associated_events:
+      key_pattern: "(?:^|_)(?:sự_kiện|trận|trận_đánh|chiến_dịch|events?|battles?)(?:$|_)"
+      target: HistoricalEvent
+    architectural_styles:
+      key_pattern: "(?:^|_)(?:phong_cách|phong_cách_kiến_trúc|kiểu_kiến_trúc|architecture|architectural_style|style)(?:$|_)"
+      target: ArchitecturalStyle
+    periods:
+      key_pattern: "(?:^|_)(?:thời_kỳ|thời_đại|triều_đại|triều|niên_đại|periods?|era|dynasty)(?:$|_)"
+      target: HistoricalPeriod
+  target_classes:
+    HistoricalPerson: [Q5]                                             # human
+    HistoricalEvent: [Q178561, Q1261499, Q188055, Q13418847, Q645883, Q831663, Q198]  # battle, naval battle, siege, historical event, military operation, military campaign, war
+    HistoricalPeriod: [Q11514315, Q6428674, Q164950]                    # historical period, era, dynasty
+    ArchitecturalStyle: [Q32880]                                        # architectural style
