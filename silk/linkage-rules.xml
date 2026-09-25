@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Deterministic candidate rule; acceptance remains controlled by linker review thresholds. -->
-<LinkageRule xmlns="http://silkframework.org/">
-  <LinkType>http://www.w3.org/2002/07/owl#sameAs</LinkType>
-  <SourceDataset dataSource="vietheritage" var="source" />
-  <TargetDataset dataSource="dbpedia" var="target" />
-  <Aggregate type="weightedMean">
-    <Compare metric="levenshteinDistanceNormalized" path="rdfs:label" threshold="0.90" weight="1.0" />
-  </Aggregate>
-</LinkageRule>
+<Silk>
+  <Prefixes>
+    <Prefix id="vh" namespace="http://localhost:3030/vietheritage/ontology/" />
+    <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#" />
+    <Prefix id="geo" namespace="http://www.w3.org/2003/01/geo/wgs84_pos#" />
+    <Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#" />
+  </Prefixes>
+  <Interlinks>
+    <Interlink id="vietheritage-dbpedia">
+      <LinkType>owl:sameAs</LinkType>
+      <SourceDataset dataSource="vietheritage" />
+      <TargetDataset dataSource="dbpedia" />
+      <LinkageRule>
+        <Aggregate type="and">
+          <Compare metric="levenshteinDistance" required="true">
+            <Input path="&lt;http://www.w3.org/2000/01/rdf-schema#label&gt;" />
+            <Input path="&lt;http://www.w3.org/2000/01/rdf-schema#label&gt;" />
+            <Param name="threshold" value="0.90" />
+          </Compare>
+          <Compare metric="geographicDistance" required="true">
+            <Input path="&lt;http://www.w3.org/2003/01/geo/wgs84_pos#lat&gt;" />
+            <Input path="&lt;http://www.w3.org/2003/01/geo/wgs84_pos#long&gt;" />
+            <Param name="maxDistanceKm" value="5" />
+          </Compare>
+        </Aggregate>
+      </LinkageRule>
+    </Interlink>
+  </Interlinks>
+</Silk>
+
+<!--
+  PROJECT_SPEC.md Section 22.3 freezes this rule verbatim as the linkage policy
+  source; the thresholds (label similarity >= 0.90, distance <= 5km) MUST NOT be
+  changed here without a versioned specification update.
+
+  `type_compatible` (Section 22.2) is enforced as a hard pre-filter before this
+  rule is evaluated, not as a third Silk `Compare`, because Silk has no native
+  "same rdf:type" comparator in this deployment's metric set; it is decided from
+  the canonical entity_type/registry_category prior to scoring, matching the
+  decision table in Section 22.2.
+
+  A packaged Silk Workbench/engine is not part of this project's runtime
+  dependencies (Technology Stack, Section 8: "executor thực tế là Python scorer
+  deterministic"). `src/vietheritage/linking/linker.py` (`dbpedia_score`,
+  `review_dbpedia_candidate`) is the deterministic executor that implements this
+  exact policy — same metrics (`levenshteinDistance` on rdfs:label,
+  `geographicDistance` via haversine), same thresholds, same `and` combination —
+  so the accept/verify/reject outcome is reproducible without a Java Silk
+  runtime while remaining traceable to this XML as the human-readable policy
+  record.
+-->

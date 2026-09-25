@@ -134,9 +134,9 @@ pipeline-sample:
 	$(MAKE) resolve RUN_MODE=sample
 	$(MAKE) map RUN_MODE=sample
 	$(MAKE) generate-rdf RUN_MODE=sample
-	$(MAKE) validate RUN_MODE=sample
 	$(MAKE) link RUN_MODE=sample
 	$(MAKE) reason RUN_MODE=sample
+	$(MAKE) validate RUN_MODE=sample
 
 ## make pipeline — full source -> full artifacts
 pipeline:
@@ -145,9 +145,9 @@ pipeline:
 	$(MAKE) resolve RUN_MODE=full
 	$(MAKE) map RUN_MODE=full
 	$(MAKE) generate-rdf RUN_MODE=full
-	$(MAKE) validate RUN_MODE=full
 	$(MAKE) link RUN_MODE=full
 	$(MAKE) reason RUN_MODE=full
+	$(MAKE) validate RUN_MODE=full
 
 ## make verify — repository + services -> final report (FINAL STATUS PASS)
 verify:

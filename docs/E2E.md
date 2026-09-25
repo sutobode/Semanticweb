@@ -124,9 +124,9 @@ make pipeline RUN_MODE=full
 3. Resolve identity và kiểm tra collision.
 4. Map canonical records.
 5. Generate RDF Turtle.
-6. Validate RDF/ontology.
-7. Build verified external links.
-8. Chạy reasoning và sinh inferred triples.
+6. Build verified external links.
+7. Chạy reasoning và sinh inferred triples.
+8. Validate RDF/ontology (yêu cầu cả `external-links.ttl` và `inferred.ttl` đã tồn tại từ bước 6–7).
 
 Không chạy `pipeline-sample` ở giữa các bước full.
 

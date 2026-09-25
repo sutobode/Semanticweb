@@ -1,0 +1,51 @@
+{
+  "run_id": "20260925T075332Z-7aa566",
+  "run_mode": "full",
+  "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
+  "jena_version": "4.10.0",
+  "scope": [
+    "AX-001",
+    "AX-002",
+    "AX-003",
+    "AX-004",
+    "AX-005",
+    "AX-006",
+    "AX-007"
+  ],
+  "status": "FAIL",
+  "aggregate_scope": [
+    "AX-001",
+    "AX-002",
+    "AX-003",
+    "AX-004",
+    "AX-005",
+    "AX-006",
+    "AX-007",
+    "AX-008",
+    "AX-009"
+  ],
+  "axioms": {
+    "AX-001": "NOT_RUN",
+    "AX-002": "NOT_RUN",
+    "AX-003": "NOT_RUN",
+    "AX-004": "NOT_RUN",
+    "AX-005": "NOT_RUN",
+    "AX-006": "NOT_RUN",
+    "AX-007": "NOT_RUN",
+    "AX-008": "PASS",
+    "AX-009": "PASS"
+  },
+  "source_triples": 13122,
+  "inferred_triples": 0,
+  "closure_triples": 0,
+  "semantic_validation": {
+    "status": "PASS",
+    "errors": [],
+    "axioms": {
+      "AX-008": "PASS",
+      "AX-009": "PASS"
+    }
+  },
+  "error_code": "JENA_UNAVAILABLE",
+  "message": "Apache Jena 4.10.0 is required: set JENA_HOME to a local Jena distribution or JENA_CLASSPATH to its local jars."
+}
