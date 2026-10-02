@@ -14,8 +14,6 @@ venv/
 # --- Generated data (raw full dataset MUST NOT be committed) ---
 data/raw/*
 !data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
 data/rdf/*.ttl
 !data/rdf/dataset-metadata.ttl
 data/linking/*
