@@ -1,166 +1,118 @@
 # External Link Evaluation — VietHeritageLOD (Thành viên 3, COMP-007)
 
-Đánh giá link `owl:sameAs` sinh bởi `src/vietheritage/linking/linker.py`, dựa
-trên lần chạy lại toàn bộ pipeline (`normalize → resolve → map → generate-rdf
-→ link`, `RUN_MODE=full`) trên snapshot registry hiện có trong
-`data/raw/registry_records.jsonl` (2026-09-25). Không gọi mạng trong bước
-`link`; mọi input là manifest đã được thu thập trước (`data/raw/*candidates*`,
-`external_ids.wikidata` trong canonical record).
+Kết quả sửa chính sách xuất bản liên kết trên canonical snapshot
+`20260925T034421Z`, gồm 1.068 bản ghi. Chỉ chạy linker với các đầu vào cục bộ;
+không thu thập dữ liệu, không chạy lại normalization/mapping/RDF generation
+hoặc reasoning. `PROJECT_SPEC.md` 1.6.2 §16, §22–23 là chuẩn authoritative.
 
-## 1. Kết quả tổng hợp
+## 1. Kết quả từ các artifact hiện tại
 
-| Metric | Giá trị | Ngưỡng yêu cầu (PROJECT_SPEC MET-008) |
+| Chỉ số | Trước sửa | Sau sửa |
 |---|---:|---:|
-| Canonical record đưa vào review | 1 068 | — |
-| Candidate được review | 281 | — |
-| Candidate `verified` (→ `owl:sameAs` trong `external-links.ttl`) | **281** | 100–250 (SHOULD), ≥100 (MUST) |
-| — trong đó Wikidata | 256 | — |
-| — trong đó DBpedia | 25 | — |
-| Candidate `manual_review` chưa verify | 0 | — |
-| Candidate `rejected` | 0 | — |
-| `owl:sameAs` triples trong `data/rdf/external-links.ttl` | 281 | khớp verified |
+| Dòng review | 281 | 281 |
+| `verified` / `owl:sameAs` được xuất bản | 281 | **221** |
+| Wikidata được xuất bản | 256 | **221** |
+| DBpedia được xuất bản | 25 | **0** |
+| `manual_review` | 0 | **18** |
+| `rejected` | 0 | **42** |
 
-281 vượt cả khoảng SHOULD (100–250) của spec. Không có candidate nào đang ở
-trạng thái `manual_review` chờ xử lý ở snapshot này — chi tiết vì sao ở §3.2.
+Nguồn số liệu: `data/rdf/external-links.ttl`, `data/linking/link_review.csv`,
+`data/linking/link-review.jsonl`, `data/linking/dbpedia_candidates.csv`.
+221 liên kết còn xuất bản vẫn vượt ngưỡng MUST ≥100 của MET-008.
+Không thêm liên kết giả để giữ số lượng cũ.
 
-Nguồn số liệu: `data/linking/link_review.csv`, `data/linking/link-review.jsonl`
-(sinh bởi `make link RUN_MODE=full`).
+42 dòng bị từ chối gồm:
 
-## 2. Wikidata linking — deterministic (PROJECT_SPEC §22.1)
+- 40 dòng thuộc thành phần identity xung đột: 35 Wikidata và 5 DBpedia,
+  liên quan 35 resource nội bộ. Bản trước sửa có 23 cặp resource disjoint,
+  dùng chung 12 QID và thêm một URI DBpedia trong một nhóm đã xung đột.
+- 2 DBpedia có bằng chứng QID cũ không còn khớp canonical.
 
-**Phương pháp:** nếu canonical record có `external_ids.wikidata` khớp
-`^Q[1-9][0-9]*$` (`linker.py:_QID_RE`), sinh trực tiếp:
+18 DBpedia còn lại ở `manual_review`. Cả 25 ứng viên DBpedia đều thiếu
+`distance_km`; không ứng viên nào có review độc lập hợp lệ trong manifest cũ.
 
-```turtle
-vhr:<entity_id> owl:sameAs <https://www.wikidata.org/entity/Q...> .
-```
+## 2. An toàn identity trước khi xuất bản
 
-với `method=wikidata-qid`, `score=1.0`, `status=verified` ngay lập tức — **không
-qua ngưỡng review**, vì QID trên record đã là kết quả của một bước xác định
-danh tính độc lập trước đó (Wikipedia infobox/pageprops hoặc truy vấn Wikidata
-exact-label của M2/M3), không phải suy luận từ label giống nhau (đúng NUNA,
-PROJECT_SPEC §1.4.2). QID không hợp lệ (không khớp regex) bị `rejected` tường
-minh, không bị âm thầm bỏ qua.
+`link_records()` đọc ontology và asserted A-Box hiện tại.
+`_reject_identity_conflicts()` tái sử dụng `validation.semantic.Contract`:
 
-**Kết quả:** 256/1068 canonical record (24.0%) có QID hợp lệ và được verify.
-Toàn bộ 256 record đều `status=verified`, không có `rejected` QID trong
-snapshot hiện tại (đã qua chuẩn hóa ở COMP-001/COMP-004 trước khi tới đây).
+1. Lập đồ thị vô hướng từ các ứng viên chưa bị từ chối và các assertion
+   `owl:sameAs` đã có trong A-Box; ứng viên đang chờ review cũng tham gia.
+2. Duyệt toàn bộ thành phần liên thông. Không chỉ kiểm tra từng resource
+   hoặc từng cặp cùng đích: identity có thể nối gián tiếp qua nhiều đích.
+3. Hợp các type đã biết, gồm ancestry `rdfs:subClassOf`; lấy các cặp disjoint
+   từ `owl:disjointWith`, `owl:AllDisjointClasses`, `owl:disjointUnionOf`.
+4. Nếu thành phần chứa type disjoint, từ chối toàn bộ ứng viên trong thành
+   phần. Không tự chọn một resource làm bên thắng.
+5. Giữ bằng chứng gốc trong `reason`, thêm `IDENTITY_TYPE_CONFLICT`, mã axiom,
+   class và resource làm chứng. Các thành phần tương thích vẫn được xuất bản.
 
-## 3. DBpedia linking (PROJECT_SPEC §22.2–22.3)
+Ví dụ cũ `registry-7d309bea2919` và `registry-2dc9c151de83` cùng nối tới
+`Q2397005`/`dbpedia:Space_of_gong_culture` bị từ chối do AX-008.
+Không thay đổi ontology hoặc type trong A-Box để cho phép đồng nhất này.
 
-Hai kênh candidate cùng đổ vào `link_records()`; kết quả review khác nhau vì
-evidence khác nhau.
+## 3. DBpedia: ứng viên không phải phê duyệt
 
-### 3.1 Kênh đã có dữ liệu: DBpedia↔Wikidata bridging
+`review_dbpedia_candidate()` giữ nguyên các ngưỡng hiện hành:
 
-`data/raw/dbpedia_wikidata_candidates.jsonl` (25 dòng, `tools/dbpedia_wikidata_candidates.py`)
-chứa candidate DBpedia được xác nhận qua chính DBpedia SPARQL endpoint: mỗi
-dòng là một resource DBpedia có `owl:sameAs` **tường minh** trỏ ngược tới đúng
-QID Wikidata mà record VietHeritageLOD đó đã verify ở §2 (`evidence: "DBpedia
-HTTP SPARQL explicit owl:sameAs to the canonical Wikidata QID"`, `score: 1.0`,
-`method: dbpedia-wikidata-sameas`). Đây là bằng chứng mạnh hơn label/geo
-matching thuần túy — DBpedia tự công bố identity đó, không phải project suy
-luận — nên cả 25/25 candidate đạt `status=verified` khi qua
-`review_dbpedia_candidate()` (score 1.0 ≥ 0.90, không có toạ độ mâu thuẫn).
-
-### 3.2 Kênh chưa có dữ liệu trong snapshot này: DBpedia Lookup / label search
-
-`data/raw/dbpedia_lookup_candidates.jsonl` và `data/raw/dbpedia_exact_candidates.jsonl`
-hiện **rỗng (0 dòng)** — công cụ thu thập (`tools/dbpedia_lookup_candidates.py`,
-`tools/dbpedia_exact_candidates.py`) đã chạy nhưng DBpedia Lookup API không
-trả candidate khớp cho phần lớn label tiếng Việt trong snapshot hiện tại. Vì
-vậy nhánh đánh giá fuzzy — `dbpedia_score()` (Levenshtein-style
-`difflib.SequenceMatcher` trên label) kết hợp `distance_km` (haversine) theo
-bảng quyết định §22.2 — **có code, có unit test
-(`tests/unit/test_linker.py`), nhưng chưa có candidate thật nào đi qua nhánh
-`manual_review`/`rejected` trong lần chạy này**, vì không có input. Đây là hạn
-chế của nguồn dữ liệu candidate ở bước thu thập (COMP-007 phần label-search),
-không phải lỗi của bộ tính điểm hay ngưỡng review.
-
-**Khuyến nghị cho vòng linking tiếp theo:** mở rộng `dbpedia_lookup_candidates.py`
-sang tiếng Anh (dùng `title` Wikipedia tiếng Anh nếu có interwiki link) hoặc hạ
-ngưỡng truy vấn Lookup API trước khi kết luận DBpedia không có candidate — với
-1068 canonical record hiện tại (271 `HeritageSite`), 25 link qua kênh QID-bridge
-là một lower bound, không phải giới hạn thật của DBpedia coverage.
-
-## 4. Ngưỡng quyết định (Silk policy, PROJECT_SPEC §22.2, `silk/linkage-rules.xml`)
-
-| Điều kiện | Kết quả |
+| Điều kiện | Trạng thái ứng viên |
 |---|---|
-| `type_compatible=false` | `rejected` |
-| `score < 0.70` | `rejected` |
-| `0.70 ≤ score < 0.90`, `distance_km ≤ 20` | `manual_review` |
-| `score ≥ 0.90`, `distance_km ≤ 5`, có đủ toạ độ | `verified` (auto) |
-| `score ≥ 0.90`, `5 < distance_km ≤ 20` | `manual_review` |
-| `score ≥ 0.90`, thiếu một toạ độ | `manual_review` |
-| `distance_km > 20` | `rejected` |
+| Type không tương thích hoặc score < 0.70 | `rejected` |
+| Khoảng cách > 20 km | `rejected` |
+| Score ≥ 0.90 và khoảng cách ≤ 5 km | `auto_candidate` |
+| Score ≥ 0.90 và thiếu khoảng cách | `manual_review` |
+| Score ≥ 0.70 và khoảng cách ≤ 20 km, ngoài nhánh auto | `manual_review` |
+| Tổ hợp không có quyết định trong §22.2 | Dừng với `LINK_POLICY_UNCOVERED` |
 
-Cài đặt: `review_dbpedia_candidate()` (`linker.py:58-71`), đọc ngưỡng từ
-`DBPEDIA_AUTO_ACCEPT_SCORE` (0.90), `DBPEDIA_REVIEW_SCORE` (0.70),
-`DBPEDIA_AUTO_ACCEPT_DISTANCE_KM` (5), `DBPEDIA_REVIEW_DISTANCE_KM` (20) —
-khớp `config/thresholds.yaml` và `silk/linkage-rules.xml`. `distance_km=None`
-(record thiếu toạ độ nguồn hoặc đích) được coi là "không mâu thuẫn" chứ không
-tự động reject, để không phạt các entity registry chưa có toạ độ.
+Theo §22.4, `auto_candidate` chuyển thành `manual_review` khi vào manifest
+review. Chỉ review tường minh của reviewer hoặc fixture verification mới cho
+phép `verified`. Linker đọc lại `link_review.csv`, yêu cầu đúng cặp URI,
+dataset, score, distance, type compatibility, cùng reviewer/thời điểm/lý do.
+Các dòng `automated:vietheritage-linker/0.1.0` cũ không phải phê duyệt độc lập.
 
-`silk/linkage-rules.xml` là **policy source** đúng nghĩa đen theo
-PROJECT_SPEC §22.3 (label similarity ≥ 0.90 AND geographic proximity ≤ 5 km);
-project không đóng gói Silk Workbench/engine Java, executor thật là
-`review_dbpedia_candidate()`/`dbpedia_score()` — cùng metric, cùng ngưỡng,
-cùng phép kết hợp `AND`, chỉ khác runtime (Python thay vì Silk JVM). Điều kiện
-`type_compatible` được lọc **trước** khi vào rule (không phải một `Compare`
-trong Silk XML) vì đây là kiểm tra nhị phân từ `entity_type`/`registry_category`
-đã biết, không phải một phép so khớp mờ cần metric riêng.
+Thiếu khoảng cách không tự động thành `verified`. Trường hợp này chỉ có thể
+được xuất bản sau review tường minh hợp lệ; review cũng không vượt qua được
+lỗi type, ngưỡng từ chối, bằng chứng QID cũ hoặc xung đột identity.
 
-## 5. Bảng xác thực (mẫu, đầy đủ tại `data/linking/link_review.csv`)
+`dbpedia_candidates.csv` giữ trạng thái ứng viên (`auto_candidate`,
+`manual_review`, `rejected`); `link_review.csv`/JSONL giữ trạng thái review
+(`verified`, `manual_review`, `rejected`). Schema manifest không thay đổi.
 
-Toàn bộ 281 dòng verified có đủ 4 cột yêu cầu (Local resource, External
-resource, Method, Confidence) cộng metadata review (`reviewer`, `reviewed_at`,
-`reason`) — không có dòng nào thiếu evidence.
+## 4. QID bridge và bằng chứng cũ
 
-| Local resource | External resource | Method | Confidence | Verified |
-|---|---|---|---:|---|
-| `vhr:registry-53caa1c3d5a1` (Vịnh Hạ Long) | `wd:Q190128` | `wikidata-qid` | 1.0 | Yes |
-| `vhr:registry-53caa1c3d5a1` (Vịnh Hạ Long) | `dbpedia:Hạ_Long_Bay` | `dbpedia-wikidata-sameas` (label: `silk` trong CSV) | 1.0 | Yes |
-| `vhr:registry-50e10d2b672f` (Phong Nha – Kẻ Bàng) | `dbpedia:Phong_Nha_–_Kẻ_Bàng_National_Park` | `silk` | 1.0 | Yes |
-| `vhr:event-46f796e3c0a8` | `wd:Q7096923` | `wikidata-qid` | 1.0 | Yes |
+Không có ngoại lệ QID-bridge trong §22–23 cho phép bỏ qua review DBpedia.
+Ứng viên `method=dbpedia-wikidata-sameas` hoặc có `wikidata_id` phải có QID
+hợp lệ, bằng đúng `external_ids.wikidata` của canonical hiện tại.
 
-Cột `method` trong `link_review.csv` ghi `silk` cho mọi candidate DBpedia
-(kênh QID-bridge lẫn kênh label-search tương lai), để phân biệt với
-`wikidata-qid` — đúng quy ước COMP-007 rằng mọi candidate không-deterministic
-đều đi qua "Silk-style" scoring trước khi verify, bất kể nguồn candidate gốc.
-`reviewer=automated:vietheritage-linker/0.1.0` cho toàn bộ 281 dòng: xác minh
-hiện tại là **automated** (dựa trên evidence xác định — QID trùng khớp hoặc
-DBpedia tự khai `owl:sameAs`), không phải human review thủ công; điều này
-được ghi rõ trong `reason` của từng dòng, không giả vờ là review thủ công.
+Nếu thiếu hoặc khác QID, dòng đó bị `rejected` với `STALE_QID_BRIDGE`;
+`reason` giữ QID trong bằng chứng và QID canonical để truy vết. Một đường
+bằng chứng độc lập khác chỉ được xuất bản nếu tự thỏa chính sách hiện hành.
 
-## 6. Validate `owl:sameAs` — không chấp nhận mù quáng
+| Resource | Đích | QID trong bằng chứng | QID canonical |
+|---|---|---|---|
+| `registry-5c00a7907df2` | `dbpedia:Cauldron` | `Q1317634` | Không có |
+| `registry-5988642e341f` | `dbpedia:Cannon` | `Q81103` | Không có |
 
-`owl:sameAs` chỉ được sinh khi (PROJECT_SPEC §23, thực thi bởi
-`validation/policy.py` + `validation/semantic.py`, kiểm tra trong `validate`
-stage khi `external-links.ttl` có mặt):
+Hai liên kết này không còn xuất hiện trong RDF. Các file raw bằng chứng
+được giữ nguyên; quyết định mới nằm trong review manifest.
 
-1. QID Wikidata hợp lệ trên chính record đó, HOẶC
-2. DBpedia candidate `status=verified` trong `link_review.csv`; VÀ
-3. Target URI là entity URI thật (không phải trang chủ tổ chức hay dataset
-   container).
+## 5. Kiểm chứng và tái sinh riêng Member 3
 
-Không dùng `owl:sameAs` cho site↔thành phố, site↔website chính thức (dùng
-`foaf:homepage` nếu cần), class↔instance, hoặc hai entity chỉ trùng label.
-`tests/unit/test_validation.py::test_same_as_requires_approved_local_identity`
-và `tests/unit/test_linker.py` giữ fixture âm cho từng vi phạm này.
+`tests/unit/test_linker.py`: **29 test PASS**, bao gồm thành phần tương thích,
+AX-008, subclass/disjointness, identity nhiều bước, thiếu khoảng cách,
+review cũ tự động, bridge hợp lệ/cũ, đường bằng chứng độc lập và chạy riêng
+linking không đổi đầu vào/metadata.
 
-## 7. Giới hạn đã biết
+Kiểm tra trực tiếp trên các artifact sau sửa:
 
-1. **DBpedia label-search chưa có candidate thật** (§3.2) — 25/25 link DBpedia
-   hiện tại đều đến từ QID-bridge, không phải fuzzy Silk-style match; ngưỡng
-   `manual_review`/`rejected` có code + test nhưng chưa được minh chứng trên
-   dữ liệu thật của snapshot này.
-2. **Reasoning-based validation chưa chạy được trong môi trường audit này**
-   (thiếu Apache Jena/JDK cục bộ) — không ảnh hưởng tới linking, nhưng
-   `make validate` cần `data/rdf/inferred.ttl` (từ `make reason`, thuộc
-   Thành viên 1) trước khi có thể PASS toàn bộ. Xem `MEMBER3_WORK_HANDOFF.md`.
-3. **256 Wikidata link phụ thuộc chất lượng QID upstream** (COMP-001/COMP-004,
-   Thành viên 2) — linker không tự xác minh QID trỏ đúng entity, chỉ xác minh
-   định dạng; sai QID ở nguồn sẽ tạo `owl:sameAs` sai mà linking stage không
-   phát hiện được (nằm ngoài COMP-007, cần spot-check thủ công định kỳ — đã
-   ghi trong `docs/M2_IMPLEMENTATION_NOTES.md` §5 "Việc còn mở").
+- Turtle parse PASS; 221 triple và 221 subject có trong A-Box.
+- 0 assertion trùng, 0 self-link, 0 QID xuất bản lệch canonical.
+- CSV/JSONL khớp nhau; toàn bộ 281 dòng đạt schema review.
+- 202 thành phần identity được xuất bản; 0 xung đột type disjoint/AX-008.
+- Tập liên kết xuất bản bằng đúng tập dòng review `verified`.
+
+Lần sửa này tái sinh bằng `linker.run("full", refresh_metadata=False)` để
+chỉ ghi bốn artifact linking. Mặc định của `run()` vẫn giữ hành vi cập nhật
+metadata cho pipeline thông thường; tùy chọn trên tắt riêng tác dụng phụ đó.
+`dataset-metadata.ttl` không được cập nhật trong phạm vi Member 3 này, nên
+metric `verified_external_links=281` trong file đó chưa phản ánh số mới 221.

@@ -49,8 +49,6 @@ vhr:person-wikidata-q7799843 owl:sameAs <https://www.wikidata.org/entity/Q779984
 
 vhr:person-wikidata-q7833315 owl:sameAs <https://www.wikidata.org/entity/Q7833315> .
 
-vhr:registry-006e43c89987 owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
-
 vhr:registry-00a0f7887fe0 owl:sameAs <https://www.wikidata.org/entity/Q61133202> .
 
 vhr:registry-00e726adaa7a owl:sameAs <https://www.wikidata.org/entity/Q10840581> .
@@ -65,16 +63,13 @@ vhr:registry-042d5ab0b6bb owl:sameAs <https://www.wikidata.org/entity/Q7189921> 
 
 vhr:registry-04545eb2de66 owl:sameAs <https://www.wikidata.org/entity/Q10763514> .
 
-vhr:registry-0475e43741e0 owl:sameAs <https://www.wikidata.org/entity/Q5563375> .
-
 vhr:registry-069da54d9cc1 owl:sameAs <https://www.wikidata.org/entity/Q10748387> .
 
 vhr:registry-06fd74b2ed89-3a7ac2 owl:sameAs <https://www.wikidata.org/entity/Q10840586> .
 
 vhr:registry-06fd74b2ed89-d87046 owl:sameAs <https://www.wikidata.org/entity/Q10748486> .
 
-vhr:registry-07620c963e29 owl:sameAs <http://dbpedia.org/resource/Mỹ_Sơn>,
-        <https://www.wikidata.org/entity/Q391406> .
+vhr:registry-07620c963e29 owl:sameAs <https://www.wikidata.org/entity/Q391406> .
 
 vhr:registry-07c670fd681c owl:sameAs <https://www.wikidata.org/entity/Q10788582> .
 
@@ -82,41 +77,25 @@ vhr:registry-098ac344f344 owl:sameAs <https://www.wikidata.org/entity/Q2421186> 
 
 vhr:registry-0a0a09f6922b owl:sameAs <https://www.wikidata.org/entity/Q10825828> .
 
-vhr:registry-0a21487c70d6 owl:sameAs <http://dbpedia.org/resource/Hò_khoan>,
-        <https://www.wikidata.org/entity/Q5964411> .
+vhr:registry-0a21487c70d6 owl:sameAs <https://www.wikidata.org/entity/Q5964411> .
 
 vhr:registry-0a2da6c36d50 owl:sameAs <https://www.wikidata.org/entity/Q10748567> .
 
-vhr:registry-0c1c9831d7d8 owl:sameAs <https://www.wikidata.org/entity/Q18461064> .
-
 vhr:registry-0d2eff0b3bad owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
-
-vhr:registry-0d6aeb5591c2 owl:sameAs <https://www.wikidata.org/entity/Q5563375> .
 
 vhr:registry-1056e0888fbf owl:sameAs <https://www.wikidata.org/entity/Q32178090> .
 
 vhr:registry-11035d9f76fe owl:sameAs <https://www.wikidata.org/entity/Q111496697> .
 
-vhr:registry-119e24d03718 owl:sameAs <http://dbpedia.org/resource/Quan_họ>,
-        <https://www.wikidata.org/entity/Q3525838> .
-
 vhr:registry-13bda57bbfca owl:sameAs <https://www.wikidata.org/entity/Q11050297> .
 
 vhr:registry-13c76c9faa2b owl:sameAs <https://www.wikidata.org/entity/Q61132225> .
 
-vhr:registry-151bcd496d7f owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
-
-vhr:registry-185f7241c8fb owl:sameAs <https://www.wikidata.org/entity/Q10742121> .
-
-vhr:registry-1a3b5cf1fd3c owl:sameAs <http://dbpedia.org/resource/Hùng_Temple>,
-        <https://www.wikidata.org/entity/Q5964889> .
+vhr:registry-1a3b5cf1fd3c owl:sameAs <https://www.wikidata.org/entity/Q5964889> .
 
 vhr:registry-1a571f967972 owl:sameAs <https://www.wikidata.org/entity/Q18458480> .
 
-vhr:registry-213cb56ca491 owl:sameAs <http://dbpedia.org/resource/Water_puppetry>,
-        <https://www.wikidata.org/entity/Q747876> .
-
-vhr:registry-23964f5ef4d2 owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
+vhr:registry-213cb56ca491 owl:sameAs <https://www.wikidata.org/entity/Q747876> .
 
 vhr:registry-24c63b39d00d owl:sameAs <https://www.wikidata.org/entity/Q10779418> .
 
@@ -126,18 +105,11 @@ vhr:registry-280af8a8985a owl:sameAs <https://www.wikidata.org/entity/Q10779416>
 
 vhr:registry-280cb1b6430b owl:sameAs <https://www.wikidata.org/entity/Q108881843> .
 
-vhr:registry-29098ec74fed owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
-
-vhr:registry-29f87705b5fb owl:sameAs <https://www.wikidata.org/entity/Q2447747> .
-
 vhr:registry-2a6c75ce60cc owl:sameAs <https://www.wikidata.org/entity/Q10788557> .
 
 vhr:registry-2b793c130204 owl:sameAs <https://www.wikidata.org/entity/Q10825842> .
 
 vhr:registry-2daf70c29214 owl:sameAs <https://www.wikidata.org/entity/Q10788613> .
-
-vhr:registry-2dc9c151de83 owl:sameAs <http://dbpedia.org/resource/Space_of_gong_culture>,
-        <https://www.wikidata.org/entity/Q2397005> .
 
 vhr:registry-323072c2ad18 owl:sameAs <https://www.wikidata.org/entity/Q108892983> .
 
@@ -147,16 +119,13 @@ vhr:registry-3b32c29bb958 owl:sameAs <https://www.wikidata.org/entity/Q10788582>
 
 vhr:registry-3c300abb9903 owl:sameAs <https://www.wikidata.org/entity/Q10748441> .
 
-vhr:registry-3dadb54d3b06 owl:sameAs <http://dbpedia.org/resource/Võ_Cạnh_inscription>,
-        <https://www.wikidata.org/entity/Q42548080> .
+vhr:registry-3dadb54d3b06 owl:sameAs <https://www.wikidata.org/entity/Q42548080> .
 
 vhr:registry-3ecbfb5fc045 owl:sameAs <https://www.wikidata.org/entity/Q108872892> .
 
 vhr:registry-40889f0bafcb-4c9dbe owl:sameAs <https://www.wikidata.org/entity/Q10842291> .
 
 vhr:registry-40ac2ce5e0b0 owl:sameAs <https://www.wikidata.org/entity/Q108866893> .
-
-vhr:registry-417a99343a7a owl:sameAs <https://www.wikidata.org/entity/Q109438441> .
 
 vhr:registry-43a3e7715b7a-9c23d0 owl:sameAs <https://www.wikidata.org/entity/Q3517494> .
 
@@ -174,8 +143,6 @@ vhr:registry-4a975bb4e6e4 owl:sameAs <https://www.wikidata.org/entity/Q109289159
 
 vhr:registry-4b63395140f1 owl:sameAs <https://www.wikidata.org/entity/Q111180402> .
 
-vhr:registry-4be33e3c428f owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
-
 vhr:registry-4c721ee5ef7e owl:sameAs <https://www.wikidata.org/entity/Q10757359> .
 
 vhr:registry-4ceaa6994aa0 owl:sameAs <https://www.wikidata.org/entity/Q10763516> .
@@ -186,16 +153,13 @@ vhr:registry-4ed29edf7fc7 owl:sameAs <https://www.wikidata.org/entity/Q130218170
 
 vhr:registry-4efd5222b068 owl:sameAs <https://www.wikidata.org/entity/Q17118720> .
 
-vhr:registry-4f00eb050a0f owl:sameAs <https://www.wikidata.org/entity/Q102843> .
-
 vhr:registry-4f7f50ef1f82 owl:sameAs <https://www.wikidata.org/entity/Q5965459> .
 
 vhr:registry-4fb6751f4dcd owl:sameAs <https://www.wikidata.org/entity/Q10784247> .
 
 vhr:registry-4fe12d568009 owl:sameAs <https://www.wikidata.org/entity/Q111148511> .
 
-vhr:registry-50e10d2b672f owl:sameAs <http://dbpedia.org/resource/Phong_Nha_–_Kẻ_Bàng_National_Park>,
-        <https://www.wikidata.org/entity/Q23513> .
+vhr:registry-50e10d2b672f owl:sameAs <https://www.wikidata.org/entity/Q23513> .
 
 vhr:registry-522fa9481918 owl:sameAs <https://www.wikidata.org/entity/Q5157981> .
 
@@ -203,8 +167,7 @@ vhr:registry-535519ce64d1 owl:sameAs <https://www.wikidata.org/entity/Q10841708>
 
 vhr:registry-5376a5cee3b1 owl:sameAs <https://www.wikidata.org/entity/Q108866842> .
 
-vhr:registry-53caa1c3d5a1 owl:sameAs <http://dbpedia.org/resource/Hạ_Long_Bay>,
-        <https://www.wikidata.org/entity/Q190128> .
+vhr:registry-53caa1c3d5a1 owl:sameAs <https://www.wikidata.org/entity/Q190128> .
 
 vhr:registry-56398aeb8cc7 owl:sameAs <https://www.wikidata.org/entity/Q111079381> .
 
@@ -214,30 +177,19 @@ vhr:registry-5772ea302cb4 owl:sameAs <https://www.wikidata.org/entity/Q10748589>
 
 vhr:registry-579e94fa60af owl:sameAs <https://www.wikidata.org/entity/Q1421202> .
 
-vhr:registry-58ccef360294 owl:sameAs <https://www.wikidata.org/entity/Q10770854> .
-
 vhr:registry-5941413e7349 owl:sameAs <https://www.wikidata.org/entity/Q2857598> .
-
-vhr:registry-5988642e341f owl:sameAs <http://dbpedia.org/resource/Cannon> .
 
 vhr:registry-59a9f2e4db82 owl:sameAs <https://www.wikidata.org/entity/Q24953325> .
 
 vhr:registry-5aad81f84a8a owl:sameAs <https://www.wikidata.org/entity/Q10788621> .
 
-vhr:registry-5c00a7907df2 owl:sameAs <http://dbpedia.org/resource/Cauldron> .
-
 vhr:registry-5caff4376e24 owl:sameAs <https://www.wikidata.org/entity/Q10779399> .
 
 vhr:registry-5d0cea2ddae1 owl:sameAs <https://www.wikidata.org/entity/Q10841707> .
 
-vhr:registry-6153b8266f12 owl:sameAs <https://www.wikidata.org/entity/Q10742121> .
-
-vhr:registry-622a4e5990c4 owl:sameAs <https://www.wikidata.org/entity/Q10742121> .
-
 vhr:registry-6265fc244896 owl:sameAs <https://www.wikidata.org/entity/Q110881838> .
 
-vhr:registry-648a56354008 owl:sameAs <http://dbpedia.org/resource/Tràng_An_Scenic_Landscape_Complex>,
-        <https://www.wikidata.org/entity/Q10810559> .
+vhr:registry-648a56354008 owl:sameAs <https://www.wikidata.org/entity/Q10810559> .
 
 vhr:registry-65dfbc2c2a74 owl:sameAs <https://www.wikidata.org/entity/Q87648758> .
 
@@ -246,8 +198,6 @@ vhr:registry-66c1aa1f3a96 owl:sameAs <https://www.wikidata.org/entity/Q10840631>
 vhr:registry-6905d3a28443 owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
 
 vhr:registry-69f5b6f43b02 owl:sameAs <https://www.wikidata.org/entity/Q30923818> .
-
-vhr:registry-6b9dfe136a55 owl:sameAs <https://www.wikidata.org/entity/Q109438441> .
 
 vhr:registry-6cab2bb8dd4a owl:sameAs <https://www.wikidata.org/entity/Q131914172> .
 
@@ -259,8 +209,6 @@ vhr:registry-6e3cc6129a1c owl:sameAs <https://www.wikidata.org/entity/Q7799949> 
 
 vhr:registry-7422e8dbff6e owl:sameAs <https://www.wikidata.org/entity/Q10810560> .
 
-vhr:registry-78fb29c1bd88 owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
-
 vhr:registry-7952b46ed559 owl:sameAs <https://www.wikidata.org/entity/Q10779476> .
 
 vhr:registry-7b4ed2fcd3bb owl:sameAs <https://www.wikidata.org/entity/Q206219> .
@@ -269,13 +217,9 @@ vhr:registry-7b94c57c3288 owl:sameAs <https://www.wikidata.org/entity/Q49054268>
 
 vhr:registry-7c58ee50f226 owl:sameAs <https://www.wikidata.org/entity/Q111516001> .
 
-vhr:registry-7d309bea2919 owl:sameAs <http://dbpedia.org/resource/Space_of_gong_culture>,
-        <https://www.wikidata.org/entity/Q2397005> .
-
 vhr:registry-7e0c7fffcb1f owl:sameAs <https://www.wikidata.org/entity/Q10788621> .
 
-vhr:registry-8328a08abe0a owl:sameAs <http://dbpedia.org/resource/Đông_Hồ_painting>,
-        <https://www.wikidata.org/entity/Q1923756> .
+vhr:registry-8328a08abe0a owl:sameAs <https://www.wikidata.org/entity/Q1923756> .
 
 vhr:registry-8587adde8d72 owl:sameAs <https://www.wikidata.org/entity/Q108899547> .
 
@@ -289,12 +233,7 @@ vhr:registry-86c84cab36c8 owl:sameAs <https://www.wikidata.org/entity/Q109317842
 
 vhr:registry-86f42708d93f owl:sameAs <https://www.wikidata.org/entity/Q10779425> .
 
-vhr:registry-8792b692e3c9 owl:sameAs <https://www.wikidata.org/entity/Q10742121> .
-
-vhr:registry-88143959304d owl:sameAs <http://dbpedia.org/resource/Phong_Nha_–_Kẻ_Bàng_National_Park>,
-        <https://www.wikidata.org/entity/Q23513> .
-
-vhr:registry-883570f68def owl:sameAs <https://www.wikidata.org/entity/Q10770871> .
+vhr:registry-88143959304d owl:sameAs <https://www.wikidata.org/entity/Q23513> .
 
 vhr:registry-8961020b8c81 owl:sameAs <https://www.wikidata.org/entity/Q10810560> .
 
@@ -314,15 +253,9 @@ vhr:registry-923800e18d3a owl:sameAs <https://www.wikidata.org/entity/Q1532226> 
 
 vhr:registry-95f28984a882 owl:sameAs <https://www.wikidata.org/entity/Q106654643> .
 
-vhr:registry-99229e377814 owl:sameAs <http://dbpedia.org/resource/Tug_of_war>,
-        <https://www.wikidata.org/entity/Q102843> .
-
 vhr:registry-994d06b85166 owl:sameAs <https://www.wikidata.org/entity/Q798059> .
 
-vhr:registry-9a609934ebb2 owl:sameAs <https://www.wikidata.org/entity/Q10742121> .
-
-vhr:registry-9aa10e718d44 owl:sameAs <http://dbpedia.org/resource/Citadel_of_the_Hồ_Dynasty>,
-        <https://www.wikidata.org/entity/Q190060> .
+vhr:registry-9aa10e718d44 owl:sameAs <https://www.wikidata.org/entity/Q190060> .
 
 vhr:registry-9ef87450d978 owl:sameAs <https://www.wikidata.org/entity/Q30920268> .
 
@@ -341,8 +274,6 @@ vhr:registry-a3ceed236a60 owl:sameAs <https://www.wikidata.org/entity/Q10800918>
 vhr:registry-a75893095411 owl:sameAs <https://www.wikidata.org/entity/Q10825850> .
 
 vhr:registry-a794f65377e2 owl:sameAs <https://www.wikidata.org/entity/Q1406000> .
-
-vhr:registry-a88ab2dadbcc owl:sameAs <https://www.wikidata.org/entity/Q10770854> .
 
 vhr:registry-a8a1804bdd58 owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
 
@@ -370,8 +301,7 @@ vhr:registry-b26d0c6dea7a owl:sameAs <https://www.wikidata.org/entity/Q3485391> 
 
 vhr:registry-b52f76eaec10 owl:sameAs <https://www.wikidata.org/entity/Q10779417> .
 
-vhr:registry-b54471e322bd owl:sameAs <http://dbpedia.org/resource/Ngoc_Lu_drum>,
-        <https://www.wikidata.org/entity/Q3514747> .
+vhr:registry-b54471e322bd owl:sameAs <https://www.wikidata.org/entity/Q3514747> .
 
 vhr:registry-b55f4328e473 owl:sameAs <https://www.wikidata.org/entity/Q10770840> .
 
@@ -379,20 +309,13 @@ vhr:registry-b70dc5c6502d owl:sameAs <https://www.wikidata.org/entity/Q10841695>
 
 vhr:registry-b7b3b2663144 owl:sameAs <https://www.wikidata.org/entity/Q109301061> .
 
-vhr:registry-b7cb354049f4 owl:sameAs <https://www.wikidata.org/entity/Q109438441> .
-
-vhr:registry-b89b72bd95bd owl:sameAs <http://dbpedia.org/resource/Imperial_Citadel_of_Thăng_Long>,
-        <https://www.wikidata.org/entity/Q206219> .
-
-vhr:registry-b9f015fa9be1 owl:sameAs <https://www.wikidata.org/entity/Q109438441> .
+vhr:registry-b89b72bd95bd owl:sameAs <https://www.wikidata.org/entity/Q206219> .
 
 vhr:registry-baafb654c1c5 owl:sameAs <https://www.wikidata.org/entity/Q10828632> .
 
 vhr:registry-bc5c52f756d3 owl:sameAs <https://www.wikidata.org/entity/Q110889122> .
 
 vhr:registry-bcb4c089c343 owl:sameAs <https://www.wikidata.org/entity/Q108899942> .
-
-vhr:registry-bdcfdb271289 owl:sameAs <https://www.wikidata.org/entity/Q81105> .
 
 vhr:registry-beb262b427f2 owl:sameAs <https://www.wikidata.org/entity/Q845438> .
 
@@ -404,17 +327,11 @@ vhr:registry-c00abce048ce owl:sameAs <https://www.wikidata.org/entity/Q10788658>
 
 vhr:registry-c307cf647441 owl:sameAs <https://www.wikidata.org/entity/Q24959007> .
 
-vhr:registry-c30f6cea63f9 owl:sameAs <http://dbpedia.org/resource/Ca_trù>,
-        <https://www.wikidata.org/entity/Q81105> .
-
 vhr:registry-c342ba116022 owl:sameAs <https://www.wikidata.org/entity/Q6755207> .
-
-vhr:registry-c3556d4d22fb owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
 
 vhr:registry-c6035a7663a0 owl:sameAs <https://www.wikidata.org/entity/Q10768928> .
 
-vhr:registry-c637c6eb34c7 owl:sameAs <http://dbpedia.org/resource/Võ_thuật_Bình_Định>,
-        <https://www.wikidata.org/entity/Q863860> .
+vhr:registry-c637c6eb34c7 owl:sameAs <https://www.wikidata.org/entity/Q863860> .
 
 vhr:registry-c63ce0666c33 owl:sameAs <https://www.wikidata.org/entity/Q106653114> .
 
@@ -422,14 +339,9 @@ vhr:registry-c842907c028e owl:sameAs <https://www.wikidata.org/entity/Q98137184>
 
 vhr:registry-c8d51ad38ec1 owl:sameAs <https://www.wikidata.org/entity/Q111144596> .
 
-vhr:registry-c93fde3a690b owl:sameAs <http://dbpedia.org/resource/Independence_Palace>,
-        <https://www.wikidata.org/entity/Q933384> .
+vhr:registry-c93fde3a690b owl:sameAs <https://www.wikidata.org/entity/Q933384> .
 
 vhr:registry-ca33ac006161 owl:sameAs <https://www.wikidata.org/entity/Q61128046> .
-
-vhr:registry-ca54f635ab9a owl:sameAs <https://www.wikidata.org/entity/Q2447747> .
-
-vhr:registry-cbe27038f75a owl:sameAs <https://www.wikidata.org/entity/Q16481207> .
 
 vhr:registry-cd94fa9c91cc owl:sameAs <https://www.wikidata.org/entity/Q108857815> .
 
@@ -481,14 +393,11 @@ vhr:registry-e4c164e3008e owl:sameAs <https://www.wikidata.org/entity/Q109432294
 
 vhr:registry-e4e91580e671 owl:sameAs <https://www.wikidata.org/entity/Q111033900> .
 
-vhr:registry-e543d4676cd5 owl:sameAs <http://dbpedia.org/resource/Việt_Khê>,
-        <https://www.wikidata.org/entity/Q7928443> .
+vhr:registry-e543d4676cd5 owl:sameAs <https://www.wikidata.org/entity/Q7928443> .
 
-vhr:registry-e633de15bf3a owl:sameAs <http://dbpedia.org/resource/Hạ_Long_Bay>,
-        <https://www.wikidata.org/entity/Q190128> .
+vhr:registry-e633de15bf3a owl:sameAs <https://www.wikidata.org/entity/Q190128> .
 
-vhr:registry-e82140e01f4a owl:sameAs <http://dbpedia.org/resource/Ca_Huế>,
-        <https://www.wikidata.org/entity/Q5015164> .
+vhr:registry-e82140e01f4a owl:sameAs <https://www.wikidata.org/entity/Q5015164> .
 
 vhr:registry-e85d7323b189 owl:sameAs <https://www.wikidata.org/entity/Q61133202> .
 
@@ -512,21 +421,15 @@ vhr:registry-ee1512a1ebe9 owl:sameAs <https://www.wikidata.org/entity/Q108852147
 
 vhr:registry-ee97a15984e2 owl:sameAs <https://www.wikidata.org/entity/Q111148688> .
 
-vhr:registry-f2a3e08c5c71 owl:sameAs <https://www.wikidata.org/entity/Q3525838> .
-
 vhr:registry-f37954b48f8e owl:sameAs <https://www.wikidata.org/entity/Q192721> .
 
 vhr:registry-f5c20a16045c owl:sameAs <https://www.wikidata.org/entity/Q10831650> .
 
 vhr:registry-f683a854a413 owl:sameAs <https://www.wikidata.org/entity/Q6409093> .
 
-vhr:registry-f855915303a0 owl:sameAs <https://www.wikidata.org/entity/Q10770871> .
-
 vhr:registry-fa9d5dcb6ca1 owl:sameAs <https://www.wikidata.org/entity/Q131914762> .
 
 vhr:registry-fb867e4b336e owl:sameAs <https://www.wikidata.org/entity/Q695916> .
-
-vhr:registry-fba0084874c9 owl:sameAs <https://www.wikidata.org/entity/Q18461064> .
 
 vhr:registry-fd03e1f1662c-53c105 owl:sameAs <https://www.wikidata.org/entity/Q109438443> .
 
