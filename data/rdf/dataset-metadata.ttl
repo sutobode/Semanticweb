@@ -8,16 +8,16 @@
     dcterms:created "2026-09-25"^^xsd:date ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
-    dcterms:extent "asserted_triples=12786",
-        "canonical_records=1068",
-        "inferred_closure_triples=688180",
-        "inferred_delta_triples=675056",
-        "registry_records=1068",
-        "verified_external_links=221" ;
+    # Inference metrics are pending reasoning on the merged ontology + A-Box.
+    # Historical results from both branches are retained in reasoning-report.json (STALE).
+    dcterms:extent "asserted_triples=13147",
+        "canonical_records=1079",
+        "registry_records=1079",
+        "verified_external_links=222" ;
     dcterms:identifier "20260925T034421Z" ;
     dcterms:issued "20260925T034421Z"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://dsvh.gov.vn/ben-k15-diem-xuat-phat-duong-ho-chi-minh-tren-bien-22211>,
         <https://dsvh.gov.vn/bia-va-den-ta-phu-tinh-lang-son-22271>,
@@ -372,6 +372,7 @@
         <https://vi.wikipedia.org/wiki/D%C3%A2n_ca,_d%C3%A2n_v%C5%A9_%C4%90%C3%B4ng_Anh>,
         <https://vi.wikipedia.org/wiki/D%C3%A2n_ca_v%C3%AD,_gi%E1%BA%B7m_Ngh%E1%BB%87_T%C4%A9nh>,
         <https://vi.wikipedia.org/wiki/D%C6%B0%C6%A1ng_Kh%C3%B4ng_L%E1%BB%99>,
+        <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
         <https://vi.wikipedia.org/wiki/Dinh_%C4%90%E1%BB%99c_L%E1%BA%ADp>,
         <https://vi.wikipedia.org/wiki/G%C3%B2_%C4%90%E1%BB%91ng_%C4%90a>,
         <https://vi.wikipedia.org/wiki/G%C3%B2_Th%C3%A1p>,
@@ -388,6 +389,7 @@
         <https://vi.wikipedia.org/wiki/Hang_%C4%91%E1%BB%99ng_n%C3%BAi_l%E1%BB%ADa_Kr%C3%B4ng_N%C3%B4>,
         <https://vi.wikipedia.org/wiki/Hang_Con_Moong>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_H%E1%BA%A1_(tr%E1%BB%91ng_%C4%91%E1%BB%93ng)>,
+        <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_V%C3%A2n_(nh%E1%BA%A1c_s%C4%A9)>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_th%C3%A0nh_Th%C4%83ng_Long>,
         <https://vi.wikipedia.org/wiki/K%C3%A9o_co>,
         <https://vi.wikipedia.org/wiki/Kh%C3%A2m_thi%C3%AAn_gi%C3%A1m>,
@@ -429,6 +431,7 @@
         <https://vi.wikipedia.org/wiki/Lam_Kinh>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc>,
         <https://vi.wikipedia.org/wiki/M%E1%BB%99_c%E1%BB%B1_th%E1%BA%A1ch_H%C3%A0ng_G%C3%B2n>,
+        <https://vi.wikipedia.org/wiki/M%E1%BB%99c_b%E1%BA%A3n_tri%E1%BB%81u_Nguy%E1%BB%85n>,
         <https://vi.wikipedia.org/wiki/Mo_M%C6%B0%E1%BB%9Dng>,
         <https://vi.wikipedia.org/wiki/Ng%C3%B4_Vi%E1%BA%BFt_Th%E1%BB%A5>,
         <https://vi.wikipedia.org/wiki/Ng%C5%A9_H%C3%A0nh_S%C6%A1n>,
@@ -858,6 +861,7 @@
         <https://vi.wikipedia.org/wiki/D%C3%A2n_ca,_d%C3%A2n_v%C5%A9_%C4%90%C3%B4ng_Anh>,
         <https://vi.wikipedia.org/wiki/D%C3%A2n_ca_v%C3%AD,_gi%E1%BA%B7m_Ngh%E1%BB%87_T%C4%A9nh>,
         <https://vi.wikipedia.org/wiki/D%C6%B0%C6%A1ng_Kh%C3%B4ng_L%E1%BB%99>,
+        <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
         <https://vi.wikipedia.org/wiki/Dinh_%C4%90%E1%BB%99c_L%E1%BA%ADp>,
         <https://vi.wikipedia.org/wiki/G%C3%B2_%C4%90%E1%BB%91ng_%C4%90a>,
         <https://vi.wikipedia.org/wiki/G%C3%B2_Th%C3%A1p>,
@@ -874,6 +878,7 @@
         <https://vi.wikipedia.org/wiki/Hang_%C4%91%E1%BB%99ng_n%C3%BAi_l%E1%BB%ADa_Kr%C3%B4ng_N%C3%B4>,
         <https://vi.wikipedia.org/wiki/Hang_Con_Moong>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_H%E1%BA%A1_(tr%E1%BB%91ng_%C4%91%E1%BB%93ng)>,
+        <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_V%C3%A2n_(nh%E1%BA%A1c_s%C4%A9)>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_th%C3%A0nh_Th%C4%83ng_Long>,
         <https://vi.wikipedia.org/wiki/K%C3%A9o_co>,
         <https://vi.wikipedia.org/wiki/Kh%C3%A2m_thi%C3%AAn_gi%C3%A1m>,
@@ -915,6 +920,7 @@
         <https://vi.wikipedia.org/wiki/Lam_Kinh>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc>,
         <https://vi.wikipedia.org/wiki/M%E1%BB%99_c%E1%BB%B1_th%E1%BA%A1ch_H%C3%A0ng_G%C3%B2n>,
+        <https://vi.wikipedia.org/wiki/M%E1%BB%99c_b%E1%BA%A3n_tri%E1%BB%81u_Nguy%E1%BB%85n>,
         <https://vi.wikipedia.org/wiki/Mo_M%C6%B0%E1%BB%9Dng>,
         <https://vi.wikipedia.org/wiki/Ng%C3%B4_Vi%E1%BA%BFt_Th%E1%BB%A5>,
         <https://vi.wikipedia.org/wiki/Ng%C5%A9_H%C3%A0nh_S%C6%A1n>,
@@ -1015,7 +1021,7 @@
 
 vhr:activity-run-7c81f366b12a a prov:Activity ;
     dcterms:identifier "20260925T034421Z" ;
-    prov:endedAtTime "2026-09-25T03:51:05+00:00"^^xsd:dateTime ;
+    prov:endedAtTime "2026-10-04T09:18:26+00:00"^^xsd:dateTime ;
     prov:startedAtTime "2026-09-25T03:44:21+00:00"^^xsd:dateTime ;
     prov:used <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://dsvh.gov.vn/ben-k15-diem-xuat-phat-duong-ho-chi-minh-tren-bien-22211>,
@@ -1371,6 +1377,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://vi.wikipedia.org/wiki/D%C3%A2n_ca,_d%C3%A2n_v%C5%A9_%C4%90%C3%B4ng_Anh>,
         <https://vi.wikipedia.org/wiki/D%C3%A2n_ca_v%C3%AD,_gi%E1%BA%B7m_Ngh%E1%BB%87_T%C4%A9nh>,
         <https://vi.wikipedia.org/wiki/D%C6%B0%C6%A1ng_Kh%C3%B4ng_L%E1%BB%99>,
+        <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
         <https://vi.wikipedia.org/wiki/Dinh_%C4%90%E1%BB%99c_L%E1%BA%ADp>,
         <https://vi.wikipedia.org/wiki/G%C3%B2_%C4%90%E1%BB%91ng_%C4%90a>,
         <https://vi.wikipedia.org/wiki/G%C3%B2_Th%C3%A1p>,
@@ -1387,6 +1394,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://vi.wikipedia.org/wiki/Hang_%C4%91%E1%BB%99ng_n%C3%BAi_l%E1%BB%ADa_Kr%C3%B4ng_N%C3%B4>,
         <https://vi.wikipedia.org/wiki/Hang_Con_Moong>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_H%E1%BA%A1_(tr%E1%BB%91ng_%C4%91%E1%BB%93ng)>,
+        <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_V%C3%A2n_(nh%E1%BA%A1c_s%C4%A9)>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_th%C3%A0nh_Th%C4%83ng_Long>,
         <https://vi.wikipedia.org/wiki/K%C3%A9o_co>,
         <https://vi.wikipedia.org/wiki/Kh%C3%A2m_thi%C3%AAn_gi%C3%A1m>,
@@ -1428,6 +1436,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://vi.wikipedia.org/wiki/Lam_Kinh>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc>,
         <https://vi.wikipedia.org/wiki/M%E1%BB%99_c%E1%BB%B1_th%E1%BA%A1ch_H%C3%A0ng_G%C3%B2n>,
+        <https://vi.wikipedia.org/wiki/M%E1%BB%99c_b%E1%BA%A3n_tri%E1%BB%81u_Nguy%E1%BB%85n>,
         <https://vi.wikipedia.org/wiki/Mo_M%C6%B0%E1%BB%9Dng>,
         <https://vi.wikipedia.org/wiki/Ng%C3%B4_Vi%E1%BA%BFt_Th%E1%BB%A5>,
         <https://vi.wikipedia.org/wiki/Ng%C5%A9_H%C3%A0nh_S%C6%A1n>,

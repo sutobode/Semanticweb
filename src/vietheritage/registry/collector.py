@@ -741,12 +741,59 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+def collect_supplements(report: dict[str, Any] | None = None, *, lists: bool = True, holders: bool = True,
+                        write_pages: bool = True, debug_dir: Path | None = None) -> dict[str, Any]:
+    """M2-30/31 — nguồn bổ sung sau khi đã có ``registry_records.jsonl``.
+
+    * ``lists``: ``wikipedia_list_sources`` (DEC-M2-005) ghép vào registry/pages (idempotent).
+    * ``holders``: tỉnh của nơi lưu giữ -> ``holder_locations.jsonl`` (DEC-M2-006).
+    Lỗi nguồn danh sách được ghi vào ``report["failure_manifest"]`` (blocking như category khác).
+    """
+    from vietheritage.registry.wikipedia_lists import WikipediaListError, collect_wikipedia_lists, coverage_increments
+
+    out: dict[str, Any] = {}
+    if lists:
+        try:
+            summary = collect_wikipedia_lists(raw_dir=RAW_DIR, write_pages=write_pages, debug_dir=debug_dir)
+            out["wikipedia_lists"] = summary
+            if report is not None:
+                by_category = {item["registry_category"]: item for item in report.get("categories", [])}
+                for category, count in coverage_increments(summary).items():
+                    item = by_category.get(category)
+                    if item is not None:
+                        for counter in ("discovered", "valid", "retrieved", "canonicalized"):
+                            item[counter] = int(item.get(counter) or 0) + count
+                report["registry_total"] = int(report.get("registry_total") or 0) + summary["records_added"]
+                report["canonical_total"] = int(report.get("canonical_total") or 0) + summary["records_added"]
+                for source in summary.get("sources") or []:
+                    report.setdefault("source_urls", []).append(source["page_url"])
+        except (WikipediaListError, requests.RequestException, RuntimeError, ValueError, KeyError) as exc:
+            # Mạng/parse/HTTP (EnrichmentMissingError là RuntimeError): ghi failure như category dạng bảng.
+            out["wikipedia_lists_error"] = str(exc)
+            if report is None:
+                raise
+            report.setdefault("failure_manifest", []).append({
+                "registry_category": "wikipedia_list_sources", "registry_url": "https://vi.wikipedia.org/",
+                "error": str(exc), "error_code": "WIKIPEDIA_LIST_ERROR", "http_status": None,
+                "retry_limit": 3, "snapshot_id": report.get("snapshot_id"),
+            })
+            report["claim"] = "coverage_failed"
+    if holders:
+        from vietheritage.registry.holder_locations import run_holder_locations
+
+        out["holder_locations"] = run_holder_locations(raw_dir=RAW_DIR)
+    return out
+
+
 def collect_full() -> int:
     """`make collect` — crawl official registry and enrich it via Wikipedia."""
     report = collect()
+    supplements = collect_supplements(report, holders=False, write_pages=False)
     records = _read_jsonl(RAW_DIR / "registry_records.jsonl")
     from vietheritage.collector.wikipedia import enrich_many
+    from vietheritage.registry.wikipedia_lists import is_wikipedia_list_record
 
+    # Record từ danh sách Wikipedia đã có page riêng (link trên trang danh sách) -> không so khớp nhãn lại.
     enrichment = enrich_many([
         {
             "registry_id": record["registry_id"],
@@ -754,8 +801,16 @@ def collect_full() -> int:
             "registry_category": record["registry_category"],
             "location": (record.get("registry_fields") or {}).get("location"),
         }
-        for record in records
+        for record in records if not is_wikipedia_list_record(record)
     ])
+    list_pages = (supplements.get("wikipedia_lists") or {}).get("pages") or []
+    if list_pages:
+        with (RAW_DIR / "pages.jsonl").open("a", encoding="utf-8") as handle:
+            for page in list_pages:
+                handle.write(json.dumps(page, ensure_ascii=False) + "\n")
+        enrichment["matched_registry_records"] += len({rid for page in list_pages for rid in page.get("registry_ids") or []})
+    if (RAW_DIR / "registry_records.jsonl").exists():
+        collect_supplements(None, lists=False, holders=True)
     report["wikipedia_matched"] = enrichment["matched_registry_records"]
     report["wikidata_linked"] = enrichment.get("wikidata_linked", 0)
     report["registry_only"] = report["canonical_total"] - enrichment["matched_registry_records"]

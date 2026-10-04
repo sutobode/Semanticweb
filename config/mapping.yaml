@@ -67,9 +67,16 @@ registry_field_roles:
     recognition_text: [recognition_year]
     type: [site_types]
   # Cột thứ 4 của bảng bảo vật là "nơi lưu giữ" (thường là tên bảo tàng), không
-  # phải địa điểm hành chính -> current_holder, không sinh located_in/address.
+  # phải địa điểm hành chính -> current_holder, không sinh address.
+  # holder_located_in (M2-31, DEC-M2-006): located_in = tỉnh của NƠI LƯU GIỮ, lấy từ
+  # data/raw/holder_locations.jsonl (registry text -> bài Wikipedia của bảo tàng -> bảng tay
+  # config/holder_locations.yaml); không có trong file thì chỉ nhận tên tỉnh có ngay trong chuỗi.
   national_treasures:
-    location: [current_holder]
+    location: [current_holder, holder_located_in]
+    recognition_text: [recognition_year]
+  # Di sản tư liệu (nguồn danh sách Wikipedia, DEC-M2-005): cột location là nơi lưu giữ.
+  documentary_heritage:
+    location: [custodian, holder_located_in]
     recognition_text: [recognition_year]
 
 # Năm xây dựng từ infobox Wikipedia (chỉ HeritageSite). Key infobox đã chuẩn hóa

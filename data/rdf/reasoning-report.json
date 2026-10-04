@@ -13,7 +13,9 @@
     "AX-007",
     "AX-010"
   ],
-  "status": "PASS",
+  "status": "STALE",
+  "last_run_status": "PASS",
+  "results_scope": "Historical Ontology 1.7.0 Phase A run only; not acceptance of the merged production inputs.",
   "aggregate_scope": [
     "AX-001",
     "AX-002",
@@ -90,5 +92,98 @@
   },
   "expected_triples": 7,
   "missing_triples": [],
-  "unexpected_triples": []
+  "unexpected_triples": [],
+  "merge_context": {
+    "operation": "merge",
+    "phase_a_commit": "207a9c89db99ade265154aec76f5551b4c03a508",
+    "incoming_commit": "3803f97b95dbb0e5f61693542663feb5a27e7e33",
+    "reason": "The merge combines ontology 1.7.0 with the incoming documentary-heritage A-Box. Neither historical run used this combination. Production reasoning, metadata inference metrics and final public-graph validation must be refreshed after the merge; no inference or validation was rerun during conflict resolution.",
+    "merged_inputs": {
+      "ontology_version": "1.7.0",
+      "ontology_triples": 340,
+      "asserted_triples": 13147,
+      "source_triples": 13485,
+      "canonical_records": 1079,
+      "verified_external_links": 222
+    },
+    "merged_acceptance_status": "NOT_RUN",
+    "merged_axioms": {
+      "AX-001": "NOT_RUN",
+      "AX-002": "NOT_RUN",
+      "AX-003": "NOT_RUN",
+      "AX-004": "NOT_RUN",
+      "AX-005": "NOT_RUN",
+      "AX-006": "NOT_RUN",
+      "AX-007": "NOT_RUN",
+      "AX-008": "NOT_RUN",
+      "AX-009": "NOT_RUN",
+      "AX-010": "NOT_RUN",
+      "AX-017": "NOT_RUN"
+    },
+    "incoming_reasoning_report": {
+      "run_id": "20261004T091851Z-bff360",
+      "run_mode": "full",
+      "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
+      "jena_version": "4.10.0",
+      "scope": [
+        "AX-001",
+        "AX-002",
+        "AX-003",
+        "AX-004",
+        "AX-005",
+        "AX-006",
+        "AX-007"
+      ],
+      "status": "PASS",
+      "aggregate_scope": [
+        "AX-001",
+        "AX-002",
+        "AX-003",
+        "AX-004",
+        "AX-005",
+        "AX-006",
+        "AX-007",
+        "AX-008",
+        "AX-009"
+      ],
+      "axioms": {
+        "AX-001": "PASS",
+        "AX-002": "PASS",
+        "AX-003": "PASS",
+        "AX-004": "PASS",
+        "AX-005": "PASS",
+        "AX-006": "PASS",
+        "AX-007": "PASS",
+        "AX-008": "PASS",
+        "AX-009": "PASS"
+      },
+      "source_triples": 13466,
+      "inferred_triples": 697283,
+      "closure_triples": 710749,
+      "ontology_triples": 321,
+      "asserted_triples": 13147,
+      "production_inputs": [
+        "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
+        "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\rdf\\vietheritage.ttl"
+      ],
+      "semantic_validation": {
+        "status": "PASS",
+        "errors": [],
+        "axioms": {
+          "AX-008": "PASS",
+          "AX-009": "PASS"
+        }
+      },
+      "fixture_verification": {
+        "inputs": [
+          "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
+          "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
+        ],
+        "source_triples": 338,
+        "inferred_triples": 1244
+      },
+      "expected_triples": 6,
+      "missing_triples": []
+    }
+  }
 }

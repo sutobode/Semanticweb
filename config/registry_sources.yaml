@@ -316,3 +316,67 @@ article_sources:
     item_link_selector: null
     duplicate_categories: [national_special_monuments, world_heritage]
     enabled: true
+
+# --- Nguồn danh sách Wikipedia (M2-30, DEC-M2-005, src/vietheritage/registry/wikipedia_lists.py) ---------
+# Category có trang dsvh.gov.vn rỗng nhưng có danh sách công khai trên Wikipedia tiếng Việt. Record sinh ra
+# được CỘNG vào registry_category, registry_url = URL trang Wikipedia (không gán nhầm là dsvh), provenance
+# "mediawiki-api" + CC BY-SA 4.0. Trang dsvh vẫn được crawl như cũ; khi dsvh có bảng, nhóm cân nhắc tắt nguồn này.
+# - section_patterns: chỉ đọc section có tiêu đề khớp (HTML section cha đã gồm section con).
+# - recognized_only: bỏ mục đề cử/chưa công nhận (not_recognized_patterns) và mục không có năm <= năm hiện tại
+#   -> data/raw/wikipedia_list_excluded.jsonl.
+# - level_patterns: cấp ghi danh từ cột bảng hoặc tiêu đề section; level_priority: cấp cao nhất khi một mục có nhiều cấp.
+# - item_overrides: bài Wikipedia cho mục không có link trên trang. page_role: related_subject = bài về người
+#   liên quan (chỉ dùng làm provenance, KHÔNG lấy QID/mô tả -> không sinh owl:sameAs sai).
+# - reference_labels: danh sách đối chiếu (chỉ để báo cáo thiếu/thừa, KHÔNG dùng để sinh record).
+wikipedia_list_sources:
+  - key: documentary_heritage_viwiki
+    registry_category: documentary_heritage
+    page_title: "Di sản tư liệu thế giới"
+    section_patterns: ["Việt Nam"]
+    recognized_only: true
+    not_recognized_patterns: ["đề cử", "ứng cử", "đang (?:xét|chờ|lập hồ sơ|đệ trình)", "chưa (?:được )?(?:công nhận|ghi danh)",
+                              "dự kiến", "đệ trình", "nominat", "candidate"]
+    level_patterns:     # thứ tự = thứ tự thử khi phân loại (cụ thể trước)
+      "Khu vực Châu Á - Thái Bình Dương": "khu vực|châu Á|Asia|MOWCAP"
+      "Thế giới": "thế giới|quốc tế|international"
+    level_priority: ["Thế giới", "Khu vực Châu Á - Thái Bình Dương"]   # cấp ghi vào registry_fields.type khi gộp
+    location_infobox_pattern: "(?:^|_)(?:vị_trí|địa_điểm|nơi_lưu_giữ|lưu_giữ|lưu_trữ|nơi_lưu_trữ|cơ_quan_lưu_trữ|location)(?:$|_)"
+    item_overrides:
+      - label_pattern: "Hoàng Vân"
+        page_title: "Hoàng Vân (nhạc sĩ)"
+        page_role: related_subject
+        note: "Trang danh sách không có link cho mục này; M2 cung cấp bài về nhạc sĩ (2026-10-04)."
+    # Section "Di sản tư liệu thế giới tại Việt Nam" viết dạng câu văn (không phải bảng) -> sửa từng dòng.
+    # Đọc tay từ trang 2026-10-04 (M2). row_pattern khớp toàn bộ text của mục <li>. page_title: null = bỏ link
+    # sai (mục 2 link "Mộc bản triều Nguyễn, Bia tiến sĩ…" trỏ tới bài Mộc bản). Năm theo đúng nội dung trang.
+    row_overrides:
+      - row_pattern: "^Mộc bản triều Nguyễn là di sản tư liệu thế giới đầu tiên"
+        label_vi: "Mộc bản triều Nguyễn"
+        page_title: "Mộc bản triều Nguyễn"
+        recognitions: [[2009, "Thế giới"]]
+        location: "Trung tâm Lưu trữ Quốc gia IV - Đà Lạt, Lâm Đồng"
+      - row_pattern: "Bia tiến sĩ Văn Miếu Thăng Long"
+        label_vi: "Bia tiến sĩ Văn Miếu Thăng Long"
+        page_title: null
+        recognitions: [[2010, "Thế giới"]]
+      - row_pattern: "^Châu bản triều Nguyễn của Việt Nam"
+        label_vi: "Châu bản triều Nguyễn"
+        page_title: null
+        recognitions: [[2014, "Khu vực Châu Á - Thái Bình Dương"], [2017, "Thế giới"]]
+      - row_pattern: "Bộ sưu tập tài liệu của nhạc sĩ Hoàng Vân"
+        label_vi: "Bộ sưu tập tài liệu của nhạc sĩ Hoàng Vân"
+        recognitions: [[2025, "Thế giới"]]
+    reference_labels:   # tên đúng như trên trang Wikipedia (2026-10-04); 4 thế giới + 7 khu vực — chỉ để báo cáo
+      - "Mộc bản triều Nguyễn"
+      - "Bia tiến sĩ Văn Miếu Thăng Long"
+      - "Châu bản triều Nguyễn"
+      - "Bộ sưu tập tài liệu của nhạc sĩ Hoàng Vân"
+      - "Mộc bản kinh Phật thiền phái Trúc Lâm chùa Vĩnh Nghiêm"
+      - "Thơ văn trên kiến trúc cung đình Huế"
+      - "Mộc bản trường Phúc Giang"
+      - "Hoàng hoa sứ trình đồ"
+      - "Văn bản Hán Nôm làng Trường Lưu"
+      - "78 Bia Ma nhai danh thắng Ngũ Hành Sơn"
+      - "Những bản đúc nổi trên chín đỉnh đồng ở Hoàng cung Huế"
+    min_items: 1
+    enabled: true

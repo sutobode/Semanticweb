@@ -17,6 +17,12 @@ Quy tắc M2 (``M2_REMAINING_WORK.md``):
   và record ``Organization`` tương ứng (DEC-013).
 * M2-13/15: page Wikipedia join theo ``registry_ids``; quan hệ Wikipedia chỉ
   được map khi collector đã xác minh bằng Wikidata P31.
+* M2-30 (DEC-M2-005): record từ nguồn danh sách Wikipedia (``registry_fields.source =
+  wikipedia_list:*``) có provenance ``mediawiki-api`` (nguồn = trang danh sách Wikipedia) + CC BY-SA 4.0; không có bài riêng thì
+  page ID/tiêu đề là của trang danh sách. Page ``page_role: related_subject`` chỉ là nguồn
+  provenance: không lấy QID, tọa độ, mô tả, alias.
+* M2-31 (DEC-M2-006): role ``holder_located_in`` -> ``located_in`` theo tỉnh của nơi lưu giữ
+  (``data/raw/holder_locations.jsonl``, xem ``registry/holder_locations.py``).
 * Output: entity phái sinh (area, organization, person, …) đứng TRƯỚC registry
   record để loader một lượt (Neo4j MATCH) luôn thấy node đích.
 """
@@ -57,6 +63,8 @@ SCHEMA_PATH = REPO_ROOT / "schema" / "canonical-record.schema.json"
 COVERAGE_CLAIM = "100% of selected official registry snapshot"
 REGISTRY_LICENSE = "Official registry snapshot"
 WIKIPEDIA_LICENSE = "CC BY-SA 4.0"
+WIKIPEDIA_LIST_PREFIX = "wikipedia_list:"
+RELATED_SUBJECT = "related_subject"
 
 _CANONICAL_FIELDS = {
     "entity_id", "entity_type", "label_vi", "registry_id", "registry_category",
@@ -302,6 +310,23 @@ def _construction_year(page: dict[str, Any], mapping: dict[str, Any]) -> int | N
     return None
 
 
+def _attach_areas(record: dict[str, Any], areas: list, resolver, derived: DerivedRegistry | None,
+                  entity: dict[str, Any], category: str | None, category_urls: dict[str, str] | None,
+                  registry_url: str | None) -> None:
+    """``relations.located_in`` + entity AdministrativeArea phái sinh cho các tỉnh đã công bố."""
+    for area in areas:
+        _add_relation(record, "located_in", area.entity_id)
+        if derived is not None:
+            source = (category_urls or {}).get(category) or registry_url
+            derived.add(
+                area.entity_id, "AdministrativeArea", sources=[source],
+                retrieved_at=entity.get("retrieved_at"), coverage_snapshot=entity.get("coverage_snapshot"),
+                method="derived", license_text=REGISTRY_LICENSE,
+                label_vi=area.label, aliases_vi=list(area.display_aliases),
+                level=area.level, country_code=resolver.country_code,
+            )
+
+
 def map_record(
     entity: dict[str, Any],
     category_types: dict[str, str],
@@ -312,6 +337,7 @@ def map_record(
     area_resolver=None,
     derived: DerivedRegistry | None = None,
     category_urls: dict[str, str] | None = None,
+    holder_index: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
     mapping = mapping if mapping is not None else load_mapping()
     category = entity.get("registry_category")
@@ -327,10 +353,14 @@ def map_record(
         page = pages.for_entity(entity)
     else:
         page = (pages or {}).get(_norm_title(entity.get("label_vi", "")))
+    list_source = str(fields.get("source") or "").startswith(WIKIPEDIA_LIST_PREFIX)
+    # Bài về người/tổ chức liên quan (không phải bài về chính entity): chỉ dùng làm provenance.
+    subject_page = bool(page) and page.get("page_role") == RELATED_SUBJECT
+    identity_page = None if subject_page else page
     external_ids: dict[str, str] = {}
     qid = (
         entity.get("wikidata_id")
-        or (page or {}).get("wikidata_id")
+        or (identity_page or {}).get("wikidata_id")
         or (exact_wikidata or {}).get(entity_id)
     )
     if qid:
@@ -339,6 +369,13 @@ def map_record(
     source_status = "registry+wikipedia" if page else "registry_only"
     registry_url = iri_to_uri(entity.get("registry_url"))
     provenance_method = "registry-plus-mediawiki-enrichment" if page else "registry"
+    license_text = WIKIPEDIA_LICENSE if page else REGISTRY_LICENSE
+    page_id, page_title = (page or {}).get("page_id"), (page or {}).get("title")
+    if list_source:
+        # Nguồn là trang danh sách Wikipedia: provenance trung thực, page ID/tiêu đề tối thiểu là của trang danh sách.
+        provenance_method, license_text, source_status = "mediawiki-api", WIKIPEDIA_LICENSE, "registry+wikipedia"
+        if not page:
+            page_id, page_title = fields.get("list_page_id"), fields.get("list_page_title")
     record: dict[str, Any] = {
         "entity_id": entity_id,
         "entity_type": entity_type,
@@ -348,13 +385,13 @@ def map_record(
         "registry_url": registry_url,
         "source_status": source_status,
         "coverage_snapshot": entity.get("coverage_snapshot"),
-        "source_page_id": (page or {}).get("page_id"),
-        "source_title": (page or {}).get("title"),
+        "source_page_id": page_id,
+        "source_title": page_title,
         "source_url": iri_to_uri((page or {}).get("source_url")) or registry_url,
         "retrieved_at": entity["retrieved_at"],
         "aliases_vi": [],
-        "description_vi": (page or {}).get("abstract"),
-        "coordinates": (page or {}).get("coordinates") or entity.get("coordinates"),
+        "description_vi": (identity_page or {}).get("abstract"),
+        "coordinates": (identity_page or {}).get("coordinates") or entity.get("coordinates"),
         "external_ids": external_ids,
         "relations": {key: list(value) for key, value in (entity.get("relations") or {}).items()},
         "parent_area": entity.get("parent_area"),
@@ -362,7 +399,7 @@ def map_record(
         "provenance": {
             "source": registry_url,
             "method": provenance_method,
-            "license": WIKIPEDIA_LICENSE if page else REGISTRY_LICENSE,
+            "license": license_text,
         },
     }
 
@@ -380,21 +417,25 @@ def map_record(
                 resolver = area_resolver or _default_area_resolver()
                 # DEC-M2-004: công bố theo đơn vị sau sắp xếp 2025 (config/areas.yaml > publish_level).
                 match = resolver.resolve_published(value)
-                for area in match.areas:
-                    _add_relation(record, "located_in", area.entity_id)
-                    if derived is not None:
-                        source = (category_urls or {}).get(category) or registry_url
-                        derived.add(
-                            area.entity_id, "AdministrativeArea", sources=[source],
-                            retrieved_at=entity.get("retrieved_at"), coverage_snapshot=entity.get("coverage_snapshot"),
-                            method="derived", license_text=REGISTRY_LICENSE,
-                            label_vi=area.label, aliases_vi=list(area.display_aliases),
-                            level=area.level, country_code=resolver.country_code,
-                        )
+                _attach_areas(record, match.areas, resolver, derived, entity, category,
+                              None if list_source else category_urls, registry_url)
                 if derived is not None and match.warnings:
                     derived.area_warnings.append({
                         "entity_id": entity_id, "registry_category": category,
                         "location": value, "warnings": match.warnings,
+                    })
+            elif target == "holder_located_in":
+                # DEC-M2-006: tỉnh của NƠI LƯU GIỮ (bảo tàng/di tích/cơ quan lưu trữ).
+                from vietheritage.registry.holder_locations import holder_areas
+
+                resolver = area_resolver or _default_area_resolver()
+                areas, method = holder_areas(value, resolver, holder_index)
+                _attach_areas(record, resolver.publish(areas), resolver, derived, entity, category,
+                              None if list_source else category_urls, registry_url)
+                if derived is not None and not areas:
+                    derived.area_warnings.append({
+                        "entity_id": entity_id, "registry_category": category,
+                        "location": value, "warnings": ["HOLDER_AREA_UNMAPPED"], "method": method,
                     })
             elif target in _CANONICAL_FIELDS:
                 record[target] = value
@@ -416,14 +457,14 @@ def map_record(
             if site_type not in record["site_types"]:
                 record["site_types"].append(site_type)
 
-    if page:
+    if identity_page:
         if entity_type == "HeritageSite":
-            record["construction_year"] = _construction_year(page, mapping)
-        _map_wikipedia_relations(record, page, mapping, derived)
+            record["construction_year"] = _construction_year(identity_page, mapping)
+        _map_wikipedia_relations(record, identity_page, mapping, derived)
 
     alias_inputs = list(entity.get("aliases_vi") or [])
-    if page:
-        alias_inputs += [page.get("title") or "", *(page.get("requested_labels") or [])]
+    if identity_page:
+        alias_inputs += [identity_page.get("title") or "", *(identity_page.get("requested_labels") or [])]
     record["aliases_vi"] = dedupe_aliases(record["label_vi"], [a for a in alias_inputs if a])
     record["relations"] = {name: sorted(targets) for name, targets in sorted(record["relations"].items()) if targets}
     return {key: value for key, value in record.items() if key in _CANONICAL_FIELDS and value is not None}
@@ -571,6 +612,9 @@ def run(run_mode: str = "sample") -> int:
     pages = _load_pages()
     exact_wikidata = _load_exact_wikidata()
     area_resolver = _default_area_resolver()
+    from vietheritage.registry.holder_locations import load_holder_index
+
+    holder_index = load_holder_index(RAW_DIR / "holder_locations.jsonl")
     derived = DerivedRegistry()
     validator = _schema_validator()
 
@@ -579,7 +623,8 @@ def run(run_mode: str = "sample") -> int:
     try:
         for entity in _read_jsonl(entities_path):
             for record in map_entity(entity, category_types, pages, exact_wikidata, mapping=mapping,
-                                     area_resolver=area_resolver, derived=derived, category_urls=category_urls):
+                                     area_resolver=area_resolver, derived=derived, category_urls=category_urls,
+                                     holder_index=holder_index):
                 problems = validate_canonical(record, mapping, validator)
                 if problems:
                     skipped.append({"entity_id": record.get("entity_id"), "registry_id": record.get("registry_id"), "errors": problems})

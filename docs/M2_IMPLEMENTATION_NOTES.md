@@ -60,6 +60,9 @@ So sánh với nhánh `dev` ban đầu (commit `6e76bac`, snapshot `20260914T040
 | DEC-M2-003 | Bằng chứng khớp Wikipedia cho di sản phi vật thể phụ thuộc luật alias đã áp: tỉnh, dân tộc, vùng, hoặc không cần. `national_intangible` khớp 44 → 74. |
 | DEC-M2-004 | `located_in` / AdministrativeArea công bố theo 34 tỉnh/thành sau NQ 202/2025/QH15. Ô địa điểm gốc giữ ở `address`. Đặt `publish_level: source` để quay lại 63 tên cũ. |
 
+| DEC-M2-005 | `documentary_heritage` (trang dsvh rỗng) được bổ sung từ section "Việt Nam" của bài Wikipedia "Di sản tư liệu thế giới" (`wikipedia_list_sources`). Chỉ lấy mục **đã được công nhận** (bỏ đề cử/chưa có năm). `registry_url` = URL trang Wikipedia, provenance `mediawiki-api` + CC BY-SA 4.0 (không gán là dsvh). Mục "Bộ sưu tập tài liệu của nhạc sĩ Hoàng Vân" không có link trên trang -> dùng bài "Hoàng Vân (nhạc sĩ)" với `page_role: related_subject`: chỉ làm provenance, không lấy QID/mô tả (không sinh `owl:sameAs` tới nhạc sĩ). |
+| DEC-M2-006 | `national_treasures` (và `documentary_heritage`) có `located_in` = tỉnh của **nơi lưu giữ**. Thứ tự: tên tỉnh trong chuỗi nơi lưu giữ ("Bảo tàng tỉnh Bắc Ninh") -> bài Wikipedia của bảo tàng (infobox/đoạn mở đầu/thể loại, phải ra đúng 1 tỉnh) -> bảng tay `config/holder_locations.yaml`. "Hồ Chí Minh" chỉ là TP.HCM khi đứng sau "thành phố"/"TP" ("Bảo tàng Hồ Chí Minh" ở Hà Nội). Công bố theo 34 tỉnh sau sắp xếp 2025 như DEC-M2-004. Chuỗi gốc vẫn ở `current_holder`/`custodian`. |
+
 Ngoài ra cần ghi: tách di tích gộp làm `canonical_registry_derived_entities` khác `registry_valid_records` về số lượng. Vì vậy coverage đếm **dòng registry được biểu diễn** (§12.4.2).
 
 ## 4. Ảnh hưởng tới thành viên khác
@@ -90,3 +93,24 @@ make collect                                 # crawl lại dsvh + Wikipedia (c�
 ```
 
 `data/raw/*`, `data/processed/*` và `reports/` nằm trong `.gitignore` (§9.1). Snapshot dữ liệu được phân phối bằng zip riêng, hoặc `git add -f` khi release. `reports/<snapshot>/coverage.json` cần có để `make verify RUN_MODE=full` chạy được.
+
+## 6. Cập nhật 2026-10-04 — nguồn bổ sung (M2-30/31)
+
+**Chạy:** `make collect-supplements` (= `python -m vietheritage.cli collect-supplements`) ghép vào raw hiện có, không crawl lại dsvh; sau đó chạy lại từ `normalize`. `make collect` (crawl đầy đủ) cũng tự gọi bước này.
+
+| File | Vai trò |
+|---|---|
+| `src/vietheritage/registry/wikipedia_lists.py` | Đọc section "Việt Nam" (bảng có rowspan/colspan hoặc danh sách), lọc mục đã công nhận, gộp mục ghi danh nhiều cấp, tải bài của từng mục |
+| `src/vietheritage/registry/holder_locations.py` | Xác định tỉnh của nơi lưu giữ, ghi `data/raw/holder_locations.jsonl` kèm bằng chứng |
+| `config/registry_sources.yaml > wikipedia_list_sources` | Cấu hình nguồn danh sách, override Hoàng Vân, danh sách đối chiếu 11 di sản (chỉ để báo cáo) |
+| `config/holder_locations.yaml` | Bảng tay dự phòng cho nơi lưu giữ không có tên tỉnh |
+| `config/mapping.yaml` | Role mới `holder_located_in` cho `national_treasures`, `documentary_heritage` |
+| `data/raw/wikipedia_list_report.json`, `wikipedia_list_excluded.jsonl` | Báo cáo nguồn danh sách, mục bị loại (đề cử…) |
+
+**Ảnh hưởng tới thành viên khác**
+
+| Ai | Thay đổi | Cần làm |
+|---|---|---|
+| M3/M4 | `validation/policy.py`: record registry có provenance `mediawiki-api` (nguồn danh sách Wikipedia) phải có nguồn `*.wikipedia.org` thay vì dsvh | Review diff (5 dòng) |
+| M4 | `vh:locatedIn` thêm cho 237 bảo vật (+ di sản tư liệu có nơi lưu giữ); CQ01/CQ06 trên dữ liệu thật có thể đổi số | Kiểm tra lại expected trên dữ liệu thật (golden fixture không đổi) |
+| M1 | Lần đầu có instance `vh:DocumentaryHeritage` thật. Không dùng `recognizedBy`/`associatedWithPerson` cho lớp này vì domain là `HeritageSite` (sẽ mâu thuẫn AX-004) | Nếu muốn nối di sản tư liệu với UNESCO/nhạc sĩ: mở rộng domain trong ontology |
