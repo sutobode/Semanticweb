@@ -22,12 +22,12 @@
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.6.2" ;
+    owl:versionInfo "1.7.0" ;
     dcterms:created "2026-09-12"^^xsd:date ;
-    dcterms:modified "2026-09-22"^^xsd:date .
+    dcterms:modified "2026-10-04"^^xsd:date .
 
 #################################################################
-# 15.1 — Classes (23 primary classes)
+# 15.1 — Classes (24 project-owned classes)
 #################################################################
 
 vh:CulturalHeritageEntity
@@ -85,6 +85,14 @@ vh:HeritageComplex
     rdfs:label "Quần thể di sản"@vi ;
     rdfs:label "Heritage complex"@en ;
     rdfs:comment "Nhóm các site."@vi .
+
+vh:HeritageSiteWithHistoricalBuilder
+    a owl:Class ;
+    rdfs:subClassOf vh:HeritageSite ;
+    rdfs:label "Địa điểm di sản có nhân vật lịch sử xây dựng"@vi ;
+    rdfs:label "Heritage site with a historical builder"@en ;
+    rdfs:comment "Địa điểm di sản có ít nhất một quan hệ builtBy tới nhân vật lịch sử; không hàm ý tư liệu đã đầy đủ."@vi ;
+    rdfs:comment "A heritage site with at least one historical person as builder; this does not imply documentation completeness."@en .
 
 vh:Museum
     a owl:Class ;
@@ -280,11 +288,13 @@ vh:hasRelatedSite
     rdfs:label "has related site"@en .
 
 vh:hasHistoricalSuccessor
-    a owl:ObjectProperty, rdf:Property ;
+    a owl:ObjectProperty, rdf:Property, owl:AsymmetricProperty ;
     rdfs:domain vh:HistoricalEvent ;
     rdfs:range vh:HistoricalEvent ;
     rdfs:label "có sự kiện kế tiếp"@vi ;
-    rdfs:label "has historical successor"@en .
+    rdfs:label "has historical successor"@en ;
+    rdfs:comment "Quan hệ kế tiếp lịch sử có hướng nghiêm ngặt, được nguồn xác nhận; không transitive và không kiểm mọi chu trình."@vi ;
+    rdfs:comment "A source-supported strict directed historical-successor relation; not transitive and not a general acyclicity constraint."@en .
 
 #################################################################
 # 15.3 — Datatype properties (10 property project-owned)
@@ -363,7 +373,7 @@ vh:areaLevel
     rdfs:label "area level"@en .
 
 #################################################################
-# 16 — OWL Semantics Contract (AX-001 .. AX-009)
+# 16 — OWL Semantics Contract (AX-001 .. AX-010, AX-017)
 #################################################################
 
 # AX-001 — UNESCO subclass
@@ -432,3 +442,19 @@ vh:sourceTitle      a owl:FunctionalProperty .
 vh:birthYear        a owl:FunctionalProperty .
 vh:deathYear        a owl:FunctionalProperty .
 vh:areaLevel        a owl:FunctionalProperty .
+
+# AX-010 — Overlapping defined subclass; no mandatory builder for every site.
+vh:HeritageSiteWithHistoricalBuilder owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        vh:HeritageSite
+        [
+            a owl:Restriction ;
+            owl:onProperty vh:builtBy ;
+            owl:someValuesFrom vh:HistoricalPerson
+        ]
+    )
+] .
+
+# AX-017 — Asymmetry entails irreflexivity; checked by the semantic validator.
+vh:hasHistoricalSuccessor a owl:AsymmetricProperty .

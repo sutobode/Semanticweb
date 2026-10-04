@@ -20,3 +20,6 @@ vhr:site-ax006-b vh:hasRelatedSite vhr:site-ax006-a .
 
 # AX-007
 vhr:site-ax007 vh:associatedWithPerson vhr:person-ax007 .
+
+# AX-010
+vhr:site-ax010 a vh:HeritageSiteWithHistoricalBuilder .

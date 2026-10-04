@@ -20,5 +20,19 @@
     "invalid_status": "FAIL",
     "expected_error_code": "CARDINALITY_VIOLATION",
     "property": "http://localhost:3030/vietheritage/ontology/constructionYear"
+  },
+  "AX-017": {
+    "valid_input": "data/fixtures/semantic/axioms-valid.ttl",
+    "valid_status": "PASS",
+    "invalid_input": "data/fixtures/semantic/ax017-self.ttl",
+    "invalid_inputs": [
+      "data/fixtures/semantic/ax017-self.ttl",
+      "data/fixtures/semantic/ax017-reciprocal.ttl",
+      "data/fixtures/semantic/ax017-identity-self.ttl",
+      "data/fixtures/semantic/ax017-identity-reciprocal.ttl"
+    ],
+    "invalid_status": "FAIL",
+    "expected_error_code": "ONTOLOGY_INCONSISTENT",
+    "property": "http://localhost:3030/vietheritage/ontology/hasHistoricalSuccessor"
   }
 }

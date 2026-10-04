@@ -277,12 +277,19 @@ def _metadata_counts(asserted_count: int, records: list[dict[str, Any]]) -> dict
     reasoning_path = RDF_DIR / "reasoning-report.json"
     inferred_count = len(Graph().parse(inferred_path, format="turtle")) if inferred_path.exists() else 0
     reasoning = json.loads(reasoning_path.read_text(encoding="utf-8")) if reasoning_path.exists() else {}
+    closure_count = 0
+    if inferred_path.exists():
+        closure_count = int(reasoning.get("closure_triples", 0))
+        if (reasoning.get("status") != "PASS"
+                or reasoning.get("inferred_triples") != inferred_count
+                or closure_count != reasoning.get("source_triples", 0) + inferred_count):
+            raise ValueError("REASONING_METRICS_MISMATCH: inferred delta requires a matching successful reasoning report")
     return {
         "registry_records": len(records),
         "canonical_records": len(records),
         "asserted_triples": asserted_count,
-        "inferred_closure_triples": inferred_count,
-        "inferred_delta_triples": int(reasoning.get("inferred_triples", 0)),
+        "inferred_closure_triples": closure_count,
+        "inferred_delta_triples": inferred_count,
         "verified_external_links": _verified_link_count(),
     }
 

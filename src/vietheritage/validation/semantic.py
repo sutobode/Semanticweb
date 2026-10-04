@@ -14,6 +14,7 @@ from rdflib import BNode, Graph, Literal, Namespace, URIRef
 from rdflib.namespace import OWL, RDF, RDFS, XSD
 
 DEFAULT_BASE = "http://localhost:3030/vietheritage"
+VALIDATED_AXIOMS = ("AX-004", "AX-008", "AX-009", "AX-017")
 
 
 def base_uri(value: str | None = None) -> str:
@@ -41,6 +42,31 @@ def report(errors: list[dict], **extra) -> dict:
         json.dumps(error, sort_keys=True, ensure_ascii=False) for error in errors
     })]
     return {"status": "FAIL" if errors else "PASS", "errors": errors, **extra}
+
+
+def same_as_components(pairs) -> dict:
+    """Undirected/transitive equality components; callers select their evidence.
+
+    Shared with public-link checks, which pass only approved identity pairs.
+    Different components mean equality is unknown, not owl:differentFrom.
+    """
+    neighbours: dict = {}
+    for source, target in pairs:
+        neighbours.setdefault(source, set()).add(target)
+        neighbours.setdefault(target, set()).add(source)
+    components = {}
+    for node in neighbours:
+        if node in components:
+            continue
+        connected, pending = set(), [node]
+        while pending:
+            current = pending.pop()
+            if current not in connected:
+                connected.add(current)
+                pending.extend(neighbours.get(current, ()))
+        for member in connected:
+            components[member] = connected
+    return components
 
 
 class Contract:
@@ -121,7 +147,7 @@ def _same_value(left, right) -> bool:
 
 
 def validate_axioms(data: Graph, ontology: Graph, *, base: str | None = None) -> dict:
-    """Check AX-004/008 consistency and AX-009 values without assuming completeness.
+    """Check AX-004/008/017 consistency and AX-009 values, without completeness.
 
     A missing disjoint-union member is not an OWL inconsistency under OWA;
     simultaneous membership of exclusive branches is.
@@ -147,8 +173,28 @@ def validate_axioms(data: Graph, ontology: Graph, *, base: str | None = None) ->
                     "CARDINALITY_VIOLATION", node, prop, "Multiple distinct functional values.",
                     axiom="AX-009", values=[term(value) for value in values],
                 ))
+    successor = contract.vh.hasHistoricalSuccessor
+    asymmetric = (successor, RDF.type, OWL.AsymmetricProperty) in ontology
+    if asymmetric:
+        edges = set(data.subject_objects(successor))
+        # Avoid traversing the equality graph for the vacuous production case.
+        components = same_as_components(data.subject_objects(OWL.sameAs)) if edges else {}
+        representatives = {node: min(component, key=str) for node, component in components.items()}
+        normalized = {(representatives.get(left, left), representatives.get(right, right))
+                      for left, right in edges}
+        for left, right in edges:
+            source, target = representatives.get(left, left), representatives.get(right, right)
+            if source == target or (target, source) in normalized:
+                errors.append(issue(
+                    "ONTOLOGY_INCONSISTENT", left, successor,
+                    "Historical successor is reflexive or reciprocal after known sameAs normalization.",
+                    axiom="AX-017", target=term(right),
+                    violation="self" if source == target else "reciprocal",
+                ))
     axioms = {axiom: "FAIL" if any(e.get("axiom") == axiom for e in errors) else "PASS"
-              for axiom in ("AX-004", "AX-008", "AX-009")}
+              for axiom in VALIDATED_AXIOMS}
+    if not asymmetric:
+        axioms["AX-017"] = "NOT_RUN"
     return report(errors, axioms=axioms)
 
 

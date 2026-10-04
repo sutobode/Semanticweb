@@ -39,3 +39,18 @@ vhr:person-ax007 a vh:HistoricalPerson .
 # AX-008 valid case: exactly one intangible subclass.
 vhr:registry-fixture-intangible-ax008-valid
     a vh:IntangibleHeritage, vh:RepresentativeIntangibleHeritage .
+
+# AX-010: the defined class is inferred, never asserted here.
+vhr:site-ax010 a vh:HeritageSite ;
+    vh:builtBy vhr:person-ax010 .
+vhr:person-ax010 a vh:HistoricalPerson .
+
+# AX-010 control: a super-property edge alone does not imply builtBy.
+vhr:site-ax010-control a vh:HeritageSite ;
+    vh:associatedWithPerson vhr:person-ax010-control .
+vhr:person-ax010-control a vh:HistoricalPerson .
+
+# AX-017: one directed successor edge is valid without an asserted inequality.
+vhr:event-ax017-a a vh:HistoricalEvent ;
+    vh:hasHistoricalSuccessor vhr:event-ax017-b .
+vhr:event-ax017-b a vh:HistoricalEvent .

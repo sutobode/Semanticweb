@@ -7,7 +7,7 @@ trong ontology thật, không đếm dòng markdown).
 from pathlib import Path
 
 import pytest
-from rdflib import Namespace, RDF, RDFS, OWL
+from rdflib import OWL, RDF, RDFS, Literal, Namespace
 from rdflib.graph import Graph
 
 ONTOLOGY_PATH = Path(__file__).resolve().parents[2] / "ontology" / "vietheritage.ttl"
@@ -20,7 +20,7 @@ EXPECTED_CLASSES = {
     "ArchitecturalStyle", "AdministrativeArea", "Organization", "IntangibleHeritage",
     "RepresentativeIntangibleHeritage", "UrgentSafeguardingIntangibleHeritage",
     "NationalIntangibleHeritage", "NationalTreasure", "DocumentaryHeritage",
-    "Artisan", "CulturalObject",
+    "Artisan", "CulturalObject", "HeritageSiteWithHistoricalBuilder",
 }
 
 EXPECTED_OBJECT_PROPERTIES = {
@@ -47,20 +47,19 @@ def test_ontology_file_parses_as_valid_turtle(graph: Graph) -> None:
 
 
 def test_ontology_has_owl_ontology_header(graph: Graph) -> None:
-    ontology_uri = VH[""].toPython().rstrip("")
     subjects = list(graph.subjects(RDF.type, OWL.Ontology))
     assert len(subjects) == 1
     assert str(subjects[0]) == "http://localhost:3030/vietheritage/ontology/"
 
 
-def test_ontology_has_exactly_23_project_owned_classes(graph: Graph) -> None:
+def test_ontology_has_exactly_24_project_owned_classes(graph: Graph) -> None:
     classes = {
         str(s).replace(str(VH), "")
         for s in graph.subjects(RDF.type, OWL.Class)
         if str(s).startswith(str(VH))
     }
     assert classes == EXPECTED_CLASSES
-    assert len(classes) == 23
+    assert len(classes) == 24
 
 
 def test_ontology_has_exactly_12_object_properties(graph: Graph) -> None:
@@ -156,3 +155,42 @@ def test_ax009_functional_properties_for_8_datatype_properties(graph: Graph) -> 
     non_functional = {"shortDescription", "alternativeName"}
     for name in non_functional:
         assert (VH[name], RDF.type, OWL.FunctionalProperty) not in graph, f"{name} must NOT be FunctionalProperty"
+
+
+def test_ontology_version_and_ax010_exact_definition(graph: Graph) -> None:
+    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.7.0")}
+    cls = VH.HeritageSiteWithHistoricalBuilder
+    assert set(graph.objects(cls, RDFS.subClassOf)) == {VH.HeritageSite}
+    equivalents = list(graph.objects(cls, OWL.equivalentClass))
+    assert len(equivalents) == 1
+    definition = equivalents[0]
+    assert (definition, RDF.type, OWL.Class) in graph
+    lists = list(graph.objects(definition, OWL.intersectionOf))
+    assert len(lists) == 1
+    members = list(graph.items(lists[0]))
+    assert len(members) == 2 and members[0] == VH.HeritageSite
+    restriction = members[1]
+    assert (restriction, RDF.type, OWL.Restriction) in graph
+    assert set(graph.objects(restriction, OWL.onProperty)) == {VH.builtBy}
+    assert set(graph.objects(restriction, OWL.someValuesFrom)) == {VH.HistoricalPerson}
+    assert {value.language for value in graph.objects(cls, RDFS.comment)} == {"vi", "en"}
+
+
+def test_ax010_does_not_add_a_disjoint_main_branch(graph: Graph) -> None:
+    groups = list(graph.subjects(RDF.type, OWL.AllDisjointClasses))
+    assert len(groups) == 1
+    assert set(graph.items(graph.value(groups[0], OWL.members))) == {
+        VH.HeritageSite, VH.HeritageComplex, VH.Museum, VH.IntangibleHeritage,
+        VH.NationalTreasure, VH.DocumentaryHeritage, VH.CulturalObject,
+    }
+    assert not list(graph.objects(VH.HeritageSiteWithHistoricalBuilder, OWL.disjointWith))
+    assert not list(graph.subjects(OWL.disjointWith, VH.HeritageSiteWithHistoricalBuilder))
+
+
+def test_ax017_is_only_asymmetric_and_keeps_event_domain_range(graph: Graph) -> None:
+    prop = VH.hasHistoricalSuccessor
+    assert set(graph.objects(prop, RDF.type)) == {OWL.ObjectProperty, RDF.Property, OWL.AsymmetricProperty}
+    assert set(graph.objects(prop, RDFS.domain)) == {VH.HistoricalEvent}
+    assert set(graph.objects(prop, RDFS.range)) == {VH.HistoricalEvent}
+    for characteristic in (OWL.TransitiveProperty, OWL.SymmetricProperty, OWL.IrreflexiveProperty):
+        assert (prop, RDF.type, characteristic) not in graph

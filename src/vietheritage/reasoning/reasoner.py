@@ -1,4 +1,4 @@
-"""AX-001–AX-007 via local Apache Jena 4.10.0 OWL Mini (COMP-008).
+"""AX-001–AX-007/010 via local Apache Jena 4.10.0 OWL Mini (COMP-008).
 
 Set JENA_HOME to an unpacked Jena distribution, or JENA_CLASSPATH to its local
 jars. A JDK (Java source-file launcher, Java 11+) is required; JAVA_HOME is
@@ -18,6 +18,7 @@ from tempfile import TemporaryDirectory
 from uuid import uuid4
 
 from rdflib import Graph, Namespace
+from rdflib.namespace import OWL, RDF
 
 from vietheritage.validation.semantic import report, validate_axioms
 
@@ -33,8 +34,10 @@ EXPECTED = FIXTURES / "expected" / "inferred.ttl"
 JAVA_SOURCE = Path(__file__).with_name("OwlMiniReasoner.java")
 ENGINE = "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
 JENA_VERSION = "4.10.0"
-AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8))
-SEMANTIC_AXIOMS = ("AX-008", "AX-009")
+AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8)) + ("AX-010",)
+SEMANTIC_AXIOMS = ("AX-008", "AX-009", "AX-017")
+AGGREGATE_AXIOMS = tuple(sorted(AXIOMS + SEMANTIC_AXIOMS))
+VH = Namespace("http://localhost:3030/vietheritage/ontology/")
 VHR = Namespace("http://localhost:3030/vietheritage/resource/")
 # Subjects identify each case in the authoritative expected subset.
 EXPECTED_SUBJECTS = {
@@ -44,6 +47,7 @@ EXPECTED_SUBJECTS = {
     "AX-005": VHR["site-ax005"],
     "AX-006": VHR["site-ax006-b"],
     "AX-007": VHR["site-ax007"],
+    "AX-010": VHR["site-ax010"],
 }
 
 
@@ -124,12 +128,19 @@ def reason(graphs: Iterable[Graph]) -> tuple[Graph, int]:
 
 def _check_semantic_axioms(data: Graph, ontology: Graph, payload: dict) -> None:
     result = validate_axioms(data, ontology)
-    axioms = {axiom: result["axioms"][axiom] for axiom in SEMANTIC_AXIOMS}
+    axioms = {axiom: result["axioms"].get(axiom, "NOT_RUN") for axiom in SEMANTIC_AXIOMS}
     errors = [error for error in result["errors"] if error.get("axiom") in SEMANTIC_AXIOMS]
-    payload["semantic_validation"] = report(errors, axioms=axioms)
+    successor_count = sum(1 for _ in data.triples((None, VH.hasHistoricalSuccessor, None)))
+    payload["semantic_validation"] = report(
+        errors, axioms=axioms,
+        coverage={"AX-017": {"relation_triples": successor_count, "vacuous": successor_count == 0}},
+    )
     payload["axioms"].update(axioms)
     if errors:
         raise ReasoningError(errors[0]["code"], "; ".join(error["message"] for error in errors))
+    if any(status != "PASS" for status in axioms.values()):
+        payload["semantic_validation"]["status"] = "NOT_RUN"
+        raise ReasoningError("SEMANTIC_AXIOM_NOT_RUN", "Required semantic axioms were not all evaluated successfully.")
 
 
 def run(
@@ -140,8 +151,8 @@ def run(
     report_payload = {
         "run_id": run_id, "run_mode": run_mode, "engine": ENGINE,
         "jena_version": JENA_VERSION, "scope": list(AXIOMS), "status": "FAIL",
-        "aggregate_scope": list(AXIOMS + SEMANTIC_AXIOMS),
-        "axioms": dict.fromkeys(AXIOMS + SEMANTIC_AXIOMS, "NOT_RUN"),
+        "aggregate_scope": list(AGGREGATE_AXIOMS),
+        "axioms": dict.fromkeys(AGGREGATE_AXIOMS, "NOT_RUN"),
         "source_triples": 0, "inferred_triples": 0, "closure_triples": 0,
     }
     try:
@@ -154,6 +165,7 @@ def run(
         fixture = Graph().parse(VALID_FIXTURE, format="turtle")
         expected = Graph().parse(EXPECTED, format="turtle")
         report_payload["ontology_triples"] = len(ontology)
+        report_payload["ontology_version"] = str(next(ontology.objects(None, OWL.versionInfo), "unknown"))
         report_payload["asserted_triples"] = len(asserted)
         report_payload["production_inputs"] = [str(ONTOLOGY), str(ASSERTED)]
         report_payload["source_triples"] = len(source)
@@ -167,6 +179,8 @@ def run(
             "source_triples": len(ontology + fixture),
             "inferred_triples": fixture_count,
         }
+        _check_semantic_axioms(ontology + fixture + fixture_inferred, ontology, report_payload)
+        report_payload["fixture_verification"]["semantic_validation"] = report_payload["semantic_validation"]
         report_payload["axioms"]["AX-004"] = "PASS"
         for axiom, subject in EXPECTED_SUBJECTS.items():
             triples = list(expected.triples((subject, None, None)))
@@ -177,7 +191,13 @@ def run(
                          for triple in expected if triple not in fixture_inferred)
         report_payload["expected_triples"] = len(expected)
         report_payload["missing_triples"] = missing
-        if missing or "FAIL" in report_payload["axioms"].values():
+        control = (VHR["site-ax010-control"], RDF.type, VH.HeritageSiteWithHistoricalBuilder)
+        unexpected = [" ".join(term.n3() for term in control) + " ."] if control in fixture_inferred else []
+        report_payload["unexpected_triples"] = unexpected
+        if unexpected:
+            report_payload["axioms"]["AX-010"] = "FAIL"
+            raise ReasoningError("INFERENCE_UNEXPECTED", "AX-010 was inferred for the associatedWithPerson-only control.")
+        if missing or any(status != "PASS" for status in report_payload["axioms"].values()):
             raise ReasoningError("INFERENCE_MISSING", "Required fixture entailments are missing.")
         _check_semantic_axioms(source + inferred, ontology, report_payload)
         INFERRED.parent.mkdir(parents=True, exist_ok=True)

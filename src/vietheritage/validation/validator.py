@@ -13,7 +13,7 @@ from rdflib.exceptions import ParserError
 from rdflib.namespace import OWL
 
 from .policy import validate_public_graph
-from .semantic import issue, report, validate_semantics
+from .semantic import VALIDATED_AXIOMS, issue, report, validate_semantics
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROCESSED = REPO_ROOT / "data" / "processed"
@@ -67,7 +67,7 @@ def run(
             graphs[name] = Graph().parse(path, format="turtle")
         except (OSError, SyntaxError, ValueError, ParserError) as exc:
             errors.append(issue("RDF_PARSE_ERROR", message=str(exc), artifact=name))
-    axioms = dict.fromkeys(("AX-004", "AX-008", "AX-009"), "NOT_RUN")
+    axioms = dict.fromkeys(VALIDATED_AXIOMS, "NOT_RUN")
     shacl_status = "NOT_RUN"
     final = Graph()
     if len(graphs) == len(paths):

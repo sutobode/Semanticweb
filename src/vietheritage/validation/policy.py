@@ -14,6 +14,7 @@ from .semantic import (
     issue,
     literal_matches,
     report,
+    same_as_components,
     validate_semantics,
 )
 from .shacl import validate_graph as validate_shapes
@@ -70,7 +71,7 @@ def _identity_errors(data: Graph, assertions: Graph, contract: Contract, records
     reviewed = {(row.get("source_uri"), row.get("target_uri")) for row in reviews
                 if row.get("status") == "verified" and row.get("target_dataset") == "dbpedia"
                 and str(row.get("type_compatible", "")).lower() == "true"}
-    neighbours: dict = {}
+    approved_pairs = []
     for source, target in assertions.subject_objects(OWL.sameAs):
         record = records.get(str(source), {})
         qid = (record.get("external_ids") or {}).get("wikidata")
@@ -92,21 +93,9 @@ def _identity_errors(data: Graph, assertions: Graph, contract: Contract, records
             errors.append(issue("INVALID_SAME_AS", source, OWL.sameAs,
                                 f"Target {target} lacks a matching source QID or verified, compatible DBpedia identity."))
         else:
-            neighbours.setdefault(source, set()).add(target)
-            neighbours.setdefault(target, set()).add(source)
+            approved_pairs.append((source, target))
 
-    components = {}
-    for node in neighbours:
-        if node in components:
-            continue
-        connected, pending = set(), [node]
-        while pending:
-            current = pending.pop()
-            if current not in connected:
-                connected.add(current)
-                pending.extend(neighbours.get(current, ()))
-        for member in connected:
-            components[member] = connected
+    components = same_as_components(approved_pairs)
     # OWL Mini may entail reflexive, reversed and transitive identities. Only
     # those justified by the approved assertion components are accepted.
     for source, target in data.subject_objects(OWL.sameAs):

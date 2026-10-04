@@ -1,0 +1,5 @@
+@prefix vh: <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+
+vhr:event-ax017-self a vh:HistoricalEvent ;
+    vh:hasHistoricalSuccessor vhr:event-ax017-self .

@@ -1,0 +1,12 @@
+@prefix vh: <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+vhr:event-ax017-a a vh:HistoricalEvent ;
+    vh:hasHistoricalSuccessor vhr:event-ax017-b ;
+    owl:sameAs vhr:event-ax017-alias-a .
+vhr:event-ax017-b a vh:HistoricalEvent .
+vhr:event-ax017-alias-b a vh:HistoricalEvent ;
+    owl:sameAs vhr:event-ax017-b ;
+    vh:hasHistoricalSuccessor vhr:event-ax017-alias-a .
+vhr:event-ax017-alias-a a vh:HistoricalEvent .

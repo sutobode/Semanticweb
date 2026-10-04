@@ -1,4 +1,4 @@
-"""AX-001–AX-007 acceptance checks using real Jena and authoritative fixtures.
+"""AX-001–AX-007/010 acceptance using real Jena and authoritative fixtures.
 
 These tests fail (rather than silently skip or substitute an engine) if the
 required local Apache Jena runtime is unavailable.
@@ -41,7 +41,8 @@ def actual(inputs) -> tuple[Graph, int]:
     ("AX-005", VHR["site-ax005"]),
     ("AX-006", VHR["site-ax006-b"]),
     ("AX-007", VHR["site-ax007"]),
-], ids=["AX-001", "AX-002", "AX-003", "AX-005", "AX-006", "AX-007"])
+    ("AX-010", VHR["site-ax010"]),
+], ids=["AX-001", "AX-002", "AX-003", "AX-005", "AX-006", "AX-007", "AX-010"])
 def test_axiom_entailments(axiom, subject, inputs, actual) -> None:
     ontology, fixture, expected = inputs
     inferred, _ = actual
@@ -110,8 +111,8 @@ def test_reason_stage_artifact_and_status(valid, inputs, monkeypatch, tmp_path: 
     result = reasoner.run(run_id=run_id)
     report = json.loads((tmp_path / "reports" / run_id / "reasoning.json").read_text())
     assert report["engine"] == "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
-    assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)]
-    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 10)]
+    assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)] + ["AX-010"]
+    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 11)] + ["AX-017"]
     assert set(report["axioms"]) == set(report["aggregate_scope"])
     if valid:
         assert result == 0, report
@@ -157,6 +158,7 @@ def test_production_artifact_isolated_from_fixture_acceptance(inputs, monkeypatc
     assert set(expected).isdisjoint(inferred)
     assert (site, RDF.type, VH.UNESCOHeritageSite) in inferred
     assert (site, VH.associatedWithPerson, person) in inferred
+    assert (site, RDF.type, VH.HeritageSiteWithHistoricalBuilder) in inferred
     assert result["ontology_triples"] == len(ontology)
     assert result["asserted_triples"] == len(asserted)
     assert result["source_triples"] == len(ontology + asserted)
@@ -164,3 +166,44 @@ def test_production_artifact_isolated_from_fixture_acceptance(inputs, monkeypatc
     assert result["closure_triples"] == len(ontology + asserted) + len(inferred)
     assert result["fixture_verification"]["source_triples"] == len(ontology + fixture)
     assert set(result["axioms"].values()) == {"PASS"}
+    assert result["semantic_validation"]["coverage"]["AX-017"] == {"relation_triples": 0, "vacuous": True}
+    assert result["fixture_verification"]["semantic_validation"]["coverage"]["AX-017"] == {
+        "relation_triples": 1, "vacuous": False,
+    }
+
+
+def test_ax010_association_only_control_is_not_classified(inputs, actual):
+    ontology, fixture, _ = inputs
+    inferred, _ = actual
+    cls = VH.HeritageSiteWithHistoricalBuilder
+    assert not list((ontology + fixture).subjects(RDF.type, cls))
+    control = VHR["site-ax010-control"]
+    assert (control, VH.associatedWithPerson, VHR["person-ax010-control"]) in fixture
+    assert not list(fixture.objects(control, VH.builtBy))
+    assert not list(inferred.objects(control, VH.builtBy))
+    assert (control, RDF.type, cls) not in inferred
+
+
+def test_ax010_range_driven_inference_with_current_ontology(inputs):
+    ontology, _, _ = inputs
+    site, person = VHR["site-ax010-range"], VHR["person-ax010-range"]
+    data = Graph().add((site, VH.builtBy, person))
+    expected = {
+        (site, RDF.type, VH.HeritageSite),
+        (person, RDF.type, VH.HistoricalPerson),
+        (site, RDF.type, VH.HeritageSiteWithHistoricalBuilder),
+    }
+    assert expected.isdisjoint(ontology + data)
+    inferred, _ = reasoner.reason([ontology, data])
+    assert expected <= set(inferred)
+
+
+def test_ax010_can_overlap_existing_site_subclasses(inputs):
+    ontology, _, _ = inputs
+    site, person = VHR["site-ax010-overlap"], VHR["person-ax010-overlap"]
+    data = Graph().add((site, VH.builtBy, person)).add((person, RDF.type, VH.HistoricalPerson))
+    for cls in (VH.HistoricalSite, VH.ReligiousSite, VH.ArchaeologicalSite,
+                VH.ArchitecturalSite, VH.UNESCOHeritageSite):
+        data.add((site, RDF.type, cls))
+    inferred, _ = reasoner.reason([ontology, data])
+    assert (site, RDF.type, VH.HeritageSiteWithHistoricalBuilder) in inferred

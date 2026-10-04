@@ -1,5 +1,5 @@
 {
-  "run_id": "20261003-member1-final-production",
+  "run_id": "20261004-member1-ontology-170-phase-a",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -10,7 +10,8 @@
     "AX-004",
     "AX-005",
     "AX-006",
-    "AX-007"
+    "AX-007",
+    "AX-010"
   ],
   "status": "PASS",
   "aggregate_scope": [
@@ -22,7 +23,9 @@
     "AX-006",
     "AX-007",
     "AX-008",
-    "AX-009"
+    "AX-009",
+    "AX-010",
+    "AX-017"
   ],
   "axioms": {
     "AX-001": "PASS",
@@ -33,12 +36,15 @@
     "AX-006": "PASS",
     "AX-007": "PASS",
     "AX-008": "PASS",
-    "AX-009": "PASS"
+    "AX-009": "PASS",
+    "AX-010": "PASS",
+    "AX-017": "PASS"
   },
-  "source_triples": 13105,
-  "inferred_triples": 675008,
-  "closure_triples": 688113,
-  "ontology_triples": 321,
+  "source_triples": 13124,
+  "inferred_triples": 675056,
+  "closure_triples": 688180,
+  "ontology_triples": 340,
+  "ontology_version": "1.7.0",
   "asserted_triples": 12786,
   "production_inputs": [
     "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
@@ -49,7 +55,14 @@
     "errors": [],
     "axioms": {
       "AX-008": "PASS",
-      "AX-009": "PASS"
+      "AX-009": "PASS",
+      "AX-017": "PASS"
+    },
+    "coverage": {
+      "AX-017": {
+        "relation_triples": 0,
+        "vacuous": true
+      }
     }
   },
   "fixture_verification": {
@@ -57,9 +70,25 @@
       "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
       "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
     ],
-    "source_triples": 338,
-    "inferred_triples": 1244
+    "source_triples": 366,
+    "inferred_triples": 1362,
+    "semantic_validation": {
+      "status": "PASS",
+      "errors": [],
+      "axioms": {
+        "AX-008": "PASS",
+        "AX-009": "PASS",
+        "AX-017": "PASS"
+      },
+      "coverage": {
+        "AX-017": {
+          "relation_triples": 1,
+          "vacuous": false
+        }
+      }
+    }
   },
-  "expected_triples": 6,
-  "missing_triples": []
+  "expected_triples": 7,
+  "missing_triples": [],
+  "unexpected_triples": []
 }

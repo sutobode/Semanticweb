@@ -287,3 +287,22 @@ def test_input_failures_still_write_specific_report(workspace, failure, code):
     result = json.loads((root / "reports/invalid-input/rdf_validation.json").read_text(encoding="utf-8"))
     assert result["status"] == "FAIL"
     assert code in codes(result)
+
+
+def test_ax017_final_validation_uses_external_same_as(publication, workspace):
+    root, paths = workspace
+    graphs, records, _ = publication
+    graphs["asserted"].remove((ENTITY, RDF.type, None))
+    graphs["asserted"].add((ENTITY, RDF.type, VH.HistoricalEvent))
+    graphs["asserted"].add((ENTITY, VH.hasHistoricalSuccessor, QID))
+    graphs["external-links"].add((QID, RDF.type, VH.HistoricalEvent))
+    graphs["external-links"].add((QID, RDFS.label, Literal("Sự kiện", lang="vi")))
+    records[0]["entity_type"] = "HistoricalEvent"
+    (root / "data/processed/canonical.jsonl").write_text(json.dumps(records[0]) + "\n", encoding="utf-8")
+    for name in ("asserted", "external-links"):
+        graphs[name].serialize(paths[name], format="turtle")
+    assert main(["validate", "--run-id", "ax017-public-identity"]) == 1
+    result = json.loads((root / "reports/ax017-public-identity/validation.json").read_text())
+    assert result["axioms"]["AX-017"] == "FAIL"
+    assert codes(result) == {"ONTOLOGY_INCONSISTENT"}
+    assert {error["axiom"] for error in result["errors"]} == {"AX-017"}
