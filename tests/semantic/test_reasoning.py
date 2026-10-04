@@ -7,8 +7,8 @@ import json
 from pathlib import Path
 
 import pytest
-from rdflib import Graph, Namespace
-from rdflib.namespace import RDF
+from rdflib import Graph, Namespace, URIRef
+from rdflib.namespace import OWL, RDF
 
 from vietheritage.reasoning import reasoner
 
@@ -79,6 +79,23 @@ def test_ax004_all_disjoint_checks_inferred_types(inputs) -> None:
         reasoner.reason([ontology, invalid])
 
 
+@pytest.mark.parametrize("identity", ["direct", "reverse", "transitive"])
+def test_same_and_different_identity_is_still_rejected(identity) -> None:
+    # Untyped individuals exercise Jena's identity-conflict rule itself,
+    # independently of its separate disjoint-class validation rules.
+    left, right, middle = VHR["registry-left"], VHR["registry-right"], VHR["registry-middle"]
+    invalid = Graph().add((left, OWL.differentFrom, right))
+    if identity == "transitive":
+        invalid.add((left, OWL.sameAs, middle))
+        invalid.add((middle, OWL.sameAs, right))
+    elif identity == "reverse":
+        invalid.add((right, OWL.sameAs, left))
+    else:
+        invalid.add((left, OWL.sameAs, right))
+    with pytest.raises(reasoner.OntologyInconsistent, match="both same and different"):
+        reasoner.reason([invalid])
+
+
 @pytest.mark.parametrize("valid", [True, False], ids=["valid-output", "AX-004-report"])
 def test_reason_stage_artifact_and_status(valid, inputs, monkeypatch, tmp_path: Path) -> None:
     ontology, fixture, expected = inputs
@@ -109,3 +126,41 @@ def test_reason_stage_artifact_and_status(valid, inputs, monkeypatch, tmp_path: 
         assert report["status"] == "ONTOLOGY_INCONSISTENT", report
         assert report["axioms"]["AX-004"] == "ONTOLOGY_INCONSISTENT"
         assert not reasoner.INFERRED.exists()
+
+
+def test_production_artifact_isolated_from_fixture_acceptance(inputs, monkeypatch, tmp_path):
+    ontology, fixture, expected = inputs
+    asserted = Graph()
+    site, person = VHR["registry-production"], VHR["person-production"]
+    asserted.add((site, RDF.type, VH.HeritageSite))
+    asserted.add((site, VH.recognizedBy, VHR["organization-unesco"]))
+    asserted.add((site, VH.builtBy, person))
+    asserted.add((person, RDF.type, VH.HistoricalPerson))
+    asserted_path = tmp_path / "asserted.ttl"
+    asserted.serialize(asserted_path, format="turtle")
+    monkeypatch.setattr(reasoner, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(reasoner, "ASSERTED", asserted_path)
+    monkeypatch.setattr(reasoner, "INFERRED", tmp_path / "rdf/inferred.ttl")
+    monkeypatch.setattr(reasoner, "REPORT", tmp_path / "rdf/reasoning-report.json")
+
+    def unexpected_refresh():
+        pytest.fail("Metadata refresh must be deferred until final validation passes")
+
+    monkeypatch.setattr("vietheritage.rdf.generator.refresh_dataset_metadata_metrics", unexpected_refresh)
+    assert reasoner.run("full", run_id="production-isolation", refresh_metadata=False) == 0
+    result = json.loads(reasoner.REPORT.read_text())
+    inferred = Graph().parse(reasoner.INFERRED, format="turtle")
+    fixture_resources = {term for triple in fixture for term in triple
+                         if isinstance(term, URIRef) and str(term).startswith(str(VHR))}
+    fixture_resources -= {term for triple in ontology for term in triple}
+    assert fixture_resources.isdisjoint(term for triple in inferred for term in triple)
+    assert set(expected).isdisjoint(inferred)
+    assert (site, RDF.type, VH.UNESCOHeritageSite) in inferred
+    assert (site, VH.associatedWithPerson, person) in inferred
+    assert result["ontology_triples"] == len(ontology)
+    assert result["asserted_triples"] == len(asserted)
+    assert result["source_triples"] == len(ontology + asserted)
+    assert result["inferred_triples"] == len(inferred)
+    assert result["closure_triples"] == len(ontology + asserted) + len(inferred)
+    assert result["fixture_verification"]["source_triples"] == len(ontology + fixture)
+    assert set(result["axioms"].values()) == {"PASS"}

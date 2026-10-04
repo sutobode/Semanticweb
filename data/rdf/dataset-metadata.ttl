@@ -10,10 +10,10 @@
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
     dcterms:extent "asserted_triples=12786",
         "canonical_records=1068",
-        "inferred_closure_triples=0",
-        "inferred_delta_triples=0",
+        "inferred_closure_triples=688113",
+        "inferred_delta_triples=675008",
         "registry_records=1068",
-        "verified_external_links=281" ;
+        "verified_external_links=221" ;
     dcterms:identifier "20260925T034421Z" ;
     dcterms:issued "20260925T034421Z"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -1494,4 +1494,3 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://vi.wikipedia.org/wiki/X%C3%B2e_Th%C3%A1i>,
         <https://vi.wikipedia.org/wiki/X%E1%BA%A9m>,
         <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> .
-

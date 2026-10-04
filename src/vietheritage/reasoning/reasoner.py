@@ -132,7 +132,10 @@ def _check_semantic_axioms(data: Graph, ontology: Graph, payload: dict) -> None:
         raise ReasoningError(errors[0]["code"], "; ".join(error["message"] for error in errors))
 
 
-def run(run_mode: str = "sample", *, run_id: str | None = None) -> int:
+def run(
+    run_mode: str = "sample", *, run_id: str | None = None,
+    refresh_metadata: bool = True,
+) -> int:
     run_id = run_id or f"{datetime.now(UTC):%Y%m%dT%H%M%SZ}-{uuid4().hex[:6]}"
     report_payload = {
         "run_id": run_id, "run_mode": run_mode, "engine": ENGINE,
@@ -146,21 +149,32 @@ def run(run_mode: str = "sample", *, run_id: str | None = None) -> int:
             if not path.is_file():
                 raise ReasoningError("REASONING_INPUT_MISSING", f"Turtle input missing: {path}")
         ontology = Graph().parse(ONTOLOGY, format="turtle")
-        source = ontology + Graph()
-        for path in (ASSERTED, VALID_FIXTURE):
-            source += Graph().parse(path, format="turtle")
+        asserted = Graph().parse(ASSERTED, format="turtle")
+        source = ontology + asserted
+        fixture = Graph().parse(VALID_FIXTURE, format="turtle")
         expected = Graph().parse(EXPECTED, format="turtle")
+        report_payload["ontology_triples"] = len(ontology)
+        report_payload["asserted_triples"] = len(asserted)
+        report_payload["production_inputs"] = [str(ONTOLOGY), str(ASSERTED)]
         report_payload["source_triples"] = len(source)
         _check_semantic_axioms(source, ontology, report_payload)
         inferred, inferred_count = reason([source])
+        # Acceptance fixtures have their own Jena model and never enter the
+        # production source, delta, closure counts, or serialized artifact.
+        fixture_inferred, fixture_count = reason([ontology, fixture])
+        report_payload["fixture_verification"] = {
+            "inputs": [str(ONTOLOGY), str(VALID_FIXTURE)],
+            "source_triples": len(ontology + fixture),
+            "inferred_triples": fixture_count,
+        }
         report_payload["axioms"]["AX-004"] = "PASS"
         for axiom, subject in EXPECTED_SUBJECTS.items():
             triples = list(expected.triples((subject, None, None)))
             report_payload["axioms"][axiom] = (
-                "PASS" if triples and all(triple in inferred for triple in triples) else "FAIL"
+                "PASS" if triples and all(triple in fixture_inferred for triple in triples) else "FAIL"
             )
         missing = sorted(" ".join(term.n3() for term in triple) + " ."
-                         for triple in expected if triple not in inferred)
+                         for triple in expected if triple not in fixture_inferred)
         report_payload["expected_triples"] = len(expected)
         report_payload["missing_triples"] = missing
         if missing or "FAIL" in report_payload["axioms"].values():
@@ -190,7 +204,8 @@ def run(run_mode: str = "sample", *, run_id: str | None = None) -> int:
     if report_payload["status"] != "PASS":
         print(f"reason ({run_mode}): {report_payload['error_code']}: {report_payload['message']}")
         return 1
-    from vietheritage.rdf.generator import refresh_dataset_metadata_metrics
-    refresh_dataset_metadata_metrics()
+    if refresh_metadata:
+        from vietheritage.rdf.generator import refresh_dataset_metadata_metrics
+        refresh_dataset_metadata_metrics()
     print(f"reason ({run_mode}): {inferred_count} inferred triples -> {INFERRED}; report: {report_dir}")
     return 0

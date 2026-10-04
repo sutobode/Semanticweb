@@ -1,5 +1,5 @@
 {
-  "run_id": "20260925T075332Z-7aa566",
+  "run_id": "20261003-member1-final-production",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -12,7 +12,7 @@
     "AX-006",
     "AX-007"
   ],
-  "status": "FAIL",
+  "status": "PASS",
   "aggregate_scope": [
     "AX-001",
     "AX-002",
@@ -25,19 +25,25 @@
     "AX-009"
   ],
   "axioms": {
-    "AX-001": "NOT_RUN",
-    "AX-002": "NOT_RUN",
-    "AX-003": "NOT_RUN",
-    "AX-004": "NOT_RUN",
-    "AX-005": "NOT_RUN",
-    "AX-006": "NOT_RUN",
-    "AX-007": "NOT_RUN",
+    "AX-001": "PASS",
+    "AX-002": "PASS",
+    "AX-003": "PASS",
+    "AX-004": "PASS",
+    "AX-005": "PASS",
+    "AX-006": "PASS",
+    "AX-007": "PASS",
     "AX-008": "PASS",
     "AX-009": "PASS"
   },
-  "source_triples": 13122,
-  "inferred_triples": 0,
-  "closure_triples": 0,
+  "source_triples": 13105,
+  "inferred_triples": 675008,
+  "closure_triples": 688113,
+  "ontology_triples": 321,
+  "asserted_triples": 12786,
+  "production_inputs": [
+    "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
+    "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\rdf\\vietheritage.ttl"
+  ],
   "semantic_validation": {
     "status": "PASS",
     "errors": [],
@@ -46,6 +52,14 @@
       "AX-009": "PASS"
     }
   },
-  "error_code": "JENA_UNAVAILABLE",
-  "message": "Apache Jena 4.10.0 is required: set JENA_HOME to a local Jena distribution or JENA_CLASSPATH to its local jars."
+  "fixture_verification": {
+    "inputs": [
+      "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
+      "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
+    ],
+    "source_triples": 338,
+    "inferred_triples": 1244
+  },
+  "expected_triples": 6,
+  "missing_triples": []
 }

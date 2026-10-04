@@ -13,6 +13,9 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.reasoner.ReasonerRegistry;
 import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.reasoner.rulesys.ClauseEntry;
+import org.apache.jena.reasoner.rulesys.OWLMiniReasoner;
+import org.apache.jena.reasoner.rulesys.Rule;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.vocabulary.OWL;
@@ -46,7 +49,30 @@ class OwlMiniReasoner {
                 }
             });
 
-        InfModel inference = ModelFactory.createInfModel(ReasonerRegistry.getOWLMiniReasoner(), input);
+        OWLMiniReasoner reasoner = (OWLMiniReasoner) ReasonerRegistry.getOWLMiniReasoner();
+        List<Rule> rules = new ArrayList<>(reasoner.getRules());
+        for (int i = 0; i < rules.size(); i++) {
+            Rule activation = rules.get(i);
+            if (!"validationIndiv".equals(activation.getName())) {
+                continue;
+            }
+            // Jena 4.10.0 tests differentFrom before sameAs in this join.
+            // Disjoint production classes yield hundreds of thousands of
+            // differentFrom pairs. Reverse only the two positive triple
+            // patterns: the rule, conditions and diagnostics are identical.
+            Rule check = (Rule) activation.getHeadElement(0);
+            ClauseEntry[] body = check.getBody().clone();
+            body[0] = check.getBodyElement(1);
+            body[1] = check.getBodyElement(0);
+            Rule ordered = new Rule(check.getName(), check.getHead(), body);
+            ordered.setBackward(check.isBackward());
+            ordered.setNumVars(check.getNumVars());
+            Rule enabled = new Rule(activation.getName(), new ClauseEntry[] {ordered}, activation.getBody());
+            enabled.setNumVars(activation.getNumVars());
+            rules.set(i, enabled);
+        }
+        reasoner.setRules(rules);
+        InfModel inference = ModelFactory.createInfModel(reasoner, input);
         inference.prepare();
         ValidityReport validity = inference.validate();
         List<String> status = new ArrayList<>();
