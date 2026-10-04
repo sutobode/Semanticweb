@@ -1,0 +1,5 @@
+@prefix vh:  <http://localhost:3030/vietheritage/ontology/> .
+@prefix vhr: <http://localhost:3030/vietheritage/resource/> .
+
+# Under OWA, the absent assertion does not mean this site has no location.
+vhr:site-ax011-owa a vh:HeritageSite .

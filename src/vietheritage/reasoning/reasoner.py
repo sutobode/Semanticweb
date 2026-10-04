@@ -1,4 +1,4 @@
-"""AX-001–AX-007/010 via local Apache Jena 4.10.0 OWL Mini (COMP-008).
+"""AX-001–AX-007/010/011 via local Apache Jena 4.10.0 OWL Mini (COMP-008).
 
 Set JENA_HOME to an unpacked Jena distribution, or JENA_CLASSPATH to its local
 jars. A JDK (Java source-file launcher, Java 11+) is required; JAVA_HOME is
@@ -17,8 +17,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from uuid import uuid4
 
-from rdflib import Graph, Namespace
-from rdflib.namespace import OWL, RDF
+from rdflib import Graph, Literal, Namespace, URIRef
+from rdflib.namespace import OWL, RDF, RDFS, XSD
 
 from vietheritage.validation.semantic import report, validate_axioms
 
@@ -30,11 +30,12 @@ INFERRED = RDF_DIR / "inferred.ttl"
 REPORT = RDF_DIR / "reasoning-report.json"
 FIXTURES = REPO_ROOT / "data" / "fixtures"
 VALID_FIXTURE = FIXTURES / "semantic" / "axioms-valid.ttl"
+AX011_FIXTURE = FIXTURES / "semantic" / "ax011-owa-no-location.ttl"
 EXPECTED = FIXTURES / "expected" / "inferred.ttl"
 JAVA_SOURCE = Path(__file__).with_name("OwlMiniReasoner.java")
 ENGINE = "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
 JENA_VERSION = "4.10.0"
-AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8)) + ("AX-010",)
+AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8)) + ("AX-010", "AX-011")
 SEMANTIC_AXIOMS = ("AX-008", "AX-009", "AX-017")
 AGGREGATE_AXIOMS = tuple(sorted(AXIOMS + SEMANTIC_AXIOMS))
 VH = Namespace("http://localhost:3030/vietheritage/ontology/")
@@ -143,6 +144,45 @@ def _check_semantic_axioms(data: Graph, ontology: Graph, payload: dict) -> None:
         raise ReasoningError("SEMANTIC_AXIOM_NOT_RUN", "Required semantic axioms were not all evaluated successfully.")
 
 
+def _check_ax011(ontology: Graph, fixture: Graph, payload: dict) -> None:
+    restrictions = {
+        restriction
+        for restriction in ontology.objects(VH.HeritageSite, RDFS.subClassOf)
+        if (restriction, RDF.type, OWL.Restriction) in ontology
+        and (restriction, OWL.onProperty, VH.locatedIn) in ontology
+    }
+    expected = Literal(1, datatype=XSD.nonNegativeInteger)
+    valid = len(restrictions) == 1
+    if valid:
+        restriction = next(iter(restrictions))
+        valid = (
+            set(ontology.objects(restriction, OWL.minCardinality)) == {expected}
+            and not list(ontology.objects(restriction, OWL.onClass))
+            and not list(ontology.objects(restriction, OWL.onDataRange))
+        )
+    if not valid:
+        payload["axioms"]["AX-011"] = "FAIL"
+        raise ReasoningError("AXIOM_DECLARATION_MISSING", "AX-011 exact minCardinality restriction is missing.")
+
+    site = VHR["site-ax011-owa"]
+    inferred, inferred_count = reason([ontology, fixture])
+    named_locations = {
+        value for value in (fixture + inferred).objects(site, VH.locatedIn)
+        if isinstance(value, URIRef)
+    }
+    payload["fixture_verification"]["AX-011"] = {
+        "input": str(AX011_FIXTURE),
+        "source_triples": len(ontology + fixture),
+        "inferred_triples": inferred_count,
+        "named_locations": len(named_locations),
+        "status": "PASS" if not named_locations else "FAIL",
+        "owa": True,
+    }
+    payload["axioms"]["AX-011"] = "PASS" if not named_locations else "FAIL"
+    if named_locations:
+        raise ReasoningError("INFERENCE_UNEXPECTED", "AX-011 materialized a named locatedIn value.")
+
+
 def run(
     run_mode: str = "sample", *, run_id: str | None = None,
     refresh_metadata: bool = True,
@@ -156,13 +196,14 @@ def run(
         "source_triples": 0, "inferred_triples": 0, "closure_triples": 0,
     }
     try:
-        for path in (ONTOLOGY, ASSERTED, VALID_FIXTURE, EXPECTED):
+        for path in (ONTOLOGY, ASSERTED, VALID_FIXTURE, AX011_FIXTURE, EXPECTED):
             if not path.is_file():
                 raise ReasoningError("REASONING_INPUT_MISSING", f"Turtle input missing: {path}")
         ontology = Graph().parse(ONTOLOGY, format="turtle")
         asserted = Graph().parse(ASSERTED, format="turtle")
         source = ontology + asserted
         fixture = Graph().parse(VALID_FIXTURE, format="turtle")
+        ax011_fixture = Graph().parse(AX011_FIXTURE, format="turtle")
         expected = Graph().parse(EXPECTED, format="turtle")
         report_payload["ontology_triples"] = len(ontology)
         report_payload["ontology_version"] = str(next(ontology.objects(None, OWL.versionInfo), "unknown"))
@@ -197,6 +238,7 @@ def run(
         if unexpected:
             report_payload["axioms"]["AX-010"] = "FAIL"
             raise ReasoningError("INFERENCE_UNEXPECTED", "AX-010 was inferred for the associatedWithPerson-only control.")
+        _check_ax011(ontology, ax011_fixture, report_payload)
         if missing or any(status != "PASS" for status in report_payload["axioms"].values()):
             raise ReasoningError("INFERENCE_MISSING", "Required fixture entailments are missing.")
         _check_semantic_axioms(source + inferred, ontology, report_payload)

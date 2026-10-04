@@ -50,6 +50,15 @@ def test_missing_disjoint_union_branch_is_not_inconsistent_under_owa(ontology) -
     assert validate_axioms(data, ontology)["status"] == "PASS"
 
 
+def test_ax011_does_not_add_closed_world_location_validation(ontology) -> None:
+    vh = Namespace(DEFAULT_BASE + "/ontology/")
+    vhr = Namespace(DEFAULT_BASE + "/resource/")
+    data = Graph().add((vhr.site_without_asserted_location, RDF.type, vh.HeritageSite))
+    result = validate_semantics(data, ontology)
+    assert result["status"] == "PASS"
+    assert "AX-011" not in result["axioms"]
+
+
 @pytest.mark.parametrize("path", EXPECTED["AX-017"]["invalid_inputs"])
 def test_ax017_invalid_fixtures_are_identity_aware(path, ontology):
     data = Graph().parse(ROOT / path, format="turtle")

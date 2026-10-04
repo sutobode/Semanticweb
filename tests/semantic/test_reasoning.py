@@ -1,4 +1,4 @@
-"""AX-001–AX-007/010 acceptance using real Jena and authoritative fixtures.
+"""AX-001–AX-007/010/011 acceptance using real Jena and authoritative fixtures.
 
 These tests fail (rather than silently skip or substitute an engine) if the
 required local Apache Jena runtime is unavailable.
@@ -111,13 +111,15 @@ def test_reason_stage_artifact_and_status(valid, inputs, monkeypatch, tmp_path: 
     result = reasoner.run(run_id=run_id)
     report = json.loads((tmp_path / "reports" / run_id / "reasoning.json").read_text())
     assert report["engine"] == "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
-    assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)] + ["AX-010"]
-    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 11)] + ["AX-017"]
+    assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)] + ["AX-010", "AX-011"]
+    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 12)] + ["AX-017"]
     assert set(report["axioms"]) == set(report["aggregate_scope"])
     if valid:
         assert result == 0, report
         assert report["status"] == "PASS"
         assert set(report["axioms"].values()) == {"PASS"}
+        assert report["fixture_verification"]["AX-011"]["status"] == "PASS"
+        assert report["fixture_verification"]["AX-011"]["named_locations"] == 0
         inferred = Graph().parse(reasoner.INFERRED, format="turtle")
         assert set(expected) <= set(inferred)
         assert set(inferred).isdisjoint(set(ontology) | set(fixture))
@@ -207,3 +209,17 @@ def test_ax010_can_overlap_existing_site_subclasses(inputs):
         data.add((site, RDF.type, cls))
     inferred, _ = reasoner.reason([ontology, data])
     assert (site, RDF.type, VH.HeritageSiteWithHistoricalBuilder) in inferred
+
+
+def test_ax011_owa_fixture_is_consistent_without_a_named_location(inputs):
+    ontology, _, _ = inputs
+    fixture = Graph().parse(
+        FIXTURES / "semantic/ax011-owa-no-location.ttl", format="turtle"
+    )
+    site = VHR["site-ax011-owa"]
+    assert (site, RDF.type, VH.HeritageSite) in fixture
+    assert not list(fixture.objects(site, VH.locatedIn))
+
+    inferred, _ = reasoner.reason([ontology, fixture])
+
+    assert not any(isinstance(value, URIRef) for value in inferred.objects(site, VH.locatedIn))

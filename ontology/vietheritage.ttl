@@ -22,7 +22,7 @@
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.7.0" ;
+    owl:versionInfo "1.7.1" ;
     dcterms:created "2026-09-12"^^xsd:date ;
     dcterms:modified "2026-10-04"^^xsd:date .
 
@@ -373,7 +373,7 @@ vh:areaLevel
     rdfs:label "area level"@en .
 
 #################################################################
-# 16 — OWL Semantics Contract (AX-001 .. AX-010, AX-017)
+# 16 — OWL Semantics Contract (AX-001 .. AX-011, AX-017)
 #################################################################
 
 # AX-001 — UNESCO subclass
@@ -454,6 +454,13 @@ vh:HeritageSiteWithHistoricalBuilder owl:equivalentClass [
             owl:someValuesFrom vh:HistoricalPerson
         ]
     )
+] .
+
+# AX-011 — Every heritage site has at least one location under OWA.
+vh:HeritageSite rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty vh:locatedIn ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
 ] .
 
 # AX-017 — Asymmetry entails irreflexivity; checked by the semantic validator.

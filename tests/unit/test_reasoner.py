@@ -98,7 +98,7 @@ def test_semantic_failure_blocks_aggregate_with_specific_code(axiom, monkeypatch
     monkeypatch.setattr(reasoner, "reason", unexpected_reason)
     assert reasoner.run(run_id="semantic-failure") == 1
     result = json.loads((output_paths / "reports/semantic-failure/reasoning.json").read_text())
-    assert result["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 11)] + ["AX-017"]
+    assert result["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 12)] + ["AX-017"]
     assert set(result["axioms"]) == set(result["aggregate_scope"])
     assert result["status"] == result["axioms"][axiom] == "FAIL"
     assert result["error_code"] == expected["expected_error_code"]
@@ -132,5 +132,6 @@ def test_semantic_not_run_is_not_promoted_to_pass(monkeypatch, output_paths):
     assert result["error_code"] == "SEMANTIC_AXIOM_NOT_RUN"
     assert result["axioms"]["AX-017"] == "NOT_RUN"
     assert result["axioms"]["AX-010"] == "NOT_RUN"
+    assert result["axioms"]["AX-011"] == "NOT_RUN"
     assert result["semantic_validation"]["status"] == "NOT_RUN"
     assert not reasoner.INFERRED.exists()

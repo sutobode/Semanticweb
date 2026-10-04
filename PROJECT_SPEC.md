@@ -12,7 +12,7 @@
 |---|---|
 | Project Name | VietHeritageLOD |
 | Tên đầy đủ | Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam |
-| Specification Version | 1.7.0 |
+| Specification Version | 1.7.1 |
 | Status | Implementation baseline — FINAL |
 | Ngày phát hành specification | 2026-10-04 |
 | Deadline presentation | 2026-10-10 |
@@ -182,7 +182,7 @@ Project MUST áp dụng, không chỉ định nghĩa suông, bốn nguyên lý c
 
 | Lớp | Nội dung trong VietHeritageLOD | Vị trí trong spec |
 |---|---|---|
-| T-Box (schema) | 24 classes, 12 object properties, 10 datatype properties, `rdfs:subClassOf`, `rdfs:domain`, `rdfs:range`, `owl:inverseOf`, `owl:TransitiveProperty`, `owl:SymmetricProperty`, `owl:disjointWith`, `owl:equivalentClass`, `owl:someValuesFrom`, `owl:AsymmetricProperty` | Section 15, 15.0, 16 |
+| T-Box (schema) | 24 classes, 12 object properties, 10 datatype properties, `rdfs:subClassOf`, `rdfs:domain`, `rdfs:range`, `owl:inverseOf`, `owl:TransitiveProperty`, `owl:SymmetricProperty`, `owl:disjointWith`, `owl:equivalentClass`, `owl:someValuesFrom`, `owl:minCardinality`, `owl:AsymmetricProperty` | Section 15, 15.0, 16 |
 | A-Box (instance data) | Canonical entity từ registry/enrichment: `vhr:site-van-mieu`, `vhr:person-ly-thuong-kiet`, v.v. | Section 12, 20 |
 
 Việc tách rõ T-Box/A-Box giúp trả lời được các câu hỏi reasoning kinh điển của môn học ngay trên domain này: *"Mọi `UNESCOHeritageSite` có phải là `HeritageSite`?"* (T-Box, suy ra từ `rdfs:subClassOf`, AX-001) và *"`vhr:site-van-mieu` có phải instance của `HeritageSite` không?"* (A-Box, kiểm tra bằng SPARQL `ASK`).
@@ -219,7 +219,7 @@ Repository hoàn thành MUST có:
 5. Có 24 class project-owned đã freeze (23 class hiện hữu và một defined subclass AX-010).
 6. Có 12 object properties do project sở hữu.
 7. Có 10 datatype properties do project sở hữu hoặc được mapping rõ tới vocabulary chuẩn.
-8. Có 11 OWL axioms/restrictions có ý nghĩa (AX-001 đến AX-010 và AX-017); AX-011…AX-016 không thuộc Phase A.
+8. Có 12 OWL axioms/restrictions có ý nghĩa (AX-001 đến AX-011 và AX-017); AX-012…AX-016 vẫn deferred.
 9. Sinh Turtle hợp lệ.
 10. Mỗi entity có stable URI.
 11. Vietnamese labels dùng language tag `@vi`.
@@ -295,7 +295,7 @@ Các mục sau bị loại khỏi implementation baseline:
 | MET-001 | Project-owned classes | 24 | 24 | Parse `ontology/vietheritage.ttl` |
 | MET-002 | Object property project-owned | 12 | 12 | SPARQL ontology inventory |
 | MET-003 | Datatype property project-owned | 10 | 10 | SPARQL ontology inventory |
-| MET-004 | OWL axioms/restrictions | 11 | 11 | `tests/semantic/test_reasoning.py`, `tests/semantic/test_validation.py` |
+| MET-004 | OWL axioms/restrictions | 12 | 12 | `tests/semantic/test_ontology_inventory.py`, `tests/semantic/test_reasoning.py`, `tests/semantic/test_validation.py` |
 | MET-005 | Official registry entities | 100% of registry snapshot | 100% of registry snapshot | Coverage report + canonical inventory |
 | MET-005a | Heritage-site subset | ≥100 when snapshot permits | 150–250 when snapshot permits | Entity-type inventory |
 | MET-006 | Total resources | ≥300 (sample/MVP floor) | ≥500; full mode report số thực tế, KHÔNG có upper cap | RDF resource inventory |
@@ -643,10 +643,10 @@ Wikipedia category discovery MAY được dùng để tìm enrichment candidate,
 |---|---|
 | Input | Production: chỉ `ontology/vietheritage.ttl` + `data/rdf/vietheritage.ttl`; ontology + semantic fixture chạy trong model acceptance riêng |
 | Output | `data/rdf/inferred.ttl`, `reports/<run_id>/reasoning.json` |
-| Engine | Apache Jena 4.10.0 OWL Mini (`http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner`) cho AX-001…AX-007/AX-010; CLI orchestration nhận semantic validation AX-008/AX-009/AX-017; HermiT chỉ dùng SHOULD cho review Protégé |
-| Checks | Aggregate AX-001…AX-010 và AX-017, từng ID riêng; fixture không đi vào production inferred delta hoặc counts |
+| Engine | Apache Jena 4.10.0 OWL Mini (`http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner`) cho AX-001…AX-007/AX-010; AX-011 có structure test và OWA consistency smoke riêng; CLI orchestration nhận semantic validation AX-008/AX-009/AX-017; HermiT chỉ dùng SHOULD cho review Protégé |
+| Checks | Aggregate AX-001…AX-011 và AX-017; AX-011 PASS từ exact structure + OWA fixture, không tạo named location và không áp closed-world completeness; fixture không đi vào production inferred delta hoặc counts |
 | Failure | Missing/unexpected inference, inconsistency, semantic validation failure hoặc required axiom NOT_RUN làm aggregate stage FAIL |
-| Test | `TEST-041` đến `TEST-045`, `TEST-082`, `TEST-083`, `TEST-091`; aggregate thêm `TEST-084`, `TEST-085`, `TEST-092` |
+| Test | `TEST-041` đến `TEST-045`, `TEST-082`, `TEST-083`, `TEST-091`, `TEST-093`; aggregate thêm `TEST-084`, `TEST-085`, `TEST-092` |
 
 ## COMP-009 — Fuseki Loader
 
@@ -1335,7 +1335,7 @@ Theo quy chuẩn W3C OWL 2 và methodology ontology engineering (course referenc
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.7.0" ;
+    owl:versionInfo "1.7.1" ;
     dcterms:created "2026-09-12"^^xsd:date ;
     dcterms:modified "2026-10-04"^^xsd:date .
 ```
@@ -1501,7 +1501,7 @@ vhr:site-van-mieu vh:partOf vhr:complex-thang-long
   ⇒ vhr:complex-thang-long vh:hasPart vhr:site-van-mieu (OWL inverseOf)
 ```
 
-Các axiom được freeze tại AX-001…AX-010 và AX-017 ở Section 16 và phải được kiểm tra trước/sau reasoning; không được chỉ trình bày ontology như một bảng class không có inference thực tế.
+Các axiom được freeze tại AX-001…AX-011 và AX-017 ở Section 16 và phải có acceptance phù hợp với semantics/engine; không được chỉ trình bày ontology như một bảng class không có inference thực tế.
 
 ### 15.0.3 Từ canonical data đến 4-Star rồi 5-Star LOD
 
@@ -1783,9 +1783,9 @@ Vocabulary chuẩn MUST được dùng cho:
 
 File ontology MUST chứa các axiom sau.
 
-### 16.0 Tổng quan 11 axiom (AX-001 → AX-010 và AX-017)
+### 16.0 Tổng quan 12 axiom (AX-001 → AX-011 và AX-017)
 
-Phase A 1.7.0 chỉ bổ sung AX-010 và AX-017. AX-011…AX-016 vẫn DEFERRED/REJECTED, không có acceptance PASS cho các ID này.
+Phase A 1.7.0 bổ sung AX-010 và AX-017. Phase B 1.7.1 bổ sung duy nhất AX-011; AX-012…AX-016 vẫn DEFERRED/REJECTED, không có acceptance PASS cho các ID này.
 
 ```mermaid
 flowchart TB
@@ -1804,6 +1804,7 @@ flowchart TB
     AX8["AX-008: IntangibleHeritage\nowl:disjointUnionOf 3 subclass"]
     AX9["AX-009: 8 datatype property 0..1\nowl:FunctionalProperty"]
     AX10["AX-010: HeritageSiteWithHistoricalBuilder\nequivalentClass + someValuesFrom"]
+    AX11["AX-011: HeritageSite\nlocatedIn min 1 (OWA)"]
     AX17["AX-017: hasHistoricalSuccessor\nowl:AsymmetricProperty; validator"]
 
     AX1 --> RESULT1["Inferred rdf:type"]
@@ -1816,9 +1817,11 @@ flowchart TB
     AX8 --> RESULT4
     AX9 --> RESULT6["CARDINALITY_VIOLATION khi có 2 giá trị"]
     AX10 --> RESULT1
+    AX11 --> RESULT7["Existential location; không tạo named value"]
     AX17 --> RESULT4
 
-    class AX1,AX5,AX10 equivalent
+    class AX1,AX11 subclass
+    class AX5,AX10 equivalent
     class AX2,AX3,AX6,AX7 property
     class AX4,AX8,AX9,AX17 disjoint
 ```
@@ -1972,7 +1975,7 @@ vh:IntangibleHeritage owl:disjointUnionOf (
 
 Input fixture: `vhr:heritage-a a vh:RepresentativeIntangibleHeritage, vh:UrgentSafeguardingIntangibleHeritage`.
 
-Expected: semantic validator MUST report `ONTOLOGY_INCONSISTENT` vì hai subclass bị disjoint theo `owl:disjointUnionOf`. Validator MAY expand axiom thành ba cặp `owl:disjointWith` tương đương như một cơ chế nội bộ và MUST ghi kết quả AX-008 vào validation report; `make reason` đưa kết quả đó vào aggregate AX-001…AX-010 và AX-017 report. Jena OWL Mini không chịu trách nhiệm đánh giá AX-008.
+Expected: semantic validator MUST report `ONTOLOGY_INCONSISTENT` vì hai subclass bị disjoint theo `owl:disjointUnionOf`. Validator MAY expand axiom thành ba cặp `owl:disjointWith` tương đương như một cơ chế nội bộ và MUST ghi kết quả AX-008 vào validation report; `make reason` đưa kết quả đó vào aggregate AX-001…AX-011 và AX-017 report. Jena OWL Mini không chịu trách nhiệm đánh giá AX-008.
 
 ## AX-009 — Functional datatype properties (`0..1` phải là axiom, không chỉ là bảng)
 
@@ -2015,6 +2018,22 @@ vh:HeritageSiteWithHistoricalBuilder a owl:Class ;
 Đây là defined overlapping subclass, không phải nhánh di sản disjoint thứ tám. Lớp có thể overlap với HistoricalSite, ReligiousSite, ArchaeologicalSite, ArchitecturalSite và UNESCOHeritageSite. Existential không hàm ý tư liệu/provenance đã đầy đủ, không yêu cầu mọi HeritageSite có builder, và không tạo canonical `entity_type` mới. Member 2 cung cấp quan hệ `built_by` hiện hữu; class mới MUST được suy ra, không assert thủ công vào canonical hoặc asserted RDF.
 
 Jena 4.10.0 OWL Mini MUST suy class mới từ `builtBy` tới HistoricalPerson; domain/range có thể cung cấp type còn thiếu trong reasoning fixture. `associatedWithPerson` đơn thuần MUST NOT suy class mới. Thiếu builder không phải inconsistency theo OWA. Public-data validation vẫn yêu cầu asserted domain/range types theo contract cũ. Acceptance: `TEST-091`.
+
+## AX-011 — Every heritage site has a location under OWA
+
+`HeritageSite ⊑ ≥ 1 locatedIn.⊤`:
+
+```turtle
+vh:HeritageSite rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty vh:locatedIn ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+```
+
+`vh:HeritageSite` biểu diễn một địa điểm vật lý có giá trị văn hóa/lịch sử, nên ontology cam kết mỗi instance có ít nhất một location. `rdfs:range vh:AdministrativeArea` áp dụng cho mọi value của `vh:locatedIn`.
+
+Theo OWA, thiếu triple `vh:locatedIn` được assert KHÔNG làm instance inconsistent: location có thể tồn tại nhưng chưa biết trong graph. AX-011 không sinh một `vh:AdministrativeArea` có URI/name cụ thể và không được diễn giải như SHACL/database `minCount`. Closed-world validator cho asserted completeness MUST NOT được thêm trong Phase B này; việc hoàn thiện hai production record còn thiếu được DEFER cho Member 2. Acceptance `TEST-093` kiểm exact ontology structure và fixture thiếu named `locatedIn` vẫn consistent, không materialize named location; aggregate reasoning report ghi AX-011 PASS theo đúng acceptance này.
 
 ## AX-017 — Asymmetric historical successor
 
@@ -2686,9 +2705,12 @@ Bảng dưới đây là contract bắt buộc: mỗi axiom được kiểm bằ
 | AX-008 | `owl:disjointUnionOf` | Semantic validator kiểm disjoint-union consistency, có thể expand thành các cặp `owl:disjointWith` nội bộ | `make validate`; aggregate bởi `make reason` / `TEST-084` |
 | AX-009 | `owl:FunctionalProperty` | Semantic validator kiểm closed-world cardinality (`CARDINALITY_VIOLATION`) | `make validate`; aggregate bởi `make reason` / `TEST-085` |
 | AX-010 | `owl:equivalentClass` + `owl:intersectionOf` + `owl:someValuesFrom` | Jena 4.10.0 OWL Mini, nhận diện từ builder relation | `make reason` / `TEST-091` |
+| AX-011 | `owl:minCardinality 1` | Exact ontology-structure test + Jena OWL Mini OWA consistency smoke; không materialize named witness và không kiểm asserted completeness | focused semantic test / `TEST-093` |
 | AX-017 | `owl:AsymmetricProperty` | Semantic validator kiểm self/reciprocal edges theo known sameAs components | `make validate`; aggregate bởi `make reason` / `TEST-092` |
 
-`make reason` MUST orchestrate cả hai cơ chế: Jena OWL Mini cho AX-001…AX-007/AX-010 và semantic validation cho AX-008/AX-009/AX-017, ghi từng ID trong aggregate AX-001…AX-010 và AX-017 vào `reports/<run_id>/reasoning.json`. Bất kỳ axiom nào FAIL hoặc NOT_RUN đều làm stage exit khác `0`, đúng AC-007. Không gán PASS cho kiểm tra chưa chạy. Jena OWL Mini MUST NOT bị yêu cầu thực thi closed-world cardinality của AX-009 hoặc asymmetry của AX-017.
+`make reason` MUST orchestrate Jena OWL Mini cho AX-001…AX-007/AX-010, focused structure + OWA fixture acceptance cho AX-011, và semantic validation cho AX-008/AX-009/AX-017; report ghi từng ID trong aggregate AX-001…AX-011 và AX-017. Bất kỳ axiom nào FAIL hoặc NOT_RUN đều làm stage exit khác `0`, đúng AC-007. Không gán PASS cho kiểm tra chưa chạy. Jena OWL Mini MUST NOT bị yêu cầu thực thi closed-world cardinality của AX-009 hoặc asymmetry của AX-017.
+
+AX-011 nằm trong aggregate report với status từ structure + OWA consistency tại `TEST-093`, không phải một closed-world status. Không được thêm AX-011 vào semantic validator trước khi Member 2 hoàn thiện dữ liệu và specification phê duyệt một completeness contract riêng.
 
 Production source MUST chỉ là `ontology/vietheritage.ttl` + `data/rdf/vietheritage.ttl`. Fixture reasoning/semantic acceptance dùng model riêng; fixture resources MUST NOT xuất hiện trong production `data/rdf/inferred.ttl`, source/delta/closure counts. Closure count là số triple của production source union cộng novel delta, không phải riêng delta. Metadata refresh MUST đối chiếu delta với successful reasoning report trước khi dùng `closure_triples`; không diễn giải lại metric `registry_records` chưa được chốt.
 
@@ -3258,7 +3280,7 @@ Kiểm tra stage nối tiếp:
 
 ## 36.3 Semantic tests
 
-- AX-001 đến AX-010 và AX-017.
+- AX-001 đến AX-011 và AX-017.
 - Disjoint inconsistency.
 - Inverse/transitive inference.
 - `owl:sameAs` policy.
@@ -3352,6 +3374,7 @@ make verify
 | TEST-090 | FR-005 | `registry_sources.yaml` + `mapping.yaml` | contract test | mọi `registry_category` được map, và `ontology_subclass` khớp `registry_category_subclass` | Yes |
 | TEST-091 | AX-010 | builder fixture, association-only control, range-driven case | reason | defined class inferred, absent from input; control not inferred; production/fixture isolation | Yes |
 | TEST-092 | AX-017 | directed/self/reciprocal/sameAs aliases/three-cycle/missing-edge fixtures | validate; aggregate qua reason | self/reciprocal kể cả aliases FAIL với ONTOLOGY_INCONSISTENT/AX-017; ba-cycle và missing edge PASS; domain/range giữ nguyên | Yes |
+| TEST-093 | AX-011 | exact restriction structure + `HeritageSite` fixture không có named `locatedIn` | parse ontology + Jena OWL Mini consistency smoke | restriction dùng `xsd:nonNegativeInteger`; fixture consistent; không materialize named `AdministrativeArea` | Yes |
 | TEST-046 | FR-012 | docker compose | fuseki-up | health 200 | Yes |
 | TEST-047 | FR-012 | final TTL | fuseki-load | graph loaded | Yes |
 | TEST-048 | FR-017 | site URI | linked-data-test | RDF 200 | Yes |
@@ -3393,7 +3416,7 @@ Mỗi AC là binary PASS/FAIL.
 | AC-004 | Duplicate/collision fixtures | `make resolve` | duplicate merge; collision exits 1 |
 | AC-005 | Canonical fixture | `make generate-rdf` | Turtle parse bằng RDFLib PASS |
 | AC-006 | Generated RDF | `make validate` | RDF validation PASS, all site label `@vi` |
-| AC-007 | Ontology + reasoning fixture | `make reason` | Aggregate AX-001…AX-010 và AX-017 PASS: Jena OWL Mini đánh giá AX-001…AX-007/AX-010; semantic validator đánh giá AX-008/AX-009/AX-017; NOT_RUN không được tính PASS |
+| AC-007 | Ontology + reasoning fixture | `make reason` | Aggregate AX-001…AX-011 và AX-017 PASS: Jena OWL Mini đánh giá AX-001…AX-007/AX-010; structure + OWA fixture đánh giá AX-011; semantic validator đánh giá AX-008/AX-009/AX-017; NOT_RUN không được tính PASS |
 | AC-008 | Docker available | `make fuseki-up` | Fuseki health HTTP 200 |
 | AC-009 | Final artifact | `make fuseki-load` | dataset `vietheritage` chứa expected graph |
 | AC-010 | Loaded dataset | `make cq-test` | CQ01–CQ10 = 10/10 PASS |
@@ -3429,12 +3452,12 @@ Mỗi AC là binary PASS/FAIL.
 | FR-008 DBpedia | `silk/linkage-rules.xml`, linker | TEST-036…038 | AC-012 |
 | FR-009 Review | `data/linking/link_review.csv` | TEST-039/040 | AC-012 |
 | FR-010 Validation | `src/vietheritage/validation/` | TEST-028…033, TEST-084/085/092 | AC-006/007 |
-| FR-011 Reasoning | `src/vietheritage/reasoning/` | TEST-041…045, TEST-082/083/091; aggregate TEST-084/085/092 | AC-007 |
+| FR-011 Reasoning | `ontology/vietheritage.ttl`, `src/vietheritage/reasoning/` | TEST-041…045, TEST-082/083/091/093; aggregate TEST-084/085/092 | AC-007/016 |
 | FR-012 Fuseki | `docker-compose.yml`, `deployment/fuseki/` | TEST-046…050 | AC-008/009 |
 | FR-013 CQ | `sparql/`, CQ runner | TEST-051…060, TEST-086 | AC-010 |
 | FR-014 Report | `schema/run-report.schema.json` | contract tests | AC-015 |
 | FR-015 CLI | `Makefile` | command contract | AC-001/016 |
-| FR-016 Test suite | `tests/unit`, `tests/integration`, `tests/semantic`, `tests/contract`, `tests/e2e` | toàn bộ TEST-001…089 | AC-016/017 |
+| FR-016 Test suite | `tests/unit`, `tests/integration`, `tests/semantic`, `tests/contract`, `tests/e2e` | toàn bộ TEST-001…093 | AC-016/017 |
 | FR-017 Resource dereference | `deployment/linked-data/resource_query.py` | TEST-048 | AC-011 |
 | FR-018 License/provenance | `src/vietheritage/rdf/`, `data/rdf/dataset-metadata.ttl` | TEST-025/032, TEST-061 | AC-019/020 |
 | NFR-001 reproducibility | README + Makefile + fixtures | e2e | AC-018 |
@@ -3466,7 +3489,7 @@ Mọi MUST trong file này MUST xuất hiện trong bảng traceability hoặc t
 - [ ] 100 heritage sites when the baseline snapshot contains enough sites.
 - [ ] 24 classes, 12 object properties, 10 datatype properties.
 - [ ] Turtle parse PASS.
-- [ ] 11 OWL axioms tested (AX-001…AX-010 và AX-017).
+- [ ] 12 OWL axioms tested (AX-001…AX-011 và AX-017).
 - [ ] Fuseki endpoint hoạt động.
 - [ ] 10/10 CQ PASS trên golden dataset.
 - [ ] Ít nhất 100 verified external links trong full run.
@@ -3572,7 +3595,7 @@ Không có hidden manual step. Full collection cần network; sample pipeline kh
 
 ## Tuần 5 — OWL và reasoning
 
-**Goal:** AX-001…AX-010, AX-017 và CQ01–CQ08 PASS.
+**Goal:** AX-001…AX-011, AX-017 và CQ01–CQ08 PASS theo acceptance engine tương ứng.
 
 **Artifacts:** inferred graph, before/after demo, inconsistency report.
 
@@ -3622,7 +3645,7 @@ Coding Agent MUST đi qua các gate theo thứ tự và không chuyển gate khi
 
 ## G2 — Ontology
 
-**Implementation:** `ontology/vietheritage.ttl` đủ 24 classes, 12 object properties, 10 datatype properties, AX-001…AX-010 và AX-017, ontology header (Section 15.0.0) và `rdfs:label` song ngữ (Section 15.1.1).
+**Implementation:** `ontology/vietheritage.ttl` đủ 24 classes, 12 object properties, 10 datatype properties, AX-001…AX-011 và AX-017, ontology header (Section 15.0.0) và `rdfs:label` song ngữ (Section 15.1.1).
 
 **Tests:** parse, inventory, consistency fixture.
 
@@ -3688,7 +3711,7 @@ Coding Agent MUST đi qua các gate theo thứ tự và không chuyển gate khi
 
 **Implementation:** Jena OWL Mini reasoner, inferred artifact, consistency report.
 
-**Tests:** AX-001…AX-010 và AX-017.
+**Tests:** AX-001…AX-011 và AX-017; AX-011 dùng focused structure/OWA acceptance, không dùng closed-world validator.
 
 **Exit:** reasoning gate PASS.
 
@@ -4122,7 +4145,7 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-037 | Person class reuse và disjointness | `vh:HistoricalPerson`/`vh:Artisan` cùng `rdfs:subClassOf foaf:Person`; `vh:Artisan` được thêm vào AX-004 | FOAF đã khai prefix nhưng gần như không dùng; `vh:Artisan` trước đây không nằm trong bất kỳ disjointness axiom nên lỗi type không bị phát hiện |
 | DEC-038 | Cardinality là axiom, không chỉ là bảng | 8 datatype property `0..1` MUST khai `owl:FunctionalProperty` (AX-009); validation bổ sung mã `CARDINALITY_VIOLATION` | Cardinality chỉ ghi trong bảng không tồn tại trong ontology; do OWA reasoner không báo lỗi kiểu database nên cần validation layer để thông báo rõ ràng |
 | DEC-039 | Java runtime | Eclipse Temurin `21-jre`, khớp `deployment/fuseki/Dockerfile`; Silk chỉ là policy source nên không ràng buộc runtime | Section 8 trước đây ghi `17.0.12` MUST trong khi Dockerfile dùng `21-jre` — hai MUST mâu thuẫn khiến build không xác định |
-| DEC-040 | Engine cho từng axiom | AX-001…AX-007/AX-010 do OWL Mini; AX-008/AX-009/AX-017 do semantic validator; aggregate AX-001…AX-010 và AX-017 | Không ép Mini xử lý construct ngoài khả năng; NOT_RUN không thành PASS |
+| DEC-040 | Engine cho từng axiom | AX-001…AX-007/AX-010 do OWL Mini; AX-011 do structure + OWA fixture acceptance; AX-008/AX-009/AX-017 do semantic validator; aggregate AX-001…AX-011 và AX-017 | Không ép Mini xử lý construct ngoài khả năng; NOT_RUN không thành PASS |
 | DEC-041 | Chặn inference `builtBy` → `Organization` | `vh:builtBy` có target `vh:HistoricalPerson`; generator MUST bỏ qua Organization target và MUST NOT tự chuyển thành `vh:recognizedBy`; AX-007 được giữ nguyên | `rdfs:subPropertyOf` áp dụng vô điều kiện nên Organization target sẽ bị suy ra sai thành HistoricalPerson |
 | DEC-042 | Type exclusivity ở tầng OWL | `owl:AllDisjointClasses` cho 7 nhánh chính dưới `vh:CulturalHeritageEntity` | `entity_type` là enum đơn trị nhưng OWL trước đây không enforce, nên lỗi gán hai type không bị phát hiện |
 | DEC-043 | Config files là normative | Phụ lục D định nghĩa `registry_sources.yaml`, `collector.yaml`, `mapping.yaml`, `uri.yaml`, `requirements.yaml`; Phụ lục B.5 thêm `coverage.schema.json` | Năm file này là input MUST nhưng trước đây chỉ có prose; selector/pagination và traceability gate không thể code deterministic |
@@ -4133,6 +4156,7 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-048 | Canonical dataset URI | Dataset identity duy nhất là `{BASE}/dataset/vietheritage`; các dạng `vh:dataset-vietheritage` và `vhr:dataset-vietheritage` là obsolete | Một stable URI duy nhất cho metadata, publication và graph loading |
 | DEC-049 | Ontology 1.7.0 Phase A / AX-010 | Thêm defined overlapping subclass HeritageSiteWithHistoricalBuilder bằng existential builtBy.HistoricalPerson; inventory 24/12/10, namespace giữ nguyên | Suy class từ builder có thật; không hứa provenance completeness, không thêm nhánh disjoint hoặc canonical type |
 | DEC-050 | AX-017 successor asymmetry | Chỉ khai AsymmetricProperty; validator dùng chung sameAs components để kiểm self/reciprocal; không general acyclicity | Mini không hỗ trợ constraint này; asymmetry đã kéo theo irreflexivity; production thiếu cạnh vẫn hợp lệ |
+| DEC-051 | Ontology 1.7.1 Phase B / AX-011 | `HeritageSite SubClassOf locatedIn min 1`; exact structure + OWA fixture acceptance; không thêm asserted-completeness validator | Domain rule cam kết location tồn tại, nhưng OWA cho phép chưa biết assertion và không tạo named AdministrativeArea; Member 2 tiếp tục enrichment độc lập |
 
 Mọi thay đổi một quyết định phải cập nhật `Specification Version`, bảng này, component contract, test và traceability matrix trong cùng một commit.
 

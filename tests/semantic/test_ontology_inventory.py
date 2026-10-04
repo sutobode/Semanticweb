@@ -7,7 +7,7 @@ trong ontology thật, không đếm dòng markdown).
 from pathlib import Path
 
 import pytest
-from rdflib import OWL, RDF, RDFS, Literal, Namespace
+from rdflib import OWL, RDF, RDFS, XSD, Literal, Namespace
 from rdflib.graph import Graph
 
 ONTOLOGY_PATH = Path(__file__).resolve().parents[2] / "ontology" / "vietheritage.ttl"
@@ -158,7 +158,7 @@ def test_ax009_functional_properties_for_8_datatype_properties(graph: Graph) -> 
 
 
 def test_ontology_version_and_ax010_exact_definition(graph: Graph) -> None:
-    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.7.0")}
+    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.7.1")}
     cls = VH.HeritageSiteWithHistoricalBuilder
     assert set(graph.objects(cls, RDFS.subClassOf)) == {VH.HeritageSite}
     equivalents = list(graph.objects(cls, OWL.equivalentClass))
@@ -185,6 +185,22 @@ def test_ax010_does_not_add_a_disjoint_main_branch(graph: Graph) -> None:
     }
     assert not list(graph.objects(VH.HeritageSiteWithHistoricalBuilder, OWL.disjointWith))
     assert not list(graph.subjects(OWL.disjointWith, VH.HeritageSiteWithHistoricalBuilder))
+
+
+def test_ax011_exact_minimum_location_restriction(graph: Graph) -> None:
+    restrictions = {
+        restriction
+        for restriction in graph.objects(VH.HeritageSite, RDFS.subClassOf)
+        if (restriction, RDF.type, OWL.Restriction) in graph
+        and (restriction, OWL.onProperty, VH.locatedIn) in graph
+    }
+    assert len(restrictions) == 1
+    restriction = restrictions.pop()
+    assert set(graph.objects(restriction, OWL.minCardinality)) == {
+        Literal(1, datatype=XSD.nonNegativeInteger)
+    }
+    assert not list(graph.objects(restriction, OWL.onClass))
+    assert not list(graph.objects(restriction, OWL.onDataRange))
 
 
 def test_ax017_is_only_asymmetric_and_keeps_event_domain_range(graph: Graph) -> None:

@@ -8,10 +8,10 @@
     dcterms:created "2026-09-25"^^xsd:date ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
-    # Inference metrics are pending reasoning on the merged ontology + A-Box.
-    # Historical results from both branches are retained in reasoning-report.json (STALE).
     dcterms:extent "asserted_triples=13147",
         "canonical_records=1079",
+        "inferred_closure_triples=711859",
+        "inferred_delta_triples=698370",
         "registry_records=1079",
         "verified_external_links=222" ;
     dcterms:identifier "20260925T034421Z" ;
