@@ -383,6 +383,8 @@ vhr:registry-dfc07d4f4ef2 owl:sameAs <https://www.wikidata.org/entity/Q10788575>
 
 vhr:registry-dfcef178d549 owl:sameAs <https://www.wikidata.org/entity/Q61133593> .
 
+vhr:registry-dffde3b26917 owl:sameAs <https://www.wikidata.org/entity/Q8032387> .
+
 vhr:registry-e1865c62018e owl:sameAs <https://www.wikidata.org/entity/Q108874729> .
 
 vhr:registry-e2626eec5cfe owl:sameAs <https://www.wikidata.org/entity/Q32247548> .

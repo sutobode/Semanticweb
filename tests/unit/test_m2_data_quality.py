@@ -297,6 +297,7 @@ def test_collect_full_exit_code_blocks_partial_coverage(monkeypatch, tmp_path):
         "failure_manifest": [{"registry_category": "artisans", "error_code": "REGISTRY_EMPTY_SOURCE"}],
     })
     monkeypatch.setattr(wiki, "enrich_many", lambda items: {"matched_registry_records": 0, "total": 0, "wikidata_linked": 0})
+    monkeypatch.setattr(registry, "collect_supplements", lambda *args, **kwargs: {})   # M2-30/31: không gọi mạng
     monkeypatch.delenv(registry.ALLOW_PARTIAL_ENV, raising=False)
     assert registry.collect_full() == 1
     monkeypatch.setenv(registry.ALLOW_PARTIAL_ENV, "1")

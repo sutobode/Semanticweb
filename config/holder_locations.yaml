@@ -1,0 +1,25 @@
+# Tỉnh của nơi lưu giữ (M2-31, DEC-M2-006) — bảng dự phòng kiểm tra tay.
+#
+# src/vietheritage/registry/holder_locations.py chỉ dùng bảng này khi KHÔNG suy ra được tỉnh
+# từ chính chuỗi nơi lưu giữ (registry_text) và từ bài Wikipedia của nơi lưu giữ. Nếu Wikipedia
+# ra tỉnh khác bảng này -> dùng bảng này, ghi "conflict" vào data/raw/holder_locations.jsonl
+# để review.
+#
+#   holder : chuỗi nơi lưu giữ CHÍNH XÁC như trong registry (so khớp sau chuẩn hóa NFC/casefold/dấu gạch).
+#   area   : label tỉnh CŨ trong config/areas.yaml (mapper công bố theo đơn vị sau sắp xếp 2025).
+#   note   : căn cứ.
+#
+# Danh sách = các nơi lưu giữ trong snapshot 20260925T034421Z mà chuỗi không chứa tên tỉnh
+# (hoặc chứa tên người trùng tên tỉnh). Cần M2 review lại khi registry đổi.
+holders:
+  - {holder: "Bảo tàng Lịch sử quốc gia", area: "Hà Nội", note: "Số 1 Tràng Tiền, Hoàn Kiếm, Hà Nội"}
+  - {holder: "Bảo tàng Mỹ thuật Việt Nam", area: "Hà Nội", note: "66 Nguyễn Thái Học, Ba Đình, Hà Nội"}
+  - {holder: "Bảo tàng Lịch sử quân sự Việt Nam", area: "Hà Nội", note: "Đại lộ Thăng Long, Nam Từ Liêm, Hà Nội (trước đây 28A Điện Biên Phủ)"}
+  - {holder: "Bảo tàng Hồ Chí Minh", area: "Hà Nội", note: "19 Ngọc Hà, Ba Đình, Hà Nội — 'Hồ Chí Minh' là tên người, không phải TP.HCM"}
+  - {holder: "Trung tâm Lưu trữ quốc gia III, Cục Văn thư và Lưu trữ nhà nước, Bộ Nội vụ", area: "Hà Nội", note: "Trung tâm Lưu trữ quốc gia III đặt tại Hà Nội"}
+  - {holder: "Cục lưu trữ Văn phòng Trung ương Đảng", area: "Hà Nội", note: "Cơ quan Trung ương, trụ sở tại Hà Nội"}
+  - {holder: "Bảo tàng Phòng không - Không quân", area: "Hà Nội", note: "173C Trường Chinh, Thanh Xuân, Hà Nội"}
+  - {holder: "Bảo tàng Quân khu 7", area: "Thành phố Hồ Chí Minh", note: "2 Hoàng Văn Thụ, Tân Bình, TP.HCM"}
+  - {holder: "Bảo tàng Tăng thiết giáp", area: "Hà Nội", note: "Bảo tàng Tăng – Thiết giáp, Hà Nội"}
+  - {holder: "Bảo tàng Hải quân", area: "Hải Phòng", note: "Bảo tàng Hải quân Việt Nam, Hải Phòng"}
+  - {holder: "Bảo tàng Hậu Cần", area: "Hà Nội", note: "Bảo tàng Hậu cần Quân đội, Hà Nội"}

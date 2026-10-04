@@ -157,7 +157,13 @@ def validate_public_graph(
         if not sources & derived:
             errors.append(issue("PROVENANCE_VIOLATION", node, message="Source and derivation must retain a common source URI."))
         registry = str(node).startswith(base + "/resource/registry-") or record.get("source_status", "").startswith("registry")
-        if registry and not any(_official(value) for value in sources & derived):
+        # DEC-M2-005: category có trang dsvh rỗng được bổ sung từ trang danh sách Wikipedia; provenance
+        # bắt buộc là chính trang Wikipedia đó (không giả là nguồn chính thức).
+        wikipedia_list = (record.get("provenance") or {}).get("method") == "mediawiki-api"
+        if registry and wikipedia_list:
+            if not any((urlsplit(str(value)).hostname or "").endswith(".wikipedia.org") for value in sources & derived):
+                errors.append(issue("PROVENANCE_VIOLATION", node, message="Wikipedia list provenance is required."))
+        elif registry and not any(_official(value) for value in sources & derived):
             errors.append(issue("PROVENANCE_VIOLATION", node, message="Official registry provenance is required."))
         if record.get("registry_url") and URIRef(record["registry_url"]) not in sources & derived:
             errors.append(issue("PROVENANCE_VIOLATION", node, message="Canonical registry source is missing from RDF provenance."))

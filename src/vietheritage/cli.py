@@ -23,6 +23,21 @@ def _cmd_collect(args: argparse.Namespace) -> int:
     return collect_full()
 
 
+def _cmd_collect_supplements(args: argparse.Namespace) -> int:
+    """M2-30/31 — ghép nguồn danh sách Wikipedia + tỉnh nơi lưu giữ vào raw hiện có (không crawl lại dsvh)."""
+    import json
+    from pathlib import Path
+
+    from vietheritage.registry.collector import collect_supplements
+
+    out = collect_supplements(None, lists=not args.skip_lists, holders=not args.skip_holders,
+                              debug_dir=Path(args.debug_dir) if args.debug_dir else None)
+    lists = out.get("wikipedia_lists") or {}
+    lists.pop("pages", None)
+    print(json.dumps(out, ensure_ascii=False, indent=2, default=str))
+    return 0
+
+
 def _cmd_normalize(args: argparse.Namespace) -> int:
     from vietheritage.normalization.normalizer import run as normalize_run
 
@@ -139,6 +154,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     add("collect-sample", _cmd_collect_sample)
     add("collect", _cmd_collect)
+    p_sup = sub.add_parser("collect-supplements")
+    p_sup.add_argument("--skip-lists", action="store_true", help="không chạy wikipedia_list_sources")
+    p_sup.add_argument("--skip-holders", action="store_true", help="không xác định tỉnh nơi lưu giữ")
+    p_sup.add_argument("--debug-dir", default=None, help="lưu HTML section Wikipedia đã đọc")
+    p_sup.set_defaults(handler=_cmd_collect_supplements)
     add("normalize", _cmd_normalize, needs_run_mode=True)
     add("resolve", _cmd_resolve, needs_run_mode=True)
     add("map", _cmd_map, needs_run_mode=True)
