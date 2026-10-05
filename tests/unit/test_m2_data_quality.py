@@ -452,6 +452,36 @@ def test_mapper_world_heritage_recognized_by_unesco():
     assert unesco["entity_type"] == "Organization" and unesco["label_vi"] == "UNESCO"
 
 
+def test_mapper_derived_entities_can_target_one_registry_record_without_back_relation():
+    mapping = load_mapping()
+    mapping["derived_entities"] = {
+        "complex-test": {
+            "entity_type": "HeritageComplex",
+            "label_vi": "Quần thể thử nghiệm",
+            "source_url": "https://whc.unesco.org/en/list/1/",
+            "retrieved_at": "2026-10-05T00:00:00Z",
+            "relations": {"member_sites": ["site-test"]},
+            "attach": {"registry_id": "registry-abc123"},
+        },
+        "site-test": {
+            "entity_type": "HeritageSite",
+            "label_vi": "Di tích thành phần",
+            "source_url": "https://whc.unesco.org/en/list/1/maps/",
+            "retrieved_at": "2026-10-05T00:00:00Z",
+            "attach": {"registry_id": "registry-abc123"},
+        },
+    }
+    derived = DerivedRegistry()
+    seed = map_record(_entity("world_heritage", label="Di sản gốc"), TYPES, mapping=mapping, derived=derived)
+    records = {item["entity_id"]: item for item in derived.records()}
+
+    assert set(records) == {"complex-test", "site-test", "area-name-8de4ed043a59"}
+    assert records["complex-test"]["relations"] == {"member_sites": ["site-test"]}
+    assert records["complex-test"]["provenance"]["source"] == "https://whc.unesco.org/en/list/1/"
+    assert records["complex-test"]["retrieved_at"] == "2026-10-05T00:00:00Z"
+    assert "part_of" not in seed["relations"]
+
+
 def test_mapper_joins_page_by_registry_id_and_uses_only_verified_relations():
     page = {
         "page_id": 7, "title": "Văn Miếu – Quốc Tử Giám", "source_url": "https://vi.wikipedia.org/wiki/V",
@@ -813,3 +843,19 @@ def test_architectural_style_relation_is_mapped():
     style_id = record["relations"]["architectural_styles"][0]
     assert style_id.startswith("style-")
     assert next(r for r in derived.records() if r["entity_id"] == style_id)["entity_type"] == "ArchitecturalStyle"
+
+
+def test_thap_nhan_official_architectural_styles_are_multi_valued():
+    entity = _entity(label="DTKTNT Tháp Nhạn")
+    entity["registry_id"] = "registry-a75893095411"
+    entity["_entity_id"] = "registry-a75893095411"
+    derived = DerivedRegistry()
+
+    record = map_record(entity, TYPES, mapping=load_mapping(), derived=derived)
+    expected = {"style-a8c2735471e8", "style-aef9ed5174ec"}
+    styles = {item["entity_id"]: item for item in derived.records() if item["entity_type"] == "ArchitecturalStyle"}
+
+    assert set(record["relations"]["architectural_styles"]) == expected
+    assert set(styles) == expected
+    assert {item["label_vi"] for item in styles.values()} == {"Mỹ Sơn A1", "Bình Định"}
+    assert {item["provenance"]["source"] for item in styles.values()} == {"https://dsvh.gov.vn/thap-nhan-3238"}

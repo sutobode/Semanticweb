@@ -8,16 +8,16 @@
     dcterms:created "2026-09-25"^^xsd:date ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
-    dcterms:extent "asserted_triples=13147",
-        "canonical_records=1079",
-        "inferred_closure_triples=711859",
-        "inferred_delta_triples=698370",
-        "registry_records=1079",
+    dcterms:extent "asserted_triples=13246",
+        "canonical_records=1085",
+        "inferred_closure_triples=718832",
+        "inferred_delta_triples=705264",
+        "registry_records=1085",
         "verified_external_links=222" ;
     dcterms:identifier "20260925T034421Z" ;
     dcterms:issued "20260925T034421Z"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://dsvh.gov.vn/ben-k15-diem-xuat-phat-duong-ho-chi-minh-tren-bien-22211>,
         <https://dsvh.gov.vn/bia-va-den-ta-phu-tinh-lang-son-22271>,
@@ -300,6 +300,7 @@
         <https://dsvh.gov.vn/tet-nao-pe-chau-cua-nguoi-mong-den-1238>,
         <https://dsvh.gov.vn/thac-luong-tinh-ha-giang-3410>,
         <https://dsvh.gov.vn/thac-tran-tinh-ha-giang-3390>,
+        <https://dsvh.gov.vn/thap-nhan-3238>,
         <https://dsvh.gov.vn/thap-tuong-long-thanh-pho-hai-phong-3362>,
         <https://dsvh.gov.vn/thuc-hanh-tin-nguong-tho-mau-tam-phu-cua-nguoi-viet-tro-thanh-di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1536>,
         <https://dsvh.gov.vn/tran-giong-bom-tinh-bac-lieu-3444>,
@@ -313,6 +314,7 @@
         <https://dsvh.gov.vn/vinh-ha-long-476>,
         <https://dsvh.gov.vn/vinh-ha-long-quan-dao-cat-ba-tinh-quang-ninh-va-thanh-pho-hai-phong-duoc-unesco-cong-nhan-la-di-san-thien-nhien-the-gioi-tro-thanh-di-san-the-gioi-thuoc-dia-ban-hai-tinh-thanh-pho-dau-tien-o-viet-nam-22117>,
         <https://dsvh.gov.vn/vuon-quoc-gia-phong-nha-ke-bang-479>,
+        <https://kieuphu.hanoi.gov.vn/van-hoa-xa-hoi/thon-thai-khe-xa-kieu-phu-long-trong-to-chuc-le-don-bang-cong-nhan-di-tich-dinh-lang-cap-quoc-gia-2764251012111240781.htm>,
         <https://vi.wikipedia.org/wiki/%C3%93c_Eo>,
         <https://vi.wikipedia.org/wiki/%C4%90%C3%ACnh_Ch%C3%A8m>,
         <https://vi.wikipedia.org/wiki/%C4%90%C3%ACnh_Ho%C3%A0ng_Mai>,
@@ -497,7 +499,9 @@
         <https://vi.wikipedia.org/wiki/V%E1%BB%8Bnh_H%E1%BA%A1_Long_%E2%80%93_qu%E1%BA%A7n_%C4%91%E1%BA%A3o_C%C3%A1t_B%C3%A0>,
         <https://vi.wikipedia.org/wiki/X%C3%B2e_Th%C3%A1i>,
         <https://vi.wikipedia.org/wiki/X%E1%BA%A9m>,
-        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> ;
+        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD>,
+        <https://whc.unesco.org/en/list/1358/>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
     dcterms:title "VietHeritageLOD dataset"@en,
         "Bộ dữ liệu VietHeritageLOD"@vi ;
     dcat:accessURL <http://localhost:3031/vietheritage/sparql> ;
@@ -789,6 +793,7 @@
         <https://dsvh.gov.vn/tet-nao-pe-chau-cua-nguoi-mong-den-1238>,
         <https://dsvh.gov.vn/thac-luong-tinh-ha-giang-3410>,
         <https://dsvh.gov.vn/thac-tran-tinh-ha-giang-3390>,
+        <https://dsvh.gov.vn/thap-nhan-3238>,
         <https://dsvh.gov.vn/thap-tuong-long-thanh-pho-hai-phong-3362>,
         <https://dsvh.gov.vn/thuc-hanh-tin-nguong-tho-mau-tam-phu-cua-nguoi-viet-tro-thanh-di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1536>,
         <https://dsvh.gov.vn/tran-giong-bom-tinh-bac-lieu-3444>,
@@ -802,6 +807,7 @@
         <https://dsvh.gov.vn/vinh-ha-long-476>,
         <https://dsvh.gov.vn/vinh-ha-long-quan-dao-cat-ba-tinh-quang-ninh-va-thanh-pho-hai-phong-duoc-unesco-cong-nhan-la-di-san-thien-nhien-the-gioi-tro-thanh-di-san-the-gioi-thuoc-dia-ban-hai-tinh-thanh-pho-dau-tien-o-viet-nam-22117>,
         <https://dsvh.gov.vn/vuon-quoc-gia-phong-nha-ke-bang-479>,
+        <https://kieuphu.hanoi.gov.vn/van-hoa-xa-hoi/thon-thai-khe-xa-kieu-phu-long-trong-to-chuc-le-don-bang-cong-nhan-di-tich-dinh-lang-cap-quoc-gia-2764251012111240781.htm>,
         <https://vi.wikipedia.org/wiki/%C3%93c_Eo>,
         <https://vi.wikipedia.org/wiki/%C4%90%C3%ACnh_Ch%C3%A8m>,
         <https://vi.wikipedia.org/wiki/%C4%90%C3%ACnh_Ho%C3%A0ng_Mai>,
@@ -986,7 +992,9 @@
         <https://vi.wikipedia.org/wiki/V%E1%BB%8Bnh_H%E1%BA%A1_Long_%E2%80%93_qu%E1%BA%A7n_%C4%91%E1%BA%A3o_C%C3%A1t_B%C3%A0>,
         <https://vi.wikipedia.org/wiki/X%C3%B2e_Th%C3%A1i>,
         <https://vi.wikipedia.org/wiki/X%E1%BA%A9m>,
-        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> ;
+        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD>,
+        <https://whc.unesco.org/en/list/1358/>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 <http://localhost:3030/vietheritage/dataset/vietheritage/distribution/asserted> a dcat:Distribution ;
@@ -1021,7 +1029,7 @@
 
 vhr:activity-run-7c81f366b12a a prov:Activity ;
     dcterms:identifier "20260925T034421Z" ;
-    prov:endedAtTime "2026-10-04T09:18:26+00:00"^^xsd:dateTime ;
+    prov:endedAtTime "2026-10-05T15:26:57+00:00"^^xsd:dateTime ;
     prov:startedAtTime "2026-09-25T03:44:21+00:00"^^xsd:dateTime ;
     prov:used <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://dsvh.gov.vn/ben-k15-diem-xuat-phat-duong-ho-chi-minh-tren-bien-22211>,
@@ -1305,6 +1313,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://dsvh.gov.vn/tet-nao-pe-chau-cua-nguoi-mong-den-1238>,
         <https://dsvh.gov.vn/thac-luong-tinh-ha-giang-3410>,
         <https://dsvh.gov.vn/thac-tran-tinh-ha-giang-3390>,
+        <https://dsvh.gov.vn/thap-nhan-3238>,
         <https://dsvh.gov.vn/thap-tuong-long-thanh-pho-hai-phong-3362>,
         <https://dsvh.gov.vn/thuc-hanh-tin-nguong-tho-mau-tam-phu-cua-nguoi-viet-tro-thanh-di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1536>,
         <https://dsvh.gov.vn/tran-giong-bom-tinh-bac-lieu-3444>,
@@ -1318,6 +1327,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://dsvh.gov.vn/vinh-ha-long-476>,
         <https://dsvh.gov.vn/vinh-ha-long-quan-dao-cat-ba-tinh-quang-ninh-va-thanh-pho-hai-phong-duoc-unesco-cong-nhan-la-di-san-thien-nhien-the-gioi-tro-thanh-di-san-the-gioi-thuoc-dia-ban-hai-tinh-thanh-pho-dau-tien-o-viet-nam-22117>,
         <https://dsvh.gov.vn/vuon-quoc-gia-phong-nha-ke-bang-479>,
+        <https://kieuphu.hanoi.gov.vn/van-hoa-xa-hoi/thon-thai-khe-xa-kieu-phu-long-trong-to-chuc-le-don-bang-cong-nhan-di-tich-dinh-lang-cap-quoc-gia-2764251012111240781.htm>,
         <https://vi.wikipedia.org/wiki/%C3%93c_Eo>,
         <https://vi.wikipedia.org/wiki/%C4%90%C3%ACnh_Ch%C3%A8m>,
         <https://vi.wikipedia.org/wiki/%C4%90%C3%ACnh_Ho%C3%A0ng_Mai>,
@@ -1502,4 +1512,6 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://vi.wikipedia.org/wiki/V%E1%BB%8Bnh_H%E1%BA%A1_Long_%E2%80%93_qu%E1%BA%A7n_%C4%91%E1%BA%A3o_C%C3%A1t_B%C3%A0>,
         <https://vi.wikipedia.org/wiki/X%C3%B2e_Th%C3%A1i>,
         <https://vi.wikipedia.org/wiki/X%E1%BA%A9m>,
-        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> .
+        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD>,
+        <https://whc.unesco.org/en/list/1358/>,
+        <https://whc.unesco.org/en/list/1358/maps/> .

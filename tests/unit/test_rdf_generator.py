@@ -87,6 +87,52 @@ def test_add_relations_creates_located_in_triple() -> None:
     assert (VHR["registry-x"], VH.locatedIn, VHR["area-hanoi"]) in g
 
 
+def test_heritage_complex_emits_asserted_has_member_only() -> None:
+    records = [
+        {
+            "entity_id": "complex-x", "entity_type": "HeritageComplex", "label_vi": "Quần thể X",
+            "source_status": "derived", "source_url": "https://example.org/complex", "retrieved_at": "2026-10-05T00:00:00Z",
+            "relations": {"member_sites": ["site-x"]},
+            "provenance": {"source": "https://example.org/complex", "method": "derived", "license": "Official source"},
+        },
+        {
+            "entity_id": "site-x", "entity_type": "HeritageSite", "label_vi": "Di tích X",
+            "source_status": "derived", "source_url": "https://example.org/site", "retrieved_at": "2026-10-05T00:00:00Z",
+            "provenance": {"source": "https://example.org/site", "method": "derived", "license": "Official source"},
+        },
+    ]
+    g = build_graph(records)
+
+    assert (VHR["complex-x"], VH.hasMember, VHR["site-x"]) in g
+    assert (VHR["complex-x"], VH.hasPart, VHR["site-x"]) not in g
+    assert (VHR["site-x"], VH.partOf, VHR["complex-x"]) not in g
+
+
+def test_heritage_site_emits_multiple_architectural_styles() -> None:
+    source = "https://dsvh.gov.vn/thap-nhan-3238"
+    records = [
+        {
+            "entity_id": "registry-thap-nhan", "entity_type": "HeritageSite", "label_vi": "Tháp Nhạn",
+            "source_status": "derived", "source_url": source, "retrieved_at": "2026-10-05T00:00:00Z",
+            "relations": {"architectural_styles": ["style-my-son-a1", "style-binh-dinh"]},
+            "provenance": {"source": source, "method": "derived", "license": "Official source"},
+        },
+        *(
+            {
+                "entity_id": entity_id, "entity_type": "ArchitecturalStyle", "label_vi": label,
+                "source_status": "derived", "source_url": source, "retrieved_at": "2026-10-05T00:00:00Z",
+                "provenance": {"source": source, "method": "derived", "license": "Official source"},
+            }
+            for entity_id, label in (("style-my-son-a1", "Mỹ Sơn A1"), ("style-binh-dinh", "Bình Định"))
+        ),
+    ]
+    graph = build_graph(records)
+
+    assert set(graph.objects(VHR["registry-thap-nhan"], VH.hasArchitecturalStyle)) == {
+        VHR["style-my-son-a1"], VHR["style-binh-dinh"],
+    }
+
+
 def test_add_relations_built_by_person_creates_builtby_triple() -> None:
     g = Graph()
     g.add((VHR["person-kien-truc-su"], RDF.type, VH.HistoricalPerson))

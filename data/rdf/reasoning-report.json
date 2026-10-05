@@ -1,5 +1,5 @@
 {
-  "run_id": "ax011-final",
+  "run_id": "thanh-nha-ho-reasoning-check",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -43,12 +43,12 @@
     "AX-011": "PASS",
     "AX-017": "PASS"
   },
-  "source_triples": 13489,
-  "inferred_triples": 698370,
-  "closure_triples": 711859,
+  "source_triples": 13568,
+  "inferred_triples": 705264,
+  "closure_triples": 718832,
   "ontology_triples": 344,
   "ontology_version": "1.7.1",
-  "asserted_triples": 13147,
+  "asserted_triples": 13226,
   "production_inputs": [
     "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
     "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\rdf\\vietheritage.ttl"

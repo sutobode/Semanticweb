@@ -7,6 +7,24 @@
 @prefix vhr: <http://localhost:3030/vietheritage/resource/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+vhr:complex-b9e928b2f160 a vh:HeritageComplex ;
+    rdfs:label "Di sản Văn hóa Thế giới Thành Nhà Hồ"@vi ;
+    vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
+    vh:hasMember vhr:registry-unesco-1358-001,
+        vhr:registry-unesco-1358-002,
+        vhr:registry-unesco-1358-003 ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
+    dcterms:description "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/> ;
+    rdfs:comment "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."@vi ;
+    skos:altLabel "Quần thể Di sản Thế giới Thành Nhà Hồ"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-006e43c89987 a vh:IntangibleHeritage,
         vh:NationalIntangibleHeritage ;
     rdfs:label "Nghi lễ Then của người Tày, người Nùng"@vi ;
@@ -2828,12 +2846,16 @@ vhr:registry-340258cd4f82 a vh:IntangibleHeritage,
 vhr:registry-349bd1cd6b74 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "Đình Thái Khê"@vi ;
+    vh:address "thôn Thái Khê, xã Kiều Phú, Thành phố Hà Nội"^^xsd:string ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:recognitionYear "2025"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/dinh-thai-khe-22292> ;
+    dcterms:source <https://dsvh.gov.vn/dinh-thai-khe-22292>,
+        <https://kieuphu.hanoi.gov.vn/van-hoa-xa-hoi/thon-thai-khe-xa-kieu-phu-long-trong-to-chuc-le-don-bang-cong-nhan-di-tich-dinh-lang-cap-quoc-gia-2764251012111240781.htm> ;
     dcterms:subject "national_monuments" ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/dinh-thai-khe-22292> ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/dinh-thai-khe-22292>,
+        <https://kieuphu.hanoi.gov.vn/van-hoa-xa-hoi/thon-thai-khe-xa-kieu-phu-long-trong-to-chuc-le-don-bang-cong-nhan-di-tich-dinh-lang-cap-quoc-gia-2764251012111240781.htm> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-35393bafef1c a vh:NationalTreasure ;
@@ -9107,6 +9129,8 @@ vhr:registry-a75893095411 a vh:ArchitecturalSite,
         vh:HeritageSite ;
     rdfs:label "DTKTNT Tháp Nhạn"@vi ;
     vh:address "Tỉnh Phú Yên"^^xsd:string ;
+    vh:hasArchitecturalStyle vhr:style-a8c2735471e8,
+        vhr:style-aef9ed5174ec ;
     vh:locatedIn vhr:area-name-8cb9d0c6b939 ;
     vh:recognitionYear "2018"^^xsd:gYear ;
     vh:sourcePageId 246642 ;
@@ -14217,10 +14241,21 @@ vhr:registry-fa9d5dcb6ca1 a vh:NationalTreasure ;
 vhr:registry-fb867e4b336e a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Đường Trường Sơn - Đường Hồ Chí Minh"@vi ;
+    vh:address "Nghệ An, Hà Tĩnh, Quảng Bình, Quảng Trị, Thừa Thiên Huế, Quảng Nam, Kon Tum, Gia Lai, Đắc Lắc, Đắc Nông, Bình Phước"^^xsd:string ;
     vh:associatedWithEvent vhr:event-46f796e3c0a8,
         vhr:event-6fa18c98b523,
         vhr:event-b79650374533 ;
     vh:constructionYear "1959"^^xsd:gYear ;
+    vh:locatedIn vhr:area-name-0963f7238f98,
+        vhr:area-name-11e91641fb6c,
+        vhr:area-name-352c0cff9935,
+        vhr:area-name-441134c12a3e,
+        vhr:area-name-574f21fd28ba,
+        vhr:area-name-8cb9d0c6b939,
+        vhr:area-name-b93dd0ed3491,
+        vhr:area-name-c84501090b52,
+        vhr:area-name-d493cd7e51ad,
+        vhr:area-name-d76be4e8346d ;
     vh:recognitionYear "2013"^^xsd:gYear ;
     vh:sourcePageId 15170 ;
     vh:sourceTitle "Đường Trường Sơn"^^xsd:string ;
@@ -14747,6 +14782,76 @@ vhr:person-wikidata-q7833315 a vh:HistoricalPerson ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-unesco-1358-001 a vh:HeritageSite ;
+    rdfs:label "Thành nội Thành Nhà Hồ"@vi ;
+    vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
+    dcterms:description "Thành phần 1358-001 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Inner Citadel."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
+    rdfs:comment "Thành phần 1358-001 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Inner Citadel."@vi ;
+    geo1:lat 20.078056 ;
+    geo1:long 105.604722 ;
+    skos:altLabel "Di tích Thành Nhà Hồ"@vi,
+        "Thành nội"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-unesco-1358-002 a vh:HeritageSite ;
+    rdfs:label "La Thành"@vi ;
+    vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
+    dcterms:description "Thành phần 1358-002 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là La Thanh Outer Walled Section."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
+    rdfs:comment "Thành phần 1358-002 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là La Thanh Outer Walled Section."@vi ;
+    geo1:lat 20.098056 ;
+    geo1:long 105.618608 ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-unesco-1358-003 a vh:HeritageSite ;
+    rdfs:label "Đàn Nam Giao"@vi ;
+    vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
+    dcterms:description "Thành phần 1358-003 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Nam Giao Altar."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
+    rdfs:comment "Thành phần 1358-003 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Nam Giao Altar."@vi ;
+    geo1:lat 20.045556 ;
+    geo1:long 105.621108 ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/maps/> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-a8c2735471e8 a vh:ArchitecturalStyle ;
+    rdfs:label "Mỹ Sơn A1"@vi ;
+    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
+    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-aef9ed5174ec a vh:ArchitecturalStyle ;
+    rdfs:label "Bình Định"@vi ;
+    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
+    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:person-wikidata-q10830179 a vh:HistoricalPerson ;

@@ -64,6 +64,7 @@ provenance_properties:
 registry_field_roles:
   default:
     location: [address, location, located_in]
+    location_evidence_url: [source_url]
     recognition_text: [recognition_year]
     type: [site_types]
   # Cột thứ 4 của bảng bảo vật là "nơi lưu giữ" (thường là tên bảo tàng), không
@@ -104,6 +105,85 @@ derived_entities:
     attach:
       registry_category: world_heritage
       relation: recognized_by
+  # UNESCO 1358 là tài sản nối tiếp gồm ba thành phần vật lý có ID riêng.
+  # Bản ghi registry hiện có giữ nguyên HeritageSite; complex tách biệt tránh vi phạm disjointness.
+  complex-b9e928b2f160:
+    entity_type: HeritageComplex
+    label_vi: "Di sản Văn hóa Thế giới Thành Nhà Hồ"
+    aliases_vi: ["Quần thể Di sản Thế giới Thành Nhà Hồ"]
+    description_vi: "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."
+    registry_url: "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481"
+    source_url: "https://whc.unesco.org/en/list/1358/"
+    retrieved_at: "2026-10-05T09:48:43Z"
+    external_ids: {unesco: "1358"}
+    address: "Tỉnh Thanh Hóa"
+    relations:
+      located_in: [area-name-2035d470f202]
+      member_sites: [registry-unesco-1358-001, registry-unesco-1358-002, registry-unesco-1358-003]
+    attach:
+      registry_id: registry-9aa10e718d44
+  registry-unesco-1358-001:
+    entity_type: HeritageSite
+    label_vi: "Thành nội Thành Nhà Hồ"
+    aliases_vi: ["Thành nội", "Di tích Thành Nhà Hồ"]
+    description_vi: "Thành phần 1358-001 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Inner Citadel."
+    registry_url: "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481"
+    source_url: "https://whc.unesco.org/en/list/1358/maps/"
+    retrieved_at: "2026-10-05T09:48:43Z"
+    external_ids: {unesco: "1358-001"}
+    coordinates: {lat: 20.078056, lon: 105.604722}
+    address: "Tỉnh Thanh Hóa"
+    relations:
+      located_in: [area-name-2035d470f202]
+    attach:
+      registry_id: registry-9aa10e718d44
+  registry-unesco-1358-002:
+    entity_type: HeritageSite
+    label_vi: "La Thành"
+    description_vi: "Thành phần 1358-002 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là La Thanh Outer Walled Section."
+    registry_url: "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481"
+    source_url: "https://whc.unesco.org/en/list/1358/maps/"
+    retrieved_at: "2026-10-05T09:48:43Z"
+    external_ids: {unesco: "1358-002"}
+    coordinates: {lat: 20.098056, lon: 105.618608}
+    address: "Tỉnh Thanh Hóa"
+    relations:
+      located_in: [area-name-2035d470f202]
+    attach:
+      registry_id: registry-9aa10e718d44
+  registry-unesco-1358-003:
+    entity_type: HeritageSite
+    label_vi: "Đàn Nam Giao"
+    description_vi: "Thành phần 1358-003 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Nam Giao Altar."
+    registry_url: "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481"
+    source_url: "https://whc.unesco.org/en/list/1358/maps/"
+    retrieved_at: "2026-10-05T09:48:43Z"
+    external_ids: {unesco: "1358-003"}
+    coordinates: {lat: 20.045556, lon: 105.621108}
+    address: "Tỉnh Thanh Hóa"
+    relations:
+      located_in: [area-name-2035d470f202]
+    attach:
+      registry_id: registry-9aa10e718d44
+  # Cục Di sản: kiến trúc Tháp Nhạn là sự chuyển tiếp giữa hai phong cách này.
+  style-a8c2735471e8:
+    entity_type: ArchitecturalStyle
+    label_vi: "Mỹ Sơn A1"
+    description_vi: "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."
+    source_url: "https://dsvh.gov.vn/thap-nhan-3238"
+    retrieved_at: "2026-10-05T15:26:57Z"
+    attach:
+      registry_id: registry-a75893095411
+      relation: architectural_styles
+  style-aef9ed5174ec:
+    entity_type: ArchitecturalStyle
+    label_vi: "Bình Định"
+    description_vi: "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."
+    source_url: "https://dsvh.gov.vn/thap-nhan-3238"
+    retrieved_at: "2026-10-05T15:26:57Z"
+    attach:
+      registry_id: registry-a75893095411
+      relation: architectural_styles
 
 # M2-11 — Danh mục di tích quốc gia đặc biệt ghi loại hình bằng tiền tố viết tắt
 # trong tên (ví dụ "DTLS và KTNT Cổ Loa"). Mỗi viết tắt -> một site_type; generator
