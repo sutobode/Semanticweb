@@ -859,3 +859,34 @@ def test_thap_nhan_official_architectural_styles_are_multi_valued():
     assert set(styles) == expected
     assert {item["label_vi"] for item in styles.values()} == {"Mỹ Sơn A1", "Bình Định"}
     assert {item["provenance"]["source"] for item in styles.values()} == {"https://dsvh.gov.vn/thap-nhan-3238"}
+
+
+def test_thap_nhan_official_historical_period_is_mapped():
+    entity = _entity(label="DTKTNT Tháp Nhạn")
+    entity["registry_id"] = "registry-a75893095411"
+    entity["_entity_id"] = "registry-a75893095411"
+    derived = DerivedRegistry()
+
+    record = map_record(entity, TYPES, mapping=load_mapping(), derived=derived)
+    period_id = "period-957be01571dd"
+    period = next(item for item in derived.records() if item["entity_id"] == period_id)
+
+    assert record["relations"]["periods"] == [period_id]
+    assert period["entity_type"] == "HistoricalPeriod"
+    assert period["label_vi"] == "Cuối thế kỷ XI - đầu thế kỷ XII"
+    assert period["provenance"]["source"] == "https://dsvh.gov.vn/thap-nhan-3238"
+
+
+def test_thap_nhan_official_religious_type_overlaps_architectural_type():
+    entity = _entity(label="DTKTNT Tháp Nhạn", type="di tích tôn giáo")
+    entity["registry_id"] = "registry-a75893095411"
+    entity["_entity_id"] = "registry-a75893095411"
+    derived = DerivedRegistry()
+
+    record = map_record(entity, TYPES, mapping=load_mapping(), derived=derived)
+
+    assert record["site_types"] == ["di tích tôn giáo", "di tích kiến trúc nghệ thuật"]
+    assert record["relations"]["periods"] == ["period-957be01571dd"]
+    assert set(record["relations"]["architectural_styles"]) == {
+        "style-a8c2735471e8", "style-aef9ed5174ec",
+    }

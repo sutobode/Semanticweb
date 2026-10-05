@@ -133,6 +133,42 @@ def test_heritage_site_emits_multiple_architectural_styles() -> None:
     }
 
 
+def test_heritage_site_emits_historical_period() -> None:
+    source = "https://dsvh.gov.vn/thap-nhan-3238"
+    period_id = "period-957be01571dd"
+    records = [
+        {
+            "entity_id": "registry-thap-nhan", "entity_type": "HeritageSite", "label_vi": "Tháp Nhạn",
+            "source_status": "derived", "source_url": source, "retrieved_at": "2026-10-05T00:00:00Z",
+            "relations": {"periods": [period_id]},
+            "provenance": {"source": source, "method": "derived", "license": "Official source"},
+        },
+        {
+            "entity_id": period_id, "entity_type": "HistoricalPeriod",
+            "label_vi": "Cuối thế kỷ XI - đầu thế kỷ XII", "source_status": "derived",
+            "source_url": source, "retrieved_at": "2026-10-05T00:00:00Z",
+            "provenance": {"source": source, "method": "derived", "license": "Official source"},
+        },
+    ]
+    graph = build_graph(records)
+
+    assert (VHR["registry-thap-nhan"], VH.belongsToPeriod, VHR[period_id]) in graph
+    assert (VHR[period_id], RDF.type, VH.HistoricalPeriod) in graph
+
+
+def test_heritage_site_emits_overlapping_religious_and_architectural_types() -> None:
+    record = {
+        **SAMPLE_HERITAGE_SITE,
+        "entity_id": "registry-thap-nhan",
+        "label_vi": "Tháp Nhạn",
+        "site_types": ["di tích tôn giáo", "di tích kiến trúc nghệ thuật"],
+    }
+    graph = build_graph([record])
+    types = set(graph.objects(VHR["registry-thap-nhan"], RDF.type))
+
+    assert types == {VH.HeritageSite, VH.ReligiousSite, VH.ArchitecturalSite}
+
+
 def test_add_relations_built_by_person_creates_builtby_triple() -> None:
     g = Graph()
     g.add((VHR["person-kien-truc-su"], RDF.type, VH.HistoricalPerson))

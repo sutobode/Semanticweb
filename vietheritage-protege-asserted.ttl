@@ -9035,9 +9035,11 @@ vhr:registry-a67e119fdebd a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-a75893095411 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Tháp Nhạn"@vi ;
     vh:address "Tỉnh Phú Yên"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-957be01571dd ;
     vh:hasArchitecturalStyle vhr:style-a8c2735471e8,
         vhr:style-aef9ed5174ec ;
     vh:locatedIn vhr:area-name-8cb9d0c6b939 ;
@@ -15077,6 +15079,16 @@ vhr:style-a8c2735471e8 a vh:ArchitecturalStyle ;
 
 vhr:style-aef9ed5174ec a vh:ArchitecturalStyle ;
     rdfs:label "Bình Định"@vi ;
+    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
+    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:period-957be01571dd a vh:HistoricalPeriod ;
+    rdfs:label "Cuối thế kỷ XI - đầu thế kỷ XII"@vi ;
     dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-05"^^xsd:date ;

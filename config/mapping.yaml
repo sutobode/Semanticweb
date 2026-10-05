@@ -184,6 +184,16 @@ derived_entities:
     attach:
       registry_id: registry-a75893095411
       relation: architectural_styles
+  # Cục Di sản định niên đại kiến trúc Tháp Nhạn vào cuối thế kỷ XI - đầu thế kỷ XII.
+  period-957be01571dd:
+    entity_type: HistoricalPeriod
+    label_vi: "Cuối thế kỷ XI - đầu thế kỷ XII"
+    description_vi: "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."
+    source_url: "https://dsvh.gov.vn/thap-nhan-3238"
+    retrieved_at: "2026-10-05T15:26:57Z"
+    attach:
+      registry_id: registry-a75893095411
+      relation: periods
 
 # M2-11 — Danh mục di tích quốc gia đặc biệt ghi loại hình bằng tiền tố viết tắt
 # trong tên (ví dụ "DTLS và KTNT Cổ Loa"). Mỗi viết tắt -> một site_type; generator

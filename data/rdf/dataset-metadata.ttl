@@ -8,11 +8,11 @@
     dcterms:created "2026-09-25"^^xsd:date ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
-    dcterms:extent "asserted_triples=13246",
-        "canonical_records=1085",
+    dcterms:extent "asserted_triples=13257",
+        "canonical_records=1086",
         "inferred_closure_triples=718832",
         "inferred_delta_triples=705264",
-        "registry_records=1085",
+        "registry_records=1086",
         "verified_external_links=222" ;
     dcterms:identifier "20260925T034421Z" ;
     dcterms:issued "20260925T034421Z"^^xsd:string ;
