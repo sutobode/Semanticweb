@@ -8,16 +8,16 @@
     dcterms:created "2026-09-25"^^xsd:date ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
-    dcterms:extent "asserted_triples=13277",
-        "canonical_records=1088",
-        "inferred_closure_triples=718899",
-        "inferred_delta_triples=705280",
-        "registry_records=1088",
+    dcterms:extent "asserted_triples=13577",
+        "canonical_records=1111",
+        "inferred_closure_triples=727499",
+        "inferred_delta_triples=713580",
+        "registry_records=1111",
         "verified_external_links=222" ;
     dcterms:identifier "20260925T034421Z" ;
     dcterms:issued "20260925T034421Z"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
     dcterms:source <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html>,
         <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://dsvh.gov.vn/ben-k15-diem-xuat-phat-duong-ho-chi-minh-tren-bien-22211>,
@@ -83,6 +83,7 @@
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-dinh-so-ha-noi-3267>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-dinh-tay-dang-huyen-ba-vi-thanh-pho-ha-noi-2979>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-do-thi-co-hoi-an-2942>,
+        <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-binh-son-1294>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-duong-long-1289>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
@@ -93,12 +94,15 @@
         <https://dsvh.gov.vn/di-tich-lich-su-can-cu-trung-uong-cuc-mien-nam-2947>,
         <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-chuong-thien-thanh-pho-vi-thanh-va-huyen-long-my-tinh-hau-giang-2976>,
         <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-dak-to-tan-canh-3462>,
+        <https://dsvh.gov.vn/di-tich-lich-su-chien-truong-dien-bien-phu-bo-sung-23-diem-di-tich-1537>,
         <https://dsvh.gov.vn/di-tich-lich-su-d%C3%A8n-th%C3%B2-nguy%E1%BA%BDn-b%E1%BB%89nh-khiem-2993>,
+        <https://dsvh.gov.vn/di-tich-lich-su-danh-lam-thang-canh-an-phu-kinh-chu-nham-duong-tinh-hai-duong-3218>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hai-ba-trung-2970>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hat-mon-2971>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hung-2939>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-dao-cu-chi-1490>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-dao-vinh-moc-va-he-thong-lang-ham-vinh-linh-2989>,
+        <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-chien-thang-rach-gam-xoai-mut-2986>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-to-chuc-dai-hoi-dai-bieu-toan-quoc-lan-thu-ii-cua-dang-3001>,
         <https://dsvh.gov.vn/di-tich-lich-su-dinh-doc-lap-2937>,
         <https://dsvh.gov.vn/di-tich-lich-su-doi-bo-hien-luong-ben-hai-2974>,
@@ -296,6 +300,7 @@
         <https://dsvh.gov.vn/quan-the-danh-thang-trang-an-1076>,
         <https://dsvh.gov.vn/quan-the-di-tich-co-do-hue-475>,
         <https://dsvh.gov.vn/quan-the-di-tich-lang-nom-tinh-hung-yen-3184>,
+        <https://dsvh.gov.vn/quan-the-di-tich-va-danh-thang-yen-tu-vinh-nghiem-con-son-kiep-bac-duoc-unesco-ghi-vao-danh-muc-di-san-the-gioi-22230>,
         <https://dsvh.gov.vn/soc-bom-bo-tinh-dong-nai-22283>,
         <https://dsvh.gov.vn/tet-khu-cu-te-cua-nguoi-la-chi-o-ha-giang-1052>,
         <https://dsvh.gov.vn/tet-nao-pe-chau-cua-nguoi-mong-den-1238>,
@@ -303,6 +308,7 @@
         <https://dsvh.gov.vn/thac-tran-tinh-ha-giang-3390>,
         <https://dsvh.gov.vn/thap-nhan-3238>,
         <https://dsvh.gov.vn/thap-tuong-long-thanh-pho-hai-phong-3362>,
+        <https://dsvh.gov.vn/thu-tuong-chinh-phu-ky-quyet-dinh-xep-hang-di-tich-quoc-gia-dac-biet-nam-2017-1487>,
         <https://dsvh.gov.vn/thuc-hanh-tin-nguong-tho-mau-tam-phu-cua-nguoi-viet-tro-thanh-di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1536>,
         <https://dsvh.gov.vn/tran-giong-bom-tinh-bac-lieu-3444>,
         <https://dsvh.gov.vn/tranh-dan-gian-dong-ho-3151>,
@@ -577,6 +583,7 @@
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-dinh-so-ha-noi-3267>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-dinh-tay-dang-huyen-ba-vi-thanh-pho-ha-noi-2979>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-do-thi-co-hoi-an-2942>,
+        <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-binh-son-1294>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-duong-long-1289>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
@@ -587,12 +594,15 @@
         <https://dsvh.gov.vn/di-tich-lich-su-can-cu-trung-uong-cuc-mien-nam-2947>,
         <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-chuong-thien-thanh-pho-vi-thanh-va-huyen-long-my-tinh-hau-giang-2976>,
         <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-dak-to-tan-canh-3462>,
+        <https://dsvh.gov.vn/di-tich-lich-su-chien-truong-dien-bien-phu-bo-sung-23-diem-di-tich-1537>,
         <https://dsvh.gov.vn/di-tich-lich-su-d%C3%A8n-th%C3%B2-nguy%E1%BA%BDn-b%E1%BB%89nh-khiem-2993>,
+        <https://dsvh.gov.vn/di-tich-lich-su-danh-lam-thang-canh-an-phu-kinh-chu-nham-duong-tinh-hai-duong-3218>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hai-ba-trung-2970>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hat-mon-2971>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hung-2939>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-dao-cu-chi-1490>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-dao-vinh-moc-va-he-thong-lang-ham-vinh-linh-2989>,
+        <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-chien-thang-rach-gam-xoai-mut-2986>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-to-chuc-dai-hoi-dai-bieu-toan-quoc-lan-thu-ii-cua-dang-3001>,
         <https://dsvh.gov.vn/di-tich-lich-su-dinh-doc-lap-2937>,
         <https://dsvh.gov.vn/di-tich-lich-su-doi-bo-hien-luong-ben-hai-2974>,
@@ -790,6 +800,7 @@
         <https://dsvh.gov.vn/quan-the-danh-thang-trang-an-1076>,
         <https://dsvh.gov.vn/quan-the-di-tich-co-do-hue-475>,
         <https://dsvh.gov.vn/quan-the-di-tich-lang-nom-tinh-hung-yen-3184>,
+        <https://dsvh.gov.vn/quan-the-di-tich-va-danh-thang-yen-tu-vinh-nghiem-con-son-kiep-bac-duoc-unesco-ghi-vao-danh-muc-di-san-the-gioi-22230>,
         <https://dsvh.gov.vn/soc-bom-bo-tinh-dong-nai-22283>,
         <https://dsvh.gov.vn/tet-khu-cu-te-cua-nguoi-la-chi-o-ha-giang-1052>,
         <https://dsvh.gov.vn/tet-nao-pe-chau-cua-nguoi-mong-den-1238>,
@@ -797,6 +808,7 @@
         <https://dsvh.gov.vn/thac-tran-tinh-ha-giang-3390>,
         <https://dsvh.gov.vn/thap-nhan-3238>,
         <https://dsvh.gov.vn/thap-tuong-long-thanh-pho-hai-phong-3362>,
+        <https://dsvh.gov.vn/thu-tuong-chinh-phu-ky-quyet-dinh-xep-hang-di-tich-quoc-gia-dac-biet-nam-2017-1487>,
         <https://dsvh.gov.vn/thuc-hanh-tin-nguong-tho-mau-tam-phu-cua-nguoi-viet-tro-thanh-di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1536>,
         <https://dsvh.gov.vn/tran-giong-bom-tinh-bac-lieu-3444>,
         <https://dsvh.gov.vn/tranh-dan-gian-dong-ho-3151>,
@@ -1031,7 +1043,7 @@
 
 vhr:activity-run-7c81f366b12a a prov:Activity ;
     dcterms:identifier "20260925T034421Z" ;
-    prov:endedAtTime "2026-10-05T16:20:41+00:00"^^xsd:dateTime ;
+    prov:endedAtTime "2026-10-06T16:15:38+00:00"^^xsd:dateTime ;
     prov:startedAtTime "2026-09-25T03:44:21+00:00"^^xsd:dateTime ;
     prov:used <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html>,
         <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
@@ -1098,6 +1110,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-dinh-so-ha-noi-3267>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-dinh-tay-dang-huyen-ba-vi-thanh-pho-ha-noi-2979>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-do-thi-co-hoi-an-2942>,
+        <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-binh-son-1294>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-duong-long-1289>,
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
@@ -1108,12 +1121,15 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://dsvh.gov.vn/di-tich-lich-su-can-cu-trung-uong-cuc-mien-nam-2947>,
         <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-chuong-thien-thanh-pho-vi-thanh-va-huyen-long-my-tinh-hau-giang-2976>,
         <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-dak-to-tan-canh-3462>,
+        <https://dsvh.gov.vn/di-tich-lich-su-chien-truong-dien-bien-phu-bo-sung-23-diem-di-tich-1537>,
         <https://dsvh.gov.vn/di-tich-lich-su-d%C3%A8n-th%C3%B2-nguy%E1%BA%BDn-b%E1%BB%89nh-khiem-2993>,
+        <https://dsvh.gov.vn/di-tich-lich-su-danh-lam-thang-canh-an-phu-kinh-chu-nham-duong-tinh-hai-duong-3218>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hai-ba-trung-2970>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hat-mon-2971>,
         <https://dsvh.gov.vn/di-tich-lich-su-den-hung-2939>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-dao-cu-chi-1490>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-dao-vinh-moc-va-he-thong-lang-ham-vinh-linh-2989>,
+        <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-chien-thang-rach-gam-xoai-mut-2986>,
         <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-to-chuc-dai-hoi-dai-bieu-toan-quoc-lan-thu-ii-cua-dang-3001>,
         <https://dsvh.gov.vn/di-tich-lich-su-dinh-doc-lap-2937>,
         <https://dsvh.gov.vn/di-tich-lich-su-doi-bo-hien-luong-ben-hai-2974>,
@@ -1311,6 +1327,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://dsvh.gov.vn/quan-the-danh-thang-trang-an-1076>,
         <https://dsvh.gov.vn/quan-the-di-tich-co-do-hue-475>,
         <https://dsvh.gov.vn/quan-the-di-tich-lang-nom-tinh-hung-yen-3184>,
+        <https://dsvh.gov.vn/quan-the-di-tich-va-danh-thang-yen-tu-vinh-nghiem-con-son-kiep-bac-duoc-unesco-ghi-vao-danh-muc-di-san-the-gioi-22230>,
         <https://dsvh.gov.vn/soc-bom-bo-tinh-dong-nai-22283>,
         <https://dsvh.gov.vn/tet-khu-cu-te-cua-nguoi-la-chi-o-ha-giang-1052>,
         <https://dsvh.gov.vn/tet-nao-pe-chau-cua-nguoi-mong-den-1238>,
@@ -1318,6 +1335,7 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://dsvh.gov.vn/thac-tran-tinh-ha-giang-3390>,
         <https://dsvh.gov.vn/thap-nhan-3238>,
         <https://dsvh.gov.vn/thap-tuong-long-thanh-pho-hai-phong-3362>,
+        <https://dsvh.gov.vn/thu-tuong-chinh-phu-ky-quyet-dinh-xep-hang-di-tich-quoc-gia-dac-biet-nam-2017-1487>,
         <https://dsvh.gov.vn/thuc-hanh-tin-nguong-tho-mau-tam-phu-cua-nguoi-viet-tro-thanh-di-san-van-hoa-phi-vat-the-dai-dien-cua-nhan-loai-1536>,
         <https://dsvh.gov.vn/tran-giong-bom-tinh-bac-lieu-3444>,
         <https://dsvh.gov.vn/tranh-dan-gian-dong-ho-3151>,
@@ -1518,3 +1536,4 @@ vhr:activity-run-7c81f366b12a a prov:Activity ;
         <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD>,
         <https://whc.unesco.org/en/list/1358/>,
         <https://whc.unesco.org/en/list/1358/maps/> .
+

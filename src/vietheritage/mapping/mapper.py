@@ -459,22 +459,26 @@ def map_record(
 
     for derived_id, spec in (mapping.get("derived_entities") or {}).items():
         attach = spec.get("attach") or {}
-        selectors = {key: attach.get(key) for key in ("registry_category", "registry_id") if attach.get(key)}
+        selectors = {key: attach.get(key) for key in ("registry_category", "registry_id", "registry_ids") if attach.get(key)}
         if entity_type != "HeritageSite" or not selectors:
             continue
         if selectors.get("registry_category") not in (None, category):
             continue
         if selectors.get("registry_id") not in (None, entity.get("registry_id")):
             continue
+        # Một concept dùng chung (thời kỳ, phong cách, sự kiện) gắn vào nhiều di tích đã duyệt.
+        if "registry_ids" in selectors and entity.get("registry_id") not in selectors["registry_ids"]:
+            continue
         if attach.get("relation"):
             _add_relation(record, attach["relation"], derived_id)
         if derived is not None:
             extra = {k: v for k, v in spec.items() if k not in {"entity_type", "attach"}}
             retrieved_at = extra.pop("retrieved_at", entity.get("retrieved_at"))
+            license_text = extra.pop("license", REGISTRY_LICENSE)
             source = extra.get("source_url") or extra.get("registry_url") or (category_urls or {}).get(category) or registry_url
             derived.add(derived_id, spec["entity_type"], sources=[source],
                         retrieved_at=retrieved_at, coverage_snapshot=entity.get("coverage_snapshot"),
-                        method="derived", license_text=REGISTRY_LICENSE, **extra)
+                        method="derived", license_text=license_text, **extra)
 
     if entity_type == "HeritageSite":
         # Record tách từ di tích gộp giữ loại hình của TÊN TRONG REGISTRY ("DTLS và DLTC …").

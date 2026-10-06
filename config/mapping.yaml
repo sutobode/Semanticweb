@@ -167,7 +167,56 @@ derived_entities:
       located_in: [area-name-2035d470f202]
     attach:
       registry_id: registry-9aa10e718d44
+  # Complex cha tách biệt; thành viên là các HeritageSite đã có trong canonical (không retype,
+  # không tạo bản sao). partOf/hasPart để reasoner suy ra từ hasMember (AX-002/AX-003).
+  # Cục Di sản liệt kê 6 di tích quốc gia đặc biệt thành phần của di sản thế giới (UNESCO 2025).
+  complex-6d95f2254f28:
+    entity_type: HeritageComplex
+    label_vi: "Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm, Côn Sơn, Kiếp Bạc"
+    aliases_vi: ["Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm - Côn Sơn, Kiếp Bạc"]
+    description_vi: "Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm, Côn Sơn, Kiếp Bạc bao gồm hệ thống di tích thuộc các di tích quốc gia đặc biệt đã được Thủ tướng Chính phủ xếp hạng (gồm: Quần thể di tích và danh thắng Yên Tử, Khu di tích Nhà Trần ở Đông Triều, Chùa Vĩnh Nghiêm, Chùa Bổ Đà, Khu di tích Côn Sơn - Kiếp Bạc, Di tích lịch sử, danh lam thắng cảnh An Phụ - Kính Chủ - Nhẫm Dương)"
+    source_url: "https://dsvh.gov.vn/quan-the-di-tich-va-danh-thang-yen-tu-vinh-nghiem-con-son-kiep-bac-duoc-unesco-ghi-vao-danh-muc-di-san-the-gioi-22230"
+    retrieved_at: "2026-10-06T16:06:23Z"
+    license: "Official heritage authority"
+    relations:
+      located_in: [area-name-cff49d8e0895, area-name-34bf35f4ea37, area-name-4f99714e585c]
+      member_sites: [registry-0120cc05bbed, registry-86f42708d93f, registry-5772ea302cb4, registry-069da54d9cc1, registry-280af8a8985a, complex-c0786f4c0264]
+  # Thành phần thứ 6 ở trên; bản ghi registry đã tách thành từng di tích (Đền Cao An Phụ, Động Kính Chủ).
+  complex-c0786f4c0264:
+    entity_type: HeritageComplex
+    label_vi: "Di tích lịch sử, danh lam thắng cảnh An Phụ - Kính Chủ - Nhẫm Dương"
+    aliases_vi: ["Quần thể An Phụ - Kính Chủ - Nhẫm Dương"]
+    description_vi: "Nhẫm Dương gồm các di tích nằm trên huyện Kinh Môn, tỉnh Hải Dương: An Phụ: gồm Đền An Phụ (Đền Cao) và chùa Tường Vân (Chùa Cao) thuộc xã An Sinh;"
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-danh-lam-thang-canh-an-phu-kinh-chu-nham-duong-tinh-hai-duong-3218"
+    retrieved_at: "2026-10-06T16:06:46Z"
+    license: "Official heritage authority"
+    relations:
+      located_in: [area-name-4f99714e585c]
+      member_sites: [registry-40889f0bafcb-8fa727, registry-40889f0bafcb-4c9dbe]
+  # Quyết định xếp hạng 2017 ghi một di tích gồm ba công trình; registry đã tách thành ba di tích.
+  complex-102096035f96:
+    entity_type: HeritageComplex
+    label_vi: "Di tích lịch sử và kiến trúc nghệ thuật Đền Xưa - Chùa Giám - Đền Bia"
+    description_vi: "6. Di tích lịch sử và kiến trúc nghệ thuật Đền Xưa - Chùa Giám - Đền Bia (huyện Cẩm Giàng, tỉnh Hải Dương)."
+    source_url: "https://dsvh.gov.vn/thu-tuong-chinh-phu-ky-quyet-dinh-xep-hang-di-tich-quoc-gia-dac-biet-nam-2017-1487"
+    retrieved_at: "2026-10-06T16:09:55Z"
+    license: "Official heritage authority"
+    relations:
+      located_in: [area-name-4f99714e585c]
+      member_sites: [registry-fd03e1f1662c-164238, registry-fd03e1f1662c-53c105, registry-fd03e1f1662c-f33488]
+  complex-469daaeafb2d:
+    entity_type: HeritageComplex
+    label_vi: "Di tích lịch sử và danh lam thắng cảnh hồ Hoàn Kiếm và đền Ngọc Sơn"
+    description_vi: "Di tích lịch sử và danh lam thắng cảnh hồ Hoàn Kiếm và đền Ngọc Sơn bao gồm hồ Hoàn Kiếm, đền Ngọc Sơn và khu tưởng niệm vua Lê."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978"
+    retrieved_at: "2026-10-06T16:10:17Z"
+    license: "Official heritage authority"
+    relations:
+      located_in: [area-name-8de4ed043a59]
+      member_sites: [registry-43a3e7715b7a-cf42ea, registry-43a3e7715b7a-9c23d0]
   # Cục Di sản: kiến trúc Tháp Nhạn là sự chuyển tiếp giữa hai phong cách này.
+  # Bài Khu đền tháp Mỹ Sơn (registry-07620c963e29) xếp các tháp của khu di tích vào cùng hai
+  # phong cách; bằng chứng từng di tích nằm ở registry_fields.architectural_style_evidence_*.
   style-a8c2735471e8:
     entity_type: ArchitecturalStyle
     label_vi: "Mỹ Sơn A1"
@@ -175,7 +224,7 @@ derived_entities:
     source_url: "https://dsvh.gov.vn/thap-nhan-3238"
     retrieved_at: "2026-10-05T15:26:57Z"
     attach:
-      registry_id: registry-a75893095411
+      registry_ids: [registry-a75893095411, registry-07620c963e29]
       relation: architectural_styles
   style-aef9ed5174ec:
     entity_type: ArchitecturalStyle
@@ -184,7 +233,50 @@ derived_entities:
     source_url: "https://dsvh.gov.vn/thap-nhan-3238"
     retrieved_at: "2026-10-05T15:26:57Z"
     attach:
-      registry_id: registry-a75893095411
+      registry_ids: [registry-a75893095411, registry-07620c963e29]
+      relation: architectural_styles
+  # Phong cách nghệ thuật Chămpa theo phân loại P. Stern trong bài chính thức về Mỹ Sơn của Cục Di sản.
+  style-174c731bc709:
+    entity_type: ArchitecturalStyle
+    label_vi: "Mỹ Sơn E1"
+    aliases_vi: ["Phong cách cổ"]
+    description_vi: "Phong cách cổ (phong cách Mỹ Sơn E1): thế kỷ VII - thế kỷ VIII, gồm các tháp E1, F1;"
+    source_url: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943"
+    retrieved_at: "2026-10-06T15:52:08Z"
+    license: "Official heritage authority"
+    attach:
+      registry_ids: [registry-07620c963e29, registry-2b793c130204]
+      relation: architectural_styles
+  style-267cca6ab1ad:
+    entity_type: ArchitecturalStyle
+    label_vi: "Hòa Lai"
+    description_vi: "Phong cách Hòa Lai: cuối thế kỷ VIII - đầu thế kỷ IX, gồm các tháp A2, C7, F3;"
+    source_url: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943"
+    retrieved_at: "2026-10-06T15:52:08Z"
+    license: "Official heritage authority"
+    attach:
+      registry_ids: [registry-07620c963e29, registry-2b793c130204]
+      relation: architectural_styles
+  style-e67ab3ac5cc0:
+    entity_type: ArchitecturalStyle
+    label_vi: "Đồng Dương"
+    description_vi: "Phong cách Đồng Dương: giữa thế kỷ IX - đầu thế kỷ X, gồm các tháp A10, A11, A13, B4;"
+    source_url: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943"
+    retrieved_at: "2026-10-06T15:52:08Z"
+    license: "Official heritage authority"
+    attach:
+      registry_ids: [registry-07620c963e29, registry-904980409990]
+      relation: architectural_styles
+  style-e7d0ad54990b:
+    entity_type: ArchitecturalStyle
+    label_vi: "Muộn"
+    aliases_vi: ["Phong cách Muộn"]
+    description_vi: "Giới nghiên cứu đã xếp Pô Klong Garai vào phong cách Muộn, sau các phong cách: Mỹ Sơn E1 - Hòa Lai - Đồng Dương - Mỹ Sơn A1 - Bình Định."
+    source_url: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995"
+    retrieved_at: "2026-10-06T15:52:52Z"
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-ac781f8e46c5
       relation: architectural_styles
   # Cục Di sản định niên đại kiến trúc Tháp Nhạn vào cuối thế kỷ XI - đầu thế kỷ XII.
   period-957be01571dd:
@@ -195,6 +287,52 @@ derived_entities:
     retrieved_at: "2026-10-05T15:26:57Z"
     attach:
       registry_id: registry-a75893095411
+      relation: periods
+  # Thời kỳ triều đại dùng chung; mỗi di tích có câu bằng chứng riêng trong
+  # registry_fields.historical_period_evidence_* (bài giới thiệu chính thức của Cục Di sản).
+  period-53915234d31c:
+    entity_type: HistoricalPeriod
+    label_vi: "Nhà Lý"
+    aliases_vi: ["Triều Lý", "Thời Lý"]
+    description_vi: "là đất phát tích, tôn miếu thờ các vị vua triều Lý và còn là nơi an táng của các vị tiên vương và hoàng tộc nhà Lý."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-ly-2983"
+    retrieved_at: "2026-10-06T16:02:10Z"
+    license: "Official heritage authority"
+    attach:
+      registry_ids: [registry-4155f890beda, registry-042d5ab0b6bb]
+      relation: periods
+  period-53088c1303e1:
+    entity_type: HistoricalPeriod
+    label_vi: "Nhà Trần"
+    aliases_vi: ["Triều Trần", "Thời Trần"]
+    description_vi: "Vùng đất Long Hưng vốn là nơi dựng nghiệp của nhà Trần, vì thế đã được triều Trần đặc biệt chú trọng, phân phong cho các thân vương."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-tran-2984"
+    retrieved_at: "2026-10-06T16:02:32Z"
+    license: "Official heritage authority"
+    attach:
+      registry_ids: [registry-5d0cea2ddae1, registry-86f42708d93f, registry-da36c0d9c6bc, registry-5772ea302cb4, registry-13c76c9faa2b]
+      relation: periods
+  period-5a36f1e0cf10:
+    entity_type: HistoricalPeriod
+    label_vi: "Nhà Hậu Lê"
+    aliases_vi: ["Vương triều Hậu Lê"]
+    description_vi: "Năm 1428, Lê Lợi lên ngôi hoàng đế (Lê Thái Tổ), lập nên vương triều Hậu Lê, đóng đô ở Thăng Long , mở ra thời kỳ phát triển mới cho quốc gia Đại Việt."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-lam-kinh-2961"
+    retrieved_at: "2026-10-06T16:02:54Z"
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-4fb6751f4dcd
+      relation: periods
+  period-950fb3bb2b11:
+    entity_type: HistoricalPeriod
+    label_vi: "Nhà Tây Sơn"
+    aliases_vi: ["Triều đại Tây Sơn"]
+    description_vi: "gắn liền với tên tuổi của ba anh em Nguyễn Nhạc, Nguyễn Huệ và Nguyễn Lữ của phong trào khởi nghĩa Tây Sơn, triều đại Tây Sơn cuối thế kỷ XVIII, tiêu biểu là vị anh hùng dân tộc Quang Trung - Nguyễn Huệ."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-khu-den-tho-tay-son-tam-kiet-2985"
+    retrieved_at: "2026-10-06T16:03:16Z"
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-c842907c028e
       relation: periods
   # Bảo tàng Lịch sử Quốc gia explicitly orders the campaign's three phases.
   # Only the minimum adjacent pair is represented; no transitive edge is asserted.
@@ -216,6 +354,129 @@ derived_entities:
     retrieved_at: "2026-10-05T16:20:41Z"
     start_year: 1954
     license: "Official museum source"
+    # Cùng câu phân đợt của Bảo tàng Lịch sử Quốc gia: đợt 3 là đợt kế tiếp trực tiếp của đợt 2.
+    relations:
+      historical_successors: [event-c70be9bd7aaa]
+  event-c70be9bd7aaa:
+    entity_type: HistoricalEvent
+    label_vi: "Đợt III Chiến dịch Điện Biên Phủ"
+    description_vi: "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."
+    source_url: "https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html"
+    retrieved_at: "2026-10-05T16:20:41Z"
+    start_year: 1954
+    license: "Official museum source"
+  # Sự kiện lịch sử được bài giới thiệu chính thức của di tích quốc gia đặc biệt nêu đích danh;
+  # attach -> associated_events của đúng di tích ghi dấu sự kiện (không suy successor theo năm).
+  event-23c3e2ad93c2:
+    entity_type: HistoricalEvent
+    label_vi: "Chiến dịch Điện Biên Phủ"
+    description_vi: "Đây là vị trí đặt chân đầu tiên của Sở chỉ huy chiến dịch Điện Biên Phủ trong 32 ngày (từ 17/12/1953-17/01/1954)."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-chien-truong-dien-bien-phu-bo-sung-23-diem-di-tich-1537"
+    retrieved_at: "2026-10-06T16:14:10Z"
+    start_year: 1953
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-24c63b39d00d
+      relation: associated_events
+  event-1c8e6db3bf5c:
+    entity_type: HistoricalEvent
+    label_vi: "Chiến thắng Bạch Đằng năm 1288"
+    description_vi: "Đây là địa điểm ghi dấu sự kiện quân và dân nhà Trần đã lập nên chiến thắng lẫy lừng - Chiến thắng Bạch Đằng đánh tan quân Nguyên Mông ngày 09/4 (8/3 - Âm lịch) năm 1288."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-bach-dang-2960"
+    retrieved_at: "2026-10-06T16:12:20Z"
+    start_year: 1288
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-6d2fa2175bbe
+      relation: associated_events
+  event-3974a94b5112:
+    entity_type: HistoricalEvent
+    label_vi: "Khởi nghĩa Yên Thế"
+    aliases_vi: ["Khởi nghĩa nông dân Yên Thế"]
+    description_vi: "Khởi nghĩa nông dân Yên Thế là cuộc khởi nghĩa nông dân lớn nhất, dài nhất diễn ra vào cuối thế kỷ XIX - đầu thế kỷ XX."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-nhung-dia-diem-khoi-nghia-yen-the-2955"
+    retrieved_at: "2026-10-06T16:13:04Z"
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-5039665c0ab7
+      relation: associated_events
+  event-cdfedaecf5d5:
+    entity_type: HistoricalEvent
+    label_vi: "Khởi nghĩa Bắc Sơn"
+    description_vi: "Khởi nghĩa Bắc Sơn (27/9/1940) - khởi đầu cao trào đấu tranh cách mạng trong cả nước;"
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-khoi-nghia-bac-son-1593"
+    retrieved_at: "2026-10-06T16:12:42Z"
+    start_year: 1940
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-95f66d97f128
+      relation: associated_events
+  event-5712e6b537f2:
+    entity_type: HistoricalEvent
+    label_vi: "Phong trào Đồng Khởi"
+    description_vi: "Cho đến giữa năm 1960, ngọn lửa Đồng Khởi tiếp tục lan sang các tỉnh Tây Nguyên, làm thành cuộc khởi nghĩa dây chuyền sôi động khắp các tỉnh miền Nam và Tây Nguyên."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-dong-khoi-ben-tre-3002"
+    retrieved_at: "2026-10-06T16:13:26Z"
+    start_year: 1960
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-2b3596220b1b
+      relation: associated_events
+  event-424f08353500:
+    entity_type: HistoricalEvent
+    label_vi: "Chiến thắng Rạch Gầm - Xoài Mút"
+    description_vi: "Di tích lịch sử Rạch Gầm - Xoài Mút gắn liền với chiến công hiển hách của dân tộc ta chống quân Xiêm (1785), diễn ra trên đoạn sông Tiền từ Rạch Gầm đến Xoài Mút (nay thuộc xã Kim Sơn, huyện Châu Thành, tỉnh Tiền Giang)."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-dia-diem-chien-thang-rach-gam-xoai-mut-2986"
+    retrieved_at: "2026-10-06T16:13:48Z"
+    start_year: 1785
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-b52f76eaec10
+      relation: associated_events
+  event-0cd158f28f6d:
+    entity_type: HistoricalEvent
+    label_vi: "Sự kiện 81 ngày đêm Thành cổ Quảng Trị năm 1972"
+    description_vi: "Bảo tàng hiện trưng bày nhiều hình ảnh, tư liệu, hiện vật gắn với Thành cổ Quảng Trị trong 81 ngày đêm lịch sử mùa hè năm 1972."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-thanh-co-quang-tri-va-nhung-dia-diem-luu-niem-su-kien-81-ngay-dem-nam-1972-2975"
+    retrieved_at: "2026-10-06T16:14:32Z"
+    start_year: 1972
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-d386c8c283f7
+      relation: associated_events
+  event-502f12bce64a:
+    entity_type: HistoricalEvent
+    label_vi: "Chiến dịch Đăk Tô I"
+    description_vi: "Chiến dịch Đăk Tô I kết thúc bằng trận then chốt quyết định ở khu vực 875 giành được thắng lợi ngày 22 tháng 11 năm 1967."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-chien-thang-dak-to-tan-canh-3462"
+    retrieved_at: "2026-10-06T16:14:54Z"
+    start_year: 1967
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-1da2188a49fe
+      relation: associated_events
+  event-626ab4c9d52c:
+    entity_type: HistoricalEvent
+    label_vi: "Đại hội đại biểu toàn quốc lần thứ II của Đảng"
+    description_vi: "Đại hội Đại biểu toàn quốc lần thứ II của Đảng diễn ra từ ngày 11 đến 19/02/1951, cũng là dịp nhân dân các dân tộc xã Kim Bình tổ chức lễ hội Lồng tông."
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-dia-diem-to-chuc-dai-hoi-dai-bieu-toan-quoc-lan-thu-ii-cua-dang-3001"
+    retrieved_at: "2026-10-06T16:15:16Z"
+    start_year: 1951
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-afae4d721961
+      relation: associated_events
+  event-ec22894ce277:
+    entity_type: HistoricalEvent
+    label_vi: "Chiến dịch Ngọc Hồi - Đống Đa"
+    description_vi: "Đây cũng là nơi cầu siêu cho những linh hồn binh sĩ tử nạn trong chiến dịch Ngọc Hồi - Đống Đa, giải phóng Kinh thành Thăng Long vào mùa xuân năm Kỷ Dậu (1789)."
+    source_url: "https://dsvh.gov.vn/go-dong-da-3285"
+    retrieved_at: "2026-10-06T16:15:38Z"
+    start_year: 1789
+    license: "Official heritage authority"
+    attach:
+      registry_id: registry-4ceaa6994aa0
+      relation: associated_events
 
 # Quan hệ tuyển chọn giữa các canonical entity hiện có. Metadata nguồn và bằng chứng
 # ở lại trong mapping authoritative; canonical output chỉ nhận cạnh có hướng đã duyệt.
@@ -228,6 +489,61 @@ curated_relations:
     retrieved_at: "2026-10-06T01:21:59Z"
     provenance:
       source: "https://dsvh.gov.vn/hoi-giong-o-den-phu-dong-va-den-soc-486"
+      method: derived
+      license: "Official heritage authority"
+  # Chùa Keo (Thái Bình) và Chùa Keo Hành Thiện (Nam Định): hai chùa dựng lại từ cùng chùa Keo cũ.
+  - subject_id: registry-3c300abb9903
+    relation: related_sites
+    target_id: registry-8d3bf5f7a11c
+    source_url: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-chua-keo-hanh-thien-2997"
+    evidence_text: "Dân hai nơi đều xây dựng một ngôi chùa mới nhưng có chung phong cách thờ tự “ tiền Phật, hậu Thánh ”; kiến trúc kiểu “ nội công, ngoại quốc ”, cùng thờ Thiền sư Dương Không Lộ và vẫn mang tên cũ là chùa Keo (Thần Quang Tự)."
+    retrieved_at: "2026-10-06T15:55:57Z"
+    provenance:
+      source: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-chua-keo-hanh-thien-2997"
+      method: derived
+      license: "Official heritage authority"
+  # Lăng mộ vua Trần ở Thái Đường (Thái Bình) -> nơi an táng các vua Trần từ năm 1320 (An Sinh, Đông Triều).
+  - subject_id: registry-5d0cea2ddae1
+    relation: related_sites
+    target_id: registry-86f42708d93f
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-tran-2984"
+    evidence_text: "Từ năm 1320 trở đi, các vua và hoàng hậu nhà Trần sau khi mất đều được đưa về an táng tại khu vực An Sinh (thuộc Đông Triều, Quảng Ninh ngày nay)."
+    retrieved_at: "2026-10-06T16:02:32Z"
+    provenance:
+      source: "https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-tran-2984"
+      method: derived
+      license: "Official heritage authority"
+  # Chùa Vĩnh Nghiêm là chốn tổ của Thiền phái Trúc Lâm Yên Tử.
+  - subject_id: registry-5772ea302cb4
+    relation: related_sites
+    target_id: registry-0120cc05bbed
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-vinh-nghiem-1312"
+    evidence_text: "Chùa là trung tâm đào tạo, định chức danh cho các tăng sĩ thời Trần, là chốn tổ của Thiền phái Trúc Lâm Yên Tử, đóng vai trò đặc biệt quan trọng trong lịch sử Phật giáo thời Trần nói riêng và lịch sử Phật giáo Việt Nam nói chung."
+    retrieved_at: "2026-10-06T15:57:03Z"
+    provenance:
+      source: "https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-vinh-nghiem-1312"
+      method: derived
+      license: "Official heritage authority"
+  # Chùa Bổ Đà: trung tâm Phật giáo thứ hai của Bắc Giang sau chốn Tổ Vĩnh Nghiêm, cùng ảnh hưởng Thiền phái Trúc Lâm.
+  - subject_id: registry-069da54d9cc1
+    relation: related_sites
+    target_id: registry-5772ea302cb4
+    source_url: "https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-bo-da-2998"
+    evidence_text: "Nếu như chùa Vĩnh Nghiêm (huyện Yên Dũng, tỉnh Bắc Giang) là trung tâm lớn nhất, chốn Tổ quan trọng của Thiền phái Trúc Lâm Yên Tử thì chùa Bổ Đà là trung tâm Phật giáo lớn thứ 2 trên tỉnh Bắc Giang, cũng chịu ảnh hưởng mạnh mẽ của Thiền phái này."
+    retrieved_at: "2026-10-06T15:57:25Z"
+    provenance:
+      source: "https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-bo-da-2998"
+      method: derived
+      license: "Official heritage authority"
+  # Hòa Lai và Pô Klong Garai: hai giai đoạn gần như nối tiếp của kiến trúc tháp Chăm Ninh Thuận.
+  - subject_id: registry-2b793c130204
+    relation: related_sites
+    target_id: registry-ac781f8e46c5
+    source_url: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-va-khao-co-thap-hoa-lai-2994"
+    evidence_text: "Ba khu di tích đại diện cho ba giai đoạn phát triển gần như nối tiếp nhau, gồm: Khu di tích Hòa Lai có niên đại thế kỷ VIII – IX; Khu di tích Po Klong Garai có niên đại từ thế kỷ XIII – XIV; Khu di tích Po Rome có niên đại khoảng thế kỷ XV - XVII."
+    retrieved_at: "2026-10-06T15:52:30Z"
+    provenance:
+      source: "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-va-khao-co-thap-hoa-lai-2994"
       method: derived
       license: "Official heritage authority"
 

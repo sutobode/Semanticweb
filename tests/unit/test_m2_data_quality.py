@@ -487,16 +487,28 @@ def test_mapper_derived_entities_can_target_one_registry_record_without_back_rel
 def test_global_historical_events_preserve_direct_source_order():
     derived = DerivedRegistry()
     add_global_derived_entities(load_mapping(), derived)
-    events = {item["entity_id"]: item for item in derived.records()}
+    events = {item["entity_id"]: item for item in derived.records() if item["entity_type"] == "HistoricalEvent"}
     first = events["event-3f981731431d"]
     second = events["event-ae8309e286d4"]
+    third = events["event-c70be9bd7aaa"]
 
-    assert set(events) == {"event-3f981731431d", "event-ae8309e286d4"}
-    assert first["entity_type"] == second["entity_type"] == "HistoricalEvent"
+    assert set(events) == {"event-3f981731431d", "event-ae8309e286d4", "event-c70be9bd7aaa"}
     assert first["relations"]["historical_successors"] == ["event-ae8309e286d4"]
-    assert "relations" not in second
-    assert first["provenance"]["source"] == second["provenance"]["source"]
+    assert second["relations"]["historical_successors"] == ["event-c70be9bd7aaa"]
+    assert "relations" not in third
+    assert first["provenance"]["source"] == second["provenance"]["source"] == third["provenance"]["source"]
     assert first["provenance"]["license"] == "Official museum source"
+
+
+def test_historical_successor_chain_has_no_shortcut_self_or_reciprocal_edge():
+    edges = {
+        (event_id, target)
+        for event_id, spec in load_mapping()["derived_entities"].items()
+        for target in (spec.get("relations") or {}).get("historical_successors", [])
+    }
+
+    assert edges == {("event-3f981731431d", "event-ae8309e286d4"), ("event-ae8309e286d4", "event-c70be9bd7aaa")}
+    assert all(source != target and (target, source) not in edges for source, target in edges)
 
 
 def test_curated_related_site_preserves_source_and_asserted_direction():
@@ -508,10 +520,11 @@ def test_curated_related_site_preserves_source_and_asserted_direction():
         {"entity_id": target_id, "entity_type": "HeritageSite", "relations": {}},
     ]
 
+    mapping = {**mapping, "curated_relations": mapping["curated_relations"][:1]}
     apply_curated_relations(records, mapping)
     spec = mapping["curated_relations"][0]
 
-    assert len(mapping["curated_relations"]) == 1
+    assert (spec["subject_id"], spec["target_id"]) == (subject_id, target_id)
     assert records[0]["relations"]["related_sites"] == [target_id]
     assert "related_sites" not in records[1]["relations"]
     assert spec["source_url"] == "https://dsvh.gov.vn/hoi-giong-o-den-phu-dong-va-den-soc-486"
@@ -914,6 +927,102 @@ def test_thap_nhan_official_historical_period_is_mapped():
     assert period["entity_type"] == "HistoricalPeriod"
     assert period["label_vi"] == "Cuối thế kỷ XI - đầu thế kỷ XII"
     assert period["provenance"]["source"] == "https://dsvh.gov.vn/thap-nhan-3238"
+
+
+def _official_site(registry_id, label, **fields):
+    entity = _entity(label=label, **fields)
+    entity["registry_id"] = entity["_entity_id"] = registry_id
+    return entity
+
+
+def test_attach_registry_ids_reuses_one_style_concept_across_sites():
+    derived = DerivedRegistry()
+    my_son = map_record(_official_site("registry-07620c963e29", "Khu đền tháp Mỹ Sơn"), TYPES,
+                        mapping=load_mapping(), derived=derived)
+    hoa_lai = map_record(_official_site("registry-2b793c130204", "DTKTNT và KC Tháp Hòa Lai"), TYPES,
+                         mapping=load_mapping(), derived=derived)
+    styles = {item["entity_id"]: item for item in derived.records() if item["entity_type"] == "ArchitecturalStyle"}
+
+    assert set(my_son["relations"]["architectural_styles"]) == {
+        "style-174c731bc709", "style-267cca6ab1ad", "style-e67ab3ac5cc0", "style-a8c2735471e8", "style-aef9ed5174ec",
+    }
+    assert set(hoa_lai["relations"]["architectural_styles"]) == {"style-174c731bc709", "style-267cca6ab1ad"}
+    assert styles["style-267cca6ab1ad"]["label_vi"] == "Hòa Lai"
+    assert styles["style-267cca6ab1ad"]["provenance"] == {
+        "source": "https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943",
+        "method": "derived", "license": "Official heritage authority",
+    }
+
+
+def test_attach_registry_ids_does_not_leak_to_unlisted_sites():
+    derived = DerivedRegistry()
+    record = map_record(_entity(), TYPES, mapping=load_mapping(), derived=derived)
+
+    assert not {"architectural_styles", "periods", "associated_events"} & set(record["relations"])
+    assert {item["entity_type"] for item in derived.records()} == {"AdministrativeArea"}
+
+
+def test_tran_dynasty_period_is_one_shared_concept():
+    derived = DerivedRegistry()
+    sites = ["registry-5d0cea2ddae1", "registry-86f42708d93f", "registry-da36c0d9c6bc",
+             "registry-5772ea302cb4", "registry-13c76c9faa2b"]
+    records = [map_record(_official_site(rid, f"Di tích {rid}"), TYPES, mapping=load_mapping(), derived=derived)
+               for rid in sites]
+    periods = [item for item in derived.records() if item["entity_type"] == "HistoricalPeriod"]
+
+    assert all(record["relations"]["periods"] == ["period-53088c1303e1"] for record in records)
+    assert [item["label_vi"] for item in periods] == ["Nhà Trần"]
+
+
+def test_official_religious_type_overlaps_label_types():
+    entity = _official_site("registry-5772ea302cb4", "DTLS và KTNT Chùa Vĩnh Nghiêm", type="di tích tôn giáo")
+    record = map_record(entity, TYPES, mapping=load_mapping(), derived=DerivedRegistry())
+
+    assert record["site_types"] == ["di tích tôn giáo", "di tích lịch sử", "di tích kiến trúc nghệ thuật"]
+
+
+def test_unesco_serial_complex_nests_component_complex_without_manual_part_of():
+    derived = DerivedRegistry()
+    add_global_derived_entities(load_mapping(), derived)
+    complexes = {item["entity_id"]: item for item in derived.records() if item["entity_type"] == "HeritageComplex"}
+    parent = complexes["complex-6d95f2254f28"]
+
+    assert set(complexes) == {"complex-6d95f2254f28", "complex-c0786f4c0264", "complex-102096035f96", "complex-469daaeafb2d"}
+    assert parent["relations"]["member_sites"] == [
+        "registry-0120cc05bbed", "registry-86f42708d93f", "registry-5772ea302cb4",
+        "registry-069da54d9cc1", "registry-280af8a8985a", "complex-c0786f4c0264",
+    ]
+    assert complexes["complex-c0786f4c0264"]["relations"]["member_sites"] == [
+        "registry-40889f0bafcb-8fa727", "registry-40889f0bafcb-4c9dbe",
+    ]
+    assert all(not {"part_of", "recognized_by"} & set(item["relations"]) for item in complexes.values())
+    assert parent["provenance"]["source"].startswith("https://dsvh.gov.vn/")
+
+
+def test_curated_related_sites_are_sourced_single_direction_pairs():
+    specs = load_mapping()["curated_relations"]
+    pairs = {(spec["subject_id"], spec["target_id"]) for spec in specs}
+
+    assert len(pairs) == len(specs) == 6
+    assert all((target, source) not in pairs for source, target in pairs)
+    assert all(spec["relation"] == "related_sites" and spec["evidence_text"]
+               and spec["provenance"]["source"] == spec["source_url"].strip() for spec in specs)
+
+
+def test_raw_official_site_enrichment_keeps_evidence():
+    rows = [json.loads(line) for line in (ROOT / "data" / "raw" / "registry_records.jsonl").read_text(encoding="utf-8").splitlines()]
+    enriched = 0
+    for row in rows:
+        fields = row["registry_fields"]
+        for key, prefix in (("type", "religious_site"), ("architectural_styles", "architectural_style"),
+                            ("historical_periods", "historical_period")):
+            if f"{prefix}_source" not in fields:
+                continue
+            enriched += 1
+            assert fields[key] and fields[f"{prefix}_source"] == "official_registry_detail"
+            assert fields[f"{prefix}_evidence_url"].startswith("https://dsvh.gov.vn/")
+            assert fields[f"{prefix}_evidence_quote"] and fields[f"{prefix}_evidence_retrieved_at"].endswith("Z")
+    assert enriched == (29 + 1) + (4 + 1) + (9 + 1)   # vòng này + Tháp Nhạn (type, styles, period)
 
 
 def test_thap_nhan_official_religious_type_overlaps_architectural_type():
