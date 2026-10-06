@@ -242,6 +242,23 @@ class DerivedRegistry:
         return out
 
 
+def add_global_derived_entities(mapping: dict[str, Any], derived: DerivedRegistry) -> None:
+    """Register fixed derived entities that are not scoped to a registry record."""
+    for entity_id, spec in (mapping.get("derived_entities") or {}).items():
+        if spec.get("attach"):
+            continue
+        extra = {key: value for key, value in spec.items() if key != "entity_type"}
+        retrieved_at = extra.pop("retrieved_at", None)
+        coverage_snapshot = extra.pop("coverage_snapshot", None)
+        license_text = extra.pop("license", REGISTRY_LICENSE)
+        source = extra.get("source_url") or extra.get("registry_url")
+        derived.add(
+            entity_id, spec["entity_type"], sources=[source] if source else [],
+            retrieved_at=retrieved_at, coverage_snapshot=coverage_snapshot,
+            method="derived", license_text=license_text, **extra,
+        )
+
+
 def _add_relation(record: dict[str, Any], name: str, target_id: str) -> None:
     targets = record["relations"].setdefault(name, [])
     if target_id not in targets:
@@ -550,6 +567,44 @@ def _prune_dangling_relations(records: list[dict[str, Any]]) -> int:
     return pruned
 
 
+def apply_curated_relations(records: list[dict[str, Any]], mapping: dict[str, Any]) -> None:
+    """Add source-reviewed relations between existing canonical entities."""
+    by_id = {record["entity_id"]: record for record in records}
+    seen: set[tuple[str, str, str]] = set()
+    relation_properties = mapping.get("relation_properties") or {}
+    for spec in mapping.get("curated_relations") or []:
+        subject_id = spec.get("subject_id")
+        relation = spec.get("relation")
+        target_id = spec.get("target_id")
+        key = (subject_id, relation, target_id)
+        if not all(isinstance(value, str) and value for value in key):
+            raise ValueError("MAPPING_CURATED_RELATION_INVALID: subject, relation and target are required")
+        if key in seen:
+            raise ValueError(f"MAPPING_CURATED_RELATION_DUPLICATE: {key}")
+        seen.add(key)
+        if relation not in relation_properties:
+            raise ValueError(f"MAPPING_CURATED_RELATION_UNKNOWN: {relation}")
+        if subject_id == target_id:
+            raise ValueError(f"MAPPING_CURATED_RELATION_SELF_EDGE: {subject_id}")
+        subject, target = by_id.get(subject_id), by_id.get(target_id)
+        if subject is None or target is None:
+            raise ValueError(f"MAPPING_CURATED_RELATION_ENDPOINT_MISSING: {subject_id} -> {target_id}")
+        if subject.get("entity_type") != "HeritageSite" or target.get("entity_type") != "HeritageSite":
+            raise ValueError(f"MAPPING_CURATED_RELATION_ENDPOINT_TYPE: {subject_id} -> {target_id}")
+        source_url = spec.get("source_url")
+        provenance = spec.get("provenance") or {}
+        if not is_valid_uri(source_url) or provenance.get("source") != source_url:
+            raise ValueError(f"MAPPING_CURATED_RELATION_SOURCE_INVALID: {subject_id} -> {target_id}")
+        if not spec.get("evidence_text") or not provenance.get("method") or not provenance.get("license"):
+            raise ValueError(f"MAPPING_CURATED_RELATION_PROVENANCE_MISSING: {subject_id} -> {target_id}")
+        if target_id in (subject.get("relations") or {}).get(relation, []):
+            raise ValueError(f"MAPPING_CURATED_RELATION_DUPLICATE: {key}")
+        _add_relation(subject, relation, target_id)
+        subject["relations"] = {
+            name: sorted(targets) for name, targets in sorted(subject["relations"].items()) if targets
+        }
+
+
 def merged_registry_ids(identity_map: list[dict[str, Any]]) -> set[str]:
     """registry_id đã được gộp vào entity khác (bản ghi "(bổ sung …)")."""
     return {rid for entry in identity_map for rid in entry.get("merged_from") or [] if isinstance(rid, str)}
@@ -629,6 +684,7 @@ def run(run_mode: str = "sample") -> int:
     mapped: list[dict[str, Any]] = []
     skipped: list[dict[str, Any]] = []
     try:
+        add_global_derived_entities(mapping, derived)
         for entity in _read_jsonl(entities_path):
             for record in map_entity(entity, category_types, pages, exact_wikidata, mapping=mapping,
                                      area_resolver=area_resolver, derived=derived, category_urls=category_urls,
@@ -653,6 +709,11 @@ def run(run_mode: str = "sample") -> int:
     if len(ids) != len(set(ids)):
         duplicates = sorted({entity_id for entity_id in ids if ids.count(entity_id) > 1})
         print(f"map ({run_mode}): IDENTITY_COLLISION - {duplicates[:5]}")
+        return 1
+    try:
+        apply_curated_relations(output_records, mapping)
+    except ValueError as exc:
+        print(f"map ({run_mode}): FAIL - {exc}")
         return 1
     pruned = _prune_dangling_relations(output_records)
 

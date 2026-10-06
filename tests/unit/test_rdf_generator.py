@@ -169,6 +169,60 @@ def test_heritage_site_emits_overlapping_religious_and_architectural_types() -> 
     assert types == {VH.HeritageSite, VH.ReligiousSite, VH.ArchitecturalSite}
 
 
+def test_historical_successor_is_directed_without_reverse_or_self_edge() -> None:
+    source = "https://baotanglichsu.vn/vi/Articles/2002/67980/example.html"
+    first = "event-dien-bien-phu-dot-i"
+    second = "event-dien-bien-phu-dot-ii"
+    records = [
+        {
+            "entity_id": first, "entity_type": "HistoricalEvent", "label_vi": "Đợt I",
+            "source_status": "derived", "source_url": source, "retrieved_at": "2026-10-05T00:00:00Z",
+            "relations": {"historical_successors": [second]},
+            "provenance": {"source": source, "method": "derived", "license": "Official source"},
+        },
+        {
+            "entity_id": second, "entity_type": "HistoricalEvent", "label_vi": "Đợt II",
+            "source_status": "derived", "source_url": source, "retrieved_at": "2026-10-05T00:00:00Z",
+            "provenance": {"source": source, "method": "derived", "license": "Official source"},
+        },
+    ]
+    graph = build_graph(records)
+    predicate = VH.hasHistoricalSuccessor
+
+    assert (VHR[first], predicate, VHR[second]) in graph
+    assert (VHR[second], predicate, VHR[first]) not in graph
+    assert (VHR[first], predicate, VHR[first]) not in graph
+    assert (VHR[second], predicate, VHR[second]) not in graph
+
+
+def test_related_site_is_asserted_once_without_reverse_or_self_edge() -> None:
+    first = "registry-den-phu-dong"
+    second = "registry-den-soc"
+    records = [
+        {
+            "entity_id": first, "entity_type": "HeritageSite", "label_vi": "Đền Phù Đổng",
+            "source_status": "derived", "source_url": "https://example.org/phu-dong",
+            "retrieved_at": "2026-10-06T00:00:00Z", "relations": {"related_sites": [second]},
+            "provenance": {"source": "https://example.org/phu-dong", "method": "derived", "license": "Official source"},
+        },
+        {
+            "entity_id": second, "entity_type": "HeritageSite", "label_vi": "Đền Sóc",
+            "source_status": "derived", "source_url": "https://example.org/den-soc",
+            "retrieved_at": "2026-10-06T00:00:00Z",
+            "provenance": {"source": "https://example.org/den-soc", "method": "derived", "license": "Official source"},
+        },
+    ]
+    graph = build_graph(records)
+    predicate = VH.hasRelatedSite
+
+    assert list(graph.triples((VHR[first], predicate, VHR[second]))) == [
+        (VHR[first], predicate, VHR[second])
+    ]
+    assert (VHR[second], predicate, VHR[first]) not in graph
+    assert (VHR[first], predicate, VHR[first]) not in graph
+    assert (VHR[second], predicate, VHR[second]) not in graph
+
+
 def test_add_relations_built_by_person_creates_builtby_triple() -> None:
     g = Graph()
     g.add((VHR["person-kien-truc-su"], RDF.type, VH.HistoricalPerson))

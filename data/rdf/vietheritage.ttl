@@ -25,6 +25,17 @@ vhr:complex-b9e928b2f160 a vh:HeritageComplex ;
         <https://whc.unesco.org/en/list/1358/> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:event-3f981731431d a vh:HistoricalEvent ;
+    rdfs:label "Đợt I Chiến dịch Điện Biên Phủ"@vi ;
+    vh:hasHistoricalSuccessor vhr:event-ae8309e286d4 ;
+    dcterms:description "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    rdfs:comment "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    prov:wasDerivedFrom <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-006e43c89987 a vh:IntangibleHeritage,
         vh:NationalIntangibleHeritage ;
     rdfs:label "Nghi lễ Then của người Tày, người Nùng"@vi ;
@@ -10171,6 +10182,7 @@ vhr:registry-b70dc5c6502d a vh:HeritageSite,
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
     vh:builtBy vhr:person-wikidata-q716945 ;
+    vh:hasRelatedSite vhr:registry-d00b9a5d0e88 ;
     vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:recognitionYear "2013"^^xsd:gYear ;
     vh:sourcePageId 255474 ;
@@ -11903,29 +11915,6 @@ vhr:registry-cffe32ab137c a vh:HeritageSite,
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-doi-bo-hien-luong-ben-hai-2974> ;
     dcterms:subject "national_special_monuments" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-doi-bo-hien-luong-ben-hai-2974> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-d00b9a5d0e88 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
-    rdfs:label "DTKTNT Đền Sóc"@vi ;
-    vh:address "Thành phố Hà Nội"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
-    vh:locatedIn vhr:area-name-8de4ed043a59 ;
-    vh:recognitionYear "2014"^^xsd:gYear ;
-    vh:sourcePageId 565889 ;
-    vh:sourceTitle "Đền Sóc"^^xsd:string ;
-    dcterms:description "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
-    geo1:lat 21.292157 ;
-    geo1:long 105.8315984 ;
-    skos:altLabel "Đền Sóc"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-d02289ad8eee a vh:ArchitecturalSite,
@@ -14626,6 +14615,16 @@ vhr:event-6fa18c98b523 a vh:HistoricalEvent ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Lam_S%C6%A1n_719> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:event-ae8309e286d4 a vh:HistoricalEvent ;
+    rdfs:label "Đợt II Chiến dịch Điện Biên Phủ"@vi ;
+    dcterms:description "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    rdfs:comment "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    prov:wasDerivedFrom <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:event-b79650374533 a vh:HistoricalEvent ;
     rdfs:label "Chiến dịch Campuchia"@vi ;
     vh:sourcePageId 236099 ;
@@ -14794,6 +14793,29 @@ vhr:person-wikidata-q7833315 a vh:HistoricalPerson ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-d00b9a5d0e88 a vh:ArchitecturalSite,
+        vh:HeritageSite ;
+    rdfs:label "DTKTNT Đền Sóc"@vi ;
+    vh:address "Thành phố Hà Nội"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
+    vh:recognitionYear "2014"^^xsd:gYear ;
+    vh:sourcePageId 565889 ;
+    vh:sourceTitle "Đền Sóc"^^xsd:string ;
+    dcterms:description "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
+    geo1:lat 21.292157 ;
+    geo1:long 105.8315984 ;
+    skos:altLabel "Đền Sóc"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-unesco-1358-001 a vh:HeritageSite ;
@@ -15164,16 +15186,6 @@ vhr:area-name-01ecaf4d6cda a vh:AdministrativeArea ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:area-name-352c0cff9935 a vh:AdministrativeArea ;
-    rdfs:label "Đà Nẵng"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
-    skos:altLabel "Thành phố Đà Nẵng"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:area-name-261633bcd11d a vh:AdministrativeArea ;
     rdfs:label "Phú Thọ"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
@@ -15181,6 +15193,16 @@ vhr:area-name-261633bcd11d a vh:AdministrativeArea ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     skos:altLabel "Tỉnh Phú Thọ"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-352c0cff9935 a vh:AdministrativeArea ;
+    rdfs:label "Đà Nẵng"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Đà Nẵng"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 

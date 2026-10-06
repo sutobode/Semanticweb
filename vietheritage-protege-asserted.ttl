@@ -15,10 +15,10 @@ vh: a owl:Ontology ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-22"^^xsd:date ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
     dcterms:title "VietHeritageLOD Ontology"@en,
         "Ontology VietHeritageLOD"@vi ;
-    owl:versionInfo "1.6.2" .
+    owl:versionInfo "1.7.1" .
 
 vh:Artisan a owl:Class ;
     rdfs:label "Artisan"@en,
@@ -29,11 +29,16 @@ vh:Artisan a owl:Class ;
     owl:disjointWith vh:AdministrativeArea,
         vh:HeritageSite .
 
-vh:ReligiousSite a owl:Class ;
-    rdfs:label "Religious site"@en,
-        "Di tích tôn giáo"@vi ;
-    rdfs:comment "Site có chức năng/giá trị tôn giáo."@vi ;
-    rdfs:subClassOf vh:HeritageSite .
+vh:HeritageSiteWithHistoricalBuilder a owl:Class ;
+    rdfs:label "Heritage site with a historical builder"@en,
+        "Địa điểm di sản có nhân vật lịch sử xây dựng"@vi ;
+    rdfs:comment "A heritage site with at least one historical person as builder; this does not imply documentation completeness."@en,
+        "Địa điểm di sản có ít nhất một quan hệ builtBy tới nhân vật lịch sử; không hàm ý tư liệu đã đầy đủ."@vi ;
+    rdfs:subClassOf vh:HeritageSite ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( vh:HeritageSite [ a owl:Restriction ;
+                        owl:onProperty vh:builtBy ;
+                        owl:someValuesFrom vh:HistoricalPerson ] ) ] .
 
 vh:UNESCOHeritageSite a owl:Class ;
     rdfs:label "UNESCO heritage site"@en,
@@ -90,14 +95,6 @@ vh:birthYear a rdf:Property,
     rdfs:domain vh:HistoricalPerson ;
     rdfs:range xsd:gYear .
 
-vh:builtBy a rdf:Property,
-        owl:ObjectProperty ;
-    rdfs:label "built by"@en,
-        "được xây dựng bởi"@vi ;
-    rdfs:domain vh:HeritageSite ;
-    rdfs:range vh:HistoricalPerson ;
-    rdfs:subPropertyOf vh:associatedWithPerson .
-
 vh:constructionYear a rdf:Property,
         owl:DatatypeProperty,
         owl:FunctionalProperty ;
@@ -122,9 +119,12 @@ vh:hasArchitecturalStyle a rdf:Property,
     rdfs:range vh:ArchitecturalStyle .
 
 vh:hasHistoricalSuccessor a rdf:Property,
+        owl:AsymmetricProperty,
         owl:ObjectProperty ;
     rdfs:label "has historical successor"@en,
         "có sự kiện kế tiếp"@vi ;
+    rdfs:comment "A source-supported strict directed historical-successor relation; not transitive and not a general acyclicity constraint."@en,
+        "Quan hệ kế tiếp lịch sử có hướng nghiêm ngặt, được nguồn xác nhận; không transitive và không kiểm mọi chu trình."@vi ;
     rdfs:domain vh:HistoricalEvent ;
     rdfs:range vh:HistoricalEvent .
 
@@ -143,14 +143,6 @@ vh:hasRelatedSite a rdf:Property,
         "có liên quan tới di sản"@vi ;
     rdfs:domain vh:HeritageSite ;
     rdfs:range vh:HeritageSite .
-
-vh:locatedIn a rdf:Property,
-        owl:ObjectProperty ;
-    rdfs:label "located in"@en,
-        "nằm tại"@vi ;
-    rdfs:domain [ a owl:Class ;
-            owl:unionOf ( vh:CulturalHeritageEntity vh:AdministrativeArea ) ] ;
-    rdfs:range vh:AdministrativeArea .
 
 vh:recognitionYear a rdf:Property,
         owl:DatatypeProperty,
@@ -184,6 +176,35 @@ vh:sourceTitle a rdf:Property,
     rdfs:domain owl:Thing ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf dcterms:title .
+
+vhr:complex-b9e928b2f160 a vh:HeritageComplex ;
+    rdfs:label "Di sản Văn hóa Thế giới Thành Nhà Hồ"@vi ;
+    vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
+    vh:hasMember vhr:registry-unesco-1358-001,
+        vhr:registry-unesco-1358-002,
+        vhr:registry-unesco-1358-003 ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
+    dcterms:description "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/> ;
+    rdfs:comment "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."@vi ;
+    skos:altLabel "Quần thể Di sản Thế giới Thành Nhà Hồ"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
+        <https://whc.unesco.org/en/list/1358/> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-3f981731431d a vh:HistoricalEvent ;
+    rdfs:label "Đợt I Chiến dịch Điện Biên Phủ"@vi ;
+    vh:hasHistoricalSuccessor vhr:event-ae8309e286d4 ;
+    dcterms:description "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    rdfs:comment "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    prov:wasDerivedFrom <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-006e43c89987 a vh:IntangibleHeritage,
         vh:NationalIntangibleHeritage ;
@@ -345,6 +366,18 @@ vhr:registry-01239fd4c29a a vh:HeritageSite,
         <https://vi.wikipedia.org/wiki/R%E1%BB%ABng_Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:registry-0124d0ddd7aa a vh:DocumentaryHeritage ;
+    rdfs:label "Mộc bản trường Phúc Giang"@vi ;
+    vh:locatedIn vhr:area-name-b93dd0ed3491 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-0153ad46d88c a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "Địa điểm nổi dậy của nông dân Ninh Thạnh Lợi (1972)"@vi ;
@@ -406,6 +439,7 @@ vhr:registry-01f067c85ba9 a vh:IntangibleHeritage,
 
 vhr:registry-035bdc672010 a vh:NationalTreasure ;
     rdfs:label "Hệ thống bia ma nhai Động Kính Chủ"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -535,6 +569,7 @@ vhr:registry-047e29171b79 a vh:HeritageSite,
 
 vhr:registry-049d1c41baac a vh:NationalTreasure ;
     rdfs:label "Ấn vàng “Đại Việt quốc Nguyễn chúa vĩnh trấn chi bảo”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -544,6 +579,7 @@ vhr:registry-049d1c41baac a vh:NationalTreasure ;
 
 vhr:registry-04a4023f3471 a vh:NationalTreasure ;
     rdfs:label "Đầu tượng thần Siva"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -565,6 +601,7 @@ vhr:registry-04f4efbf7d65 a vh:IntangibleHeritage,
 
 vhr:registry-0566e47412a2 a vh:NationalTreasure ;
     rdfs:label "Chuông Nhật Tảo"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -582,6 +619,18 @@ vhr:registry-05e6e6331617 a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-067442ff8fa4 a vh:DocumentaryHeritage ;
+    rdfs:label "Thơ văn trên kiến trúc cung đình Huế"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-069331b0c5ec a vh:IntangibleHeritage,
@@ -647,6 +696,7 @@ vhr:registry-06ce500d8079 a vh:IntangibleHeritage,
 
 vhr:registry-06d9c150ed11 a vh:NationalTreasure ;
     rdfs:label "Long sàng trước Nghi môn ngoại và trước Bái đường Đền thờ Vua Đinh Tiên Hoàng"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -804,6 +854,7 @@ vhr:registry-098ac344f344 a vh:ArchitecturalSite,
 
 vhr:registry-0993de9ba7b3 a vh:NationalTreasure ;
     rdfs:label "Kiếm ngắn Núi Nưa"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -924,6 +975,7 @@ vhr:registry-0a8bf3ec5f35 a vh:IntangibleHeritage,
 
 vhr:registry-0abad0fd14a8 a vh:NationalTreasure ;
     rdfs:label "Bản thảo “Lời kêu gọi toàn quốc kháng chiến”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1157,6 +1209,7 @@ vhr:registry-0edc54a7fd1c a vh:ArchitecturalSite,
 
 vhr:registry-0fb0b71116de a vh:NationalTreasure ;
     rdfs:label "Trống đồng Trà Lộc"@vi ;
+    vh:locatedIn vhr:area-name-441134c12a3e ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1166,6 +1219,7 @@ vhr:registry-0fb0b71116de a vh:NationalTreasure ;
 
 vhr:registry-0fb76a369e34 a vh:NationalTreasure ;
     rdfs:label "Bia điện Nam Giao"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1187,6 +1241,7 @@ vhr:registry-101958599662 a vh:IntangibleHeritage,
 
 vhr:registry-101b5a909851 a vh:NationalTreasure ;
     rdfs:label "Cây hương chùa Tứ Kỳ"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1196,6 +1251,7 @@ vhr:registry-101b5a909851 a vh:NationalTreasure ;
 
 vhr:registry-104018d8b773 a vh:NationalTreasure ;
     rdfs:label "Bia Ma nhai Ngự chế của Vua Lê Thái Tổ"@vi ;
+    vh:locatedIn vhr:area-name-487a9a1ffea3 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1238,6 +1294,7 @@ vhr:registry-10a9374e39fc a vh:IntangibleHeritage,
 
 vhr:registry-11035d9f76fe a vh:NationalTreasure ;
     rdfs:label "Phù điêu nữ thần Mahishasuramardini"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1306,6 +1363,7 @@ vhr:registry-12fc7c78bcdb a vh:HeritageSite,
 
 vhr:registry-1347c5bcd890 a vh:NationalTreasure ;
     rdfs:label "Tượng Phật A Di Đà"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1499,6 +1557,7 @@ vhr:registry-15667e4ffcda a vh:IntangibleHeritage,
 
 vhr:registry-15cf834a24db a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Vishnu Gò Thành"@vi ;
+    vh:locatedIn vhr:area-name-956704bccf88 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1508,6 +1567,7 @@ vhr:registry-15cf834a24db a vh:NationalTreasure ;
 
 vhr:registry-164198be4a7e a vh:NationalTreasure ;
     rdfs:label "Bộ tượng 10 linh thú Chùa Phật Tích"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1554,6 +1614,7 @@ vhr:registry-17b932dbddca a vh:IntangibleHeritage,
 
 vhr:registry-183487dbd587 a vh:NationalTreasure ;
     rdfs:label "Bia “Xá Lợi Tháp Minh”"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1607,6 +1668,7 @@ vhr:registry-19273d1f8cc8 a vh:IntangibleHeritage,
 
 vhr:registry-19314b787ed5 a vh:NationalTreasure ;
     rdfs:label "Bia Vua Lê Thái Tổ"@vi ;
+    vh:locatedIn vhr:area-name-267dbeb38a9d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1712,6 +1774,7 @@ vhr:registry-1ac83436e906 a vh:IntangibleHeritage,
 
 vhr:registry-1ada4331eec3 a vh:NationalTreasure ;
     rdfs:label "Kim sách “Đế hệ thi”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1721,6 +1784,7 @@ vhr:registry-1ada4331eec3 a vh:NationalTreasure ;
 
 vhr:registry-1b2b7ab9c3f5 a vh:NationalTreasure ;
     rdfs:label "Sưu tập qua đồng Long Giao"@vi ;
+    vh:locatedIn vhr:area-name-11e91641fb6c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1730,6 +1794,7 @@ vhr:registry-1b2b7ab9c3f5 a vh:NationalTreasure ;
 
 vhr:registry-1b7f3823bfe5 a vh:NationalTreasure ;
     rdfs:label "Mộc bản Chùa Bổ Đà"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1752,6 +1817,7 @@ vhr:registry-1b9189f5076e a vh:ArchitecturalSite,
 
 vhr:registry-1c0d212ed7a5 a vh:NationalTreasure ;
     rdfs:label "Nhẫn Nandin Giồng Cát"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1761,6 +1827,7 @@ vhr:registry-1c0d212ed7a5 a vh:NationalTreasure ;
 
 vhr:registry-1c1c277b5374 a vh:NationalTreasure ;
     rdfs:label "Tòa Cửu phẩm liên hoa chùa Bút Tháp"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1770,6 +1837,7 @@ vhr:registry-1c1c277b5374 a vh:NationalTreasure ;
 
 vhr:registry-1c6fb18c5459 a vh:NationalTreasure ;
     rdfs:label "Tranh “Em Thúy”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1779,6 +1847,7 @@ vhr:registry-1c6fb18c5459 a vh:NationalTreasure ;
 
 vhr:registry-1cc111b45440 a vh:NationalTreasure ;
     rdfs:label "Linga – Yoni gỗ Nhơn Thành"@vi ;
+    vh:locatedIn vhr:area-name-35280d7d24fa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1796,6 +1865,18 @@ vhr:registry-1d0bca867483 a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/tuc-cung-viec-le-o-long-an-1156> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/tuc-cung-viec-le-o-long-an-1156> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-1d9e19832fa9 a vh:DocumentaryHeritage ;
+    rdfs:label "78 Bia Ma nhai danh thắng Ngũ Hành Sơn"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-1da2188a49fe a vh:HeritageSite,
@@ -1825,6 +1906,7 @@ vhr:registry-1ef69b7599a7 a vh:IntangibleHeritage,
 
 vhr:registry-1f3a578d74d4 a vh:NationalTreasure ;
     rdfs:label "Bia “Khôn Nguyên Chí Đức Chi Bi”"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1834,6 +1916,7 @@ vhr:registry-1f3a578d74d4 a vh:NationalTreasure ;
 
 vhr:registry-1f4ed2b550a3 a vh:NationalTreasure ;
     rdfs:label "Tranh \"Thanh niên thành đồng\""@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1855,6 +1938,7 @@ vhr:registry-1ff20ecd9fe8 a vh:IntangibleHeritage,
 
 vhr:registry-2052c0c53a6c a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Sơn Thọ - Trà Vinh"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1864,6 +1948,7 @@ vhr:registry-2052c0c53a6c a vh:NationalTreasure ;
 
 vhr:registry-212f94c8fa3c a vh:NationalTreasure ;
     rdfs:label "Tượng Avalokitesvara"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1892,6 +1977,7 @@ vhr:registry-213cb56ca491 a vh:IntangibleHeritage,
 
 vhr:registry-2148f806c4b5 a vh:NationalTreasure ;
     rdfs:label "Phù điêu Trà Liên 1"@vi ;
+    vh:locatedIn vhr:area-name-441134c12a3e ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1913,6 +1999,7 @@ vhr:registry-2156a0fe3138 a vh:IntangibleHeritage,
 
 vhr:registry-2161b8f72708 a vh:NationalTreasure ;
     rdfs:label "Bình phong sơn mài \"Thiếu nữ và phong cảnh\""@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1922,6 +2009,7 @@ vhr:registry-2161b8f72708 a vh:NationalTreasure ;
 
 vhr:registry-21a083b03f08 a vh:NationalTreasure ;
     rdfs:label "Tượng Uma Dương Lệ"@vi ;
+    vh:locatedIn vhr:area-name-441134c12a3e ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1931,6 +2019,7 @@ vhr:registry-21a083b03f08 a vh:NationalTreasure ;
 
 vhr:registry-21ac4f9c0f5f a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Brahma Giồng Xoài"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1940,6 +2029,7 @@ vhr:registry-21ac4f9c0f5f a vh:NationalTreasure ;
 
 vhr:registry-21b009b164c8 a vh:NationalTreasure ;
     rdfs:label "Tranh “Kết nạp Đảng ở Điện Biên Phủ”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -1949,6 +2039,7 @@ vhr:registry-21b009b164c8 a vh:NationalTreasure ;
 
 vhr:registry-22242ad18865 a vh:NationalTreasure ;
     rdfs:label "Bộ Sưu tập bình gốm đất nung Long Thạnh"@vi ;
+    vh:locatedIn vhr:area-name-d493cd7e51ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2053,6 +2144,7 @@ vhr:registry-23d180e2f2f8 a vh:IntangibleHeritage,
 
 vhr:registry-2402b41f3bdd a vh:NationalTreasure ;
     rdfs:label "Phù điêu Vua Pô Rômê"@vi ;
+    vh:locatedIn vhr:area-name-8128e9d1ccb4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2075,6 +2167,7 @@ vhr:registry-249dde17cef9 a vh:ArchitecturalSite,
 
 vhr:registry-24b8e7c9187c a vh:NationalTreasure ;
     rdfs:label "Bộ Linga - Yoni Linh Sơn"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2249,6 +2342,7 @@ Ngày 18/6/2010 Thủ tướng Chính phủ đã ban hành Quyết định số 
 
 vhr:registry-280cb1b6430b a vh:NationalTreasure ;
     rdfs:label "Đại hồng chung chùa Thiên Mụ"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2333,6 +2427,7 @@ Lúc 15h23 ngày 12/12/2019 giờ địa phương (tức 3h23 ngày 13/12/2019 g
 
 vhr:registry-29ba722a91f9 a vh:NationalTreasure ;
     rdfs:label "82 bia Tiến sĩ Văn Miếu - Quốc Tử Giám, Hà Nội"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2541,6 +2636,7 @@ Hội cầu mệnh: Một gia chủ nào đó bị ốm đau bệnh tật, con c
 
 vhr:registry-2dc2bde6a438 a vh:NationalTreasure ;
     rdfs:label "Bộ tượng Phật Tam thế chùa Bút Tháp"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2614,6 +2710,7 @@ vhr:registry-2e38202739a9 a vh:IntangibleHeritage,
 
 vhr:registry-2e52e3b18acb a vh:NationalTreasure ;
     rdfs:label "Hai cánh cửa chạm rồng Chùa Keo"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2648,6 +2745,7 @@ vhr:registry-2e9362d77d18 a vh:IntangibleHeritage,
 
 vhr:registry-2ede37aabf71 a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Vishnu"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2657,6 +2755,7 @@ vhr:registry-2ede37aabf71 a vh:NationalTreasure ;
 
 vhr:registry-2ee453636a78 a vh:NationalTreasure ;
     rdfs:label "Khuôn in tín phiếu mệnh giá 5 đồng"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2666,6 +2765,7 @@ vhr:registry-2ee453636a78 a vh:NationalTreasure ;
 
 vhr:registry-2f178153fd39 a vh:NationalTreasure ;
     rdfs:label "Bia chùa Sùng Khánh"@vi ;
+    vh:locatedIn vhr:area-name-99be0b794c77 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2700,6 +2800,7 @@ vhr:registry-2f92307fb960 a vh:IntangibleHeritage,
 
 vhr:registry-2f9dc080f942 a vh:NationalTreasure ;
     rdfs:label "Bình gốm hoa nâu Kinnari"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2733,6 +2834,7 @@ vhr:registry-300ea951dfa8 a vh:IntangibleHeritage,
 
 vhr:registry-30fd89d41f6a a vh:NationalTreasure ;
     rdfs:label "Tượng nữ thần Laksmi"@vi ;
+    vh:locatedIn vhr:area-name-04b00d93d635 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2790,6 +2892,7 @@ vhr:registry-31ed82676545 a vh:IntangibleHeritage,
 
 vhr:registry-323072c2ad18 a vh:NationalTreasure ;
     rdfs:label "Bia chùa Bảo Ninh Sùng Phúc"@vi ;
+    vh:locatedIn vhr:area-name-99be0b794c77 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2822,6 +2925,7 @@ vhr:registry-32689fc75c8e a vh:HeritageSite ;
 
 vhr:registry-328766dbf4bb a vh:NationalTreasure ;
     rdfs:label "Bia “Thanh Hư Động”"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2843,6 +2947,7 @@ vhr:registry-329dec4d14a4 a vh:IntangibleHeritage,
 
 vhr:registry-32e0653c213c a vh:NationalTreasure ;
     rdfs:label "Tượng đồng hai người cõng nhau thổi khèn"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2852,6 +2957,7 @@ vhr:registry-32e0653c213c a vh:NationalTreasure ;
 
 vhr:registry-3325902a7726 a vh:NationalTreasure ;
     rdfs:label "Đầu tượng thần Siva"@vi ;
+    vh:locatedIn vhr:area-name-04b00d93d635 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2873,6 +2979,7 @@ vhr:registry-334ae2c9131d a vh:IntangibleHeritage,
 
 vhr:registry-336f7cfce7c7 a vh:NationalTreasure ;
     rdfs:label "Hương án chùa Keo"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2934,6 +3041,7 @@ vhr:registry-349bd1cd6b74 a vh:HeritageSite,
 
 vhr:registry-35393bafef1c a vh:NationalTreasure ;
     rdfs:label "Bia Hòa Lai"@vi ;
+    vh:locatedIn vhr:area-name-8128e9d1ccb4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -2955,6 +3063,7 @@ vhr:registry-35625e065a76 a vh:IntangibleHeritage,
 
 vhr:registry-35b2f8f26081 a vh:NationalTreasure ;
     rdfs:label "Đại Việt Lam Sơn Kính lăng bi – Bia Lăng Vua Lê Túc Tông"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3000,6 +3109,7 @@ vhr:registry-36c2fda59cb8 a vh:IntangibleHeritage,
 
 vhr:registry-36c6354dc024 a vh:NationalTreasure ;
     rdfs:label "Sưu tập gốm men trắng An Biên"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3009,6 +3119,7 @@ vhr:registry-36c6354dc024 a vh:NationalTreasure ;
 
 vhr:registry-36dd64a01fc0 a vh:NationalTreasure ;
     rdfs:label "Xe ô tô “Quốc tế”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3055,6 +3166,7 @@ vhr:registry-37a93a0d7ff9 a vh:IntangibleHeritage,
 
 vhr:registry-37c89a6ead88 a vh:NationalTreasure ;
     rdfs:label "Bình gốm hoa sen"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3162,6 +3274,7 @@ vhr:registry-39ef2900aada a vh:IntangibleHeritage,
 
 vhr:registry-3a2fe8ad5253 a vh:NationalTreasure ;
     rdfs:label "Dao găm chuôi hình rắn ngậm chân voi"@vi ;
+    vh:locatedIn vhr:area-name-d76be4e8346d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3195,6 +3308,7 @@ vhr:registry-3aba9b8f0cd4 a vh:IntangibleHeritage,
 
 vhr:registry-3ac74196f767 a vh:NationalTreasure ;
     rdfs:label "Phù điêu nữ Thần Sarasvati"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3204,6 +3318,7 @@ vhr:registry-3ac74196f767 a vh:NationalTreasure ;
 
 vhr:registry-3ac7471859ba a vh:NationalTreasure ;
     rdfs:label "Bia “Sùng chỉ bia ký”"@vi ;
+    vh:locatedIn vhr:area-name-b93dd0ed3491 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3410,6 +3525,7 @@ vhr:registry-3d961dac308e a vh:IntangibleHeritage,
 
 vhr:registry-3dadb54d3b06 a vh:NationalTreasure ;
     rdfs:label "Bia Võ Cạnh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:sourcePageId 19138521 ;
     vh:sourceTitle "Bia Võ Cạnh"^^xsd:string ;
     dcterms:description "Bia Võ Cạnh là tấm bia cổ nhất được tìm thấy của Vương quốc Chăm Pa, đồng thời cùng là tấm bia cổ nhất ở Việt Nam và một trong những tấm bia cổ nhất Đông Nam Á. Tấm bia được Thủ tướng Chính phủ công nhận là bảo vật quốc gia trong đợt thứ hai năm 2013."@vi ;
@@ -3425,6 +3541,7 @@ vhr:registry-3dadb54d3b06 a vh:NationalTreasure ;
 
 vhr:registry-3e291f75378d a vh:NationalTreasure ;
     rdfs:label "Cây đèn gốm"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3460,11 +3577,24 @@ vhr:registry-3ec6fe89a910 a vh:ArchitecturalSite,
 
 vhr:registry-3ecbfb5fc045 a vh:NationalTreasure ;
     rdfs:label "Thạp đồng Hợp Minh"@vi ;
+    vh:locatedIn vhr:area-name-e163ea76112a ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     dcterms:subject "national_treasures" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-3efacd388397 a vh:DocumentaryHeritage ;
+    rdfs:label "Những bản đúc nổi trên chín đỉnh đồng ở Hoàng cung Huế"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-3fa8fa346d52 a vh:IntangibleHeritage,
@@ -3559,6 +3689,7 @@ vhr:registry-40889f0bafcb-8fa727 a vh:HeritageSite,
 
 vhr:registry-40ac2ce5e0b0 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Cẩm Giang I"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3662,6 +3793,7 @@ vhr:registry-41df1cd3b367 a vh:IntangibleHeritage,
 
 vhr:registry-41dfafb7a2f6 a vh:NationalTreasure ;
     rdfs:label "Hai tượng hộ pháp chùa Nhạn Sơn"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3683,6 +3815,7 @@ vhr:registry-42a4d755ceac a vh:IntangibleHeritage,
 
 vhr:registry-42e05b001d5e a vh:NationalTreasure ;
     rdfs:label "Đàn đá Lộc Hòa"@vi ;
+    vh:locatedIn vhr:area-name-11e91641fb6c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3787,6 +3920,7 @@ vhr:registry-43d7981fe2fe a vh:IntangibleHeritage,
 
 vhr:registry-44818a640b89 a vh:NationalTreasure ;
     rdfs:label "Tượng mẫu Âu Cơ"@vi ;
+    vh:locatedIn vhr:area-name-261633bcd11d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -3876,6 +4010,7 @@ vhr:registry-4594230a2f26 a vh:HeritageSite ;
 
 vhr:registry-4598e59f95ed a vh:NationalTreasure ;
     rdfs:label "Bộ sưu tập vạc đồng thời Chúa Nguyễn"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4004,6 +4139,7 @@ vhr:registry-48ab581e8154 a vh:IntangibleHeritage,
 
 vhr:registry-48ddc63dcf23 a vh:NationalTreasure ;
     rdfs:label "Cửu Phẩm Liên Hoa chùa Động Ngọ"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4025,6 +4161,7 @@ vhr:registry-490578776c4c a vh:HeritageSite ;
 
 vhr:registry-495b869c012b a vh:NationalTreasure ;
     rdfs:label "Bia Thủy Môn Đình"@vi ;
+    vh:locatedIn vhr:area-name-133867db9b91 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4110,6 +4247,7 @@ vhr:registry-4a4d2e6f1f60 a vh:IntangibleHeritage,
 
 vhr:registry-4a602659aa14 a vh:NationalTreasure ;
     rdfs:label "Bia Tiến sĩ Văn miếu Bắc Ninh"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4119,6 +4257,7 @@ vhr:registry-4a602659aa14 a vh:NationalTreasure ;
 
 vhr:registry-4a789b5cccf0 a vh:NationalTreasure ;
     rdfs:label "Long đao"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4128,6 +4267,7 @@ vhr:registry-4a789b5cccf0 a vh:NationalTreasure ;
 
 vhr:registry-4a975bb4e6e4 a vh:NationalTreasure ;
     rdfs:label "Tượng động vật Dốc Chùa"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4149,6 +4289,7 @@ vhr:registry-4abace7fb754 a vh:IntangibleHeritage,
 
 vhr:registry-4ac67ffecb51 a vh:NationalTreasure ;
     rdfs:label "Cột đá chạm rồng chùa Dạm"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4182,6 +4323,7 @@ vhr:registry-4ac90c5a2515 a vh:IntangibleHeritage,
 
 vhr:registry-4b63395140f1 a vh:NationalTreasure ;
     rdfs:label "Cột kinh Phật chùa Nhất Trụ"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4191,6 +4333,7 @@ vhr:registry-4b63395140f1 a vh:NationalTreasure ;
 
 vhr:registry-4baa8b735a01 a vh:NationalTreasure ;
     rdfs:label "Bia “Đại Việt Lam Sơn Dụ Lăng Bi” hay “Bia lăng vua Lê Hiến Tông”"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4371,6 +4514,7 @@ Lễ hội Dinh Cô nằm trong hệ thống lễ hội thờ Mẫu - Nữ thầ
 
 vhr:registry-4e520206d398 a vh:NationalTreasure ;
     rdfs:label "Bình gốm hoa lam vẽ Thiên Nga"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4404,6 +4548,7 @@ vhr:registry-4e9e9928a6a7 a vh:IntangibleHeritage,
 
 vhr:registry-4ed29edf7fc7 a vh:NationalTreasure ;
     rdfs:label "Đài thờ Mỹ Sơn A10"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4518,6 +4663,7 @@ Khu di tích lịch sử Lam Kinh rộng khoảng 30 ha, gồm những lăng ph�
 
 vhr:registry-4fe12d568009 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Cổ Loa và bộ sưu tập lưỡi cày đồng"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4535,6 +4681,17 @@ vhr:registry-5023604de2e2 a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-502483b8f975 a vh:DocumentaryHeritage ;
+    rdfs:label "Bia tiến sĩ Văn Miếu Thăng Long"@vi ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-5039665c0ab7 a vh:HeritageSite,
@@ -4619,6 +4776,7 @@ vhr:registry-50fa4cf48b8d a vh:IntangibleHeritage,
 
 vhr:registry-512401c579b6 a vh:NationalTreasure ;
     rdfs:label "Đôi trống đồng Lô lô"@vi ;
+    vh:locatedIn vhr:area-name-99be0b794c77 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4687,6 +4845,7 @@ vhr:registry-522fa9481918 a vh:ArchaeologicalSite,
 
 vhr:registry-525a92a76acd a vh:NationalTreasure ;
     rdfs:label "Tháp đất nung đền An Xá"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4708,6 +4867,7 @@ vhr:registry-52678c572711 a vh:IntangibleHeritage,
 
 vhr:registry-52ce5a9d99e9 a vh:NationalTreasure ;
     rdfs:label "Bia hộp đá Đồi Cốc thời Mạc"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4753,6 +4913,7 @@ vhr:registry-535519ce64d1 a vh:ArchitecturalSite,
 
 vhr:registry-5376a5cee3b1 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Đền Hùng"@vi ;
+    vh:locatedIn vhr:area-name-261633bcd11d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4803,6 +4964,7 @@ vhr:registry-540a7a35b885 a vh:IntangibleHeritage,
 
 vhr:registry-540c6557d99b a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Quan Âm Thiên Thủ Thiên Nhãn"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4824,6 +4986,7 @@ vhr:registry-541909e55708 a vh:IntangibleHeritage,
 
 vhr:registry-541f1d7a31e6 a vh:NationalTreasure ;
     rdfs:label "Máy bay Mic 21 F96, số hiệu 5121"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4882,6 +5045,7 @@ vhr:registry-55148a0636ae a vh:IntangibleHeritage,
 
 vhr:registry-5519eeeb2d17 a vh:NationalTreasure ;
     rdfs:label "Sưu tập vàng lá chạm khắc hình voi Gò Thành"@vi ;
+    vh:locatedIn vhr:area-name-956704bccf88 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4903,6 +5067,7 @@ vhr:registry-553033c4cb3f a vh:IntangibleHeritage,
 
 vhr:registry-56398aeb8cc7 a vh:NationalTreasure ;
     rdfs:label "Tượng Phật giáo thời Tây Sơn chùa Tây Phương"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -4959,6 +5124,7 @@ Ngôi chùa cổ này nằm tại làng Đức La, phường Tân An, thành ph�
 
 vhr:registry-5774595a7ec3 a vh:NationalTreasure ;
     rdfs:label "Đôi chuông chùa Đà Quận - còn gọi là chùa Viên Minh"@vi ;
+    vh:locatedIn vhr:area-name-487a9a1ffea3 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5028,6 +5194,7 @@ vhr:registry-583c891b8172 a vh:IntangibleHeritage,
 
 vhr:registry-5858c95d13cf a vh:NationalTreasure ;
     rdfs:label "Tác phẩm “Ngục trung nhật ký (Nhật ký trong tù)"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5095,6 +5262,7 @@ Trong Tứ Pháp thì Pháp Vân đứng đầu, Thạch Quang Phật (tảng đ
 
 vhr:registry-5988642e341f a vh:NationalTreasure ;
     rdfs:label "Súng thần công"@vi ;
+    vh:locatedIn vhr:area-name-b93dd0ed3491 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5135,6 +5303,7 @@ vhr:registry-59a9f2e4db82 a vh:IntangibleHeritage,
 
 vhr:registry-5a123be628d6 a vh:NationalTreasure ;
     rdfs:label "Tranh “Vườn Xuân Trung Nam Bắc”"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5212,6 +5381,7 @@ vhr:registry-5b8de0605399 a vh:IntangibleHeritage,
 
 vhr:registry-5b905ffa14ef a vh:NationalTreasure ;
     rdfs:label "Tàu vận tải quân sự số hiệu HQ671"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5221,6 +5391,7 @@ vhr:registry-5b905ffa14ef a vh:NationalTreasure ;
 
 vhr:registry-5c00a7907df2 a vh:NationalTreasure ;
     rdfs:label "Vạc đồng"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5292,6 +5463,7 @@ Diện tích: 132.000 ha."""@vi ;
 
 vhr:registry-5cce375c072f a vh:NationalTreasure ;
     rdfs:label "Phù điêu Thần Hộ pháp Mả Chùa"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5405,6 +5577,19 @@ vhr:registry-5fb9d228df3b a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-605315e31d12 a vh:DocumentaryHeritage ;
+    rdfs:label "Bộ sưu tập tài liệu của nhạc sĩ Hoàng Vân"@vi ;
+    vh:sourcePageId 32967 ;
+    vh:sourceTitle "Hoàng Vân (nhạc sĩ)"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
+        <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_V%C3%A2n_(nh%E1%BA%A1c_s%C4%A9)> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
+        <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_V%C3%A2n_(nh%E1%BA%A1c_s%C4%A9)> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-6099c0d01723 a vh:IntangibleHeritage,
@@ -5556,6 +5741,7 @@ vhr:registry-6263ebc76eb7 a vh:HeritageSite,
 
 vhr:registry-6265fc244896 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Hữu Chung"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5565,6 +5751,7 @@ vhr:registry-6265fc244896 a vh:NationalTreasure ;
 
 vhr:registry-6278b59d35ab a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Visnu"@vi ;
+    vh:locatedIn vhr:area-name-956704bccf88 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5659,6 +5846,7 @@ Ngày 23 tháng 6 năm 2014, tại Doha, với sự đồng thuận tuyệt đ�
 
 vhr:registry-64fc36f07f05 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Quảng Chính"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5852,6 +6040,7 @@ vhr:registry-66d00738307f a vh:ArchitecturalSite,
 
 vhr:registry-675228fbd888 a vh:NationalTreasure ;
     rdfs:label "Thạp gốm hoa nâu thời Trần"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5861,6 +6050,7 @@ vhr:registry-675228fbd888 a vh:NationalTreasure ;
 
 vhr:registry-678e5794090d a vh:NationalTreasure ;
     rdfs:label "Bản thảo “Lời kêu gọi đồng bào và chiến sĩ cả nước”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5893,6 +6083,7 @@ vhr:registry-67b29d9b4ad7 a vh:IntangibleHeritage,
 
 vhr:registry-67b55b254bc0 a vh:NationalTreasure ;
     rdfs:label "Tượng Nữ thần Laksmi"@vi ;
+    vh:locatedIn vhr:area-name-956704bccf88 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5914,6 +6105,7 @@ vhr:registry-67c67a48b569 a vh:IntangibleHeritage,
 
 vhr:registry-687eb84427a0 a vh:NationalTreasure ;
     rdfs:label "Tượng Avalokitesvara"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5989,6 +6181,7 @@ vhr:registry-6976b9061325 a vh:IntangibleHeritage,
 
 vhr:registry-697df97cfa33 a vh:NationalTreasure ;
     rdfs:label "Tượng Thái tổ Mạc Đăng Dung"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -5998,6 +6191,7 @@ vhr:registry-697df97cfa33 a vh:NationalTreasure ;
 
 vhr:registry-69c165b414a0 a vh:NationalTreasure ;
     rdfs:label "Bộ Linga - Yoni Đá nổi"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6063,6 +6257,7 @@ vhr:registry-6a891eefe5fe a vh:IntangibleHeritage,
 
 vhr:registry-6a8b1329c089 a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Vishnu Bình Hòa"@vi ;
+    vh:locatedIn vhr:area-name-11e91641fb6c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6072,6 +6267,7 @@ vhr:registry-6a8b1329c089 a vh:NationalTreasure ;
 
 vhr:registry-6a95226fbce8 a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Vishnu Vũng Liêm"@vi ;
+    vh:locatedIn vhr:area-name-75aae06932dc ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6081,6 +6277,7 @@ vhr:registry-6a95226fbce8 a vh:NationalTreasure ;
 
 vhr:registry-6ac2d0cf83dc a vh:NationalTreasure ;
     rdfs:label "Tượng Phật A Di Đà"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6171,6 +6368,7 @@ vhr:registry-6bacf6d04871 a vh:IntangibleHeritage,
 
 vhr:registry-6bf19bf1f593 a vh:NationalTreasure ;
     rdfs:label "Bộ Cửu đỉnh"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6180,6 +6378,7 @@ vhr:registry-6bf19bf1f593 a vh:NationalTreasure ;
 
 vhr:registry-6bf89db72445 a vh:NationalTreasure ;
     rdfs:label "Thống gốm hoa nâu"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6213,6 +6412,7 @@ vhr:registry-6c8da734608c a vh:HeritageSite ;
 
 vhr:registry-6cab2bb8dd4a a vh:NationalTreasure ;
     rdfs:label "Ngai vua triều Nguyễn"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6285,6 +6485,18 @@ vhr:registry-6d3c89277b24 a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-6d5a051724d3 a vh:DocumentaryHeritage ;
+    rdfs:label "Hoàng hoa sứ trình đồ"@vi ;
+    vh:locatedIn vhr:area-name-b93dd0ed3491 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-6d93686dac1a a vh:HeritageSite,
@@ -6423,6 +6635,7 @@ vhr:registry-711ce7a20e3c a vh:IntangibleHeritage,
 
 vhr:registry-7125d63b3ae2 a vh:NationalTreasure ;
     rdfs:label "Mặt nạ vàng Giồng Lớn"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6444,6 +6657,7 @@ vhr:registry-71316f18047a a vh:IntangibleHeritage,
 
 vhr:registry-7157af7a2c1d a vh:NationalTreasure ;
     rdfs:label "Bàn thờ Phật bằng đá chùa Xuân Lũng"@vi ;
+    vh:locatedIn vhr:area-name-261633bcd11d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6527,6 +6741,7 @@ vhr:registry-7322f772d376 a vh:HeritageSite,
 
 vhr:registry-73604f95e7bc a vh:NationalTreasure ;
     rdfs:label "Cửa võng đình Thổ Hà"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6568,6 +6783,7 @@ vhr:registry-7474b13fffa3 a vh:IntangibleHeritage,
 
 vhr:registry-748b6c87909e a vh:NationalTreasure ;
     rdfs:label "Thống gốm hoa nâu An Sinh"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6626,6 +6842,7 @@ vhr:registry-76058b4b8abe a vh:HeritageSite,
 
 vhr:registry-765f0437b756 a vh:NationalTreasure ;
     rdfs:label "Áo Tế giao"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6732,6 +6949,7 @@ vhr:registry-78c67a8e2ce1 a vh:HeritageSite,
 
 vhr:registry-78d52885a8ab a vh:NationalTreasure ;
     rdfs:label "Máy bay Mic 21 số hiệu 4324"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6835,6 +7053,7 @@ vhr:registry-7952b46ed559 a vh:HeritageSite,
 
 vhr:registry-7988f07f186f a vh:NationalTreasure ;
     rdfs:label "Tượng Phật nghìn mắt nghìn tay"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6949,6 +7168,7 @@ vhr:registry-7bc1562dc307 a vh:IntangibleHeritage,
 
 vhr:registry-7bd6518bdb16 a vh:NationalTreasure ;
     rdfs:label "Bộ chóp tháp Champa Linh Thái"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6970,6 +7190,7 @@ vhr:registry-7c0b250e880d a vh:IntangibleHeritage,
 
 vhr:registry-7c58ee50f226 a vh:NationalTreasure ;
     rdfs:label "Hương án chùa Khám Lạng"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -6991,6 +7212,7 @@ vhr:registry-7cbe04fec350 a vh:IntangibleHeritage,
 
 vhr:registry-7cddc742705e a vh:NationalTreasure ;
     rdfs:label "Phù điêu Trà Liên 2"@vi ;
+    vh:locatedIn vhr:area-name-441134c12a3e ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7000,6 +7222,7 @@ vhr:registry-7cddc742705e a vh:NationalTreasure ;
 
 vhr:registry-7cfe68348ce0 a vh:NationalTreasure ;
     rdfs:label "Pháo cao xạ 37mm"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7009,6 +7232,7 @@ vhr:registry-7cfe68348ce0 a vh:NationalTreasure ;
 
 vhr:registry-7d0493b09ba1 a vh:NationalTreasure ;
     rdfs:label "Tượng Sadashiva"@vi ;
+    vh:locatedIn vhr:area-name-04b00d93d635 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7040,6 +7264,7 @@ Hiện tại, ở các vùng có cồng chiêng như ở Tây nguyên, Lễ hộ
 
 vhr:registry-7d98d1c90c3c a vh:NationalTreasure ;
     rdfs:label "Bộ sưu tập bản phác thảo mẫu Quốc huy Việt Nam của Họa sĩ Bùi Trang Chước"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7083,6 +7308,7 @@ vhr:registry-7e31c7f656a7 a vh:IntangibleHeritage,
 
 vhr:registry-7e44644596ca a vh:NationalTreasure ;
     rdfs:label "Bia “ Cổ Việt thôn Diên Phúc tự minh bi”"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7104,6 +7330,7 @@ vhr:registry-7ea96653487f a vh:IntangibleHeritage,
 
 vhr:registry-7f16aa1878a3 a vh:NationalTreasure ;
     rdfs:label "Phù điêu Thái Hoàng Thái hậu Vũ Thị Ngọc Toàn"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7126,6 +7353,7 @@ vhr:registry-805e4cec6557 a vh:HeritageSite,
 
 vhr:registry-80850626d60e a vh:NationalTreasure ;
     rdfs:label "Hộp vàng Ngọa Vân - Yên Tử"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7147,6 +7375,7 @@ vhr:registry-80ac6bc3672d a vh:IntangibleHeritage,
 
 vhr:registry-80e1c8249b5d a vh:NationalTreasure ;
     rdfs:label "Cây đèn đồng hình người quỳ"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7181,6 +7410,7 @@ vhr:registry-8298111f7087 a vh:IntangibleHeritage,
 
 vhr:registry-829d8f2f50af a vh:NationalTreasure ;
     rdfs:label "Tượng sư tử đá chùa Hương Lãng"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7215,6 +7445,7 @@ vhr:registry-8310a747a702 a vh:IntangibleHeritage,
 
 vhr:registry-83206ad3489c a vh:NationalTreasure ;
     rdfs:label "Tượng Nữ Thần Durga"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7259,6 +7490,7 @@ Tại Hà Nội, có thể xem tranh tại 19 ngõ 179 Hoàng Hoa Thám, Ba Đì
 
 vhr:registry-83a55697a133 a vh:NationalTreasure ;
     rdfs:label "Cuốn “Đường Kách mệnh”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7342,6 +7574,7 @@ vhr:registry-84f8585633c7 a vh:IntangibleHeritage,
 
 vhr:registry-850a23fa34b8 a vh:NationalTreasure ;
     rdfs:label "Hệ thống thành bậc đá chùa Hương Lãng"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7375,6 +7608,7 @@ vhr:registry-85368f2ca4c6 a vh:IntangibleHeritage,
 
 vhr:registry-8587adde8d72 a vh:NationalTreasure ;
     rdfs:label "Bia Sùng Thiện Diên Linh"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7403,6 +7637,7 @@ vhr:registry-858946833c17 a vh:HeritageSite ;
 
 vhr:registry-85a0bbd27450 a vh:NationalTreasure ;
     rdfs:label "Bia Vĩnh Lăng Lam Kinh"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7483,6 +7718,7 @@ Hội An là điển hình tiêu biểu về một cảng thị châu Á truyề
 
 vhr:registry-86bbad133bf4 a vh:NationalTreasure ;
     rdfs:label "Mô hình nhà"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7492,6 +7728,7 @@ vhr:registry-86bbad133bf4 a vh:NationalTreasure ;
 
 vhr:registry-86c84cab36c8 a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Sa Đéc"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7662,6 +7899,7 @@ vhr:registry-8879a2f03d77 a vh:IntangibleHeritage,
 
 vhr:registry-88b03e0239ab a vh:NationalTreasure ;
     rdfs:label "Tượng Quan Âm nghìn mắt nghìn tay"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7786,6 +8024,7 @@ vhr:registry-8c01b99192f8 a vh:IntangibleHeritage,
 
 vhr:registry-8c2f4a8fef2d a vh:NationalTreasure ;
     rdfs:label "Đài thờ Đồng Dương"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7827,6 +8066,7 @@ vhr:registry-8c3a4e286883 a vh:HeritageSite ;
 
 vhr:registry-8c49a13219e4 a vh:NationalTreasure ;
     rdfs:label "Bộ sưu tập trang sức vàng Trà Veo 3 và Lâm Thượng"@vi ;
+    vh:locatedIn vhr:area-name-d493cd7e51ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7836,6 +8076,7 @@ vhr:registry-8c49a13219e4 a vh:NationalTreasure ;
 
 vhr:registry-8cfee23083f6 a vh:NationalTreasure ;
     rdfs:label "Bộ khuôn đúc Nhơn Thành"@vi ;
+    vh:locatedIn vhr:area-name-35280d7d24fa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7894,6 +8135,7 @@ vhr:registry-8d7e17dd8925 a vh:IntangibleHeritage,
 
 vhr:registry-8dc6b8b238ca a vh:NationalTreasure ;
     rdfs:label "Thạp đồng Văn hóa Đông Sơn"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7948,6 +8190,17 @@ vhr:registry-8e8fb3d090cb a vh:ArchitecturalSite,
         <https://vi.wikipedia.org/wiki/V%C4%83n_Mi%E1%BA%BFu_%E2%80%93_Qu%E1%BB%91c_T%E1%BB%AD_Gi%C3%A1m> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:registry-8f4c3b5a2845 a vh:DocumentaryHeritage ;
+    rdfs:label "Châu bản triều Nguyễn"@vi ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-8fcd36160b14 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "Địa điểm Cầu Cấm"@vi ;
@@ -7983,6 +8236,7 @@ vhr:registry-904980409990 a vh:ArchaeologicalSite,
 
 vhr:registry-90a51a8a5f9b a vh:NationalTreasure ;
     rdfs:label "Muôi có cán hình tượng voi"@vi ;
+    vh:locatedIn vhr:area-name-d76be4e8346d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -7992,6 +8246,7 @@ vhr:registry-90a51a8a5f9b a vh:NationalTreasure ;
 
 vhr:registry-90dbe49f1f4a a vh:NationalTreasure ;
     rdfs:label "Tượng phật đá Khánh Bình"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8143,6 +8398,7 @@ vhr:registry-924c44f0ec03 a vh:IntangibleHeritage,
 
 vhr:registry-92b4fd7a86c9 a vh:NationalTreasure ;
     rdfs:label "Sưu tập khuôn đúc Cổ Loa"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8152,6 +8408,7 @@ vhr:registry-92b4fd7a86c9 a vh:NationalTreasure ;
 
 vhr:registry-92c1a858d24f a vh:NationalTreasure ;
     rdfs:label "Bộ tượng Phật Tứ Pháp vùng Dâu - Luy Lâu"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8200,6 +8457,7 @@ vhr:registry-946cdae0efc4 a vh:HeritageSite,
 
 vhr:registry-94ab22e7527b a vh:NationalTreasure ;
     rdfs:label "Trống đồng Kính Hoa"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8221,6 +8479,7 @@ vhr:registry-958089fd2660 a vh:IntangibleHeritage,
 
 vhr:registry-95f28984a882 a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Đồng Dương"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8327,6 +8586,7 @@ vhr:registry-97504804059a a vh:IntangibleHeritage,
 
 vhr:registry-97ad0eae9e66 a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Hoàng Trần Nhân Tông"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8336,6 +8596,7 @@ vhr:registry-97ad0eae9e66 a vh:NationalTreasure ;
 
 vhr:registry-97b7fdfbe9b5 a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Visnu"@vi ;
+    vh:locatedIn vhr:area-name-529a91f7d9c2 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8528,6 +8789,7 @@ vhr:registry-9c01dd3bfe1f a vh:HeritageSite ;
 
 vhr:registry-9cbc6dfc1ab7 a vh:NationalTreasure ;
     rdfs:label "Sổ trực ban “Chiến dịch Hồ Chí Minh”"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8648,6 +8910,7 @@ vhr:registry-9ed9e1b4c94f a vh:HeritageSite,
 
 vhr:registry-9ef87450d978 a vh:NationalTreasure ;
     rdfs:label "Thạp đồng Đào Thịnh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:sourcePageId 3522671 ;
     vh:sourceTitle "Thạp đồng Đào Thịnh"^^xsd:string ;
     dcterms:description "Thạp đồng Đào Thịnh là một hiện vật bằng đồng thuộc nền văn hóa Đông Sơn. Thạp được phát hiện năm 1961, được xác định có niên đại từ 2500 - 2000 năm cách ngày nay. Thạp là một trong những bảo vật quốc gia đầu tiên của Việt Nam được Thủ tướng Chính phủ công nhận năm 2012, hiện đang lưu giữ ở Bảo tàng Lịch sử Quốc gia Việt Nam."@vi ;
@@ -8708,6 +8971,7 @@ vhr:registry-a02624b054be a vh:IntangibleHeritage,
 
 vhr:registry-a09163da20f8 a vh:NationalTreasure ;
     rdfs:label "Phù điêu Phật Linh Sơn Bắc"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8717,6 +8981,7 @@ vhr:registry-a09163da20f8 a vh:NationalTreasure ;
 
 vhr:registry-a09415b18df3 a vh:NationalTreasure ;
     rdfs:label "Tượng Quan Âm nghìn mắt nghìn tay chùa Đào Xuyên"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8726,6 +8991,7 @@ vhr:registry-a09415b18df3 a vh:NationalTreasure ;
 
 vhr:registry-a0ae9a89210d a vh:NationalTreasure ;
     rdfs:label "Tượng Bồ tát Tara"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8735,6 +9001,7 @@ vhr:registry-a0ae9a89210d a vh:NationalTreasure ;
 
 vhr:registry-a0d64016ce85 a vh:NationalTreasure ;
     rdfs:label "Hai bát sứ ngự dụng Hoàng thành Thăng Long"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8757,6 +9024,7 @@ vhr:registry-a139654b977a a vh:ArchitecturalSite,
 
 vhr:registry-a1555aff960a a vh:NationalTreasure ;
     rdfs:label "Tượng Hoàng hậu Trịnh Thị Ngọc Trúc"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8803,6 +9071,7 @@ vhr:registry-a17dc7cb9fa1 a vh:ArchitecturalSite,
 
 vhr:registry-a1864f5227fc a vh:NationalTreasure ;
     rdfs:label "Chuông chùa Bình Lâm"@vi ;
+    vh:locatedIn vhr:area-name-99be0b794c77 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8884,6 +9153,7 @@ vhr:registry-a35dca41b437 a vh:IntangibleHeritage,
 
 vhr:registry-a3c2e8e4fe64 a vh:NationalTreasure ;
     rdfs:label "Bộ Cửu vị thần công"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -8893,6 +9163,7 @@ vhr:registry-a3c2e8e4fe64 a vh:NationalTreasure ;
 
 vhr:registry-a3cec418b674 a vh:NationalTreasure ;
     rdfs:label "Phù điêu Phật Chămpa Tây Nguyên"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9015,6 +9286,7 @@ vhr:registry-a5b11e0589dd a vh:IntangibleHeritage,
 
 vhr:registry-a5b5c161f855 a vh:NationalTreasure ;
     rdfs:label "Bia “Đại Việt Lam Sơn Chiêu Lăng bi”"@vi ;
+    vh:locatedIn vhr:area-name-2035d470f202 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9119,6 +9391,7 @@ vhr:registry-a8053808d4f1 a vh:IntangibleHeritage,
 
 vhr:registry-a80564fb4bb7 a vh:NationalTreasure ;
     rdfs:label "Tranh “Hai thiếu nữ và em bé”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9128,6 +9401,7 @@ vhr:registry-a80564fb4bb7 a vh:NationalTreasure ;
 
 vhr:registry-a84e457ccf7b a vh:NationalTreasure ;
     rdfs:label "Bộ dụng cụ dệt gỗ Phú Chánh"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9137,6 +9411,7 @@ vhr:registry-a84e457ccf7b a vh:NationalTreasure ;
 
 vhr:registry-a851a6d98ae2 a vh:NationalTreasure ;
     rdfs:label "Bộ thành bậc Điện Kính Thiên"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9321,6 +9596,7 @@ vhr:registry-a944658bd451 a vh:IntangibleHeritage,
 
 vhr:registry-a94d20486d8b a vh:NationalTreasure ;
     rdfs:label "Lá đề chim phượng Hoàng thành Thăng Long"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9355,6 +9631,7 @@ vhr:registry-a9768291ce32 a vh:HeritageSite,
 
 vhr:registry-a987373b13ed a vh:NationalTreasure ;
     rdfs:label "Tượng nam Thần"@vi ;
+    vh:locatedIn vhr:area-name-04b00d93d635 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9377,6 +9654,7 @@ vhr:registry-a9f5f7cd1e48 a vh:HeritageSite,
 
 vhr:registry-aa159c5be843 a vh:NationalTreasure ;
     rdfs:label "Ấn đồng “Môn Hạ Sảnh ấn”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9434,6 +9712,7 @@ vhr:registry-ab21ac8be815 a vh:ArchitecturalSite,
 
 vhr:registry-ab9458cdf35a a vh:NationalTreasure ;
     rdfs:label "Cửu Phẩm Liên Hoa chùa Giám"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9455,6 +9734,7 @@ vhr:registry-abc81c12cd6f a vh:HeritageSite ;
 
 vhr:registry-abf3b206c90f a vh:NationalTreasure ;
     rdfs:label "Bệ thờ Vân Trạch Hòa"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9738,6 +10018,7 @@ Tháp ở trong tình trạng đe dọa vì đã nhiều lần bị phá hoại 
 
 vhr:registry-af8f3d0eb720 a vh:NationalTreasure ;
     rdfs:label "Hộp đựng xá lị Tháp Nhạn"@vi ;
+    vh:locatedIn vhr:area-name-d76be4e8346d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9785,6 +10066,7 @@ vhr:registry-afee9bd83167 a vh:IntangibleHeritage,
 
 vhr:registry-b016a6b2cd47 a vh:NationalTreasure ;
     rdfs:label "Tượng phật gỗ Giồng Xoài"@vi ;
+    vh:locatedIn vhr:area-name-1ae6e41a89aa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9818,6 +10100,7 @@ vhr:registry-b04a4de40b02 a vh:IntangibleHeritage,
 
 vhr:registry-b0582d9f3169 a vh:NationalTreasure ;
     rdfs:label "Pho tượng Trấn Vũ"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9876,6 +10159,7 @@ vhr:registry-b180d1c4c243 a vh:ArchitecturalSite,
 
 vhr:registry-b1fad59f74a8 a vh:NationalTreasure ;
     rdfs:label "Tượng Thiền sư Vũ Khắc Minh và Tượng Thiền sư Vũ Khắc Trường"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -9998,6 +10282,7 @@ vhr:registry-b531b008653c a vh:IntangibleHeritage,
 
 vhr:registry-b54471e322bd a vh:NationalTreasure ;
     rdfs:label "Trống đồng Ngọc Lũ"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:sourcePageId 48618 ;
     vh:sourceTitle "Ngọc Lũ I"^^xsd:string ;
     dcterms:description "Ngọc Lũ I là một trong những chiếc trống đồng Đông Sơn có kích thước to lớn, hình dáng cổ kính, tập trung hoa văn phong phú nhất, hiện được trưng bày tại Bảo tàng Lịch sử Việt Nam. Tuổi của trống được xác định vào khoảng 2500 năm."@vi ;
@@ -10033,6 +10318,7 @@ vhr:registry-b55f4328e473 a vh:IntangibleHeritage,
 
 vhr:registry-b635e8ca471c a vh:NationalTreasure ;
     rdfs:label "Xe tăng T59, số hiệu 390"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10042,6 +10328,7 @@ vhr:registry-b635e8ca471c a vh:NationalTreasure ;
 
 vhr:registry-b6e250898d50 a vh:NationalTreasure ;
     rdfs:label "Sưu tập nha chương"@vi ;
+    vh:locatedIn vhr:area-name-261633bcd11d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10051,6 +10338,7 @@ vhr:registry-b6e250898d50 a vh:NationalTreasure ;
 
 vhr:registry-b6e3081a0b91 a vh:NationalTreasure ;
     rdfs:label "Bia “Ngự kiến Thiên Mụ tự”"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10064,6 +10352,7 @@ vhr:registry-b70dc5c6502d a vh:HeritageSite,
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
     vh:builtBy vhr:person-wikidata-q716945 ;
+    vh:hasRelatedSite vhr:registry-d00b9a5d0e88 ;
     vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:recognitionYear "2013"^^xsd:gYear ;
     vh:sourcePageId 255474 ;
@@ -10086,6 +10375,7 @@ vhr:registry-b70dc5c6502d a vh:HeritageSite,
 
 vhr:registry-b7b3b2663144 a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Bình Hòa"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10280,6 +10570,7 @@ Không xòe, trai gái không thành đôi"""@vi ;
 
 vhr:registry-b9fa986623e7 a vh:NationalTreasure ;
     rdfs:label "Cặp tượng chim thần Garuda diệt rắn Tháp Mẫm"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10314,6 +10605,7 @@ vhr:registry-ba4d20f81c1d a vh:IntangibleHeritage,
 
 vhr:registry-ba7e1f250a44 a vh:NationalTreasure ;
     rdfs:label "Thống đồng thời Trần"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10401,6 +10693,7 @@ vhr:registry-bb300d6a5e50 a vh:IntangibleHeritage,
 
 vhr:registry-bc5c52f756d3 a vh:NationalTreasure ;
     rdfs:label "Chuông Thanh Mai"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10422,6 +10715,7 @@ vhr:registry-bca3e9b20c0b a vh:IntangibleHeritage,
 
 vhr:registry-bcb4c089c343 a vh:NationalTreasure ;
     rdfs:label "Chuông chùa Vân Bản"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10431,6 +10725,7 @@ vhr:registry-bcb4c089c343 a vh:NationalTreasure ;
 
 vhr:registry-bd27953cee16 a vh:NationalTreasure ;
     rdfs:label "Mộc bản sách “Hải Thượng y tông tâm lĩnh”"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10440,6 +10735,7 @@ vhr:registry-bd27953cee16 a vh:NationalTreasure ;
 
 vhr:registry-bd6b79893bac a vh:NationalTreasure ;
     rdfs:label "Trống đồng Gia Phú"@vi ;
+    vh:locatedIn vhr:area-name-e163ea76112a ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10500,6 +10796,7 @@ vhr:registry-bde27d54cae4 a vh:IntangibleHeritage,
 
 vhr:registry-bdf3df6e4870 a vh:NationalTreasure ;
     rdfs:label "Tượng Avalokitesvara"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10596,6 +10893,7 @@ vhr:registry-bfd2a756320f a vh:IntangibleHeritage,
 
 vhr:registry-bfdb29f344fe a vh:NationalTreasure ;
     rdfs:label "Tranh sơn mài \"Gióng\""@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10661,6 +10959,7 @@ vhr:registry-c0754a4aa7aa a vh:IntangibleHeritage,
 
 vhr:registry-c095ce372940 a vh:NationalTreasure ;
     rdfs:label "Bình gốm men vẽ nhiều màu"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10670,6 +10969,7 @@ vhr:registry-c095ce372940 a vh:NationalTreasure ;
 
 vhr:registry-c09b17abdff5 a vh:NationalTreasure ;
     rdfs:label "Xe tăng T54B, số hiệu 843"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10679,6 +10979,7 @@ vhr:registry-c09b17abdff5 a vh:NationalTreasure ;
 
 vhr:registry-c138812a4f7d a vh:NationalTreasure ;
     rdfs:label "Tượng Tu sĩ Champa Phú Hưng"@vi ;
+    vh:locatedIn vhr:area-name-d493cd7e51ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10688,6 +10989,7 @@ vhr:registry-c138812a4f7d a vh:NationalTreasure ;
 
 vhr:registry-c14031c0ef8c a vh:NationalTreasure ;
     rdfs:label "Bia “Thanh Mai Viên Thông tháp bi”"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10735,6 +11037,7 @@ vhr:registry-c22cdb98b307 a vh:ArchaeologicalSite,
 
 vhr:registry-c22e4e3d0c45 a vh:NationalTreasure ;
     rdfs:label "Ngai thờ gỗ sơn son thếp vàng"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10744,6 +11047,7 @@ vhr:registry-c22e4e3d0c45 a vh:NationalTreasure ;
 
 vhr:registry-c2444b85c1f7 a vh:NationalTreasure ;
     rdfs:label "Bia “Côn Sơn Tư Phúc tự bi”"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -10977,6 +11281,7 @@ vhr:registry-c462dab95077 a vh:HeritageSite,
 
 vhr:registry-c4dc8f6ab538 a vh:NationalTreasure ;
     rdfs:label "Lan can thành bậc"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11048,6 +11353,7 @@ vhr:registry-c5c6f49264bf a vh:HeritageSite,
 
 vhr:registry-c5db239aec6b a vh:NationalTreasure ;
     rdfs:label "Tượng Ganesha"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11057,6 +11363,7 @@ vhr:registry-c5db239aec6b a vh:NationalTreasure ;
 
 vhr:registry-c6035a7663a0 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Hoàng Hạ"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:sourcePageId 48624 ;
     vh:sourceTitle "Hoàng Hạ (trống đồng)"^^xsd:string ;
     dcterms:description "Hoàng Hạ là một trong những chiếc trống đồng Đông Sơn có kích thước lớn, có nhiều hoa văn phong phú, hiện được lưu trữ tại Bảo tàng Lịch sử Việt Nam."@vi ;
@@ -11085,6 +11392,7 @@ vhr:registry-c60cc063b3de a vh:IntangibleHeritage,
 
 vhr:registry-c61a1015ee7f a vh:NationalTreasure ;
     rdfs:label "Rồng đá (Xà thần)"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11137,6 +11445,7 @@ vhr:registry-c637c6eb34c7 a vh:IntangibleHeritage,
 
 vhr:registry-c63ce0666c33 a vh:NationalTreasure ;
     rdfs:label "Đài thờ Trà Kiệu"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11253,6 +11562,7 @@ Bảo tàng Quang Trung tập trung thờ và tưởng niệm anh hùng áo vả
 
 vhr:registry-c84cf7a86177 a vh:NationalTreasure ;
     rdfs:label "Mộ chum gỗ nắp trống đồng Phú Chánh"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11274,6 +11584,7 @@ vhr:registry-c869cfe2ae33 a vh:IntangibleHeritage,
 
 vhr:registry-c8d51ad38ec1 a vh:NationalTreasure ;
     rdfs:label "Bản đồ Quyết tâm chiến dịch Hồ Chí Minh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11421,6 +11732,7 @@ Về cơ bản, nhạc nghi thức trong âm nhạc cung đình Việt Nam, nh�
 
 vhr:registry-ca9ce67ab79e a vh:NationalTreasure ;
     rdfs:label "Bia “Sùng Thiên tự bi”"@vi ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11430,6 +11742,7 @@ vhr:registry-ca9ce67ab79e a vh:NationalTreasure ;
 
 vhr:registry-cab14ecc3340 a vh:NationalTreasure ;
     rdfs:label "Bức giá tượng (phù điêu) chạm khắc hình tượng đức Lạc Long Quân và nhân vật về thời kỳ Hùng Vương"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11451,6 +11764,7 @@ vhr:registry-cacd1fa619a3 a vh:IntangibleHeritage,
 
 vhr:registry-cb076f16da1c a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Nhơn Thành"@vi ;
+    vh:locatedIn vhr:area-name-35280d7d24fa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11531,6 +11845,7 @@ vhr:registry-cb925266aa89 a vh:IntangibleHeritage,
 
 vhr:registry-cbd0ecdc5a64 a vh:NationalTreasure ;
     rdfs:label "Bình gốm Đầu Rằm"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11624,6 +11939,7 @@ vhr:registry-cd12f820d3a9 a vh:IntangibleHeritage,
 
 vhr:registry-cd94fa9c91cc a vh:NationalTreasure ;
     rdfs:label "Tượng Phật Lợi Mỹ"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11771,29 +12087,6 @@ vhr:registry-cffe32ab137c a vh:HeritageSite,
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-doi-bo-hien-luong-ben-hai-2974> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-d00b9a5d0e88 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
-    rdfs:label "DTKTNT Đền Sóc"@vi ;
-    vh:address "Thành phố Hà Nội"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
-    vh:locatedIn vhr:area-name-8de4ed043a59 ;
-    vh:recognitionYear "2014"^^xsd:gYear ;
-    vh:sourcePageId 565889 ;
-    vh:sourceTitle "Đền Sóc"^^xsd:string ;
-    dcterms:description "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
-    geo1:lat 21.292157 ;
-    geo1:long 105.8315984 ;
-    skos:altLabel "Đền Sóc"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-d02289ad8eee a vh:ArchitecturalSite,
         vh:HeritageSite ;
     rdfs:label "Chùa Kính Phúc"@vi ;
@@ -11852,6 +12145,7 @@ vhr:registry-d132a5727114 a vh:IntangibleHeritage,
 
 vhr:registry-d138cb6ebc3c a vh:NationalTreasure ;
     rdfs:label "Bộ sưu tập hiện vật vàng"@vi ;
+    vh:locatedIn vhr:area-name-529a91f7d9c2 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11959,6 +12253,7 @@ vhr:registry-d29a51347ded a vh:IntangibleHeritage,
 
 vhr:registry-d329c39f951f a vh:NationalTreasure ;
     rdfs:label "Bộ chân đèn và lư hương gốm men"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -11968,6 +12263,7 @@ vhr:registry-d329c39f951f a vh:NationalTreasure ;
 
 vhr:registry-d385187c73c5 a vh:NationalTreasure ;
     rdfs:label "Bình gốm Nhơn Thành"@vi ;
+    vh:locatedIn vhr:area-name-35280d7d24fa ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12082,6 +12378,7 @@ vhr:registry-d4d568e411ab a vh:HeritageSite,
 
 vhr:registry-d51d03b761b5 a vh:NationalTreasure ;
     rdfs:label "Ấn “Lương tài hầu chi ấn”"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12136,8 +12433,21 @@ vhr:registry-d6176fd9c5b3 a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:registry-d668473fb570 a vh:DocumentaryHeritage ;
+    rdfs:label "Văn bản Hán Nôm làng Trường Lưu"@vi ;
+    vh:locatedIn vhr:area-name-b93dd0ed3491 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-d6998d330a2d a vh:NationalTreasure ;
     rdfs:label "Tập Sắc lệnh của Chủ tịch Chính phủ Lâm thời nước Việt Nam Dân chủ Cộng hòa 1945 - 1946"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12147,6 +12457,7 @@ vhr:registry-d6998d330a2d a vh:NationalTreasure ;
 
 vhr:registry-d6ee06f3fda6 a vh:NationalTreasure ;
     rdfs:label "Ngọc tỷ Đại Nam thụ thiên vĩnh mệnh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12272,6 +12583,7 @@ vhr:registry-d9610206564d a vh:IntangibleHeritage,
 
 vhr:registry-d9ab42638baa a vh:NationalTreasure ;
     rdfs:label "Bộ Phủ Việt đền thờ Vua Lê Đại Hành"@vi ;
+    vh:locatedIn vhr:area-name-dca800e51853 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12305,6 +12617,7 @@ vhr:registry-d9ee83f463bb a vh:IntangibleHeritage,
 
 vhr:registry-da2ff1486cc0 a vh:NationalTreasure ;
     rdfs:label "Tranh \"Bác Hồ ở Chiến khu Việt Bắc\""@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12455,6 +12768,7 @@ vhr:registry-dc5d210da528 a vh:ArchitecturalSite,
 
 vhr:registry-dc7b7a00d2c4 a vh:NationalTreasure ;
     rdfs:label "Khám thờ gỗ sơn son thếp vàng"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12682,6 +12996,38 @@ vhr:registry-dfd818c1225a a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:registry-dffde3b26917 a vh:DocumentaryHeritage ;
+    rdfs:label "Mộc bản triều Nguyễn"@vi ;
+    vh:locatedIn vhr:area-name-0963f7238f98 ;
+    vh:sourcePageId 478916 ;
+    vh:sourceTitle "Mộc bản triều Nguyễn"^^xsd:string ;
+    dcterms:description """Mộc bản triều Nguyễn (chữ Hán: 阮朝木版, phiên âm Hán-Việt: "Nguyễn triều mộc bản") gồm 34.618 tấm, là những văn bản chữ Hán-Nôm được khắc ngược trên gỗ để in ra thành sách tại Việt Nam vào thế kỷ 19 và đầu thế kỷ 20. Tài liệu mộc bản triều Nguyễn được tạo ra trong quá trình hoạt động của Quốc sử quán triều Nguyễn. Mộc bản triều Nguyễn là những tấm gỗ quý được khắc ngược chữ Hán và chữ Nôm (giống như khắc con dấu), sau đó quét mực rồi ép mặt in ra giấy để nhân bản tài liệu nhằm phổ biến rộng rãi ra công chúng các chuẩn mực xã hội, các điều luật bắt buộc thần dân tuân thủ. Đó cũng là những bản khắc lưu truyền công danh, sự nghiệp của các bậc vua chúa, các sự kiện lịch sử, các biến cố thời cuộc, các cuộc tiểu trừ giặc dã.\r
+Mộc bản triều Nguyễn là di sản tư liệu thế giới đầu tiên tại Việt Nam do UNESCO công nhận ngày 31 tháng 7 năm 2009. Số mộc bản này hiện đang bảo quản tại Trung tâm Lưu trữ Quốc gia IV- Đà Lạt, Lâm Đồng (xưa và nay vẫn là Biệt điện Trần Lệ Xuân  - Khu Di tích của TP. Đà Lạt).\r
+Mộc bản triều Nguyễn còn bao gồm cả những ván khắc in thu ở Văn Miếu-Quốc Tử Giám (Hà Nội) được đưa vào Huế và lưu trữ tại Quốc Tử Giám, dưới thời vua Minh Mạng và Thiệu Trị.\r
+Gỗ dùng làm ván khắc tài liệu mộc bản triều Nguyễn là gỗ thị, gỗ cây nha đồng. Nét chữ khắc trên tài liệu mộc bản rất tinh xảo và sắc nét. Đây là những tài liệu có giá trị, phục vụ cho việc nghiên cứu lịch sử và văn hóa Việt Nam thời cận đại.\r
+Tất cả các bản thảo nói trên đều được đích danh hoàng đế ngự lãm, phê duyệt bằng bút tích trước khi giao cho những người thợ tài hoa nhất trong cung đình khắc lên gỗ quý. Do tính chất cực kỳ quan trọng của mộc bản, dưới thời Minh Mạng, nhà vua từng có chỉ dụ: "Sai quan Bắc thành kiểm xét các ván in nguyên trữ tại Văn Miếu (Hà Nội) về các sách Ngũ Kinh, Tứ Thư Đại Toàn, Vũ Kinh Trực Giải cùng Tiền Hậu Chính Sử và Tứ Trường Văn Thể gửi về kinh để ở Quốc Tử Giám (Kinh đô Huế)".\r
+Năm 2007, Cục Văn thư và Lưu trữ Nhà nước đã làm hồ sơ trình UNESCO và đến ngày 31/7/2009, Mộc bản triều Nguyễn đã chính thức được UNESCO đưa vào "Chương trình Ký ức thế giới".\r
+Người có công lưu giữ mộc bản là Ngô Đình Nhu (1911-1963), Cố vấn Chính trị cho Tổng thống Việt Nam Cộng hòa Ngô Đình Diệm, từng là Giám đốc đầu tiên Nha Lưu trữ và Thư viện Quốc gia của Chính quyền Việt Nam Dân chủ Cộng hòa.\r
+\r
+"""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
+        <https://vi.wikipedia.org/wiki/M%E1%BB%99c_b%E1%BA%A3n_tri%E1%BB%81u_Nguy%E1%BB%85n> ;
+    dcterms:subject "documentary_heritage" ;
+    rdfs:comment """Mộc bản triều Nguyễn (chữ Hán: 阮朝木版, phiên âm Hán-Việt: "Nguyễn triều mộc bản") gồm 34.618 tấm, là những văn bản chữ Hán-Nôm được khắc ngược trên gỗ để in ra thành sách tại Việt Nam vào thế kỷ 19 và đầu thế kỷ 20. Tài liệu mộc bản triều Nguyễn được tạo ra trong quá trình hoạt động của Quốc sử quán triều Nguyễn. Mộc bản triều Nguyễn là những tấm gỗ quý được khắc ngược chữ Hán và chữ Nôm (giống như khắc con dấu), sau đó quét mực rồi ép mặt in ra giấy để nhân bản tài liệu nhằm phổ biến rộng rãi ra công chúng các chuẩn mực xã hội, các điều luật bắt buộc thần dân tuân thủ. Đó cũng là những bản khắc lưu truyền công danh, sự nghiệp của các bậc vua chúa, các sự kiện lịch sử, các biến cố thời cuộc, các cuộc tiểu trừ giặc dã.\r
+Mộc bản triều Nguyễn là di sản tư liệu thế giới đầu tiên tại Việt Nam do UNESCO công nhận ngày 31 tháng 7 năm 2009. Số mộc bản này hiện đang bảo quản tại Trung tâm Lưu trữ Quốc gia IV- Đà Lạt, Lâm Đồng (xưa và nay vẫn là Biệt điện Trần Lệ Xuân  - Khu Di tích của TP. Đà Lạt).\r
+Mộc bản triều Nguyễn còn bao gồm cả những ván khắc in thu ở Văn Miếu-Quốc Tử Giám (Hà Nội) được đưa vào Huế và lưu trữ tại Quốc Tử Giám, dưới thời vua Minh Mạng và Thiệu Trị.\r
+Gỗ dùng làm ván khắc tài liệu mộc bản triều Nguyễn là gỗ thị, gỗ cây nha đồng. Nét chữ khắc trên tài liệu mộc bản rất tinh xảo và sắc nét. Đây là những tài liệu có giá trị, phục vụ cho việc nghiên cứu lịch sử và văn hóa Việt Nam thời cận đại.\r
+Tất cả các bản thảo nói trên đều được đích danh hoàng đế ngự lãm, phê duyệt bằng bút tích trước khi giao cho những người thợ tài hoa nhất trong cung đình khắc lên gỗ quý. Do tính chất cực kỳ quan trọng của mộc bản, dưới thời Minh Mạng, nhà vua từng có chỉ dụ: "Sai quan Bắc thành kiểm xét các ván in nguyên trữ tại Văn Miếu (Hà Nội) về các sách Ngũ Kinh, Tứ Thư Đại Toàn, Vũ Kinh Trực Giải cùng Tiền Hậu Chính Sử và Tứ Trường Văn Thể gửi về kinh để ở Quốc Tử Giám (Kinh đô Huế)".\r
+Năm 2007, Cục Văn thư và Lưu trữ Nhà nước đã làm hồ sơ trình UNESCO và đến ngày 31/7/2009, Mộc bản triều Nguyễn đã chính thức được UNESCO đưa vào "Chương trình Ký ức thế giới".\r
+Người có công lưu giữ mộc bản là Ngô Đình Nhu (1911-1963), Cố vấn Chính trị cho Tổng thống Việt Nam Cộng hòa Ngô Đình Diệm, từng là Giám đốc đầu tiên Nha Lưu trữ và Thư viện Quốc gia của Chính quyền Việt Nam Dân chủ Cộng hòa.\r
+\r
+"""@vi ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
+        <https://vi.wikipedia.org/wiki/M%E1%BB%99c_b%E1%BA%A3n_tri%E1%BB%81u_Nguy%E1%BB%85n> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-e0397953401d a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "Quần thể di tích làng Nôm"@vi ;
@@ -12709,6 +13055,7 @@ vhr:registry-e09fbdd17299 a vh:IntangibleHeritage,
 
 vhr:registry-e1072af41cfe a vh:NationalTreasure ;
     rdfs:label "Của võng đình Diềm"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12718,6 +13065,7 @@ vhr:registry-e1072af41cfe a vh:NationalTreasure ;
 
 vhr:registry-e12fc02d914e a vh:NationalTreasure ;
     rdfs:label "Ngẫu tượng Linga - Yoni"@vi ;
+    vh:locatedIn vhr:area-name-75aae06932dc ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12727,6 +13075,7 @@ vhr:registry-e12fc02d914e a vh:NationalTreasure ;
 
 vhr:registry-e15606e4063d a vh:NationalTreasure ;
     rdfs:label "Mâm bồng gốm men vẽ nhiều màu"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12748,6 +13097,7 @@ vhr:registry-e15f8ed7fe33 a vh:IntangibleHeritage,
 
 vhr:registry-e1865c62018e a vh:NationalTreasure ;
     rdfs:label "Bộ khóa đai lưng bằng đồng"@vi ;
+    vh:locatedIn vhr:area-name-261633bcd11d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12837,6 +13187,7 @@ vhr:registry-e2776df8aa9f a vh:IntangibleHeritage,
 
 vhr:registry-e2e92012b545 a vh:NationalTreasure ;
     rdfs:label "Ekamukhalinga/Linga có một đầu thần Siva"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12870,6 +13221,7 @@ vhr:registry-e34f352b9079 a vh:HeritageSite ;
 
 vhr:registry-e36df7007f14 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Pha Long"@vi ;
+    vh:locatedIn vhr:area-name-e163ea76112a ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12949,6 +13301,7 @@ vhr:registry-e4c164e3008e a vh:ArchaeologicalSite,
 
 vhr:registry-e4e91580e671 a vh:NationalTreasure ;
     rdfs:label "Bộ tượng Di Đà Tam Tôn chùa Thầy"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12958,6 +13311,7 @@ vhr:registry-e4e91580e671 a vh:NationalTreasure ;
 
 vhr:registry-e543d4676cd5 a vh:NationalTreasure ;
     rdfs:label "Mộ thuyền Việt Khê"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12979,6 +13333,7 @@ vhr:registry-e5e537a7fdad a vh:IntangibleHeritage,
 
 vhr:registry-e5fab17724c8 a vh:NationalTreasure ;
     rdfs:label "Ấn Tuần phủ Đô tướng quân"@vi ;
+    vh:locatedIn vhr:area-name-441134c12a3e ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -12988,6 +13343,7 @@ vhr:registry-e5fab17724c8 a vh:NationalTreasure ;
 
 vhr:registry-e621b975b188 a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Shiva chùa Linh Sơn"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13085,6 +13441,7 @@ vhr:registry-e74d89409be1 a vh:IntangibleHeritage,
 
 vhr:registry-e769a4b65dcd a vh:NationalTreasure ;
     rdfs:label "Thạp gốm hoa nâu"@vi ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13106,6 +13463,7 @@ vhr:registry-e78b5556fc92 a vh:IntangibleHeritage,
 
 vhr:registry-e7ce3333bed6 a vh:NationalTreasure ;
     rdfs:label "Tượng Nữ Thần Devi (Hương Quế)"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13176,6 +13534,7 @@ Năm 2015, Ca Huế được công nhận là Di sản văn hóa phi vật thể
 
 vhr:registry-e82fd44090a7 a vh:NationalTreasure ;
     rdfs:label "Ấn “Hoàng đế Tôn thân chi bảo”"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13257,6 +13616,7 @@ Nhà tù Hỏa Lò là một địa danh nổi tiếng bởi từng là nơi gia
 
 vhr:registry-e9a6821e97c0 a vh:NationalTreasure ;
     rdfs:label "Ấn Sắc mệnh chi bảo 敕 命 之 寶"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13266,6 +13626,7 @@ vhr:registry-e9a6821e97c0 a vh:NationalTreasure ;
 
 vhr:registry-e9c405b05532 a vh:NationalTreasure ;
     rdfs:label "Đài thờ Mỹ Sơn E1"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13426,6 +13787,7 @@ vhr:registry-eb90d95e47f0 a vh:IntangibleHeritage,
 
 vhr:registry-ebc184b27537 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Cảnh Thịnh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13448,6 +13810,7 @@ vhr:registry-ebd45da61480 a vh:HeritageSite,
 
 vhr:registry-ebe43d3e30ac a vh:NationalTreasure ;
     rdfs:label "Tháp gốm men chùa Trò"@vi ;
+    vh:locatedIn vhr:area-name-261633bcd11d ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13540,6 +13903,7 @@ vhr:registry-ed78b3825ee6 a vh:HeritageSite,
 
 vhr:registry-edd10d42ca41 a vh:NationalTreasure ;
     rdfs:label "Hương án chùa Bút Tháp"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13571,6 +13935,7 @@ Thác Luồng đặt tên theo suối Nậm Luồng. Thác Luồng ở độ cao
 
 vhr:registry-ee1512a1ebe9 a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Surya"@vi ;
+    vh:locatedIn vhr:area-name-01ecaf4d6cda ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13592,6 +13957,7 @@ vhr:registry-ee48e3878783 a vh:IntangibleHeritage,
 
 vhr:registry-ee97a15984e2 a vh:NationalTreasure ;
     rdfs:label "Bia Khiêm Cung Ký"@vi ;
+    vh:locatedIn vhr:area-name-c84501090b52 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13613,6 +13979,7 @@ vhr:registry-eefc67eadffe a vh:IntangibleHeritage,
 
 vhr:registry-ef5a5d5aeaf0 a vh:NationalTreasure ;
     rdfs:label "Tượng Gajasimha"@vi ;
+    vh:locatedIn vhr:area-name-352c0cff9935 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13640,6 +14007,7 @@ vhr:registry-efb11858cdd4 a vh:IntangibleHeritage,
 
 vhr:registry-efb64b59814f a vh:NationalTreasure ;
     rdfs:label "Sưu tập đĩa vàng hoa sen Cộng Vũ"@vi ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13744,6 +14112,7 @@ vhr:registry-f2ac1ea30c88 a vh:ArchitecturalSite,
 
 vhr:registry-f32a9b193d34 a vh:NationalTreasure ;
     rdfs:label "Phù điêu Thần Brahama"@vi ;
+    vh:locatedIn vhr:area-name-574f21fd28ba ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13765,6 +14134,7 @@ vhr:registry-f32e0b8f1a09 a vh:IntangibleHeritage,
 
 vhr:registry-f353049c3cdd a vh:NationalTreasure ;
     rdfs:label "Long đình gốm Bát Tràng"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -13846,6 +14216,7 @@ vhr:registry-f5c20a16045c a vh:ArchitecturalSite,
 
 vhr:registry-f604261a8dbb a vh:NationalTreasure ;
     rdfs:label "Tượng Thần Visnu"@vi ;
+    vh:locatedIn vhr:area-name-956704bccf88 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -14020,6 +14391,7 @@ vhr:registry-fa24f1133624 a vh:IntangibleHeritage,
 
 vhr:registry-fa9d5dcb6ca1 a vh:NationalTreasure ;
     rdfs:label "Tượng Trấn Vũ đền Quán Thánh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -14089,6 +14461,7 @@ Tín ngưỡng thờ cúng Hùng Vương không phải một tôn giáo mà chí
 
 vhr:registry-fbe8de3853f6 a vh:NationalTreasure ;
     rdfs:label "Ba pho tượng Tam Thế"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -14239,6 +14612,7 @@ vhr:registry-fda343a6ebcc a vh:IntangibleHeritage,
 
 vhr:registry-fdbfb6148b92 a vh:NationalTreasure ;
     rdfs:label "Bản Di chúc của Chủ tịch Hồ Chí Minh"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -14257,6 +14631,18 @@ vhr:registry-fdf1eb1e2ad0 a vh:ArchitecturalSite,
     dcterms:source <https://dsvh.gov.vn/dinh-tau-tinh-thai-binh-3363> ;
     dcterms:subject "national_monuments" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/dinh-tau-tinh-thai-binh-3363> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-fe2e5b90eed3 a vh:DocumentaryHeritage ;
+    rdfs:label "Mộc bản kinh Phật thiền phái Trúc Lâm chùa Vĩnh Nghiêm"@vi ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
+    vh:sourcePageId 518055 ;
+    vh:sourceTitle "Di sản tư liệu thế giới"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
+    dcterms:subject "documentary_heritage" ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-fe7b7fa8c8db a vh:HeritageSite,
@@ -14337,6 +14723,7 @@ vhr:registry-ff4edb14c6f6 a vh:IntangibleHeritage,
 
 vhr:registry-ff53e8f59bd3 a vh:NationalTreasure ;
     rdfs:label "Tượng đôi sư tử đá đền – chùa Bà Tấm"@vi ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -14368,29 +14755,11 @@ vhr:registry-ffd1de72287d a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vh:ArchitecturalStyle a owl:Class ;
-    rdfs:label "Architectural style"@en,
-        "Phong cách kiến trúc"@vi ;
-    rdfs:comment "Style kiến trúc."@vi ;
-    rdfs:subClassOf owl:Thing .
-
 vh:CulturalObject a owl:Class ;
     rdfs:label "Cultural object"@en,
         "Di vật/cổ vật"@vi ;
     rdfs:comment "Di vật hoặc cổ vật thuộc danh mục chính thức."@vi ;
     rdfs:subClassOf vh:CulturalHeritageEntity .
-
-vh:DocumentaryHeritage a owl:Class ;
-    rdfs:label "Documentary heritage"@en,
-        "Di sản tư liệu"@vi ;
-    rdfs:comment "Item thuộc registry di sản tư liệu."@vi ;
-    rdfs:subClassOf vh:CulturalHeritageEntity .
-
-vh:HistoricalPeriod a owl:Class ;
-    rdfs:label "Historical period"@en,
-        "Thời kỳ lịch sử"@vi ;
-    rdfs:comment "Khoảng/thời kỳ lịch sử."@vi ;
-    rdfs:subClassOf owl:Thing .
 
 vh:Museum a owl:Class ;
     rdfs:label "Museum"@en,
@@ -14398,12 +14767,34 @@ vh:Museum a owl:Class ;
     rdfs:comment "Bảo tàng có ý nghĩa văn hóa."@vi ;
     rdfs:subClassOf vh:CulturalHeritageEntity .
 
+vh:ReligiousSite a owl:Class ;
+    rdfs:label "Religious site"@en,
+        "Di tích tôn giáo"@vi ;
+    rdfs:comment "Site có chức năng/giá trị tôn giáo."@vi ;
+    rdfs:subClassOf vh:HeritageSite .
+
 vh:associatedWithPerson a rdf:Property,
         owl:ObjectProperty ;
     rdfs:label "associated with person"@en,
         "liên quan tới nhân vật"@vi ;
     rdfs:domain vh:HeritageSite ;
     rdfs:range vh:HistoricalPerson .
+
+vh:builtBy a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "built by"@en,
+        "được xây dựng bởi"@vi ;
+    rdfs:domain vh:HeritageSite ;
+    rdfs:range vh:HistoricalPerson ;
+    rdfs:subPropertyOf vh:associatedWithPerson .
+
+vh:locatedIn a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "located in"@en,
+        "nằm tại"@vi ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( vh:CulturalHeritageEntity vh:AdministrativeArea ) ] ;
+    rdfs:range vh:AdministrativeArea .
 
 vh:partOf a rdf:Property,
         owl:ObjectProperty,
@@ -14451,6 +14842,16 @@ vhr:event-6fa18c98b523 a vh:HistoricalEvent ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Lam_S%C6%A1n_719> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:event-ae8309e286d4 a vh:HistoricalEvent ;
+    rdfs:label "Đợt II Chiến dịch Điện Biên Phủ"@vi ;
+    dcterms:description "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    rdfs:comment "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    prov:wasDerivedFrom <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:event-b79650374533 a vh:HistoricalEvent ;
     rdfs:label "Chiến dịch Campuchia"@vi ;
     vh:sourcePageId 236099 ;
@@ -14459,6 +14860,16 @@ vhr:event-b79650374533 a vh:HistoricalEvent ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Campuchia> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Campuchia> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:period-957be01571dd a vh:HistoricalPeriod ;
+    rdfs:label "Cuối thế kỷ XI - đầu thế kỷ XII"@vi ;
+    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
+    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:person-wikidata-q10788162 a vh:HistoricalPerson ;
@@ -14611,410 +15022,27 @@ vhr:person-wikidata-q7833315 a vh:HistoricalPerson ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vh:Organization a owl:Class ;
-    rdfs:label "Organization"@en,
-        "Tổ chức"@vi ;
-    rdfs:comment "Tổ chức xây dựng/công nhận."@vi ;
-    rdfs:subClassOf owl:Thing .
-
-vh:hasPart a rdf:Property,
-        owl:ObjectProperty ;
-    rdfs:label "has part"@en,
-        "có thành phần"@vi ;
-    rdfs:domain vh:HeritageComplex ;
-    rdfs:range vh:CulturalHeritageEntity ;
-    owl:inverseOf vh:partOf .
-
-vhr:person-wikidata-q10830179 a vh:HistoricalPerson ;
-    rdfs:label "Tuệ Tĩnh"@vi ;
-    vh:sourcePageId 61511 ;
-    vh:sourceTitle "Tuệ Tĩnh"^^xsd:string ;
+vhr:registry-d00b9a5d0e88 a vh:ArchitecturalSite,
+        vh:HeritageSite ;
+    rdfs:label "DTKTNT Đền Sóc"@vi ;
+    vh:address "Thành phố Hà Nội"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
+    vh:recognitionYear "2014"^^xsd:gYear ;
+    vh:sourcePageId 565889 ;
+    vh:sourceTitle "Đền Sóc"^^xsd:string ;
+    dcterms:description "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://vi.wikipedia.org/wiki/Tu%E1%BB%87_T%C4%A9nh> ;
-    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tu%E1%BB%87_T%C4%A9nh> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:person-wikidata-q1155843 a vh:HistoricalPerson ;
-    rdfs:label "Sơn Tinh"@vi ;
-    vh:sourcePageId 80321 ;
-    vh:sourceTitle "Sơn Tinh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://vi.wikipedia.org/wiki/S%C6%A1n_Tinh> ;
-    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/S%C6%A1n_Tinh> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:person-wikidata-q4604 a vh:HistoricalPerson ;
-    rdfs:label "Khổng Tử"@vi ;
-    vh:sourcePageId 6140 ;
-    vh:sourceTitle "Khổng Tử"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://vi.wikipedia.org/wiki/Kh%E1%BB%95ng_T%E1%BB%AD> ;
-    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Kh%E1%BB%95ng_T%E1%BB%AD> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:person-wikidata-q511375 a vh:HistoricalPerson ;
-    rdfs:label "Trần Hưng Đạo"@vi ;
-    vh:sourcePageId 746 ;
-    vh:sourceTitle "Trần Hưng Đạo"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
-    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:UrgentSafeguardingIntangibleHeritage a owl:Class ;
-    rdfs:label "Urgent safeguarding intangible heritage"@en,
-        "Di sản phi vật thể cần bảo vệ khẩn cấp"@vi ;
-    rdfs:comment "Item thuộc danh sách cần bảo vệ khẩn cấp của UNESCO."@vi ;
-    rdfs:subClassOf vh:IntangibleHeritage .
-
-vhr:area-name-267dbeb38a9d a vh:AdministrativeArea ;
-    rdfs:label "Lai Châu"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Lai Châu"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:person-wikidata-q7799843 a vh:HistoricalPerson ;
-    rdfs:label "Thánh Gióng"@vi ;
-    vh:sourcePageId 80323 ;
-    vh:sourceTitle "Thánh Gióng"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://vi.wikipedia.org/wiki/Th%C3%A1nh_Gi%C3%B3ng> ;
-    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Th%C3%A1nh_Gi%C3%B3ng> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:HeritageComplex a owl:Class ;
-    rdfs:label "Heritage complex"@en,
-        "Quần thể di sản"@vi ;
-    rdfs:comment "Nhóm các site."@vi ;
-    rdfs:subClassOf vh:CulturalHeritageEntity .
-
-vh:HistoricalEvent a owl:Class ;
-    rdfs:label "Historical event"@en,
-        "Sự kiện lịch sử"@vi ;
-    rdfs:comment "Sự kiện lịch sử."@vi ;
-    rdfs:subClassOf owl:Thing .
-
-vhr:area-name-04b00d93d635 a vh:AdministrativeArea ;
-    rdfs:label "Cà Mau"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Cà Mau"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-956704bccf88 a vh:AdministrativeArea ;
-    rdfs:label "Đồng Tháp"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Đồng Tháp"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-574f21fd28ba a vh:AdministrativeArea ;
-    rdfs:label "Gia Lai"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Gia Lai"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:organization-unesco a vh:Organization ;
-    rdfs:label "UNESCO"@en,
-        "UNESCO"@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-san-van-hoa-va-thien-nhien-the-gioi-1754> ;
-    skos:altLabel "Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-san-van-hoa-va-thien-nhien-the-gioi-1754> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-487a9a1ffea3 a vh:AdministrativeArea ;
-    rdfs:label "Cao Bằng"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Cao Bằng"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:CulturalHeritageEntity a owl:Class ;
-    rdfs:label "Cultural heritage entity"@en,
-        "Thực thể di sản văn hóa"@vi ;
-    rdfs:comment "Root class cho di sản."@vi ;
-    rdfs:subClassOf owl:Thing .
-
-vhr:area-name-11e91641fb6c a vh:AdministrativeArea ;
-    rdfs:label "Đồng Nai"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Đồng Nai"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-c84501090b52 a vh:AdministrativeArea ;
-    rdfs:label "Huế"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Thành phố Huế"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-1ae6e41a89aa a vh:AdministrativeArea ;
-    rdfs:label "An Giang"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh An Giang"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-8cb9d0c6b939 a vh:AdministrativeArea ;
-    rdfs:label "Đắk Lắk"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Đắk Lắk"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-b93dd0ed3491 a vh:AdministrativeArea ;
-    rdfs:label "Hà Tĩnh"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Hà Tĩnh"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:RepresentativeIntangibleHeritage a owl:Class ;
-    rdfs:label "Representative intangible heritage"@en,
-        "Di sản phi vật thể đại diện"@vi ;
-    rdfs:comment "Item thuộc danh sách đại diện của UNESCO."@vi ;
-    rdfs:subClassOf vh:IntangibleHeritage .
-
-vhr:area-name-0963f7238f98 a vh:AdministrativeArea ;
-    rdfs:label "Lâm Đồng"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Lâm Đồng"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-75aae06932dc a vh:AdministrativeArea ;
-    rdfs:label "Vĩnh Long"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Vĩnh Long"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-8128e9d1ccb4 a vh:AdministrativeArea ;
-    rdfs:label "Khánh Hòa"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Khánh Hòa"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-133867db9b91 a vh:AdministrativeArea ;
-    rdfs:label "Lạng Sơn"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Lạng Sơn"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-d493cd7e51ad a vh:AdministrativeArea ;
-    rdfs:label "Quảng Ngãi"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Quảng Ngãi"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:ArchaeologicalSite a owl:Class ;
-    rdfs:label "Archaeological site"@en,
-        "Di chỉ khảo cổ"@vi ;
-    rdfs:comment "Site khảo cổ."@vi ;
-    rdfs:subClassOf vh:HeritageSite .
-
-vhr:area-name-35280d7d24fa a vh:AdministrativeArea ;
-    rdfs:label "Cần Thơ"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Thành phố Cần Thơ"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-4d23c1dfffda a vh:AdministrativeArea ;
-    rdfs:label "Sơn La"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Sơn La"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-529a91f7d9c2 a vh:AdministrativeArea ;
-    rdfs:label "Tây Ninh"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Tây Ninh"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-9276a97b39cb a vh:AdministrativeArea ;
-    rdfs:label "Điện Biên"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Điện Biên"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-01ecaf4d6cda a vh:AdministrativeArea ;
-    rdfs:label "Thành phố Hồ Chí Minh"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-441134c12a3e a vh:AdministrativeArea ;
-    rdfs:label "Quảng Trị"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Quảng Trị"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-cff49d8e0895 a vh:AdministrativeArea ;
-    rdfs:label "Quảng Ninh"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Quảng Ninh"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-d76be4e8346d a vh:AdministrativeArea ;
-    rdfs:label "Nghệ An"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Nghệ An"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:HistoricalPerson a owl:Class ;
-    rdfs:label "Historical person"@en,
-        "Nhân vật lịch sử"@vi ;
-    rdfs:comment "Người liên quan lịch sử."@vi ;
-    rdfs:subClassOf owl:Thing,
-        foaf:Person ;
-    owl:disjointWith vh:AdministrativeArea,
-        vh:HeritageSite .
-
-vhr:area-name-2035d470f202 a vh:AdministrativeArea ;
-    rdfs:label "Thanh Hóa"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Thanh Hóa"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-352c0cff9935 a vh:AdministrativeArea ;
-    rdfs:label "Đà Nẵng"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Thành phố Đà Nẵng"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-261633bcd11d a vh:AdministrativeArea ;
-    rdfs:label "Phú Thọ"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Phú Thọ"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:area-name-34bf35f4ea37 a vh:AdministrativeArea ;
-    rdfs:label "Bắc Ninh"@vi ;
-    vh:areaLevel "tỉnh"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Bắc Ninh"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:complex-b9e928b2f160 a vh:HeritageComplex ;
-    rdfs:label "Di sản Văn hóa Thế giới Thành Nhà Hồ"@vi ;
-    vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
-    vh:hasMember vhr:registry-unesco-1358-001,
-        vhr:registry-unesco-1358-002,
-        vhr:registry-unesco-1358-003 ;
-    vh:locatedIn vhr:area-name-2035d470f202 ;
-    dcterms:description "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-05"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
-        <https://whc.unesco.org/en/list/1358/> ;
-    rdfs:comment "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."@vi ;
-    skos:altLabel "Quần thể Di sản Thế giới Thành Nhà Hồ"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-thanh-nha-ho-481>,
-        <https://whc.unesco.org/en/list/1358/> ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Khu di tích lịch sử đền Sóc nằm dưới chân Núi Sóc là nơi gắn với truyền thuyết anh hùng Thánh Gióng bay về trời sau khi đánh thắng giặc Ân."@vi ;
+    geo1:lat 21.292157 ;
+    geo1:long 105.8315984 ;
+    skos:altLabel "Đền Sóc"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-unesco-1358-001 a vh:HeritageSite ;
@@ -15087,14 +15115,380 @@ vhr:style-aef9ed5174ec a vh:ArchitecturalStyle ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:period-957be01571dd a vh:HistoricalPeriod ;
-    rdfs:label "Cuối thế kỷ XI - đầu thế kỷ XII"@vi ;
-    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+vh:HistoricalPeriod a owl:Class ;
+    rdfs:label "Historical period"@en,
+        "Thời kỳ lịch sử"@vi ;
+    rdfs:comment "Khoảng/thời kỳ lịch sử."@vi ;
+    rdfs:subClassOf owl:Thing .
+
+vh:Organization a owl:Class ;
+    rdfs:label "Organization"@en,
+        "Tổ chức"@vi ;
+    rdfs:comment "Tổ chức xây dựng/công nhận."@vi ;
+    rdfs:subClassOf owl:Thing .
+
+vh:hasPart a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "has part"@en,
+        "có thành phần"@vi ;
+    rdfs:domain vh:HeritageComplex ;
+    rdfs:range vh:CulturalHeritageEntity ;
+    owl:inverseOf vh:partOf .
+
+vhr:person-wikidata-q10830179 a vh:HistoricalPerson ;
+    rdfs:label "Tuệ Tĩnh"@vi ;
+    vh:sourcePageId 61511 ;
+    vh:sourceTitle "Tuệ Tĩnh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-05"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
-    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Tu%E1%BB%87_T%C4%A9nh> ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tu%E1%BB%87_T%C4%A9nh> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:person-wikidata-q1155843 a vh:HistoricalPerson ;
+    rdfs:label "Sơn Tinh"@vi ;
+    vh:sourcePageId 80321 ;
+    vh:sourceTitle "Sơn Tinh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/S%C6%A1n_Tinh> ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/S%C6%A1n_Tinh> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:person-wikidata-q4604 a vh:HistoricalPerson ;
+    rdfs:label "Khổng Tử"@vi ;
+    vh:sourcePageId 6140 ;
+    vh:sourceTitle "Khổng Tử"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Kh%E1%BB%95ng_T%E1%BB%AD> ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Kh%E1%BB%95ng_T%E1%BB%AD> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:person-wikidata-q511375 a vh:HistoricalPerson ;
+    rdfs:label "Trần Hưng Đạo"@vi ;
+    vh:sourcePageId 746 ;
+    vh:sourceTitle "Trần Hưng Đạo"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:ArchitecturalStyle a owl:Class ;
+    rdfs:label "Architectural style"@en,
+        "Phong cách kiến trúc"@vi ;
+    rdfs:comment "Style kiến trúc."@vi ;
+    rdfs:subClassOf owl:Thing .
+
+vh:UrgentSafeguardingIntangibleHeritage a owl:Class ;
+    rdfs:label "Urgent safeguarding intangible heritage"@en,
+        "Di sản phi vật thể cần bảo vệ khẩn cấp"@vi ;
+    rdfs:comment "Item thuộc danh sách cần bảo vệ khẩn cấp của UNESCO."@vi ;
+    rdfs:subClassOf vh:IntangibleHeritage .
+
+vhr:person-wikidata-q7799843 a vh:HistoricalPerson ;
+    rdfs:label "Thánh Gióng"@vi ;
+    vh:sourcePageId 80323 ;
+    vh:sourceTitle "Thánh Gióng"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://vi.wikipedia.org/wiki/Th%C3%A1nh_Gi%C3%B3ng> ;
+    prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Th%C3%A1nh_Gi%C3%B3ng> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-267dbeb38a9d a vh:AdministrativeArea ;
+    rdfs:label "Lai Châu"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Lai Châu"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:HeritageComplex a owl:Class ;
+    rdfs:label "Heritage complex"@en,
+        "Quần thể di sản"@vi ;
+    rdfs:comment "Nhóm các site."@vi ;
+    rdfs:subClassOf vh:CulturalHeritageEntity .
+
+vh:HistoricalEvent a owl:Class ;
+    rdfs:label "Historical event"@en,
+        "Sự kiện lịch sử"@vi ;
+    rdfs:comment "Sự kiện lịch sử."@vi ;
+    rdfs:subClassOf owl:Thing .
+
+vhr:organization-unesco a vh:Organization ;
+    rdfs:label "UNESCO"@en,
+        "UNESCO"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-san-van-hoa-va-thien-nhien-the-gioi-1754> ;
+    skos:altLabel "Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-san-van-hoa-va-thien-nhien-the-gioi-1754> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:CulturalHeritageEntity a owl:Class ;
+    rdfs:label "Cultural heritage entity"@en,
+        "Thực thể di sản văn hóa"@vi ;
+    rdfs:comment "Root class cho di sản."@vi ;
+    rdfs:subClassOf owl:Thing .
+
+vh:DocumentaryHeritage a owl:Class ;
+    rdfs:label "Documentary heritage"@en,
+        "Di sản tư liệu"@vi ;
+    rdfs:comment "Item thuộc registry di sản tư liệu."@vi ;
+    rdfs:subClassOf vh:CulturalHeritageEntity .
+
+vhr:area-name-04b00d93d635 a vh:AdministrativeArea ;
+    rdfs:label "Cà Mau"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Cà Mau"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-487a9a1ffea3 a vh:AdministrativeArea ;
+    rdfs:label "Cao Bằng"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Cao Bằng"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:RepresentativeIntangibleHeritage a owl:Class ;
+    rdfs:label "Representative intangible heritage"@en,
+        "Di sản phi vật thể đại diện"@vi ;
+    rdfs:comment "Item thuộc danh sách đại diện của UNESCO."@vi ;
+    rdfs:subClassOf vh:IntangibleHeritage .
+
+vhr:area-name-8cb9d0c6b939 a vh:AdministrativeArea ;
+    rdfs:label "Đắk Lắk"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    skos:altLabel "Tỉnh Đắk Lắk"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-956704bccf88 a vh:AdministrativeArea ;
+    rdfs:label "Đồng Tháp"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Đồng Tháp"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:ArchaeologicalSite a owl:Class ;
+    rdfs:label "Archaeological site"@en,
+        "Di chỉ khảo cổ"@vi ;
+    rdfs:comment "Site khảo cổ."@vi ;
+    rdfs:subClassOf vh:HeritageSite .
+
+vhr:area-name-0963f7238f98 a vh:AdministrativeArea ;
+    rdfs:label "Lâm Đồng"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    skos:altLabel "Tỉnh Lâm Đồng"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-11e91641fb6c a vh:AdministrativeArea ;
+    rdfs:label "Đồng Nai"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Đồng Nai"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-133867db9b91 a vh:AdministrativeArea ;
+    rdfs:label "Lạng Sơn"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Lạng Sơn"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-4d23c1dfffda a vh:AdministrativeArea ;
+    rdfs:label "Sơn La"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    skos:altLabel "Tỉnh Sơn La"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-75aae06932dc a vh:AdministrativeArea ;
+    rdfs:label "Vĩnh Long"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Vĩnh Long"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-8128e9d1ccb4 a vh:AdministrativeArea ;
+    rdfs:label "Khánh Hòa"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Khánh Hòa"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-9276a97b39cb a vh:AdministrativeArea ;
+    rdfs:label "Điện Biên"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    skos:altLabel "Tỉnh Điện Biên"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-529a91f7d9c2 a vh:AdministrativeArea ;
+    rdfs:label "Tây Ninh"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Tây Ninh"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-574f21fd28ba a vh:AdministrativeArea ;
+    rdfs:label "Gia Lai"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Gia Lai"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-b93dd0ed3491 a vh:AdministrativeArea ;
+    rdfs:label "Hà Tĩnh"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Hà Tĩnh"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-d493cd7e51ad a vh:AdministrativeArea ;
+    rdfs:label "Quảng Ngãi"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Quảng Ngãi"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-1ae6e41a89aa a vh:AdministrativeArea ;
+    rdfs:label "An Giang"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh An Giang"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-35280d7d24fa a vh:AdministrativeArea ;
+    rdfs:label "Cần Thơ"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Cần Thơ"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-d76be4e8346d a vh:AdministrativeArea ;
+    rdfs:label "Nghệ An"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Nghệ An"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-441134c12a3e a vh:AdministrativeArea ;
+    rdfs:label "Quảng Trị"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Quảng Trị"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:HistoricalPerson a owl:Class ;
+    rdfs:label "Historical person"@en,
+        "Nhân vật lịch sử"@vi ;
+    rdfs:comment "Người liên quan lịch sử."@vi ;
+    rdfs:subClassOf owl:Thing,
+        foaf:Person ;
+    owl:disjointWith vh:AdministrativeArea,
+        vh:HeritageSite .
+
+vhr:area-name-c84501090b52 a vh:AdministrativeArea ;
+    rdfs:label "Huế"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Huế"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-cff49d8e0895 a vh:AdministrativeArea ;
+    rdfs:label "Quảng Ninh"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Quảng Ninh"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-2035d470f202 a vh:AdministrativeArea ;
+    rdfs:label "Thanh Hóa"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Thanh Hóa"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-01ecaf4d6cda a vh:AdministrativeArea ;
+    rdfs:label "Thành phố Hồ Chí Minh"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vh:AdministrativeArea a owl:Class ;
@@ -15103,24 +15497,24 @@ vh:AdministrativeArea a owl:Class ;
     rdfs:comment "Thành phố/tỉnh/quốc gia."@vi ;
     rdfs:subClassOf owl:Thing .
 
-vhr:area-name-dca800e51853 a vh:AdministrativeArea ;
-    rdfs:label "Ninh Bình"@vi ;
+vhr:area-name-261633bcd11d a vh:AdministrativeArea ;
+    rdfs:label "Phú Thọ"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Ninh Bình"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Phú Thọ"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:area-name-4f99714e585c a vh:AdministrativeArea ;
-    rdfs:label "Hải Phòng"@vi ;
+vhr:area-name-352c0cff9935 a vh:AdministrativeArea ;
+    rdfs:label "Đà Nẵng"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Thành phố Hải Phòng"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Đà Nẵng"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:area-name-e163ea76112a a vh:AdministrativeArea ;
@@ -15128,19 +15522,19 @@ vhr:area-name-e163ea76112a a vh:AdministrativeArea ;
     vh:areaLevel "tỉnh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     skos:altLabel "Tỉnh Lào Cai"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:area-name-d9cd26c7e761 a vh:AdministrativeArea ;
-    rdfs:label "Hưng Yên"@vi ;
+vhr:area-name-dca800e51853 a vh:AdministrativeArea ;
+    rdfs:label "Ninh Bình"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Tỉnh Hưng Yên"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Ninh Bình"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:area-name-8872895663b7 a vh:AdministrativeArea ;
@@ -15153,14 +15547,44 @@ vhr:area-name-8872895663b7 a vh:AdministrativeArea ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:area-name-4f99714e585c a vh:AdministrativeArea ;
+    rdfs:label "Hải Phòng"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Hải Phòng"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-34bf35f4ea37 a vh:AdministrativeArea ;
+    rdfs:label "Bắc Ninh"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Bắc Ninh"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:area-name-99be0b794c77 a vh:AdministrativeArea ;
     rdfs:label "Tuyên Quang"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     skos:altLabel "Tỉnh Tuyên Quang"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-d9cd26c7e761 a vh:AdministrativeArea ;
+    rdfs:label "Hưng Yên"@vi ;
+    vh:areaLevel "tỉnh"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Tỉnh Hưng Yên"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vh:ArchitecturalSite a owl:Class ;
@@ -15169,21 +15593,21 @@ vh:ArchitecturalSite a owl:Class ;
     rdfs:comment "Site có giá trị kiến trúc."@vi ;
     rdfs:subClassOf vh:HeritageSite .
 
-vhr:area-name-8de4ed043a59 a vh:AdministrativeArea ;
-    rdfs:label "Hà Nội"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    skos:altLabel "Thành phố Hà Nội"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vh:HistoricalSite a owl:Class ;
     rdfs:label "Historical site"@en,
         "Di tích lịch sử"@vi ;
     rdfs:comment "Site gắn với lịch sử."@vi ;
     rdfs:subClassOf vh:HeritageSite .
+
+vhr:area-name-8de4ed043a59 a vh:AdministrativeArea ;
+    rdfs:label "Hà Nội"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Hà Nội"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vh:NationalTreasure a owl:Class ;
     rdfs:label "National treasure"@en,
@@ -15195,7 +15619,10 @@ vh:HeritageSite a owl:Class ;
     rdfs:label "Heritage site"@en,
         "Địa điểm di sản"@vi ;
     rdfs:comment "Địa điểm có giá trị văn hóa/lịch sử."@vi ;
-    rdfs:subClassOf vh:CulturalHeritageEntity ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty vh:locatedIn ],
+        vh:CulturalHeritageEntity ;
     owl:disjointWith vh:AdministrativeArea .
 
 vh:NationalIntangibleHeritage a owl:Class ;

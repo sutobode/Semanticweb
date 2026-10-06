@@ -1,5 +1,5 @@
 {
-  "run_id": "thanh-nha-ho-reasoning-check",
+  "run_id": "20261006T020109Z-697839",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -43,12 +43,12 @@
     "AX-011": "PASS",
     "AX-017": "PASS"
   },
-  "source_triples": 13568,
-  "inferred_triples": 705264,
-  "closure_triples": 718832,
+  "source_triples": 13619,
+  "inferred_triples": 705280,
+  "closure_triples": 718899,
   "ontology_triples": 344,
   "ontology_version": "1.7.1",
-  "asserted_triples": 13226,
+  "asserted_triples": 13277,
   "production_inputs": [
     "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
     "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\rdf\\vietheritage.ttl"
@@ -63,8 +63,8 @@
     },
     "coverage": {
       "AX-017": {
-        "relation_triples": 0,
-        "vacuous": true
+        "relation_triples": 1,
+        "vacuous": false
       }
     }
   },

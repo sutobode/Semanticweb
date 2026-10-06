@@ -14,6 +14,8 @@ from vietheritage.collector import wikipedia as wiki
 from vietheritage.mapping.mapper import (
     DerivedRegistry,
     PageIndex,
+    add_global_derived_entities,
+    apply_curated_relations,
     load_mapping,
     map_record,
     site_types_from_label,
@@ -480,6 +482,43 @@ def test_mapper_derived_entities_can_target_one_registry_record_without_back_rel
     assert records["complex-test"]["provenance"]["source"] == "https://whc.unesco.org/en/list/1/"
     assert records["complex-test"]["retrieved_at"] == "2026-10-05T00:00:00Z"
     assert "part_of" not in seed["relations"]
+
+
+def test_global_historical_events_preserve_direct_source_order():
+    derived = DerivedRegistry()
+    add_global_derived_entities(load_mapping(), derived)
+    events = {item["entity_id"]: item for item in derived.records()}
+    first = events["event-3f981731431d"]
+    second = events["event-ae8309e286d4"]
+
+    assert set(events) == {"event-3f981731431d", "event-ae8309e286d4"}
+    assert first["entity_type"] == second["entity_type"] == "HistoricalEvent"
+    assert first["relations"]["historical_successors"] == ["event-ae8309e286d4"]
+    assert "relations" not in second
+    assert first["provenance"]["source"] == second["provenance"]["source"]
+    assert first["provenance"]["license"] == "Official museum source"
+
+
+def test_curated_related_site_preserves_source_and_asserted_direction():
+    mapping = load_mapping()
+    subject_id = "registry-b70dc5c6502d"
+    target_id = "registry-d00b9a5d0e88"
+    records = [
+        {"entity_id": subject_id, "entity_type": "HeritageSite", "relations": {}},
+        {"entity_id": target_id, "entity_type": "HeritageSite", "relations": {}},
+    ]
+
+    apply_curated_relations(records, mapping)
+    spec = mapping["curated_relations"][0]
+
+    assert len(mapping["curated_relations"]) == 1
+    assert records[0]["relations"]["related_sites"] == [target_id]
+    assert "related_sites" not in records[1]["relations"]
+    assert spec["source_url"] == "https://dsvh.gov.vn/hoi-giong-o-den-phu-dong-va-den-soc-486"
+    assert "nơi sinh Thánh Gióng" in spec["evidence_text"]
+    assert "nơi Thánh hóa" in spec["evidence_text"]
+    assert spec["provenance"]["source"] == spec["source_url"]
+    assert spec["provenance"]["method"] == "derived"
 
 
 def test_mapper_joins_page_by_registry_id_and_uses_only_verified_relations():

@@ -49,6 +49,8 @@ relation_properties:
   recognized_by: {predicate: "vh:recognizedBy"}
   built_by: {predicate: "vh:builtBy", object_must_be: "vh:HistoricalPerson"}
   architectural_styles: {predicate: "vh:hasArchitecturalStyle"}
+  historical_successors: {predicate: "vh:hasHistoricalSuccessor"}
+  related_sites: {predicate: "vh:hasRelatedSite"}
 provenance_properties:
   source_url: {predicates: ["dcterms:source", "prov:wasDerivedFrom"], required: true}
 
@@ -194,6 +196,40 @@ derived_entities:
     attach:
       registry_id: registry-a75893095411
       relation: periods
+  # Bảo tàng Lịch sử Quốc gia explicitly orders the campaign's three phases.
+  # Only the minimum adjacent pair is represented; no transitive edge is asserted.
+  event-3f981731431d:
+    entity_type: HistoricalEvent
+    label_vi: "Đợt I Chiến dịch Điện Biên Phủ"
+    description_vi: "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."
+    source_url: "https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html"
+    retrieved_at: "2026-10-05T16:20:41Z"
+    start_year: 1954
+    license: "Official museum source"
+    relations:
+      historical_successors: [event-ae8309e286d4]
+  event-ae8309e286d4:
+    entity_type: HistoricalEvent
+    label_vi: "Đợt II Chiến dịch Điện Biên Phủ"
+    description_vi: "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."
+    source_url: "https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html"
+    retrieved_at: "2026-10-05T16:20:41Z"
+    start_year: 1954
+    license: "Official museum source"
+
+# Quan hệ tuyển chọn giữa các canonical entity hiện có. Metadata nguồn và bằng chứng
+# ở lại trong mapping authoritative; canonical output chỉ nhận cạnh có hướng đã duyệt.
+curated_relations:
+  - subject_id: registry-b70dc5c6502d
+    relation: related_sites
+    target_id: registry-d00b9a5d0e88
+    source_url: "https://dsvh.gov.vn/hoi-giong-o-den-phu-dong-va-den-soc-486"
+    evidence_text: "Hội Gióng ở đền Phù Đổng, xã Phù Đổng, huyện Gia Lâm - nơi sinh Thánh Gióng diễn ra từ ngày 7 đến ngày 9 tháng 4 Âm lịch, và Hội Gióng ở đền Sóc ở xã Phù Linh, huyện Sóc Sơn (nay thuộc Hà Nội) - nơi Thánh hóa diễn ra từ ngày 6 đến ngày 8 tháng giêng."
+    retrieved_at: "2026-10-06T01:21:59Z"
+    provenance:
+      source: "https://dsvh.gov.vn/hoi-giong-o-den-phu-dong-va-den-soc-486"
+      method: derived
+      license: "Official heritage authority"
 
 # M2-11 — Danh mục di tích quốc gia đặc biệt ghi loại hình bằng tiền tố viết tắt
 # trong tên (ví dụ "DTLS và KTNT Cổ Loa"). Mỗi viết tắt -> một site_type; generator
