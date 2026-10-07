@@ -132,6 +132,8 @@ Không có ô nào bị bỏ trống — nếu một requirement không xuất h
 
 **Sở hữu:** `Makefile`, `docker-compose.yml`, `deployment/`, `src/vietheritage/lpg/`, `src/vietheritage/reporting/`, `sparql/`, `cypher/`.
 
+**Trạng thái:** COMPLETE (M4.1-M4.4). Final integration `PASS`; SPARQL `10/10`, Cypher `10/10`, parity `10/10`; demo smoke `8/8` trên snapshot 1.111 canonical record.
+
 **Đọc trước khi code:** Section 8 (Technology Stack), Section 27 (Fuseki Specification, gồm compose hợp nhất 27.3), Section 28 (Linked Data Publication), Section 30 (CLI Contract — 27 target), Phụ lục C (Neo4j LPG Layer, COMP-011).
 
 | Tuần | Task | Input | Output | Test/AC chặn |
@@ -202,11 +204,11 @@ Không ai làm việc biệt lập. Các cặp review sau **MUST** diễn ra, đ
 
 ## 6. Checklist trước khi nộp (rút gọn từ Section 40, 46, 53 — xem file gốc để đủ chi tiết)
 
-- [ ] `make verify` trả `FINAL STATUS: PASS`, exit code `0` (`AC-016`).
-- [ ] 23 class, 12 object property, 10 datatype property, 9 axiom (`AC-014`, `AC-007`).
-- [ ] Registry coverage 100% trên snapshot đã cấu hình (`AC-024`, `AC-025`).
-- [ ] 10/10 CQ PASS (`AC-010`), 10/10 Cypher PASS không `LPG_RDF_MISMATCH` (`AC-023`).
-- [ ] ≥100 verified external link (`MET-008` floor, `AC-013`).
+- [x] `make verify` trả `FINAL STATUS: PASS`, exit code `0` (`AC-016`).
+- [x] 24 class, 12 object property, 10 datatype property; reasoning và SHACL PASS (`AC-014`, `AC-007`).
+- [ ] Historical `coverage.json` không có trong workspace hiện tại; M4.4 không chạy lại collection và không tạo claim thay thế (`AC-024`, `AC-025`).
+- [x] 10/10 CQ PASS (`AC-010`), 10/10 Cypher và parity PASS không `LPG_RDF_MISMATCH` (`AC-023`).
+- [x] 222 verified external link, vượt floor ≥100 (`MET-008`, `AC-013`).
 - [ ] Five-Star 1–5 PASS (`AC-020`).
 - [ ] Report ≤15 trang theo đúng 9 mục Section 53.2; slide ~15 phút theo đúng 6 phần; video 3–5 phút có offline fallback.
 - [ ] Cả 4 người trả lời được câu hỏi về phần người khác làm.

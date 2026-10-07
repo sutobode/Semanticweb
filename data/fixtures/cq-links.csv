@@ -1,0 +1,3 @@
+source_uri,target_uri,target_dataset,status,label_en
+http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001,http://dbpedia.org/resource/Example_Site,dbpedia,verified,Example Site
+http://localhost:3030/vietheritage/resource/registry-dsvh-national-monument-000001,https://www.wikidata.org/entity/Q900000001,wikidata,verified,

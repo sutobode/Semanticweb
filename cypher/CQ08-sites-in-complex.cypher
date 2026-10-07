@@ -1,3 +1,3 @@
-MATCH (site:HeritageSite)-[:LOCATED_IN*1..]->(area:AdministrativeArea {labelVi: "Hà Nội"})
+MATCH (site:HeritageSite)-[:PART_OF*1..]->(:HeritageComplex {entityId: "complex-thang-long"})
 RETURN DISTINCT site.entityId AS entityId, site.uri AS site, site.labelVi AS label
 ORDER BY label

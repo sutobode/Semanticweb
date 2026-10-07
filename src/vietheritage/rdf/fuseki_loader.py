@@ -39,13 +39,14 @@ def put_turtle(
     graph: str | None,
     request_put: Callable[..., Any] = requests.put,
     auth: tuple[str, str] | None = None,
+    timeout: float | None = None,
 ) -> None:
     params = {"default": ""} if graph is None else {"graph": graph}
     kwargs: dict[str, Any] = {
         "params": params,
         "data": content,
         "headers": {"Content-Type": "text/turtle; charset=utf-8"},
-        "timeout": 30,
+        "timeout": timeout or float(os.getenv("FUSEKI_LOAD_TIMEOUT_SECONDS", "180")),
     }
     if auth:
         kwargs["auth"] = auth

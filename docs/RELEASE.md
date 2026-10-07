@@ -1,19 +1,23 @@
 # VietHeritageLOD — Release Runbook
 
-## Release snapshot
+## Current verified semantic snapshot
 
-- Registry snapshot: `20260914T040348Z` (final post-regression collection).
-- Collection result: `860` registry records; `10` expected `REGISTRY_EMPTY_SOURCE` entries for official pages returning HTTP 200 with no extractable rows.
-- Registry coverage: `100%` for all valid records in the 17 configured official categories. Ten currently empty categories have `0` discovered records and are retained in the coverage manifest rather than silently omitted.
-- Wikipedia enrichment: `42` matched pages; missing matches remain as registry entities.
-- Downstream rebuild: `860` normalized, `0` skipped, `860` resolved, `0` identity collisions, `7,249` RDF triples, `1,782` inferred triples, `114/114` reviewed links verified.
-- External links: `89` Wikidata and `25` DBpedia verified links.
+- Snapshot ID: `20260925T034421Z`.
+- Canonical records: `1,111`.
+- Ontology/asserted/inferred-delta triples: `344 / 13,577 / 713,580`.
+- Verified external links: `222`.
+- Metadata/final-public-graph triples: `1,526 / 729,247`.
+- SPARQL/Cypher/parity acceptance: `10/10 / 10/10 / 10/10 PASS`.
+- Final integration: `PASS`; demo smoke: `8/8 PASS`.
+- Historical collector `coverage.json` is unavailable in the current workspace; M4.4 did not rerun collection or invent a replacement coverage claim.
+
+The Member 3 evaluation in `docs/link-evaluation.md` remains a historical evaluation of 1,068 records and 221 published links. The current artifact contains 222 links, but evaluation metrics were not rerun and are not inferred from that count.
 
 The final acceptance evidence is generated locally in `reports/full/verify.json`; the stage log is `logs/full-pipeline-utf8.log`. Runtime reports and logs are intentionally ignored by Git.
 
-## Raw data inventory
+## Historical raw data inventory
 
-The release raw snapshot contains the JSONL files under `data/raw/`. The audit before staging recorded:
+The earlier raw-data release audit recorded the inventory below. M4.4 validates the current semantic artifacts and does not reinterpret these historical collection figures:
 
 | File | Rows | Bytes | Meaning |
 |---|---:|---:|---|
@@ -48,13 +52,15 @@ make cypher-test
 make app-up
 make app-smoke
 make verify RUN_MODE=full
+make demo-smoke
 ```
 
 Expected final checks:
 
-- `python -m pytest -q` → `153 passed`.
 - Full verification → `FINAL STATUS: PASS`.
-- Full metrics → `860` canonical/registry records, `114` verified external links, `10/10` Cypher checks.
+- Demo smoke → `8/8 PASS`.
+- Full metrics → `1,111` canonical records, `13,577` asserted triples, `713,580` inferred delta, `222` verified external links, and `729,247` final public triples.
+- Query acceptance → SPARQL `10/10`, Cypher `10/10`, parity `10/10`.
 
 See [`docs/E2E.md`](./E2E.md) for the complete Windows PowerShell procedure.
 

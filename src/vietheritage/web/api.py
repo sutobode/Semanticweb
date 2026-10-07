@@ -324,10 +324,11 @@ class SemanticAPI:
 
     def stats(self) -> dict[str, Any]:
         prefix = f"PREFIX rdfs: <{RDFS}> PREFIX rdf: <{RDF}> PREFIX owl: <{OWL}> PREFIX dcterms: <{DCTERMS}>"
-        total = self.client.query(prefix + f' SELECT (COUNT(DISTINCT ?entity) AS ?total) WHERE {{ ?entity a <{DEFAULT_BASE_URI}/ontology/CulturalHeritageEntity> ; rdfs:label ?label . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
+        canonical_types = " ".join(f"<{DEFAULT_BASE_URI}/ontology/{name}>" for name in sorted(ENTITY_TYPES))
+        total = self.client.query(prefix + f' SELECT (COUNT(DISTINCT ?entity) AS ?total) WHERE {{ VALUES ?type {{ {canonical_types} }} ?entity a ?type . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
         classes = self.client.query(prefix + f' SELECT ?type (COUNT(DISTINCT ?entity) AS ?count) WHERE {{ ?entity a ?type ; rdfs:label ?label . FILTER(?type != <{OWL.Thing}>) FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }} GROUP BY ?type ORDER BY DESC(?count)')
         categories = self.client.query(prefix + f' SELECT ?category (COUNT(DISTINCT ?entity) AS ?count) WHERE {{ ?entity dcterms:subject ?category . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }} GROUP BY ?category ORDER BY ?category')
-        links = self.client.query(prefix + f' SELECT (COUNT(*) AS ?count) WHERE {{ ?entity owl:sameAs ?external . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
+        links = self.client.query(prefix + f' SELECT (COUNT(*) AS ?count) WHERE {{ GRAPH <{DEFAULT_BASE_URI}/graph/external-links> {{ ?entity owl:sameAs ?external }} FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
         return {
             "@context": JSONLD_CONTEXT,
             "dataset": os.getenv("FUSEKI_DATASET", "vietheritage"),

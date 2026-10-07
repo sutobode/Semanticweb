@@ -5,21 +5,23 @@ Hướng dẫn chạy lại đầy đủ từ checkout sạch: [`docs/E2E.md`](.
 
 ## Trạng thái release
 
-Full release snapshot đã được thu thập và kiểm chứng. Phạm vi claim “đầy đủ” là **100% entity hợp lệ trong 17 category registry chính thức được cấu hình của Cục Di sản văn hóa**, không phải mọi fact văn hóa tồn tại bên ngoài registry đó. Entity không tìm được Wikipedia vẫn được giữ trong canonical dataset.
+Semantic snapshot hiện tại đã hoàn tất Member 4 M4.1-M4.4 và được kiểm chứng bằng final integration ngày 2026-10-07. Historical `coverage.json` của collector không có trong workspace hiện tại; M4.4 không chạy lại collection và không tạo claim coverage thay thế.
 
 | Hạng mục | Kết quả đã kiểm chứng |
 |---|---:|
-| Official registry / canonical records | `860 / 860` |
-| Registry coverage | `100%` trên cả 17 category đã cấu hình |
-| Wikipedia pages matched | `42` |
-| Wikidata links verified | `89` |
-| DBpedia links verified | `25` |
-| Verified external links | `114` |
-| RDF triples | `7,249` |
-| Inferred triples | `1,782` |
+| Canonical records | `1,111` |
+| Ontology triples | `344` |
+| Asserted triples | `13,577` |
+| Inferred delta | `713,580` |
+| Verified external links | `222` |
+| Metadata triples | `1,526` |
+| Final public graph | `729,247` |
 | SPARQL competency questions | `10/10 PASS` |
-| Cypher/RDF parity | `10/10 PASS` |
-| Regression tests | `153 passed` |
+| Cypher competency questions | `10/10 PASS` |
+| SPARQL/Cypher parity | `10/10 PASS` |
+| Final integration | `PASS` |
+| Demo smoke | `8/8 PASS` |
+| Focused M4.4 regression | `24 passed` |
 
 Evidence acceptance cuối: `reports/full/verify.json` và log: `logs/full-pipeline-utf8.log` (hai thư mục này là runtime evidence và đang bị ignore). Full verification đã trả `FINAL STATUS: PASS`.
 
@@ -42,6 +44,7 @@ make cypher-test
 make app-up
 make app-smoke
 make verify RUN_MODE=full
+make demo-smoke
 ```
 
 ### Bash / Git Bash
@@ -58,6 +61,7 @@ make cypher-test
 make app-up
 make app-smoke
 make verify RUN_MODE=full
+make demo-smoke
 ```
 
 `make pipeline RUN_MODE=full` gọi network tới registry chính thức, Wikipedia và các endpoint external theo cấu hình. Với golden fixture offline, dùng `make pipeline-sample` rồi các target service/query tương ứng.
@@ -81,9 +85,9 @@ Các port Docker chỉ bind loopback theo `docker-compose.yml`. Không dùng pas
 
 Raw full snapshot được commit theo yêu cầu release. Các file raw chính gồm:
 
-- `data/raw/registry_records.jsonl` — 860 registry records.
-- `data/raw/registry_failures.jsonl` — 10 category hiện trả HTTP 200 nhưng không có hàng trích xuất; mỗi dòng có `REGISTRY_EMPTY_SOURCE` và snapshot ID.
-- `data/raw/pages.jsonl` — 42 Wikipedia pages matched.
+- `data/raw/registry_records.jsonl` — official registry source records for the active snapshot.
+- `data/raw/registry_failures.jsonl` — registry collection failure manifest.
+- `data/raw/pages.jsonl` — Wikipedia enrichment input.
 - `data/raw/enrichment_failures.jsonl` — các registry label không có exact Wikipedia match; đây là manifest thiếu enrichment, không xóa registry entity.
 - Wikidata manifests: `wikidata_exact_enrichment.jsonl`, `wikidata_exact_missing.jsonl`, `wikidata_sparql_exact_enrichment.jsonl`.
 - DBpedia manifests: `dbpedia_lookup_candidates.jsonl`, `dbpedia_exact_candidates.jsonl`, `dbpedia_wikidata_candidates.jsonl`.

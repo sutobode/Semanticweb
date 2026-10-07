@@ -139,5 +139,6 @@ def test_stats_query_matches_verified_snapshot_metrics() -> None:
     transport = FakeTransport()
     result = make_api(transport).stats()
     assert result["@id"].endswith("/resource/dataset/vietheritage")
-    assert any("CulturalHeritageEntity" in query for query in transport.queries)
+    assert any("VALUES ?type" in query and "HeritageSite" in query for query in transport.queries)
     assert any("COUNT(*)" in query for query in transport.queries)
+    assert any("graph/external-links" in query for query in transport.queries)

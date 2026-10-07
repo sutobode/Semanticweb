@@ -202,14 +202,19 @@ FINAL STATUS: PASS
 
 Release baseline hiện tại:
 
-- Registry/canonical: `860 / 860`.
-- Registry coverage: `100%` trên 17 category đã cấu hình.
-- Wikipedia pages: `42`.
-- Verified external links: `114`.
-- RDF triples: `7,249`.
-- Inferred triples: `1,782`.
+- Snapshot ID: `20260925T034421Z`.
+- Canonical records: `1,111`.
+- Ontology triples: `344`.
+- Asserted triples: `13,577`.
+- Inferred delta: `713,580`.
+- Verified external links: `222`.
+- Metadata triples: `1,526`.
+- Final public graph: `729,247`.
+- Historical collector coverage report: `NOT_AVAILABLE`; full collection is not rerun by M4.4.
 - SPARQL: `10/10 PASS`.
-- Cypher/RDF parity: `10/10 PASS`.
+- Cypher: `10/10 PASS`.
+- SPARQL/Cypher parity: `10/10 PASS`.
+- Demo smoke: `8/8 PASS`.
 
 ## 10. Xem evidence và trạng thái service
 

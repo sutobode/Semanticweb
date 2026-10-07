@@ -23,6 +23,7 @@ def test_put_turtle_uses_graph_store_params_and_content_type() -> None:
     assert calls[0][0].endswith("/vietheritage/data")
     assert calls[0][1]["params"] == {"graph": "http://example/graph"}
     assert calls[0][1]["headers"]["Content-Type"].startswith("text/turtle")
+    assert calls[0][1]["timeout"] == 180
 
 
 def test_production_load_fails_before_put_when_any_artifact_is_missing(

@@ -26,12 +26,18 @@ services:
     image: neo4j:5.26.0
     container_name: vietheritage-neo4j
     environment:
-      NEO4J_AUTH: ${NEO4J_AUTH:-neo4j/change-me-local-only}
+      NEO4J_AUTH: "${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:?NEO4J_PASSWORD is required}"
     ports:
       - "127.0.0.1:7474:7474"
       - "127.0.0.1:7687:7687"
     volumes:
       - neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u \"$${NEO4J_AUTH%%/*}\" -p \"$${NEO4J_AUTH#*/}\" 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
     restart: unless-stopped
   explorer:
     build:

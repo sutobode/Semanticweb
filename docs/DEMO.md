@@ -12,17 +12,21 @@ API config:     http://localhost:3030/api/config
 Resource:       http://localhost:3030/vietheritage/resource/{entity_id}
 SPARQL query:   http://localhost:3031/vietheritage/sparql
 Graph Store:    http://localhost:3031/vietheritage/data
+Neo4j Browser:  http://localhost:7474
+Neo4j Bolt:     bolt://localhost:7687
 ```
 
 Current snapshot:
 
 ```text
-snapshot_id: 20260914T040348Z
-canonical_records: 860
-asserted_triples: 7249
-inferred_closure_triples: 9358
-inferred_delta_triples: 1782
-verified_external_links: 114
+snapshot_id: 20260925T034421Z
+canonical_records: 1111
+ontology_triples: 344
+asserted_triples: 13577
+inferred_delta_triples: 713580
+verified_external_links: 222
+metadata_triples: 1526
+final_public_graph: 729247
 ```
 
 ## 1. Prerequisites and safe setup
@@ -48,14 +52,17 @@ Do not run collection or external-link stages during this offline demo. Do not r
 ```powershell
 make fuseki-up
 make fuseki-load RUN_MODE=full
+make neo4j-up
+make neo4j-load RUN_MODE=full
 make app-up
-make ux-audit
+make demo-smoke
 ```
 
 Expected result:
 
 ```text
-ux-audit: PASS (... runtime checks, ... static accessibility checks)
+ux-audit: PASS (15/15 runtime checks, 11/11 static accessibility checks)
+demo-smoke: 8/8 PASS
 ```
 
 The audit writes machine-readable evidence under:
@@ -67,6 +74,8 @@ reports/<run_id>/performance.json
 reports/<run_id>/visual_regression.json
 reports/<run_id>/demo.json
 ```
+
+The eight-step workflow also writes `reports/<demo_run_id>/demo_smoke.json`.
 
 The generated reports contain the active snapshot ID, commit SHA, local endpoints, checks, timings, warnings, and evidence paths. Runtime reports are local evidence and are not release data.
 
@@ -94,7 +103,7 @@ Expected result: results are loaded from the RDF-backed API, with no raw JSONL a
 
 ### Step B — Researcher entity detail
 
-1. Open `registry-b043193f37c5` or select a search result.
+1. Open `registry-7422e8dbff6e` or select a search result.
 2. Show the canonical resource URI.
 3. Use **Sao chép URI** or open the URI directly.
 4. Show ontology types and categories.
@@ -161,6 +170,7 @@ make linked-data-test
 make cq-test
 make traceability-check
 make verify RUN_MODE=full
+make demo-smoke
 ```
 
 Required results:
@@ -170,7 +180,8 @@ Required results:
 - `ux-audit: PASS`;
 - linked-data test passes with HTTP `200` and parseable RDF;
 - CQ and traceability checks pass;
-- final verification reports `FINAL STATUS: PASS`.
+- final verification reports `FINAL STATUS: PASS`;
+- demo smoke reports `8/8 PASS` and writes `demo_smoke.json`.
 
 ## 6. Teardown
 

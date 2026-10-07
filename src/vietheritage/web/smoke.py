@@ -14,9 +14,14 @@ BASE = os.getenv("EXPLORER_URL", "http://localhost:3030").rstrip("/")
 def _entity_id() -> str:
     path = ROOT / "data" / "processed" / "canonical.jsonl"
     if path.exists():
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if line.strip():
-                return json.loads(line)["entity_id"]
+        records = [
+            json.loads(line)
+            for line in path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        for record in records:
+            if record.get("entity_type") == "HeritageSite" and record.get("registry_id"):
+                return record["entity_id"]
     return "registry-b043193f37c5"
 
 

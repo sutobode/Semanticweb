@@ -160,3 +160,4 @@ ux-audit:
 
 ## make demo-smoke — offline local demo preflight and semantic journey audit
 demo-smoke: ux-audit
+	$(PYTHON) -m vietheritage.reporting.demo_smoke
