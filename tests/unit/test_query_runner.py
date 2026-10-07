@@ -54,6 +54,16 @@ def test_cq_runner_enforces_ten_expectations_and_ignores_demo(cq_run) -> None:
     assert [item["query"] for item in report["queries"]] == list(CQ_CONTRACT)
     assert all(item["expected_checked"] and item["row_count"] > 0 for item in report["queries"])
     assert all(len(item["sha256"]) == 64 for item in report["queries"])
+    assert report["status"] == "PASS"
+    for item in report["queries"]:
+        assert item["cq_id"] == item["query"][:4]
+        assert item["http_status"] == 200
+        assert item["actual_row_count"] == item["expected_row_count"]
+        assert item["comparison"] == "MATCH"
+        assert item["started_at"] and item["finished_at"]
+        assert item["duration_seconds"] >= 0
+        assert {Path(path).suffix for path in item["artifacts"]} == {".json", ".tsv"}
+        assert all(Path(path).is_file() for path in item["artifacts"])
 
 
 @pytest.mark.parametrize(("case", "error"), [

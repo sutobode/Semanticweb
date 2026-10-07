@@ -177,6 +177,53 @@ vh:sourceTitle a rdf:Property,
     rdfs:range xsd:string ;
     rdfs:subPropertyOf dcterms:title .
 
+vhr:complex-102096035f96 a vh:HeritageComplex ;
+    rdfs:label "Di tích lịch sử và kiến trúc nghệ thuật Đền Xưa - Chùa Giám - Đền Bia"@vi ;
+    vh:hasMember vhr:registry-fd03e1f1662c-164238,
+        vhr:registry-fd03e1f1662c-53c105,
+        vhr:registry-fd03e1f1662c-f33488 ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    dcterms:description "6. Di tích lịch sử và kiến trúc nghệ thuật Đền Xưa - Chùa Giám - Đền Bia (huyện Cẩm Giàng, tỉnh Hải Dương)."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thu-tuong-chinh-phu-ky-quyet-dinh-xep-hang-di-tich-quoc-gia-dac-biet-nam-2017-1487> ;
+    rdfs:comment "6. Di tích lịch sử và kiến trúc nghệ thuật Đền Xưa - Chùa Giám - Đền Bia (huyện Cẩm Giàng, tỉnh Hải Dương)."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thu-tuong-chinh-phu-ky-quyet-dinh-xep-hang-di-tich-quoc-gia-dac-biet-nam-2017-1487> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:complex-469daaeafb2d a vh:HeritageComplex ;
+    rdfs:label "Di tích lịch sử và danh lam thắng cảnh hồ Hoàn Kiếm và đền Ngọc Sơn"@vi ;
+    vh:hasMember vhr:registry-43a3e7715b7a-9c23d0,
+        vhr:registry-43a3e7715b7a-cf42ea ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
+    dcterms:description "Di tích lịch sử và danh lam thắng cảnh hồ Hoàn Kiếm và đền Ngọc Sơn bao gồm hồ Hoàn Kiếm, đền Ngọc Sơn và khu tưởng niệm vua Lê."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978> ;
+    rdfs:comment "Di tích lịch sử và danh lam thắng cảnh hồ Hoàn Kiếm và đền Ngọc Sơn bao gồm hồ Hoàn Kiếm, đền Ngọc Sơn và khu tưởng niệm vua Lê."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:complex-6d95f2254f28 a vh:HeritageComplex ;
+    rdfs:label "Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm, Côn Sơn, Kiếp Bạc"@vi ;
+    vh:hasMember vhr:complex-c0786f4c0264,
+        vhr:registry-0120cc05bbed,
+        vhr:registry-069da54d9cc1,
+        vhr:registry-280af8a8985a,
+        vhr:registry-5772ea302cb4,
+        vhr:registry-86f42708d93f ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37,
+        vhr:area-name-4f99714e585c,
+        vhr:area-name-cff49d8e0895 ;
+    dcterms:description "Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm, Côn Sơn, Kiếp Bạc bao gồm hệ thống di tích thuộc các di tích quốc gia đặc biệt đã được Thủ tướng Chính phủ xếp hạng (gồm: Quần thể di tích và danh thắng Yên Tử, Khu di tích Nhà Trần ở Đông Triều, Chùa Vĩnh Nghiêm, Chùa Bổ Đà, Khu di tích Côn Sơn - Kiếp Bạc, Di tích lịch sử, danh lam thắng cảnh An Phụ - Kính Chủ - Nhẫm Dương)"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/quan-the-di-tich-va-danh-thang-yen-tu-vinh-nghiem-con-son-kiep-bac-duoc-unesco-ghi-vao-danh-muc-di-san-the-gioi-22230> ;
+    rdfs:comment "Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm, Côn Sơn, Kiếp Bạc bao gồm hệ thống di tích thuộc các di tích quốc gia đặc biệt đã được Thủ tướng Chính phủ xếp hạng (gồm: Quần thể di tích và danh thắng Yên Tử, Khu di tích Nhà Trần ở Đông Triều, Chùa Vĩnh Nghiêm, Chùa Bổ Đà, Khu di tích Côn Sơn - Kiếp Bạc, Di tích lịch sử, danh lam thắng cảnh An Phụ - Kính Chủ - Nhẫm Dương)"@vi ;
+    skos:altLabel "Quần thể di tích và danh thắng Yên Tử - Vĩnh Nghiêm - Côn Sơn, Kiếp Bạc"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/quan-the-di-tich-va-danh-thang-yen-tu-vinh-nghiem-con-son-kiep-bac-duoc-unesco-ghi-vao-danh-muc-di-san-the-gioi-22230> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:complex-b9e928b2f160 a vh:HeritageComplex ;
     rdfs:label "Di sản Văn hóa Thế giới Thành Nhà Hồ"@vi ;
     vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
@@ -322,30 +369,6 @@ vhr:registry-0116a75f60ea a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-0120cc05bbed a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "DTLS và DLTC Yên Tử"@vi ;
-    vh:address "Tỉnh Quảng Ninh"^^xsd:string ;
-    vh:locatedIn vhr:area-name-cff49d8e0895 ;
-    vh:recognitionYear "2012"^^xsd:gYear ;
-    vh:sourcePageId 23823 ;
-    vh:sourceTitle "Yên Tử"^^xsd:string ;
-    dcterms:description """Yên Tử (chữ Hán: 安子山, Yên Tử sơn) là một dãy núi trải dài trên địa bàn 3 thành phố gồm Quảng Ninh, Bắc Ninh, Hải Phòng và cũng là tên ngọn núi cao nhất trong dãy.\r
-Đây là dãy núi gắn liền với nhà Trần trong lịch sử Việt Nam cũng như gắn với Thiền phái Trúc Lâm."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-yen-tu-2962>,
-        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Yên Tử (chữ Hán: 安子山, Yên Tử sơn) là một dãy núi trải dài trên địa bàn 3 thành phố gồm Quảng Ninh, Bắc Ninh, Hải Phòng và cũng là tên ngọn núi cao nhất trong dãy.\r
-Đây là dãy núi gắn liền với nhà Trần trong lịch sử Việt Nam cũng như gắn với Thiền phái Trúc Lâm."""@vi ;
-    geo1:lat 21.160515 ;
-    geo1:long 106.715149 ;
-    skos:altLabel "Yên Tử"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-yen-tu-2962>,
-        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-01239fd4c29a a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Rừng Trần Hưng Đạo"@vi ;
@@ -461,9 +484,11 @@ vhr:registry-03dd3143681f a vh:IntangibleHeritage,
 
 vhr:registry-042d5ab0b6bb a vh:ArchitecturalSite,
         vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS và KTNT Chùa Phật Tích"@vi ;
     vh:address "Tỉnh Bắc Ninh"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53915234d31c ;
     vh:constructionYear "1057"^^xsd:gYear ;
     vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     vh:recognitionYear "2014"^^xsd:gYear ;
@@ -645,31 +670,6 @@ vhr:registry-069331b0c5ec a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-069da54d9cc1 a vh:ArchitecturalSite,
-        vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "DTLS và KTNT Chùa Bổ Đà"@vi ;
-    vh:address "Tỉnh Bắc Giang"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q16480384,
-        vhr:person-wikidata-q4604 ;
-    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
-    vh:recognitionYear "2016"^^xsd:gYear ;
-    vh:sourcePageId 18968 ;
-    vh:sourceTitle "Chùa Bổ Đà"^^xsd:string ;
-    dcterms:description """Chùa Bổ Đà còn được gọi là chùa Bổ, chùa Tam Giáo, còn có tên chữ là Tứ Ân tự (四恩寺) toạ lạc trên ngọn núi Phượng Hoàng (Bổ Đà sơn), bờ tả dòng sông Cầu, thuộc địa phận tổ dân phố Thượng Lát, phường Vân Hà, thành phố Bắc Ninh (thời phong kiến là xã Tiên Lát, tổng Tiên Lát, huyện Yên Việt, phủ Bắc Hà, trấn Kinh Bắc xưa). Chùa Bổ Đà là một trong những ngôi chùa độc đáo nhất vùng đất Kinh Bắc, là trung tâm Phật giáo lớn - chốn Tổ của dòng thiền Trúc Lâm Yên Tử. Chùa đã được công nhận là Di tích quốc gia đặc biệt năm 2016 và bộ kinh phật khắc trên gỗ thị lưu giữ trong chùa được đánh giá là cổ nhất của dòng thiền Lâm Tế,...\r
-Chùa Bổ Đà là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-bo-da-2998>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_B%E1%BB%95_%C4%90%C3%A0> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Chùa Bổ Đà còn được gọi là chùa Bổ, chùa Tam Giáo, còn có tên chữ là Tứ Ân tự (四恩寺) toạ lạc trên ngọn núi Phượng Hoàng (Bổ Đà sơn), bờ tả dòng sông Cầu, thuộc địa phận tổ dân phố Thượng Lát, phường Vân Hà, thành phố Bắc Ninh (thời phong kiến là xã Tiên Lát, tổng Tiên Lát, huyện Yên Việt, phủ Bắc Hà, trấn Kinh Bắc xưa). Chùa Bổ Đà là một trong những ngôi chùa độc đáo nhất vùng đất Kinh Bắc, là trung tâm Phật giáo lớn - chốn Tổ của dòng thiền Trúc Lâm Yên Tử. Chùa đã được công nhận là Di tích quốc gia đặc biệt năm 2016 và bộ kinh phật khắc trên gỗ thị lưu giữ trong chùa được đánh giá là cổ nhất của dòng thiền Lâm Tế,...\r
-Chùa Bổ Đà là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025."""@vi ;
-    skos:altLabel "Chùa Bổ Đà"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-bo-da-2998>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_B%E1%BB%95_%C4%90%C3%A0> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-06a440165758 a vh:IntangibleHeritage,
         vh:NationalIntangibleHeritage ;
     rdfs:label "Lễ hội đền Ông Hoàng Mười"@vi ;
@@ -747,9 +747,15 @@ vhr:registry-06fd74b2ed89-d87046 a vh:HeritageSite ;
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Nga_My> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-07620c963e29 a vh:HeritageSite ;
+vhr:registry-07620c963e29 a vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "Khu đền tháp Mỹ Sơn"@vi ;
     vh:address "Tỉnh Quảng Nam"^^xsd:string ;
+    vh:hasArchitecturalStyle vhr:style-174c731bc709,
+        vhr:style-267cca6ab1ad,
+        vhr:style-a8c2735471e8,
+        vhr:style-aef9ed5174ec,
+        vhr:style-e67ab3ac5cc0 ;
     vh:locatedIn vhr:area-name-352c0cff9935 ;
     vh:recognitionYear "2009"^^xsd:gYear ;
     vh:sourcePageId 4478 ;
@@ -875,7 +881,8 @@ vhr:registry-09dadb177b74 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-0a0a09f6922b a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Tháp Bình Sơn"@vi ;
     vh:address "Tỉnh Vĩnh Phúc"^^xsd:string ;
     vh:locatedIn vhr:area-name-261633bcd11d ;
@@ -927,7 +934,8 @@ vhr:registry-0a21487c70d6 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-0a2da6c36d50 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Chùa Tây Phương"@vi ;
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:locatedIn vhr:area-name-8de4ed043a59 ;
@@ -1417,9 +1425,11 @@ Năm 2014, chữ Nôm Tày tại tỉnh Bắc Kạn đã được công nhận l
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-13c76c9faa2b a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Chùa Thái Lạc"@vi ;
     vh:address "Tỉnh Hưng Yên"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53088c1303e1 ;
     vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     vh:recognitionYear "2018"^^xsd:gYear ;
     vh:sourcePageId 14129342 ;
@@ -1688,7 +1698,8 @@ vhr:registry-19e2aa4b15c2 a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-1a3b5cf1fd3c a vh:HeritageSite ;
+vhr:registry-1a3b5cf1fd3c a vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "Đền Hùng"@vi ;
     vh:address "Tỉnh Phú Thọ"^^xsd:string ;
     vh:locatedIn vhr:area-name-261633bcd11d ;
@@ -1883,6 +1894,7 @@ vhr:registry-1da2188a49fe a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Địa điểm Chiến thắng Đăk Tô - Tân Cảnh"@vi ;
     vh:address "Tỉnh Kon Tum"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-502f12bce64a ;
     vh:locatedIn vhr:area-name-d493cd7e51ad ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -2190,6 +2202,7 @@ vhr:registry-24c02ff0231f a vh:HeritageSite ;
 vhr:registry-24c63b39d00d a vh:HeritageSite ;
     rdfs:label "Chiến trường Điện Biên Phủ"@vi ;
     vh:address "Tỉnh Điện Biên"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-23c3e2ad93c2 ;
     vh:locatedIn vhr:area-name-9276a97b39cb ;
     vh:recognitionYear "2009"^^xsd:gYear ;
     vh:sourcePageId 455219 ;
@@ -2315,29 +2328,6 @@ vhr:registry-27c44e84f005 a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-280af8a8985a a vh:ArchitecturalSite,
-        vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "DTLS và KTNT Côn Sơn - Kiếp Bạc"@vi ;
-    vh:address "Tỉnh Hải Dương"^^xsd:string ;
-    vh:locatedIn vhr:area-name-4f99714e585c ;
-    vh:recognitionYear "2012"^^xsd:gYear ;
-    vh:sourcePageId 484037 ;
-    vh:sourceTitle "Khu di tích Côn Sơn – Kiếp Bạc"^^xsd:string ;
-    dcterms:description """Khu di tích Côn Sơn – Kiếp Bạc là một di tích quốc gia đặc biệt quan trọng của Việt Nam. Quần thể di tích này thuộc địa bàn phường Trần Hưng Đạo, thành phố Hải Phòng. Nơi đây gồm quần thể các di tích lịch sử liên quan đến những chiến công lẫy lừng trong ba lần quân dân nhà Trần đánh thắng quân xâm lược Mông Nguyên thế kỷ XIII và trong cuộc kháng chiến 10 năm của nghĩa quân Lam Sơn chống quân Minh ở thế kỷ XV. Đây là nơi gắn liền với thân thế, sự nghiệp của các vị anh hùng dân tộc như: Nguyễn Trãi, Trần Hưng Đạo cùng nhiều danh nhân văn hoá của dân tộc: Trần Nguyên Đán, Pháp Loa, Huyền Quang... Điểm nhấn của khu di tích này là chùa Côn Sơn và đền Kiếp Bạc.\r
-Ngày 18/6/2010 Thủ tướng Chính phủ đã ban hành Quyết định số 920/QĐ-TTg phê duyệt Quy hoạch tổng thể bảo tồn Khu di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc gắn với phát triển du lịch, thành phố Chí Linh, tỉnh Hải Dương. Trong dịp Lễ hội mùa thu năm 2012, Khu Di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc đã được công nhận là di tích quốc gia đặc biệt."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-con-son-kiep-bac-2954>,
-        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_C%C3%B4n_S%C6%A1n_%E2%80%93_Ki%E1%BA%BFp_B%E1%BA%A1c> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Khu di tích Côn Sơn – Kiếp Bạc là một di tích quốc gia đặc biệt quan trọng của Việt Nam. Quần thể di tích này thuộc địa bàn phường Trần Hưng Đạo, thành phố Hải Phòng. Nơi đây gồm quần thể các di tích lịch sử liên quan đến những chiến công lẫy lừng trong ba lần quân dân nhà Trần đánh thắng quân xâm lược Mông Nguyên thế kỷ XIII và trong cuộc kháng chiến 10 năm của nghĩa quân Lam Sơn chống quân Minh ở thế kỷ XV. Đây là nơi gắn liền với thân thế, sự nghiệp của các vị anh hùng dân tộc như: Nguyễn Trãi, Trần Hưng Đạo cùng nhiều danh nhân văn hoá của dân tộc: Trần Nguyên Đán, Pháp Loa, Huyền Quang... Điểm nhấn của khu di tích này là chùa Côn Sơn và đền Kiếp Bạc.\r
-Ngày 18/6/2010 Thủ tướng Chính phủ đã ban hành Quyết định số 920/QĐ-TTg phê duyệt Quy hoạch tổng thể bảo tồn Khu di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc gắn với phát triển du lịch, thành phố Chí Linh, tỉnh Hải Dương. Trong dịp Lễ hội mùa thu năm 2012, Khu Di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc đã được công nhận là di tích quốc gia đặc biệt."""@vi ;
-    skos:altLabel "Khu di tích Côn Sơn – Kiếp Bạc"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-con-son-kiep-bac-2954>,
-        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_C%C3%B4n_S%C6%A1n_%E2%80%93_Ki%E1%BA%BFp_B%E1%BA%A1c> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-280cb1b6430b a vh:NationalTreasure ;
@@ -2519,6 +2509,7 @@ vhr:registry-2b3596220b1b a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Đồng Khởi Bến Tre"@vi ;
     vh:address "Tỉnh Bến Tre"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-5712e6b537f2 ;
     vh:locatedIn vhr:area-name-75aae06932dc ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -2543,9 +2534,13 @@ vhr:registry-2b70a62e149f a vh:HeritageSite,
 
 vhr:registry-2b793c130204 a vh:ArchaeologicalSite,
         vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT và KC Tháp Hòa Lai"@vi ;
     vh:address "Tỉnh Ninh Thuận"^^xsd:string ;
+    vh:hasArchitecturalStyle vhr:style-174c731bc709,
+        vhr:style-267cca6ab1ad ;
+    vh:hasRelatedSite vhr:registry-ac781f8e46c5 ;
     vh:locatedIn vhr:area-name-8128e9d1ccb4 ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 409438 ;
@@ -3406,10 +3401,12 @@ vhr:registry-3c03bc7e6be0 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-3c300abb9903 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Chùa Keo Hành Thiện"@vi ;
     vh:address "Tỉnh Nam Định"^^xsd:string ;
     vh:constructionYear "1611"^^xsd:gYear ;
+    vh:hasRelatedSite vhr:registry-8d3bf5f7a11c ;
     vh:locatedIn vhr:area-name-dca800e51853 ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 530185 ;
@@ -3633,60 +3630,6 @@ vhr:registry-408639ec211e a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-40889f0bafcb-4c9dbe a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Động Kính Chủ"@vi ;
-    vh:address "Tỉnh Hải Dương"^^xsd:string ;
-    vh:locatedIn vhr:area-name-4f99714e585c ;
-    vh:recognitionYear "2016"^^xsd:gYear ;
-    vh:sourcePageId 783917 ;
-    vh:sourceTitle "Động Kính Chủ"^^xsd:string ;
-    dcterms:description """Động Kính Chủ hay động Dương Nham là hang động nằm ở vùng đất làng Dương Nham, phường Phạm Sư Mạnh, thành phố Hải Phòng, Việt Nam.\r
-Động Kính Chủ được xếp vào hàng Nam thiên đệ lục động (tức là hang động đẹp thứ sáu của trời Nam).\r
-Kính Chủ là một trong những di tích quan trọng của tỉnh Hải Dương mà trung tâm là động Kính Chủ. Đây là danh thắng thuộc quần thể An Phụ - Kính Chủ - Nhẫm Dương đã được xếp hạng di tích quốc gia đặc biệt.\r
-Động gồm rất nhiều ngọn núi nối liền với nhau. Khi đứng trên đỉnh ngọn núi nhìn ra phía sau ta sẽ nhìn thấy dòng sông Kinh Thầy nằm sát dưới chân núi. Động được mở quanh năm cho khách thập phương đến tham quan, khám phá, cầu nguyện."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%99ng_K%C3%ADnh_Ch%E1%BB%A7> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Động Kính Chủ hay động Dương Nham là hang động nằm ở vùng đất làng Dương Nham, phường Phạm Sư Mạnh, thành phố Hải Phòng, Việt Nam.\r
-Động Kính Chủ được xếp vào hàng Nam thiên đệ lục động (tức là hang động đẹp thứ sáu của trời Nam).\r
-Kính Chủ là một trong những di tích quan trọng của tỉnh Hải Dương mà trung tâm là động Kính Chủ. Đây là danh thắng thuộc quần thể An Phụ - Kính Chủ - Nhẫm Dương đã được xếp hạng di tích quốc gia đặc biệt.\r
-Động gồm rất nhiều ngọn núi nối liền với nhau. Khi đứng trên đỉnh ngọn núi nhìn ra phía sau ta sẽ nhìn thấy dòng sông Kinh Thầy nằm sát dưới chân núi. Động được mở quanh năm cho khách thập phương đến tham quan, khám phá, cầu nguyện."""@vi ;
-    geo1:lat 21.032277 ;
-    geo1:long 106.505575 ;
-    skos:altLabel "DTLS và DLTC Quần thể An Phụ - Kính Chủ - Nhẫm Dương"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%99ng_K%C3%ADnh_Ch%E1%BB%A7> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-40889f0bafcb-8fa727 a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Đền Cao An Phụ"@vi ;
-    vh:address "Tỉnh Hải Dương"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q704110 ;
-    vh:constructionYear "1251"^^xsd:gYear ;
-    vh:locatedIn vhr:area-name-4f99714e585c ;
-    vh:recognitionYear "2016"^^xsd:gYear ;
-    vh:sourcePageId 19709308 ;
-    vh:sourceTitle "Đền Cao An Phụ"^^xsd:string ;
-    dcterms:description """Đền Cao An Phụ là ngôi đền thờ An Sinh Vương Trần Liễu trên đỉnh núi An Phụ tại phường Phạm Sư Mạnh, thành phố Hải Phòng, trước đây là phường An Sinh, thị xã Kinh Môn, tỉnh Hải Dương.\r
-Đền có tên tự là "An Phụ Sơn Từ", tọa lạc trên đỉnh cao nhất của dãy núi An Phụ (246 m). Đây là dãy núi thấp nằm hoàn toàn trên địa bàn thị xã Kinh Môn (cũ) có chiều dài khoảng 17 km, chạy hướng tây bắc - đông nam song song với sông Kinh Thầy."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Cao_An_Ph%E1%BB%A5> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Đền Cao An Phụ là ngôi đền thờ An Sinh Vương Trần Liễu trên đỉnh núi An Phụ tại phường Phạm Sư Mạnh, thành phố Hải Phòng, trước đây là phường An Sinh, thị xã Kinh Môn, tỉnh Hải Dương.\r
-Đền có tên tự là "An Phụ Sơn Từ", tọa lạc trên đỉnh cao nhất của dãy núi An Phụ (246 m). Đây là dãy núi thấp nằm hoàn toàn trên địa bàn thị xã Kinh Môn (cũ) có chiều dài khoảng 17 km, chạy hướng tây bắc - đông nam song song với sông Kinh Thầy."""@vi ;
-    geo1:lat 21.014192 ;
-    geo1:long 106.492662 ;
-    skos:altLabel "DTLS và DLTC Quần thể An Phụ - Kính Chủ - Nhẫm Dương"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Cao_An_Ph%E1%BB%A5> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-40ac2ce5e0b0 a vh:NationalTreasure ;
     rdfs:label "Trống đồng Cẩm Giang I"@vi ;
     vh:locatedIn vhr:area-name-2035d470f202 ;
@@ -3722,9 +3665,11 @@ vhr:registry-4154531069b9 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-4155f890beda a vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS Khu lăng mộ và đền thờ các vị vua triều Lý"@vi ;
     vh:address "Tỉnh Bắc Ninh"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53915234d31c ;
     vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     vh:recognitionYear "2014"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -3845,53 +3790,6 @@ vhr:registry-438f97156c99 a vh:IntangibleHeritage,
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     dcterms:subject "national_intangible" ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-43a3e7715b7a-9c23d0 a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Đền Ngọc Sơn"@vi ;
-    vh:address "Thành phố Hà Nội"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q511375 ;
-    vh:locatedIn vhr:area-name-8de4ed043a59 ;
-    vh:recognitionYear "2013"^^xsd:gYear ;
-    vh:sourcePageId 25334 ;
-    vh:sourceTitle "Đền Ngọc Sơn"^^xsd:string ;
-    dcterms:description "Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Ng%E1%BB%8Dc_S%C6%A1n> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."@vi ;
-    geo1:lat 21.03072222 ;
-    geo1:long 105.85233333 ;
-    skos:altLabel "DTLS và DLTC Hồ Hoàn Kiếm và Đền Ngọc Sơn"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Ng%E1%BB%8Dc_S%C6%A1n> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-43a3e7715b7a-cf42ea a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Hồ Hoàn Kiếm"@vi ;
-    vh:address "Thành phố Hà Nội"^^xsd:string ;
-    vh:locatedIn vhr:area-name-8de4ed043a59 ;
-    vh:recognitionYear "2013"^^xsd:gYear ;
-    vh:sourcePageId 15360 ;
-    vh:sourceTitle "Hồ Hoàn Kiếm"^^xsd:string ;
-    dcterms:description """Hồ Hoàn Kiếm (Hán-Nôm: 湖還劍) còn được gọi là Hồ Gươm là một hồ nước ngọt tự nhiên nằm ở phường Hoàn Kiếm, trung tâm thành phố Hà Nội. Hồ có diện tích khoảng 12 ha. Trước kia, hồ còn có các tên gọi là hồ Lục Thủy (vì nước có màu xanh quanh năm), hồ Thủy Quân (dùng để duyệt thủy binh), hồ Tả Vọng và Hữu Vọng (trong thời Lê mạt). \r
-Tên gọi Hoàn Kiếm xuất hiện vào đầu thế kỷ 15 gắn với truyền thuyết vua Lê Lợi trả lại gươm thần cho Rùa vàng. Theo truyền thuyết, trong một lần vua Lê Thái Tổ dạo chơi trên thuyền, bỗng một con rùa vàng nổi lên mặt nước đòi nhà vua trả thanh gươm mà Long Vương cho mượn để đánh đuổi quân Minh xâm lược. Nhà vua liền trả gươm cho rùa thần và rùa lặn xuống nước biến mất. Từ đó hồ được lấy tên là hồ Hoàn Kiếm.\r
-Hồ Hoàn Kiếm có vị trí kết nối giữa khu phố cổ gồm các phố Hàng Ngang, Hàng Đào, Cầu Gỗ, Lương Văn Can, Lò Sũ... với khu phố Tây do người Pháp quy hoạch cách đây hơn một thế kỷ là Bảo Khánh, Nhà thờ, Tràng Thi, Hàng Bài, Đinh Tiên Hoàng, Tràng Tiền, Hàng Khay, Bà Triệu."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
-        <https://vi.wikipedia.org/wiki/H%E1%BB%93_Ho%C3%A0n_Ki%E1%BA%BFm> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Hồ Hoàn Kiếm (Hán-Nôm: 湖還劍) còn được gọi là Hồ Gươm là một hồ nước ngọt tự nhiên nằm ở phường Hoàn Kiếm, trung tâm thành phố Hà Nội. Hồ có diện tích khoảng 12 ha. Trước kia, hồ còn có các tên gọi là hồ Lục Thủy (vì nước có màu xanh quanh năm), hồ Thủy Quân (dùng để duyệt thủy binh), hồ Tả Vọng và Hữu Vọng (trong thời Lê mạt). \r
-Tên gọi Hoàn Kiếm xuất hiện vào đầu thế kỷ 15 gắn với truyền thuyết vua Lê Lợi trả lại gươm thần cho Rùa vàng. Theo truyền thuyết, trong một lần vua Lê Thái Tổ dạo chơi trên thuyền, bỗng một con rùa vàng nổi lên mặt nước đòi nhà vua trả thanh gươm mà Long Vương cho mượn để đánh đuổi quân Minh xâm lược. Nhà vua liền trả gươm cho rùa thần và rùa lặn xuống nước biến mất. Từ đó hồ được lấy tên là hồ Hoàn Kiếm.\r
-Hồ Hoàn Kiếm có vị trí kết nối giữa khu phố cổ gồm các phố Hàng Ngang, Hàng Đào, Cầu Gỗ, Lương Văn Can, Lò Sũ... với khu phố Tây do người Pháp quy hoạch cách đây hơn một thế kỷ là Bảo Khánh, Nhà thờ, Tràng Thi, Hàng Bài, Đinh Tiên Hoàng, Tràng Tiền, Hàng Khay, Bà Triệu."""@vi ;
-    skos:altLabel "DTLS và DLTC Hồ Hoàn Kiếm và Đền Ngọc Sơn"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
-        <https://vi.wikipedia.org/wiki/H%E1%BB%93_Ho%C3%A0n_Ki%E1%BA%BFm> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-43b0cadb80ce a vh:IntangibleHeritage,
@@ -4450,6 +4348,7 @@ vhr:registry-4ceaa6994aa0 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Gò Đống Đa"@vi ;
     vh:address "Thành phố Hà Nội"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-ec22894ce277 ;
     vh:locatedIn vhr:area-name-8de4ed043a59 ;
     vh:recognitionYear "2018"^^xsd:gYear ;
     vh:sourcePageId 45440 ;
@@ -4639,6 +4538,7 @@ vhr:registry-4fb6751f4dcd a vh:ArchitecturalSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS và KTNT Lam Kinh"@vi ;
     vh:address "Tỉnh Thanh Hóa"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-5a36f1e0cf10 ;
     vh:locatedIn vhr:area-name-2035d470f202 ;
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 421396 ;
@@ -4698,6 +4598,7 @@ vhr:registry-5039665c0ab7 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Những địa điểm Khởi nghĩa Yên Thế"@vi ;
     vh:address "Tỉnh Bắc Giang"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-3974a94b5112 ;
     vh:locatedIn vhr:area-name-34bf35f4ea37 ;
     vh:recognitionYear "2012"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -4889,7 +4790,8 @@ vhr:registry-534057f6643b a vh:IntangibleHeritage,
 
 vhr:registry-535519ce64d1 a vh:ArchitecturalSite,
         vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS và KTNT Đền Trần Thương"@vi ;
     vh:address "Tỉnh Hà Nam"^^xsd:string ;
     vh:associatedWithPerson vhr:person-wikidata-q511375 ;
@@ -5099,29 +5001,6 @@ vhr:registry-56f716fc59f9 a vh:HeritageSite,
         <https://vi.wikipedia.org/wiki/Nh%C3%A0_t%C3%B9_C%C3%B4n_%C4%90%E1%BA%A3o> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-5772ea302cb4 a vh:ArchitecturalSite,
-        vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "DTLS và KTNT Chùa Vĩnh Nghiêm"@vi ;
-    vh:address "Tỉnh Bắc Giang"^^xsd:string ;
-    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
-    vh:recognitionYear "2015"^^xsd:gYear ;
-    vh:sourcePageId 302006 ;
-    vh:sourceTitle "Chùa Vĩnh Nghiêm (Bắc Ninh)"^^xsd:string ;
-    dcterms:description """Chùa Vĩnh Nghiêm còn được gọi là chùa Đức La, đây là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025.\r
-Ngôi chùa cổ này nằm tại làng Đức La, phường Tân An, thành phố Bắc Ninh, Việt Nam. Chùa được công nhận là một trung tâm Phật giáo, nơi đào tạo tăng đồ cho cả nước, nơi phát tích Tam Tổ phái Thiền Trúc Lâm của Phật giáo Việt Nam. Năm 2015, chùa được công nhận là Di tích quốc gia đặc biệt."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-vinh-nghiem-1312>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_V%C4%A9nh_Nghi%C3%AAm_(B%E1%BA%AFc_Ninh)> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Chùa Vĩnh Nghiêm còn được gọi là chùa Đức La, đây là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025.\r
-Ngôi chùa cổ này nằm tại làng Đức La, phường Tân An, thành phố Bắc Ninh, Việt Nam. Chùa được công nhận là một trung tâm Phật giáo, nơi đào tạo tăng đồ cho cả nước, nơi phát tích Tam Tổ phái Thiền Trúc Lâm của Phật giáo Việt Nam. Năm 2015, chùa được công nhận là Di tích quốc gia đặc biệt."""@vi ;
-    skos:altLabel "Chùa Vĩnh Nghiêm (Bắc Ninh)"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-vinh-nghiem-1312>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_V%C4%A9nh_Nghi%C3%AAm_(B%E1%BA%AFc_Ninh)> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-5774595a7ec3 a vh:NationalTreasure ;
     rdfs:label "Đôi chuông chùa Đà Quận - còn gọi là chùa Viên Minh"@vi ;
     vh:locatedIn vhr:area-name-487a9a1ffea3 ;
@@ -5235,7 +5114,8 @@ vhr:registry-58ccef360294 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-5941413e7349 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Chùa Dâu"@vi ;
     vh:address "Tỉnh Bắc Ninh"^^xsd:string ;
     vh:locatedIn vhr:area-name-34bf35f4ea37 ;
@@ -5510,9 +5390,12 @@ vhr:registry-5cff94aa6add a vh:ArchitecturalSite,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-5d0cea2ddae1 a vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS Khu lăng mộ và đền thờ các vị vua triều Trần"@vi ;
     vh:address "Tỉnh Thái Bình"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53088c1303e1 ;
+    vh:hasRelatedSite vhr:registry-86f42708d93f ;
     vh:locatedIn vhr:area-name-d9cd26c7e761 ;
     vh:recognitionYear "2014"^^xsd:gYear ;
     vh:sourcePageId 419558 ;
@@ -6212,7 +6095,8 @@ vhr:registry-69f561e812e2 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-69f5b6f43b02 a vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS Đền Hát Môn"@vi ;
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:locatedIn vhr:area-name-8de4ed043a59 ;
@@ -6457,6 +6341,7 @@ vhr:registry-6d2fa2175bbe a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Bạch Đằng"@vi ;
     vh:address "Tỉnh Quảng Nình"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-1c8e6db3bf5c ;
     vh:locatedIn vhr:area-name-cff49d8e0895 ;
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 19709455 ;
@@ -6551,7 +6436,8 @@ Cát Bà đang không ngừng được đầu tư và phát triển để trở 
 
 vhr:registry-6e3cc6129a1c a vh:ArchitecturalSite,
         vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS và KTNT Chùa Thầy và khu vực núi đá Sài Sơn, Hoàng Xá, Phượng Cách"@vi ;
     vh:address "Tỉnh Hà Nội"^^xsd:string ;
     vh:locatedIn vhr:area-name-8de4ed043a59 ;
@@ -7736,26 +7622,6 @@ vhr:registry-86c84cab36c8 a vh:NationalTreasure ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-86f42708d93f a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "DTLS Khu di tích Nhà Trần tại Đông Triều"@vi ;
-    vh:address "Tỉnh Quảng Ninh"^^xsd:string ;
-    vh:locatedIn vhr:area-name-cff49d8e0895 ;
-    vh:recognitionYear "2013"^^xsd:gYear ;
-    vh:sourcePageId 1742855 ;
-    vh:sourceTitle "Khu di tích nhà Trần tại Đông Triều"^^xsd:string ;
-    dcterms:description "Khu di tích nhà Trần tại Đông Triều, thành phố Quảng Ninh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích Quốc gia đặc biệt quan trọng. Đây là di tích quan trọng bậc nhất của vương triều Trần khi nằm trên quê hương đất tổ, nơi lưu giữ Thái miếu nhà Trần và lăng mộ của các Vua cùng tông thất nhà Trần bên cạnh các di tích chiến thắng Bạch Đằng và Trúc Lâm Yên Tử. Khu di tích này có 2 di tích là thái miếu nhà Trần và chùa Ngoạ Vân nằm trong Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là di sản thế giới từ năm 2025."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/khu-di-tich-lich-su-nha-tran-tai-dong-trieu-2972>,
-        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_nh%C3%A0_Tr%E1%BA%A7n_t%E1%BA%A1i_%C4%90%C3%B4ng_Tri%E1%BB%81u> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Khu di tích nhà Trần tại Đông Triều, thành phố Quảng Ninh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích Quốc gia đặc biệt quan trọng. Đây là di tích quan trọng bậc nhất của vương triều Trần khi nằm trên quê hương đất tổ, nơi lưu giữ Thái miếu nhà Trần và lăng mộ của các Vua cùng tông thất nhà Trần bên cạnh các di tích chiến thắng Bạch Đằng và Trúc Lâm Yên Tử. Khu di tích này có 2 di tích là thái miếu nhà Trần và chùa Ngoạ Vân nằm trong Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là di sản thế giới từ năm 2025."@vi ;
-    skos:altLabel "Khu di tích nhà Trần tại Đông Triều"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/khu-di-tich-lich-su-nha-tran-tai-dong-trieu-2972>,
-        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_nh%C3%A0_Tr%E1%BA%A7n_t%E1%BA%A1i_%C4%90%C3%B4ng_Tri%E1%BB%81u> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-8761c5610024 a vh:IntangibleHeritage,
         vh:NationalIntangibleHeritage ;
     rdfs:label "Lễ hội Đình Lưu Xá"@vi ;
@@ -8084,30 +7950,6 @@ vhr:registry-8cfee23083f6 a vh:NationalTreasure ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-8d3bf5f7a11c a vh:ArchitecturalSite,
-        vh:HeritageSite ;
-    rdfs:label "DTKTNT Chùa Keo"@vi ;
-    vh:address "Tỉnh Thái Bình"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q16481089 ;
-    vh:constructionYear "1630"^^xsd:gYear ;
-    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
-    vh:recognitionYear "2012"^^xsd:gYear ;
-    vh:sourcePageId 530162 ;
-    vh:sourceTitle "Chùa Keo Thái Bình"^^xsd:string ;
-    dcterms:description "Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Keo_Th%C3%A1i_B%C3%ACnh> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt."@vi ;
-    geo1:lat 20.36055556 ;
-    geo1:long 106.29722222 ;
-    skos:altLabel "Chùa Keo Thái Bình"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Keo_Th%C3%A1i_B%C3%ACnh> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-8d5f6d9d9a60 a vh:ArchitecturalSite,
         vh:HeritageSite ;
     rdfs:label "Đình, đền, miếu Hạ"@vi ;
@@ -8170,7 +8012,8 @@ vhr:registry-8e8524aeef45 a vh:ArchitecturalSite,
 
 vhr:registry-8e8fb3d090cb a vh:ArchitecturalSite,
         vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS và KTNT Văn Miếu - Quốc Tử Giám"@vi ;
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:constructionYear "1070"^^xsd:gYear ;
@@ -8215,9 +8058,11 @@ vhr:registry-8fcd36160b14 a vh:HeritageSite,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-904980409990 a vh:ArchaeologicalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKC Phật viện Đồng Dương"@vi ;
     vh:address "Tỉnh Quảng Nam"^^xsd:string ;
+    vh:hasArchitecturalStyle vhr:style-e67ab3ac5cc0 ;
     vh:locatedIn vhr:area-name-352c0cff9935 ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 408900 ;
@@ -8491,6 +8336,7 @@ vhr:registry-95f66d97f128 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Khởi nghĩa Bắc Sơn"@vi ;
     vh:address "Tỉnh Lạng Sơn"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-cdfedaecf5d5 ;
     vh:locatedIn vhr:area-name-133867db9b91 ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -9791,34 +9637,6 @@ vhr:registry-ac6bf42ffd94 a vh:IntangibleHeritage,
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-ac781f8e46c5 a vh:ArchaeologicalSite,
-        vh:ArchitecturalSite,
-        vh:HeritageSite ;
-    rdfs:label "DTKTNT và KC Tháp Pô Klong Garai"@vi ;
-    vh:address "Tỉnh Ninh Thuận"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q16481478 ;
-    vh:locatedIn vhr:area-name-8128e9d1ccb4 ;
-    vh:recognitionYear "2016"^^xsd:gYear ;
-    vh:sourcePageId 67149 ;
-    vh:sourceTitle "Tháp Po Klong Garai"^^xsd:string ;
-    dcterms:description """Tháp Po Klong Garai là tên gọi chung cho một cụm tháp Chăm hùng vĩ và đẹp nhất còn lại ở Việt Nam, phụng thờ vua Po Klong Garai. Tháp Pô Klong Garai là một tổng thể gồm ba tháp: tháp chính (cao 20,5m), tháp lửa (cao 9,31m), tháp cổng (cao 8,56m). Công trình này có trình độ kiến trúc, nghệ thuật, điêu khắc đạt đến đỉnh cao. Di tích kiến trúc nghệ thuật này được Bộ Văn hóa xếp hạng di tích di tích quốc gia năm 1979 và được Thủ tướng Chính phủ xếp hạng di tích quốc gia đặc biệt.\r
-Tháp Poklong Garai nằm trên đồi Trầu, thuộc phường Đô Vinh, tỉnh Khánh Hòa, được xây dựng vào cuối thế kỷ 13 đầu thế kỷ 14 (thời vua Shihavaman, người Việt gọi là Chế Mân) để thờ vua Po Klong Garai (1151-1205), vị vua đã có nhiều công lớn trong việc cai trị đất nước.\r
-Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
-        <https://vi.wikipedia.org/wiki/Th%C3%A1p_Po_Klong_Garai> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Tháp Po Klong Garai là tên gọi chung cho một cụm tháp Chăm hùng vĩ và đẹp nhất còn lại ở Việt Nam, phụng thờ vua Po Klong Garai. Tháp Pô Klong Garai là một tổng thể gồm ba tháp: tháp chính (cao 20,5m), tháp lửa (cao 9,31m), tháp cổng (cao 8,56m). Công trình này có trình độ kiến trúc, nghệ thuật, điêu khắc đạt đến đỉnh cao. Di tích kiến trúc nghệ thuật này được Bộ Văn hóa xếp hạng di tích di tích quốc gia năm 1979 và được Thủ tướng Chính phủ xếp hạng di tích quốc gia đặc biệt.\r
-Tháp Poklong Garai nằm trên đồi Trầu, thuộc phường Đô Vinh, tỉnh Khánh Hòa, được xây dựng vào cuối thế kỷ 13 đầu thế kỷ 14 (thời vua Shihavaman, người Việt gọi là Chế Mân) để thờ vua Po Klong Garai (1151-1205), vị vua đã có nhiều công lớn trong việc cai trị đất nước.\r
-Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai."""@vi ;
-    geo1:lat 11.601831 ;
-    geo1:long 108.9442935 ;
-    skos:altLabel "Tháp Po Klong Garai"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
-        <https://vi.wikipedia.org/wiki/Th%C3%A1p_Po_Klong_Garai> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-ac9fe269e2f1 a vh:IntangibleHeritage,
         vh:NationalIntangibleHeritage ;
     rdfs:label "Nghề làm Bánh tráng Mỹ Lồng"@vi ;
@@ -10030,6 +9848,7 @@ vhr:registry-afae4d721961 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Địa điểm tổ chức Đại hội đại biểu toàn quốc lần thứ II của Đảng"@vi ;
     vh:address "Tỉnh Tuyên Quang"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-626ab4c9d52c ;
     vh:locatedIn vhr:area-name-99be0b794c77 ;
     vh:recognitionYear "2016"^^xsd:gYear ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -10246,6 +10065,7 @@ vhr:registry-b52f76eaec10 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Địa điểm Chiến thắng Rạch Gầm - Xoài Mút"@vi ;
     vh:address "Tỉnh Tiền Giang"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-424f08353500 ;
     vh:locatedIn vhr:area-name-956704bccf88 ;
     vh:recognitionYear "2014"^^xsd:gYear ;
     vh:sourcePageId 1700815 ;
@@ -11539,9 +11359,11 @@ vhr:registry-c83ddad32001 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-c842907c028e a vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS Khu đền thờ Tây Sơn - Tam Kiệt"@vi ;
     vh:address "Tỉnh Bình Định"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-950fb3bb2b11 ;
     vh:locatedIn vhr:area-name-574f21fd28ba ;
     vh:recognitionYear "2014"^^xsd:gYear ;
     vh:sourcePageId 19476663 ;
@@ -11980,7 +11802,8 @@ vhr:registry-ceb69ee34426 a vh:HeritageSite,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-cec0cf31819e a vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS Đền Cửa Ông"@vi ;
     vh:address "Tỉnh Quảng Ninh"^^xsd:string ;
     vh:associatedWithPerson vhr:person-wikidata-q7833315 ;
@@ -12275,6 +12098,7 @@ vhr:registry-d386c8c283f7 a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Thành cổ Quảng Trị và những địa điểm lưu niệm sự kiện 81 ngày đêm năm 1972"@vi ;
     vh:address "Tỉnh Quảng Trị"^^xsd:string ;
+    vh:associatedWithEvent vhr:event-0cd158f28f6d ;
     vh:constructionYear "1809"^^xsd:gYear ;
     vh:locatedIn vhr:area-name-441134c12a3e ;
     vh:recognitionYear "2013"^^xsd:gYear ;
@@ -12627,9 +12451,11 @@ vhr:registry-da2ff1486cc0 a vh:NationalTreasure ;
 
 vhr:registry-da36c0d9c6bc a vh:ArchitecturalSite,
         vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS và KTNT Đền Trần và Chùa Phổ Minh"@vi ;
     vh:address "Tỉnh Nam Định"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53088c1303e1 ;
     vh:constructionYear "1695"^^xsd:gYear ;
     vh:locatedIn vhr:area-name-dca800e51853 ;
     vh:recognitionYear "2012"^^xsd:gYear ;
@@ -12945,7 +12771,8 @@ vhr:registry-dfc07d4f4ef2 a vh:IntangibleHeritage,
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-dfcef178d549 a vh:HeritageSite,
-        vh:HistoricalSite ;
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
     rdfs:label "DTLS Đền Hai Bà Trưng"@vi ;
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:associatedWithPerson vhr:person-wikidata-q25418141,
@@ -13635,7 +13462,8 @@ vhr:registry-e9c405b05532 a vh:NationalTreasure ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-ea51124b7ac0 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Chùa Bút Tháp"@vi ;
     vh:address "Tỉnh Bắc Ninh"^^xsd:string ;
     vh:locatedIn vhr:area-name-34bf35f4ea37 ;
@@ -14494,84 +14322,6 @@ vhr:registry-fcfdf1ef3f66 a vh:HeritageSite,
     prov:wasDerivedFrom <https://dsvh.gov.vn/den-xa-tac-tinh-quang-ninh-3373> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:registry-fd03e1f1662c-164238 a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Đền Xưa"@vi ;
-    vh:address "Tỉnh Hải Dương"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q10830179 ;
-    vh:locatedIn vhr:area-name-4f99714e585c ;
-    vh:recognitionYear "2017"^^xsd:gYear ;
-    vh:sourcePageId 19762463 ;
-    vh:sourceTitle "Đền Xưa"^^xsd:string ;
-    dcterms:description "Đền Xưa là ngôi đền thờ Đại danh y – Thiền sư Tuệ Tĩnh ngay tại quê hương của ông là Nghĩa Lư trang, nay thuộc thôn Nghĩa Phú, xã Tuệ Tĩnh, thành phố Hải Phòng. Đây là một trong ba di tích của Cụm di tích Đền Xưa – Chùa Giám – Đền Bia đều thờ Tuệ Tĩnh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích quốc gia đặc biệt vào năm 2017."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_X%C6%B0a> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Đền Xưa là ngôi đền thờ Đại danh y – Thiền sư Tuệ Tĩnh ngay tại quê hương của ông là Nghĩa Lư trang, nay thuộc thôn Nghĩa Phú, xã Tuệ Tĩnh, thành phố Hải Phòng. Đây là một trong ba di tích của Cụm di tích Đền Xưa – Chùa Giám – Đền Bia đều thờ Tuệ Tĩnh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích quốc gia đặc biệt vào năm 2017."@vi ;
-    geo1:lat 20.97113 ;
-    geo1:long 106.246972 ;
-    skos:altLabel "DTLS Đền Xưa - Chùa Giám - Đền Bia"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_X%C6%B0a> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-fd03e1f1662c-53c105 a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Chùa Giám"@vi ;
-    vh:address "Tỉnh Hải Dương"^^xsd:string ;
-    vh:locatedIn vhr:area-name-4f99714e585c ;
-    vh:recognitionYear "2017"^^xsd:gYear ;
-    vh:sourcePageId 19608644 ;
-    vh:sourceTitle "Chùa Giám"^^xsd:string ;
-    dcterms:description "Chùa Giám (tên chữ là Nghiêm Quang Tự) (chữ Hán: 嚴光寺) là một ngôi chùa thuộc xã Cẩm Giàng, thành phố Hải Phòng. Đây là công trình Phật giáo độc đáo chỉ có duy nhất ở Việt Nam."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Gi%C3%A1m> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Chùa Giám (tên chữ là Nghiêm Quang Tự) (chữ Hán: 嚴光寺) là một ngôi chùa thuộc xã Cẩm Giàng, thành phố Hải Phòng. Đây là công trình Phật giáo độc đáo chỉ có duy nhất ở Việt Nam."@vi ;
-    skos:altLabel "DTLS Đền Xưa - Chùa Giám - Đền Bia"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Gi%C3%A1m> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:registry-fd03e1f1662c-f33488 a vh:HeritageSite,
-        vh:HistoricalSite ;
-    rdfs:label "Đền Bia"@vi ;
-    vh:address "Tỉnh Hải Dương"^^xsd:string ;
-    vh:associatedWithPerson vhr:person-wikidata-q10830179 ;
-    vh:locatedIn vhr:area-name-4f99714e585c ;
-    vh:recognitionYear "2017"^^xsd:gYear ;
-    vh:sourcePageId 19567681 ;
-    vh:sourceTitle "Đền Bia"^^xsd:string ;
-    dcterms:description """Đền Bia một ngôi đền tại xã Tuệ Tĩnh, thành phố Hải Phòng, Việt Nam. Đây là một trong 3 di tích quốc gia đặc biệt thờ Đại danh y – Thiền sư Tuệ Tĩnh tại huyện Cẩm Giàng (cùng với Đền Xưa và Chùa Giám).\r
-Đền Bia nằm trên cánh đồng phía tây thôn Văn Thai, xã Cẩm Văn. Trong đền có tấm bia đá từ thời Hậu Lê, là di vật kỷ niệm của danh y Tuệ Tĩnh nên đền có tên là Đền Bia.\r
-Đền được xây dựng từ thời Lê, xây dựng lại vào năm 1936, theo kiểu tiền nhất Hậu chữ Đinh (丁) mặt tiền quay về hướng Bắc. Ngày nay đền Bia là một công trình khang trang bề thế tọa lạc trên một diện tích rộng 4 ha, được phân làm 3 khu vực với đầy đủ các hạng mục công trình chính và phụ trợ:\r
-\r
-Khu thờ tự gồm 5 công trình: nghi môn, thủy lăng, bức bình phong bằng đá, hai bên là hai dãy tả vu, hữu vu\r
-Khu y xá gồm ba công trình: nhà bắt mạch kê đơn thuốc, nhà bốc thuốc và nhà chẩn trị\r
-Khu vườn thuốc: đây là một vườn thuốc Nam rộng 1.200 m², được chia làm 9 ô tương ứng với 9 bài thuốc là 9 nhóm bệnh theo hướng dẫn của Bộ Y tế gồm: cảm sốt, mụn nhọt, điều kinh, đau nhức xương khớp, ho, kiết lỵ, tiêu chảy, sốt xuất huyết và viêm gan siêu vi trùng."""@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Bia> ;
-    dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Đền Bia một ngôi đền tại xã Tuệ Tĩnh, thành phố Hải Phòng, Việt Nam. Đây là một trong 3 di tích quốc gia đặc biệt thờ Đại danh y – Thiền sư Tuệ Tĩnh tại huyện Cẩm Giàng (cùng với Đền Xưa và Chùa Giám).\r
-Đền Bia nằm trên cánh đồng phía tây thôn Văn Thai, xã Cẩm Văn. Trong đền có tấm bia đá từ thời Hậu Lê, là di vật kỷ niệm của danh y Tuệ Tĩnh nên đền có tên là Đền Bia.\r
-Đền được xây dựng từ thời Lê, xây dựng lại vào năm 1936, theo kiểu tiền nhất Hậu chữ Đinh (丁) mặt tiền quay về hướng Bắc. Ngày nay đền Bia là một công trình khang trang bề thế tọa lạc trên một diện tích rộng 4 ha, được phân làm 3 khu vực với đầy đủ các hạng mục công trình chính và phụ trợ:\r
-\r
-Khu thờ tự gồm 5 công trình: nghi môn, thủy lăng, bức bình phong bằng đá, hai bên là hai dãy tả vu, hữu vu\r
-Khu y xá gồm ba công trình: nhà bắt mạch kê đơn thuốc, nhà bốc thuốc và nhà chẩn trị\r
-Khu vườn thuốc: đây là một vườn thuốc Nam rộng 1.200 m², được chia làm 9 ô tương ứng với 9 bài thuốc là 9 nhóm bệnh theo hướng dẫn của Bộ Y tế gồm: cảm sốt, mụn nhọt, điều kinh, đau nhức xương khớp, ho, kiết lỵ, tiêu chảy, sốt xuất huyết và viêm gan siêu vi trùng."""@vi ;
-    geo1:lat 20.977854 ;
-    geo1:long 106.253361 ;
-    skos:altLabel "DTLS Đền Xưa - Chùa Giám - Đền Bia"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
-        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Bia> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:registry-fd1b03a52bcd a vh:HeritageSite,
         vh:HistoricalSite ;
     rdfs:label "DTLS Pác Bó"@vi ;
@@ -14767,12 +14517,6 @@ vh:Museum a owl:Class ;
     rdfs:comment "Bảo tàng có ý nghĩa văn hóa."@vi ;
     rdfs:subClassOf vh:CulturalHeritageEntity .
 
-vh:ReligiousSite a owl:Class ;
-    rdfs:label "Religious site"@en,
-        "Di tích tôn giáo"@vi ;
-    rdfs:comment "Site có chức năng/giá trị tôn giáo."@vi ;
-    rdfs:subClassOf vh:HeritageSite .
-
 vh:associatedWithPerson a rdf:Property,
         owl:ObjectProperty ;
     rdfs:label "associated with person"@en,
@@ -14812,6 +14556,71 @@ vh:recognizedBy a rdf:Property,
     rdfs:domain vh:HeritageSite ;
     rdfs:range vh:Organization .
 
+vhr:complex-c0786f4c0264 a vh:HeritageComplex ;
+    rdfs:label "Di tích lịch sử, danh lam thắng cảnh An Phụ - Kính Chủ - Nhẫm Dương"@vi ;
+    vh:hasMember vhr:registry-40889f0bafcb-4c9dbe,
+        vhr:registry-40889f0bafcb-8fa727 ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    dcterms:description "Nhẫm Dương gồm các di tích nằm trên huyện Kinh Môn, tỉnh Hải Dương: An Phụ: gồm Đền An Phụ (Đền Cao) và chùa Tường Vân (Chùa Cao) thuộc xã An Sinh;"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-danh-lam-thang-canh-an-phu-kinh-chu-nham-duong-tinh-hai-duong-3218> ;
+    rdfs:comment "Nhẫm Dương gồm các di tích nằm trên huyện Kinh Môn, tỉnh Hải Dương: An Phụ: gồm Đền An Phụ (Đền Cao) và chùa Tường Vân (Chùa Cao) thuộc xã An Sinh;"@vi ;
+    skos:altLabel "Quần thể An Phụ - Kính Chủ - Nhẫm Dương"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-danh-lam-thang-canh-an-phu-kinh-chu-nham-duong-tinh-hai-duong-3218> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-0cd158f28f6d a vh:HistoricalEvent ;
+    rdfs:label "Sự kiện 81 ngày đêm Thành cổ Quảng Trị năm 1972"@vi ;
+    dcterms:description "Bảo tàng hiện trưng bày nhiều hình ảnh, tư liệu, hiện vật gắn với Thành cổ Quảng Trị trong 81 ngày đêm lịch sử mùa hè năm 1972."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-thanh-co-quang-tri-va-nhung-dia-diem-luu-niem-su-kien-81-ngay-dem-nam-1972-2975> ;
+    rdfs:comment "Bảo tàng hiện trưng bày nhiều hình ảnh, tư liệu, hiện vật gắn với Thành cổ Quảng Trị trong 81 ngày đêm lịch sử mùa hè năm 1972."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-thanh-co-quang-tri-va-nhung-dia-diem-luu-niem-su-kien-81-ngay-dem-nam-1972-2975> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-1c8e6db3bf5c a vh:HistoricalEvent ;
+    rdfs:label "Chiến thắng Bạch Đằng năm 1288"@vi ;
+    dcterms:description "Đây là địa điểm ghi dấu sự kiện quân và dân nhà Trần đã lập nên chiến thắng lẫy lừng - Chiến thắng Bạch Đằng đánh tan quân Nguyên Mông ngày 09/4 (8/3 - Âm lịch) năm 1288."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-bach-dang-2960> ;
+    rdfs:comment "Đây là địa điểm ghi dấu sự kiện quân và dân nhà Trần đã lập nên chiến thắng lẫy lừng - Chiến thắng Bạch Đằng đánh tan quân Nguyên Mông ngày 09/4 (8/3 - Âm lịch) năm 1288."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-bach-dang-2960> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-23c3e2ad93c2 a vh:HistoricalEvent ;
+    rdfs:label "Chiến dịch Điện Biên Phủ"@vi ;
+    dcterms:description "Đây là vị trí đặt chân đầu tiên của Sở chỉ huy chiến dịch Điện Biên Phủ trong 32 ngày (từ 17/12/1953-17/01/1954)."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-chien-truong-dien-bien-phu-bo-sung-23-diem-di-tich-1537> ;
+    rdfs:comment "Đây là vị trí đặt chân đầu tiên của Sở chỉ huy chiến dịch Điện Biên Phủ trong 32 ngày (từ 17/12/1953-17/01/1954)."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-chien-truong-dien-bien-phu-bo-sung-23-diem-di-tich-1537> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-3974a94b5112 a vh:HistoricalEvent ;
+    rdfs:label "Khởi nghĩa Yên Thế"@vi ;
+    dcterms:description "Khởi nghĩa nông dân Yên Thế là cuộc khởi nghĩa nông dân lớn nhất, dài nhất diễn ra vào cuối thế kỷ XIX - đầu thế kỷ XX."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-nhung-dia-diem-khoi-nghia-yen-the-2955> ;
+    rdfs:comment "Khởi nghĩa nông dân Yên Thế là cuộc khởi nghĩa nông dân lớn nhất, dài nhất diễn ra vào cuối thế kỷ XIX - đầu thế kỷ XX."@vi ;
+    skos:altLabel "Khởi nghĩa nông dân Yên Thế"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-nhung-dia-diem-khoi-nghia-yen-the-2955> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-424f08353500 a vh:HistoricalEvent ;
+    rdfs:label "Chiến thắng Rạch Gầm - Xoài Mút"@vi ;
+    dcterms:description "Di tích lịch sử Rạch Gầm - Xoài Mút gắn liền với chiến công hiển hách của dân tộc ta chống quân Xiêm (1785), diễn ra trên đoạn sông Tiền từ Rạch Gầm đến Xoài Mút (nay thuộc xã Kim Sơn, huyện Châu Thành, tỉnh Tiền Giang)."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-chien-thang-rach-gam-xoai-mut-2986> ;
+    rdfs:comment "Di tích lịch sử Rạch Gầm - Xoài Mút gắn liền với chiến công hiển hách của dân tộc ta chống quân Xiêm (1785), diễn ra trên đoạn sông Tiền từ Rạch Gầm đến Xoài Mút (nay thuộc xã Kim Sơn, huyện Châu Thành, tỉnh Tiền Giang)."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-chien-thang-rach-gam-xoai-mut-2986> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:event-46f796e3c0a8 a vh:HistoricalEvent ;
     rdfs:label "Chiến dịch Commando Hunt"@vi ;
     vh:sourcePageId 520476 ;
@@ -14822,6 +14631,16 @@ vhr:event-46f796e3c0a8 a vh:HistoricalEvent ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Commando_Hunt> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:event-502f12bce64a a vh:HistoricalEvent ;
+    rdfs:label "Chiến dịch Đăk Tô I"@vi ;
+    dcterms:description "Chiến dịch Đăk Tô I kết thúc bằng trận then chốt quyết định ở khu vực 875 giành được thắng lợi ngày 22 tháng 11 năm 1967."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-dak-to-tan-canh-3462> ;
+    rdfs:comment "Chiến dịch Đăk Tô I kết thúc bằng trận then chốt quyết định ở khu vực 875 giành được thắng lợi ngày 22 tháng 11 năm 1967."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-chien-thang-dak-to-tan-canh-3462> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:event-51a97bb466db a vh:HistoricalEvent ;
     rdfs:label "Trận Đà Nẵng (1858–1859)"@vi ;
     vh:sourcePageId 353787 ;
@@ -14830,6 +14649,26 @@ vhr:event-51a97bb466db a vh:HistoricalEvent ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%ADn_%C4%90%C3%A0_N%E1%BA%B5ng_(1858%E2%80%931859)> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%ADn_%C4%90%C3%A0_N%E1%BA%B5ng_(1858%E2%80%931859)> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-5712e6b537f2 a vh:HistoricalEvent ;
+    rdfs:label "Phong trào Đồng Khởi"@vi ;
+    dcterms:description "Cho đến giữa năm 1960, ngọn lửa Đồng Khởi tiếp tục lan sang các tỉnh Tây Nguyên, làm thành cuộc khởi nghĩa dây chuyền sôi động khắp các tỉnh miền Nam và Tây Nguyên."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-dong-khoi-ben-tre-3002> ;
+    rdfs:comment "Cho đến giữa năm 1960, ngọn lửa Đồng Khởi tiếp tục lan sang các tỉnh Tây Nguyên, làm thành cuộc khởi nghĩa dây chuyền sôi động khắp các tỉnh miền Nam và Tây Nguyên."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-dong-khoi-ben-tre-3002> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-626ab4c9d52c a vh:HistoricalEvent ;
+    rdfs:label "Đại hội đại biểu toàn quốc lần thứ II của Đảng"@vi ;
+    dcterms:description "Đại hội Đại biểu toàn quốc lần thứ II của Đảng diễn ra từ ngày 11 đến 19/02/1951, cũng là dịp nhân dân các dân tộc xã Kim Bình tổ chức lễ hội Lồng tông."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-to-chuc-dai-hoi-dai-bieu-toan-quoc-lan-thu-ii-cua-dang-3001> ;
+    rdfs:comment "Đại hội Đại biểu toàn quốc lần thứ II của Đảng diễn ra từ ngày 11 đến 19/02/1951, cũng là dịp nhân dân các dân tộc xã Kim Bình tổ chức lễ hội Lồng tông."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-dia-diem-to-chuc-dai-hoi-dai-bieu-toan-quoc-lan-thu-ii-cua-dang-3001> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:event-6fa18c98b523 a vh:HistoricalEvent ;
@@ -14844,6 +14683,7 @@ vhr:event-6fa18c98b523 a vh:HistoricalEvent ;
 
 vhr:event-ae8309e286d4 a vh:HistoricalEvent ;
     rdfs:label "Đợt II Chiến dịch Điện Biên Phủ"@vi ;
+    vh:hasHistoricalSuccessor vhr:event-c70be9bd7aaa ;
     dcterms:description "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-05"^^xsd:date ;
@@ -14860,6 +14700,58 @@ vhr:event-b79650374533 a vh:HistoricalEvent ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Campuchia> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Chi%E1%BA%BFn_d%E1%BB%8Bch_Campuchia> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-c70be9bd7aaa a vh:HistoricalEvent ;
+    rdfs:label "Đợt III Chiến dịch Điện Biên Phủ"@vi ;
+    dcterms:description "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    rdfs:comment "Chiến dịch được chia làm 3 đợt: Đợt 1 bắt đầu từ ngày 13 tháng 3, đợt 2 bắt đầu từ ngày 30 tháng 3, đợt 3 bắt đầu từ ngày 1 tháng 5 và đến ngày 7 tháng 5 thì kết thúc."@vi ;
+    prov:wasDerivedFrom <https://baotanglichsu.vn/vi/Articles/2002/67980/tran-quyet-chien-chien-luoc-tieu-diet-tap-djoan-cu-djiem-djien-bien-phu-13-3-7-5-1954-djot-i-chien-dich-djien-bien-phu-djon-phu-djau.html> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-cdfedaecf5d5 a vh:HistoricalEvent ;
+    rdfs:label "Khởi nghĩa Bắc Sơn"@vi ;
+    dcterms:description "Khởi nghĩa Bắc Sơn (27/9/1940) - khởi đầu cao trào đấu tranh cách mạng trong cả nước;"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-khoi-nghia-bac-son-1593> ;
+    rdfs:comment "Khởi nghĩa Bắc Sơn (27/9/1940) - khởi đầu cao trào đấu tranh cách mạng trong cả nước;"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-khoi-nghia-bac-son-1593> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:event-ec22894ce277 a vh:HistoricalEvent ;
+    rdfs:label "Chiến dịch Ngọc Hồi - Đống Đa"@vi ;
+    dcterms:description "Đây cũng là nơi cầu siêu cho những linh hồn binh sĩ tử nạn trong chiến dịch Ngọc Hồi - Đống Đa, giải phóng Kinh thành Thăng Long vào mùa xuân năm Kỷ Dậu (1789)."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/go-dong-da-3285> ;
+    rdfs:comment "Đây cũng là nơi cầu siêu cho những linh hồn binh sĩ tử nạn trong chiến dịch Ngọc Hồi - Đống Đa, giải phóng Kinh thành Thăng Long vào mùa xuân năm Kỷ Dậu (1789)."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/go-dong-da-3285> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:period-5a36f1e0cf10 a vh:HistoricalPeriod ;
+    rdfs:label "Nhà Hậu Lê"@vi ;
+    dcterms:description "Năm 1428, Lê Lợi lên ngôi hoàng đế (Lê Thái Tổ), lập nên vương triều Hậu Lê, đóng đô ở Thăng Long , mở ra thời kỳ phát triển mới cho quốc gia Đại Việt."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-lam-kinh-2961> ;
+    rdfs:comment "Năm 1428, Lê Lợi lên ngôi hoàng đế (Lê Thái Tổ), lập nên vương triều Hậu Lê, đóng đô ở Thăng Long , mở ra thời kỳ phát triển mới cho quốc gia Đại Việt."@vi ;
+    skos:altLabel "Vương triều Hậu Lê"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-lam-kinh-2961> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:period-950fb3bb2b11 a vh:HistoricalPeriod ;
+    rdfs:label "Nhà Tây Sơn"@vi ;
+    dcterms:description "gắn liền với tên tuổi của ba anh em Nguyễn Nhạc, Nguyễn Huệ và Nguyễn Lữ của phong trào khởi nghĩa Tây Sơn, triều đại Tây Sơn cuối thế kỷ XVIII, tiêu biểu là vị anh hùng dân tộc Quang Trung - Nguyễn Huệ."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-khu-den-tho-tay-son-tam-kiet-2985> ;
+    rdfs:comment "gắn liền với tên tuổi của ba anh em Nguyễn Nhạc, Nguyễn Huệ và Nguyễn Lữ của phong trào khởi nghĩa Tây Sơn, triều đại Tây Sơn cuối thế kỷ XVIII, tiêu biểu là vị anh hùng dân tộc Quang Trung - Nguyễn Huệ."@vi ;
+    skos:altLabel "Triều đại Tây Sơn"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-khu-den-tho-tay-son-tam-kiet-2985> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:period-957be01571dd a vh:HistoricalPeriod ;
@@ -15022,8 +14914,216 @@ vhr:person-wikidata-q7833315 a vh:HistoricalPerson ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:registry-069da54d9cc1 a vh:ArchitecturalSite,
+        vh:HeritageSite,
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTLS và KTNT Chùa Bổ Đà"@vi ;
+    vh:address "Tỉnh Bắc Giang"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q16480384,
+        vhr:person-wikidata-q4604 ;
+    vh:hasRelatedSite vhr:registry-5772ea302cb4 ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
+    vh:recognitionYear "2016"^^xsd:gYear ;
+    vh:sourcePageId 18968 ;
+    vh:sourceTitle "Chùa Bổ Đà"^^xsd:string ;
+    dcterms:description """Chùa Bổ Đà còn được gọi là chùa Bổ, chùa Tam Giáo, còn có tên chữ là Tứ Ân tự (四恩寺) toạ lạc trên ngọn núi Phượng Hoàng (Bổ Đà sơn), bờ tả dòng sông Cầu, thuộc địa phận tổ dân phố Thượng Lát, phường Vân Hà, thành phố Bắc Ninh (thời phong kiến là xã Tiên Lát, tổng Tiên Lát, huyện Yên Việt, phủ Bắc Hà, trấn Kinh Bắc xưa). Chùa Bổ Đà là một trong những ngôi chùa độc đáo nhất vùng đất Kinh Bắc, là trung tâm Phật giáo lớn - chốn Tổ của dòng thiền Trúc Lâm Yên Tử. Chùa đã được công nhận là Di tích quốc gia đặc biệt năm 2016 và bộ kinh phật khắc trên gỗ thị lưu giữ trong chùa được đánh giá là cổ nhất của dòng thiền Lâm Tế,...\r
+Chùa Bổ Đà là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-bo-da-2998>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_B%E1%BB%95_%C4%90%C3%A0> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Chùa Bổ Đà còn được gọi là chùa Bổ, chùa Tam Giáo, còn có tên chữ là Tứ Ân tự (四恩寺) toạ lạc trên ngọn núi Phượng Hoàng (Bổ Đà sơn), bờ tả dòng sông Cầu, thuộc địa phận tổ dân phố Thượng Lát, phường Vân Hà, thành phố Bắc Ninh (thời phong kiến là xã Tiên Lát, tổng Tiên Lát, huyện Yên Việt, phủ Bắc Hà, trấn Kinh Bắc xưa). Chùa Bổ Đà là một trong những ngôi chùa độc đáo nhất vùng đất Kinh Bắc, là trung tâm Phật giáo lớn - chốn Tổ của dòng thiền Trúc Lâm Yên Tử. Chùa đã được công nhận là Di tích quốc gia đặc biệt năm 2016 và bộ kinh phật khắc trên gỗ thị lưu giữ trong chùa được đánh giá là cổ nhất của dòng thiền Lâm Tế,...\r
+Chùa Bổ Đà là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025."""@vi ;
+    skos:altLabel "Chùa Bổ Đà"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-bo-da-2998>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_B%E1%BB%95_%C4%90%C3%A0> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-280af8a8985a a vh:ArchitecturalSite,
+        vh:HeritageSite,
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTLS và KTNT Côn Sơn - Kiếp Bạc"@vi ;
+    vh:address "Tỉnh Hải Dương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    vh:recognitionYear "2012"^^xsd:gYear ;
+    vh:sourcePageId 484037 ;
+    vh:sourceTitle "Khu di tích Côn Sơn – Kiếp Bạc"^^xsd:string ;
+    dcterms:description """Khu di tích Côn Sơn – Kiếp Bạc là một di tích quốc gia đặc biệt quan trọng của Việt Nam. Quần thể di tích này thuộc địa bàn phường Trần Hưng Đạo, thành phố Hải Phòng. Nơi đây gồm quần thể các di tích lịch sử liên quan đến những chiến công lẫy lừng trong ba lần quân dân nhà Trần đánh thắng quân xâm lược Mông Nguyên thế kỷ XIII và trong cuộc kháng chiến 10 năm của nghĩa quân Lam Sơn chống quân Minh ở thế kỷ XV. Đây là nơi gắn liền với thân thế, sự nghiệp của các vị anh hùng dân tộc như: Nguyễn Trãi, Trần Hưng Đạo cùng nhiều danh nhân văn hoá của dân tộc: Trần Nguyên Đán, Pháp Loa, Huyền Quang... Điểm nhấn của khu di tích này là chùa Côn Sơn và đền Kiếp Bạc.\r
+Ngày 18/6/2010 Thủ tướng Chính phủ đã ban hành Quyết định số 920/QĐ-TTg phê duyệt Quy hoạch tổng thể bảo tồn Khu di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc gắn với phát triển du lịch, thành phố Chí Linh, tỉnh Hải Dương. Trong dịp Lễ hội mùa thu năm 2012, Khu Di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc đã được công nhận là di tích quốc gia đặc biệt."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-con-son-kiep-bac-2954>,
+        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_C%C3%B4n_S%C6%A1n_%E2%80%93_Ki%E1%BA%BFp_B%E1%BA%A1c> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Khu di tích Côn Sơn – Kiếp Bạc là một di tích quốc gia đặc biệt quan trọng của Việt Nam. Quần thể di tích này thuộc địa bàn phường Trần Hưng Đạo, thành phố Hải Phòng. Nơi đây gồm quần thể các di tích lịch sử liên quan đến những chiến công lẫy lừng trong ba lần quân dân nhà Trần đánh thắng quân xâm lược Mông Nguyên thế kỷ XIII và trong cuộc kháng chiến 10 năm của nghĩa quân Lam Sơn chống quân Minh ở thế kỷ XV. Đây là nơi gắn liền với thân thế, sự nghiệp của các vị anh hùng dân tộc như: Nguyễn Trãi, Trần Hưng Đạo cùng nhiều danh nhân văn hoá của dân tộc: Trần Nguyên Đán, Pháp Loa, Huyền Quang... Điểm nhấn của khu di tích này là chùa Côn Sơn và đền Kiếp Bạc.\r
+Ngày 18/6/2010 Thủ tướng Chính phủ đã ban hành Quyết định số 920/QĐ-TTg phê duyệt Quy hoạch tổng thể bảo tồn Khu di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc gắn với phát triển du lịch, thành phố Chí Linh, tỉnh Hải Dương. Trong dịp Lễ hội mùa thu năm 2012, Khu Di tích lịch sử - văn hóa Côn Sơn – Kiếp Bạc đã được công nhận là di tích quốc gia đặc biệt."""@vi ;
+    skos:altLabel "Khu di tích Côn Sơn – Kiếp Bạc"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-con-son-kiep-bac-2954>,
+        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_C%C3%B4n_S%C6%A1n_%E2%80%93_Ki%E1%BA%BFp_B%E1%BA%A1c> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-40889f0bafcb-4c9dbe a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Động Kính Chủ"@vi ;
+    vh:address "Tỉnh Hải Dương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    vh:recognitionYear "2016"^^xsd:gYear ;
+    vh:sourcePageId 783917 ;
+    vh:sourceTitle "Động Kính Chủ"^^xsd:string ;
+    dcterms:description """Động Kính Chủ hay động Dương Nham là hang động nằm ở vùng đất làng Dương Nham, phường Phạm Sư Mạnh, thành phố Hải Phòng, Việt Nam.\r
+Động Kính Chủ được xếp vào hàng Nam thiên đệ lục động (tức là hang động đẹp thứ sáu của trời Nam).\r
+Kính Chủ là một trong những di tích quan trọng của tỉnh Hải Dương mà trung tâm là động Kính Chủ. Đây là danh thắng thuộc quần thể An Phụ - Kính Chủ - Nhẫm Dương đã được xếp hạng di tích quốc gia đặc biệt.\r
+Động gồm rất nhiều ngọn núi nối liền với nhau. Khi đứng trên đỉnh ngọn núi nhìn ra phía sau ta sẽ nhìn thấy dòng sông Kinh Thầy nằm sát dưới chân núi. Động được mở quanh năm cho khách thập phương đến tham quan, khám phá, cầu nguyện."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%99ng_K%C3%ADnh_Ch%E1%BB%A7> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Động Kính Chủ hay động Dương Nham là hang động nằm ở vùng đất làng Dương Nham, phường Phạm Sư Mạnh, thành phố Hải Phòng, Việt Nam.\r
+Động Kính Chủ được xếp vào hàng Nam thiên đệ lục động (tức là hang động đẹp thứ sáu của trời Nam).\r
+Kính Chủ là một trong những di tích quan trọng của tỉnh Hải Dương mà trung tâm là động Kính Chủ. Đây là danh thắng thuộc quần thể An Phụ - Kính Chủ - Nhẫm Dương đã được xếp hạng di tích quốc gia đặc biệt.\r
+Động gồm rất nhiều ngọn núi nối liền với nhau. Khi đứng trên đỉnh ngọn núi nhìn ra phía sau ta sẽ nhìn thấy dòng sông Kinh Thầy nằm sát dưới chân núi. Động được mở quanh năm cho khách thập phương đến tham quan, khám phá, cầu nguyện."""@vi ;
+    geo1:lat 21.032277 ;
+    geo1:long 106.505575 ;
+    skos:altLabel "DTLS và DLTC Quần thể An Phụ - Kính Chủ - Nhẫm Dương"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%99ng_K%C3%ADnh_Ch%E1%BB%A7> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-40889f0bafcb-8fa727 a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Đền Cao An Phụ"@vi ;
+    vh:address "Tỉnh Hải Dương"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q704110 ;
+    vh:constructionYear "1251"^^xsd:gYear ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    vh:recognitionYear "2016"^^xsd:gYear ;
+    vh:sourcePageId 19709308 ;
+    vh:sourceTitle "Đền Cao An Phụ"^^xsd:string ;
+    dcterms:description """Đền Cao An Phụ là ngôi đền thờ An Sinh Vương Trần Liễu trên đỉnh núi An Phụ tại phường Phạm Sư Mạnh, thành phố Hải Phòng, trước đây là phường An Sinh, thị xã Kinh Môn, tỉnh Hải Dương.\r
+Đền có tên tự là "An Phụ Sơn Từ", tọa lạc trên đỉnh cao nhất của dãy núi An Phụ (246 m). Đây là dãy núi thấp nằm hoàn toàn trên địa bàn thị xã Kinh Môn (cũ) có chiều dài khoảng 17 km, chạy hướng tây bắc - đông nam song song với sông Kinh Thầy."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Cao_An_Ph%E1%BB%A5> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Đền Cao An Phụ là ngôi đền thờ An Sinh Vương Trần Liễu trên đỉnh núi An Phụ tại phường Phạm Sư Mạnh, thành phố Hải Phòng, trước đây là phường An Sinh, thị xã Kinh Môn, tỉnh Hải Dương.\r
+Đền có tên tự là "An Phụ Sơn Từ", tọa lạc trên đỉnh cao nhất của dãy núi An Phụ (246 m). Đây là dãy núi thấp nằm hoàn toàn trên địa bàn thị xã Kinh Môn (cũ) có chiều dài khoảng 17 km, chạy hướng tây bắc - đông nam song song với sông Kinh Thầy."""@vi ;
+    geo1:lat 21.014192 ;
+    geo1:long 106.492662 ;
+    skos:altLabel "DTLS và DLTC Quần thể An Phụ - Kính Chủ - Nhẫm Dương"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Cao_An_Ph%E1%BB%A5> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-43a3e7715b7a-9c23d0 a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Đền Ngọc Sơn"@vi ;
+    vh:address "Thành phố Hà Nội"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q511375 ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
+    vh:recognitionYear "2013"^^xsd:gYear ;
+    vh:sourcePageId 25334 ;
+    vh:sourceTitle "Đền Ngọc Sơn"^^xsd:string ;
+    dcterms:description "Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Ng%E1%BB%8Dc_S%C6%A1n> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."@vi ;
+    geo1:lat 21.03072222 ;
+    geo1:long 105.85233333 ;
+    skos:altLabel "DTLS và DLTC Hồ Hoàn Kiếm và Đền Ngọc Sơn"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Ng%E1%BB%8Dc_S%C6%A1n> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-43a3e7715b7a-cf42ea a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Hồ Hoàn Kiếm"@vi ;
+    vh:address "Thành phố Hà Nội"^^xsd:string ;
+    vh:locatedIn vhr:area-name-8de4ed043a59 ;
+    vh:recognitionYear "2013"^^xsd:gYear ;
+    vh:sourcePageId 15360 ;
+    vh:sourceTitle "Hồ Hoàn Kiếm"^^xsd:string ;
+    dcterms:description """Hồ Hoàn Kiếm (Hán-Nôm: 湖還劍) còn được gọi là Hồ Gươm là một hồ nước ngọt tự nhiên nằm ở phường Hoàn Kiếm, trung tâm thành phố Hà Nội. Hồ có diện tích khoảng 12 ha. Trước kia, hồ còn có các tên gọi là hồ Lục Thủy (vì nước có màu xanh quanh năm), hồ Thủy Quân (dùng để duyệt thủy binh), hồ Tả Vọng và Hữu Vọng (trong thời Lê mạt). \r
+Tên gọi Hoàn Kiếm xuất hiện vào đầu thế kỷ 15 gắn với truyền thuyết vua Lê Lợi trả lại gươm thần cho Rùa vàng. Theo truyền thuyết, trong một lần vua Lê Thái Tổ dạo chơi trên thuyền, bỗng một con rùa vàng nổi lên mặt nước đòi nhà vua trả thanh gươm mà Long Vương cho mượn để đánh đuổi quân Minh xâm lược. Nhà vua liền trả gươm cho rùa thần và rùa lặn xuống nước biến mất. Từ đó hồ được lấy tên là hồ Hoàn Kiếm.\r
+Hồ Hoàn Kiếm có vị trí kết nối giữa khu phố cổ gồm các phố Hàng Ngang, Hàng Đào, Cầu Gỗ, Lương Văn Can, Lò Sũ... với khu phố Tây do người Pháp quy hoạch cách đây hơn một thế kỷ là Bảo Khánh, Nhà thờ, Tràng Thi, Hàng Bài, Đinh Tiên Hoàng, Tràng Tiền, Hàng Khay, Bà Triệu."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
+        <https://vi.wikipedia.org/wiki/H%E1%BB%93_Ho%C3%A0n_Ki%E1%BA%BFm> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Hồ Hoàn Kiếm (Hán-Nôm: 湖還劍) còn được gọi là Hồ Gươm là một hồ nước ngọt tự nhiên nằm ở phường Hoàn Kiếm, trung tâm thành phố Hà Nội. Hồ có diện tích khoảng 12 ha. Trước kia, hồ còn có các tên gọi là hồ Lục Thủy (vì nước có màu xanh quanh năm), hồ Thủy Quân (dùng để duyệt thủy binh), hồ Tả Vọng và Hữu Vọng (trong thời Lê mạt). \r
+Tên gọi Hoàn Kiếm xuất hiện vào đầu thế kỷ 15 gắn với truyền thuyết vua Lê Lợi trả lại gươm thần cho Rùa vàng. Theo truyền thuyết, trong một lần vua Lê Thái Tổ dạo chơi trên thuyền, bỗng một con rùa vàng nổi lên mặt nước đòi nhà vua trả thanh gươm mà Long Vương cho mượn để đánh đuổi quân Minh xâm lược. Nhà vua liền trả gươm cho rùa thần và rùa lặn xuống nước biến mất. Từ đó hồ được lấy tên là hồ Hoàn Kiếm.\r
+Hồ Hoàn Kiếm có vị trí kết nối giữa khu phố cổ gồm các phố Hàng Ngang, Hàng Đào, Cầu Gỗ, Lương Văn Can, Lò Sũ... với khu phố Tây do người Pháp quy hoạch cách đây hơn một thế kỷ là Bảo Khánh, Nhà thờ, Tràng Thi, Hàng Bài, Đinh Tiên Hoàng, Tràng Tiền, Hàng Khay, Bà Triệu."""@vi ;
+    skos:altLabel "DTLS và DLTC Hồ Hoàn Kiếm và Đền Ngọc Sơn"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
+        <https://vi.wikipedia.org/wiki/H%E1%BB%93_Ho%C3%A0n_Ki%E1%BA%BFm> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-8d3bf5f7a11c a vh:ArchitecturalSite,
+        vh:HeritageSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTKTNT Chùa Keo"@vi ;
+    vh:address "Tỉnh Thái Bình"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q16481089 ;
+    vh:constructionYear "1630"^^xsd:gYear ;
+    vh:locatedIn vhr:area-name-d9cd26c7e761 ;
+    vh:recognitionYear "2012"^^xsd:gYear ;
+    vh:sourcePageId 530162 ;
+    vh:sourceTitle "Chùa Keo Thái Bình"^^xsd:string ;
+    dcterms:description "Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Keo_Th%C3%A1i_B%C3%ACnh> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt."@vi ;
+    geo1:lat 20.36055556 ;
+    geo1:long 106.29722222 ;
+    skos:altLabel "Chùa Keo Thái Bình"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Keo_Th%C3%A1i_B%C3%ACnh> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-ac781f8e46c5 a vh:ArchaeologicalSite,
+        vh:ArchitecturalSite,
+        vh:HeritageSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTKTNT và KC Tháp Pô Klong Garai"@vi ;
+    vh:address "Tỉnh Ninh Thuận"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q16481478 ;
+    vh:hasArchitecturalStyle vhr:style-e7d0ad54990b ;
+    vh:locatedIn vhr:area-name-8128e9d1ccb4 ;
+    vh:recognitionYear "2016"^^xsd:gYear ;
+    vh:sourcePageId 67149 ;
+    vh:sourceTitle "Tháp Po Klong Garai"^^xsd:string ;
+    dcterms:description """Tháp Po Klong Garai là tên gọi chung cho một cụm tháp Chăm hùng vĩ và đẹp nhất còn lại ở Việt Nam, phụng thờ vua Po Klong Garai. Tháp Pô Klong Garai là một tổng thể gồm ba tháp: tháp chính (cao 20,5m), tháp lửa (cao 9,31m), tháp cổng (cao 8,56m). Công trình này có trình độ kiến trúc, nghệ thuật, điêu khắc đạt đến đỉnh cao. Di tích kiến trúc nghệ thuật này được Bộ Văn hóa xếp hạng di tích di tích quốc gia năm 1979 và được Thủ tướng Chính phủ xếp hạng di tích quốc gia đặc biệt.\r
+Tháp Poklong Garai nằm trên đồi Trầu, thuộc phường Đô Vinh, tỉnh Khánh Hòa, được xây dựng vào cuối thế kỷ 13 đầu thế kỷ 14 (thời vua Shihavaman, người Việt gọi là Chế Mân) để thờ vua Po Klong Garai (1151-1205), vị vua đã có nhiều công lớn trong việc cai trị đất nước.\r
+Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
+        <https://vi.wikipedia.org/wiki/Th%C3%A1p_Po_Klong_Garai> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Tháp Po Klong Garai là tên gọi chung cho một cụm tháp Chăm hùng vĩ và đẹp nhất còn lại ở Việt Nam, phụng thờ vua Po Klong Garai. Tháp Pô Klong Garai là một tổng thể gồm ba tháp: tháp chính (cao 20,5m), tháp lửa (cao 9,31m), tháp cổng (cao 8,56m). Công trình này có trình độ kiến trúc, nghệ thuật, điêu khắc đạt đến đỉnh cao. Di tích kiến trúc nghệ thuật này được Bộ Văn hóa xếp hạng di tích di tích quốc gia năm 1979 và được Thủ tướng Chính phủ xếp hạng di tích quốc gia đặc biệt.\r
+Tháp Poklong Garai nằm trên đồi Trầu, thuộc phường Đô Vinh, tỉnh Khánh Hòa, được xây dựng vào cuối thế kỷ 13 đầu thế kỷ 14 (thời vua Shihavaman, người Việt gọi là Chế Mân) để thờ vua Po Klong Garai (1151-1205), vị vua đã có nhiều công lớn trong việc cai trị đất nước.\r
+Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai."""@vi ;
+    geo1:lat 11.601831 ;
+    geo1:long 108.9442935 ;
+    skos:altLabel "Tháp Po Klong Garai"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
+        <https://vi.wikipedia.org/wiki/Th%C3%A1p_Po_Klong_Garai> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
 vhr:registry-d00b9a5d0e88 a vh:ArchitecturalSite,
-        vh:HeritageSite ;
+        vh:HeritageSite,
+        vh:ReligiousSite ;
     rdfs:label "DTKTNT Đền Sóc"@vi ;
     vh:address "Thành phố Hà Nội"^^xsd:string ;
     vh:associatedWithPerson vhr:person-wikidata-q7799843 ;
@@ -15043,6 +15143,84 @@ vhr:registry-d00b9a5d0e88 a vh:ArchitecturalSite,
     skos:altLabel "Đền Sóc"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-den-soc-1264>,
         <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_S%C3%B3c> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-fd03e1f1662c-164238 a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Đền Xưa"@vi ;
+    vh:address "Tỉnh Hải Dương"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q10830179 ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    vh:recognitionYear "2017"^^xsd:gYear ;
+    vh:sourcePageId 19762463 ;
+    vh:sourceTitle "Đền Xưa"^^xsd:string ;
+    dcterms:description "Đền Xưa là ngôi đền thờ Đại danh y – Thiền sư Tuệ Tĩnh ngay tại quê hương của ông là Nghĩa Lư trang, nay thuộc thôn Nghĩa Phú, xã Tuệ Tĩnh, thành phố Hải Phòng. Đây là một trong ba di tích của Cụm di tích Đền Xưa – Chùa Giám – Đền Bia đều thờ Tuệ Tĩnh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích quốc gia đặc biệt vào năm 2017."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_X%C6%B0a> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Đền Xưa là ngôi đền thờ Đại danh y – Thiền sư Tuệ Tĩnh ngay tại quê hương của ông là Nghĩa Lư trang, nay thuộc thôn Nghĩa Phú, xã Tuệ Tĩnh, thành phố Hải Phòng. Đây là một trong ba di tích của Cụm di tích Đền Xưa – Chùa Giám – Đền Bia đều thờ Tuệ Tĩnh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích quốc gia đặc biệt vào năm 2017."@vi ;
+    geo1:lat 20.97113 ;
+    geo1:long 106.246972 ;
+    skos:altLabel "DTLS Đền Xưa - Chùa Giám - Đền Bia"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_X%C6%B0a> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-fd03e1f1662c-53c105 a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Chùa Giám"@vi ;
+    vh:address "Tỉnh Hải Dương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    vh:recognitionYear "2017"^^xsd:gYear ;
+    vh:sourcePageId 19608644 ;
+    vh:sourceTitle "Chùa Giám"^^xsd:string ;
+    dcterms:description "Chùa Giám (tên chữ là Nghiêm Quang Tự) (chữ Hán: 嚴光寺) là một ngôi chùa thuộc xã Cẩm Giàng, thành phố Hải Phòng. Đây là công trình Phật giáo độc đáo chỉ có duy nhất ở Việt Nam."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Gi%C3%A1m> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Chùa Giám (tên chữ là Nghiêm Quang Tự) (chữ Hán: 嚴光寺) là một ngôi chùa thuộc xã Cẩm Giàng, thành phố Hải Phòng. Đây là công trình Phật giáo độc đáo chỉ có duy nhất ở Việt Nam."@vi ;
+    skos:altLabel "DTLS Đền Xưa - Chùa Giám - Đền Bia"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Gi%C3%A1m> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-fd03e1f1662c-f33488 a vh:HeritageSite,
+        vh:HistoricalSite ;
+    rdfs:label "Đền Bia"@vi ;
+    vh:address "Tỉnh Hải Dương"^^xsd:string ;
+    vh:associatedWithPerson vhr:person-wikidata-q10830179 ;
+    vh:locatedIn vhr:area-name-4f99714e585c ;
+    vh:recognitionYear "2017"^^xsd:gYear ;
+    vh:sourcePageId 19567681 ;
+    vh:sourceTitle "Đền Bia"^^xsd:string ;
+    dcterms:description """Đền Bia một ngôi đền tại xã Tuệ Tĩnh, thành phố Hải Phòng, Việt Nam. Đây là một trong 3 di tích quốc gia đặc biệt thờ Đại danh y – Thiền sư Tuệ Tĩnh tại huyện Cẩm Giàng (cùng với Đền Xưa và Chùa Giám).\r
+Đền Bia nằm trên cánh đồng phía tây thôn Văn Thai, xã Cẩm Văn. Trong đền có tấm bia đá từ thời Hậu Lê, là di vật kỷ niệm của danh y Tuệ Tĩnh nên đền có tên là Đền Bia.\r
+Đền được xây dựng từ thời Lê, xây dựng lại vào năm 1936, theo kiểu tiền nhất Hậu chữ Đinh (丁) mặt tiền quay về hướng Bắc. Ngày nay đền Bia là một công trình khang trang bề thế tọa lạc trên một diện tích rộng 4 ha, được phân làm 3 khu vực với đầy đủ các hạng mục công trình chính và phụ trợ:\r
+\r
+Khu thờ tự gồm 5 công trình: nghi môn, thủy lăng, bức bình phong bằng đá, hai bên là hai dãy tả vu, hữu vu\r
+Khu y xá gồm ba công trình: nhà bắt mạch kê đơn thuốc, nhà bốc thuốc và nhà chẩn trị\r
+Khu vườn thuốc: đây là một vườn thuốc Nam rộng 1.200 m², được chia làm 9 ô tương ứng với 9 bài thuốc là 9 nhóm bệnh theo hướng dẫn của Bộ Y tế gồm: cảm sốt, mụn nhọt, điều kinh, đau nhức xương khớp, ho, kiết lỵ, tiêu chảy, sốt xuất huyết và viêm gan siêu vi trùng."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Bia> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Đền Bia một ngôi đền tại xã Tuệ Tĩnh, thành phố Hải Phòng, Việt Nam. Đây là một trong 3 di tích quốc gia đặc biệt thờ Đại danh y – Thiền sư Tuệ Tĩnh tại huyện Cẩm Giàng (cùng với Đền Xưa và Chùa Giám).\r
+Đền Bia nằm trên cánh đồng phía tây thôn Văn Thai, xã Cẩm Văn. Trong đền có tấm bia đá từ thời Hậu Lê, là di vật kỷ niệm của danh y Tuệ Tĩnh nên đền có tên là Đền Bia.\r
+Đền được xây dựng từ thời Lê, xây dựng lại vào năm 1936, theo kiểu tiền nhất Hậu chữ Đinh (丁) mặt tiền quay về hướng Bắc. Ngày nay đền Bia là một công trình khang trang bề thế tọa lạc trên một diện tích rộng 4 ha, được phân làm 3 khu vực với đầy đủ các hạng mục công trình chính và phụ trợ:\r
+\r
+Khu thờ tự gồm 5 công trình: nghi môn, thủy lăng, bức bình phong bằng đá, hai bên là hai dãy tả vu, hữu vu\r
+Khu y xá gồm ba công trình: nhà bắt mạch kê đơn thuốc, nhà bốc thuốc và nhà chẩn trị\r
+Khu vườn thuốc: đây là một vườn thuốc Nam rộng 1.200 m², được chia làm 9 ô tương ứng với 9 bài thuốc là 9 nhóm bệnh theo hướng dẫn của Bộ Y tế gồm: cảm sốt, mụn nhọt, điều kinh, đau nhức xương khớp, ho, kiết lỵ, tiêu chảy, sốt xuất huyết và viêm gan siêu vi trùng."""@vi ;
+    geo1:lat 20.977854 ;
+    geo1:long 106.253361 ;
+    skos:altLabel "DTLS Đền Xưa - Chùa Giám - Đền Bia"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
+        <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Bia> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:registry-unesco-1358-001 a vh:HeritageSite ;
@@ -15095,31 +15273,16 @@ vhr:registry-unesco-1358-003 a vh:HeritageSite ;
         <https://whc.unesco.org/en/list/1358/maps/> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:style-a8c2735471e8 a vh:ArchitecturalStyle ;
-    rdfs:label "Mỹ Sơn A1"@vi ;
-    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+vhr:style-e7d0ad54990b a vh:ArchitecturalStyle ;
+    rdfs:label "Muộn"@vi ;
+    dcterms:description "Giới nghiên cứu đã xếp Pô Klong Garai vào phong cách Muộn, sau các phong cách: Mỹ Sơn E1 - Hòa Lai - Đồng Dương - Mỹ Sơn A1 - Bình Định."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-05"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
-    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995> ;
+    rdfs:comment "Giới nghiên cứu đã xếp Pô Klong Garai vào phong cách Muộn, sau các phong cách: Mỹ Sơn E1 - Hòa Lai - Đồng Dương - Mỹ Sơn A1 - Bình Định."@vi ;
+    skos:altLabel "Phong cách Muộn"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vhr:style-aef9ed5174ec a vh:ArchitecturalStyle ;
-    rdfs:label "Bình Định"@vi ;
-    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-05"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
-    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
-vh:HistoricalPeriod a owl:Class ;
-    rdfs:label "Historical period"@en,
-        "Thời kỳ lịch sử"@vi ;
-    rdfs:comment "Khoảng/thời kỳ lịch sử."@vi ;
-    rdfs:subClassOf owl:Thing .
 
 vh:Organization a owl:Class ;
     rdfs:label "Organization"@en,
@@ -15134,6 +15297,18 @@ vh:hasPart a rdf:Property,
     rdfs:domain vh:HeritageComplex ;
     rdfs:range vh:CulturalHeritageEntity ;
     owl:inverseOf vh:partOf .
+
+vhr:period-53915234d31c a vh:HistoricalPeriod ;
+    rdfs:label "Nhà Lý"@vi ;
+    dcterms:description "là đất phát tích, tôn miếu thờ các vị vua triều Lý và còn là nơi an táng của các vị tiên vương và hoàng tộc nhà Lý."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-ly-2983> ;
+    rdfs:comment "là đất phát tích, tôn miếu thờ các vị vua triều Lý và còn là nơi an táng của các vị tiên vương và hoàng tộc nhà Lý."@vi ;
+    skos:altLabel "Thời Lý"@vi,
+        "Triều Lý"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-ly-2983> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vhr:person-wikidata-q10830179 a vh:HistoricalPerson ;
     rdfs:label "Tuệ Tĩnh"@vi ;
@@ -15175,11 +15350,129 @@ vhr:person-wikidata-q511375 a vh:HistoricalPerson ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vh:ArchitecturalStyle a owl:Class ;
-    rdfs:label "Architectural style"@en,
-        "Phong cách kiến trúc"@vi ;
-    rdfs:comment "Style kiến trúc."@vi ;
-    rdfs:subClassOf owl:Thing .
+vhr:registry-0120cc05bbed a vh:HeritageSite,
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTLS và DLTC Yên Tử"@vi ;
+    vh:address "Tỉnh Quảng Ninh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
+    vh:recognitionYear "2012"^^xsd:gYear ;
+    vh:sourcePageId 23823 ;
+    vh:sourceTitle "Yên Tử"^^xsd:string ;
+    dcterms:description """Yên Tử (chữ Hán: 安子山, Yên Tử sơn) là một dãy núi trải dài trên địa bàn 3 thành phố gồm Quảng Ninh, Bắc Ninh, Hải Phòng và cũng là tên ngọn núi cao nhất trong dãy.\r
+Đây là dãy núi gắn liền với nhà Trần trong lịch sử Việt Nam cũng như gắn với Thiền phái Trúc Lâm."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-yen-tu-2962>,
+        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Yên Tử (chữ Hán: 安子山, Yên Tử sơn) là một dãy núi trải dài trên địa bàn 3 thành phố gồm Quảng Ninh, Bắc Ninh, Hải Phòng và cũng là tên ngọn núi cao nhất trong dãy.\r
+Đây là dãy núi gắn liền với nhà Trần trong lịch sử Việt Nam cũng như gắn với Thiền phái Trúc Lâm."""@vi ;
+    geo1:lat 21.160515 ;
+    geo1:long 106.715149 ;
+    skos:altLabel "Yên Tử"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-yen-tu-2962>,
+        <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-5772ea302cb4 a vh:ArchitecturalSite,
+        vh:HeritageSite,
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTLS và KTNT Chùa Vĩnh Nghiêm"@vi ;
+    vh:address "Tỉnh Bắc Giang"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53088c1303e1 ;
+    vh:hasRelatedSite vhr:registry-0120cc05bbed ;
+    vh:locatedIn vhr:area-name-34bf35f4ea37 ;
+    vh:recognitionYear "2015"^^xsd:gYear ;
+    vh:sourcePageId 302006 ;
+    vh:sourceTitle "Chùa Vĩnh Nghiêm (Bắc Ninh)"^^xsd:string ;
+    dcterms:description """Chùa Vĩnh Nghiêm còn được gọi là chùa Đức La, đây là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025.\r
+Ngôi chùa cổ này nằm tại làng Đức La, phường Tân An, thành phố Bắc Ninh, Việt Nam. Chùa được công nhận là một trung tâm Phật giáo, nơi đào tạo tăng đồ cho cả nước, nơi phát tích Tam Tổ phái Thiền Trúc Lâm của Phật giáo Việt Nam. Năm 2015, chùa được công nhận là Di tích quốc gia đặc biệt."""@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-vinh-nghiem-1312>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_V%C4%A9nh_Nghi%C3%AAm_(B%E1%BA%AFc_Ninh)> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment """Chùa Vĩnh Nghiêm còn được gọi là chùa Đức La, đây là 1 trong 12 cụm di tích thuộc Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là Di sản văn hoá thế giới năm 2025.\r
+Ngôi chùa cổ này nằm tại làng Đức La, phường Tân An, thành phố Bắc Ninh, Việt Nam. Chùa được công nhận là một trung tâm Phật giáo, nơi đào tạo tăng đồ cho cả nước, nơi phát tích Tam Tổ phái Thiền Trúc Lâm của Phật giáo Việt Nam. Năm 2015, chùa được công nhận là Di tích quốc gia đặc biệt."""@vi ;
+    skos:altLabel "Chùa Vĩnh Nghiêm (Bắc Ninh)"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-chua-vinh-nghiem-1312>,
+        <https://vi.wikipedia.org/wiki/Ch%C3%B9a_V%C4%A9nh_Nghi%C3%AAm_(B%E1%BA%AFc_Ninh)> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:registry-86f42708d93f a vh:HeritageSite,
+        vh:HistoricalSite,
+        vh:ReligiousSite ;
+    rdfs:label "DTLS Khu di tích Nhà Trần tại Đông Triều"@vi ;
+    vh:address "Tỉnh Quảng Ninh"^^xsd:string ;
+    vh:belongsToPeriod vhr:period-53088c1303e1 ;
+    vh:locatedIn vhr:area-name-cff49d8e0895 ;
+    vh:recognitionYear "2013"^^xsd:gYear ;
+    vh:sourcePageId 1742855 ;
+    vh:sourceTitle "Khu di tích nhà Trần tại Đông Triều"^^xsd:string ;
+    dcterms:description "Khu di tích nhà Trần tại Đông Triều, thành phố Quảng Ninh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích Quốc gia đặc biệt quan trọng. Đây là di tích quan trọng bậc nhất của vương triều Trần khi nằm trên quê hương đất tổ, nơi lưu giữ Thái miếu nhà Trần và lăng mộ của các Vua cùng tông thất nhà Trần bên cạnh các di tích chiến thắng Bạch Đằng và Trúc Lâm Yên Tử. Khu di tích này có 2 di tích là thái miếu nhà Trần và chùa Ngoạ Vân nằm trong Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là di sản thế giới từ năm 2025."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/khu-di-tich-lich-su-nha-tran-tai-dong-trieu-2972>,
+        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_nh%C3%A0_Tr%E1%BA%A7n_t%E1%BA%A1i_%C4%90%C3%B4ng_Tri%E1%BB%81u> ;
+    dcterms:subject "national_special_monuments" ;
+    rdfs:comment "Khu di tích nhà Trần tại Đông Triều, thành phố Quảng Ninh được Thủ tướng Chính phủ Việt Nam xếp hạng di tích Quốc gia đặc biệt quan trọng. Đây là di tích quan trọng bậc nhất của vương triều Trần khi nằm trên quê hương đất tổ, nơi lưu giữ Thái miếu nhà Trần và lăng mộ của các Vua cùng tông thất nhà Trần bên cạnh các di tích chiến thắng Bạch Đằng và Trúc Lâm Yên Tử. Khu di tích này có 2 di tích là thái miếu nhà Trần và chùa Ngoạ Vân nằm trong Quần thể di tích và danh thắng Yên Tử – Vĩnh Nghiêm – Côn Sơn, Kiếp Bạc đã được UNESCO công nhận là di sản thế giới từ năm 2025."@vi ;
+    skos:altLabel "Khu di tích nhà Trần tại Đông Triều"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/khu-di-tich-lich-su-nha-tran-tai-dong-trieu-2972>,
+        <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_nh%C3%A0_Tr%E1%BA%A7n_t%E1%BA%A1i_%C4%90%C3%B4ng_Tri%E1%BB%81u> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-174c731bc709 a vh:ArchitecturalStyle ;
+    rdfs:label "Mỹ Sơn E1"@vi ;
+    dcterms:description "Phong cách cổ (phong cách Mỹ Sơn E1): thế kỷ VII - thế kỷ VIII, gồm các tháp E1, F1;"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943> ;
+    rdfs:comment "Phong cách cổ (phong cách Mỹ Sơn E1): thế kỷ VII - thế kỷ VIII, gồm các tháp E1, F1;"@vi ;
+    skos:altLabel "Phong cách cổ"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-267cca6ab1ad a vh:ArchitecturalStyle ;
+    rdfs:label "Hòa Lai"@vi ;
+    dcterms:description "Phong cách Hòa Lai: cuối thế kỷ VIII - đầu thế kỷ IX, gồm các tháp A2, C7, F3;"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943> ;
+    rdfs:comment "Phong cách Hòa Lai: cuối thế kỷ VIII - đầu thế kỷ IX, gồm các tháp A2, C7, F3;"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-a8c2735471e8 a vh:ArchitecturalStyle ;
+    rdfs:label "Mỹ Sơn A1"@vi ;
+    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
+    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-aef9ed5174ec a vh:ArchitecturalStyle ;
+    rdfs:label "Bình Định"@vi ;
+    dcterms:description "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-05"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/thap-nhan-3238> ;
+    rdfs:comment "Kiến trúc Tháp Nhạn là sự chuyển tiếp giữa phong cách kiến trúc Mỹ Sơn A1 và phong cách kiến trúc Bình Định, niên đại vào khoảng cuối thế kỷ XI đầu thế kỷ XII."@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/thap-nhan-3238> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:style-e67ab3ac5cc0 a vh:ArchitecturalStyle ;
+    rdfs:label "Đồng Dương"@vi ;
+    dcterms:description "Phong cách Đồng Dương: giữa thế kỷ IX - đầu thế kỷ X, gồm các tháp A10, A11, A13, B4;"@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943> ;
+    rdfs:comment "Phong cách Đồng Dương: giữa thế kỷ IX - đầu thế kỷ X, gồm các tháp A10, A11, A13, B4;"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-khu-den-thap-my-son-2943> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
 vh:UrgentSafeguardingIntangibleHeritage a owl:Class ;
     rdfs:label "Urgent safeguarding intangible heritage"@en,
@@ -15207,17 +15500,35 @@ vhr:area-name-267dbeb38a9d a vh:AdministrativeArea ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vhr:period-53088c1303e1 a vh:HistoricalPeriod ;
+    rdfs:label "Nhà Trần"@vi ;
+    dcterms:description "Vùng đất Long Hưng vốn là nơi dựng nghiệp của nhà Trần, vì thế đã được triều Trần đặc biệt chú trọng, phân phong cho các thân vương."@vi ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-06"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-tran-2984> ;
+    rdfs:comment "Vùng đất Long Hưng vốn là nơi dựng nghiệp của nhà Trần, vì thế đã được triều Trần đặc biệt chú trọng, phân phong cho các thân vương."@vi ;
+    skos:altLabel "Thời Trần"@vi,
+        "Triều Trần"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-tran-2984> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:HistoricalPeriod a owl:Class ;
+    rdfs:label "Historical period"@en,
+        "Thời kỳ lịch sử"@vi ;
+    rdfs:comment "Khoảng/thời kỳ lịch sử."@vi ;
+    rdfs:subClassOf owl:Thing .
+
+vh:ArchitecturalStyle a owl:Class ;
+    rdfs:label "Architectural style"@en,
+        "Phong cách kiến trúc"@vi ;
+    rdfs:comment "Style kiến trúc."@vi ;
+    rdfs:subClassOf owl:Thing .
+
 vh:HeritageComplex a owl:Class ;
     rdfs:label "Heritage complex"@en,
         "Quần thể di sản"@vi ;
     rdfs:comment "Nhóm các site."@vi ;
     rdfs:subClassOf vh:CulturalHeritageEntity .
-
-vh:HistoricalEvent a owl:Class ;
-    rdfs:label "Historical event"@en,
-        "Sự kiện lịch sử"@vi ;
-    rdfs:comment "Sự kiện lịch sử."@vi ;
-    rdfs:subClassOf owl:Thing .
 
 vhr:organization-unesco a vh:Organization ;
     rdfs:label "UNESCO"@en,
@@ -15403,6 +15714,12 @@ vhr:area-name-d493cd7e51ad a vh:AdministrativeArea ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
+vh:HistoricalEvent a owl:Class ;
+    rdfs:label "Historical event"@en,
+        "Sự kiện lịch sử"@vi ;
+    rdfs:comment "Sự kiện lịch sử."@vi ;
+    rdfs:subClassOf owl:Thing .
+
 vhr:area-name-1ae6e41a89aa a vh:AdministrativeArea ;
     rdfs:label "An Giang"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
@@ -15461,6 +15778,12 @@ vhr:area-name-c84501090b52 a vh:AdministrativeArea ;
     skos:altLabel "Thành phố Huế"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vh:ReligiousSite a owl:Class ;
+    rdfs:label "Religious site"@en,
+        "Di tích tôn giáo"@vi ;
+    rdfs:comment "Site có chức năng/giá trị tôn giáo."@vi ;
+    rdfs:subClassOf vh:HeritageSite .
 
 vhr:area-name-cff49d8e0895 a vh:AdministrativeArea ;
     rdfs:label "Quảng Ninh"@vi ;
@@ -15547,16 +15870,6 @@ vhr:area-name-8872895663b7 a vh:AdministrativeArea ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 
-vhr:area-name-4f99714e585c a vh:AdministrativeArea ;
-    rdfs:label "Hải Phòng"@vi ;
-    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
-    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-09-25"^^xsd:date ;
-    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
-    skos:altLabel "Thành phố Hải Phòng"@vi ;
-    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
-    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
-
 vhr:area-name-34bf35f4ea37 a vh:AdministrativeArea ;
     rdfs:label "Bắc Ninh"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
@@ -15564,6 +15877,16 @@ vhr:area-name-34bf35f4ea37 a vh:AdministrativeArea ;
     dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     skos:altLabel "Tỉnh Bắc Ninh"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
+
+vhr:area-name-4f99714e585c a vh:AdministrativeArea ;
+    rdfs:label "Hải Phòng"@vi ;
+    vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Thành phố Hải Phòng"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-7c81f366b12a .
 

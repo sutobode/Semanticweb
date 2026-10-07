@@ -7,6 +7,8 @@ from pathlib import Path
 
 import requests
 
+from vietheritage.rdf.fuseki_loader import golden_query_endpoint, load_golden
+from vietheritage.reporting.health import is_fuseki_ready
 from vietheritage.reporting.query_runner import run as cq_run
 from vietheritage.validation.validator import run as validate_run
 
@@ -73,7 +75,9 @@ def run(run_mode: str = "sample") -> int:
         (REPO_ROOT / path).exists()
         for path in ["ontology/vietheritage.ttl", "docker-compose.yml", "silk/linkage-rules.xml"]
     ) else "FAIL"
-    cq_status = cq_run()
+    cq_status = load_golden()
+    if cq_status == 0:
+        cq_status = cq_run(endpoint=golden_query_endpoint())
     checks["cq"] = "PASS" if cq_status == 0 else "FAIL"
     cypher_report = _latest_cypher_report()
     checks["cypher_parity"] = "PASS" if cypher_report.get("status") == "PASS" else "FAIL"
@@ -82,7 +86,7 @@ def run(run_mode: str = "sample") -> int:
     checks["fuseki"] = "PASS" if (REPO_ROOT / "data/rdf/vietheritage.ttl").exists() else "FAIL"
     checks["metadata"] = "PASS" if (REPO_ROOT / "data/rdf/dataset-metadata.ttl").exists() else "FAIL"
     checks["canonical_resource"] = "PASS" if _resource_health() else "FAIL"
-    checks["fuseki_health"] = "PASS" if _health("http://localhost:3031/$/ping") else "FAIL"
+    checks["fuseki_health"] = "PASS" if is_fuseki_ready() else "FAIL"
     checks["neo4j_health"] = "PASS" if _health("http://localhost:7474") else "FAIL"
 
     coverage_path = REPO_ROOT / "data" / "processed" / "canonical.jsonl"

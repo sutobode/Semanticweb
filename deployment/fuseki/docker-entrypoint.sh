@@ -1,5 +1,13 @@
 #!/bin/sh
 set -eu
 
-cp /opt/vietheritage-shiro.ini "$FUSEKI_BASE/shiro.ini"
-exec /tmp/fuseki-base-entrypoint.sh "$@"
+: "${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}"
+
+umask 077
+printf 'admin: %s\n' "$ADMIN_PASSWORD" > /fuseki/passwords
+
+exec java -Xmx1g -jar /fuseki/fuseki-server.jar \
+    --conf=/fuseki/config.ttl \
+    --passwd=/fuseki/passwords \
+    --auth=basic \
+    "$@"

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from vietheritage.rdf import fuseki_loader
 from vietheritage.rdf.fuseki_loader import load_plan, put_turtle
 
 
@@ -22,3 +23,24 @@ def test_put_turtle_uses_graph_store_params_and_content_type() -> None:
     assert calls[0][0].endswith("/vietheritage/data")
     assert calls[0][1]["params"] == {"graph": "http://example/graph"}
     assert calls[0][1]["headers"]["Content-Type"].startswith("text/turtle")
+
+
+def test_production_load_fails_before_put_when_any_artifact_is_missing(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    present = tmp_path / "present.ttl"
+    present.write_text("@prefix : <urn:test:> .", encoding="utf-8")
+    missing = tmp_path / "missing.ttl"
+    puts = []
+    monkeypatch.setattr(
+        fuseki_loader,
+        "load_plan",
+        lambda: [
+            ("ontology", present, "urn:graph:ontology"),
+            ("inferred", missing, "urn:graph:inferred"),
+        ],
+    )
+    monkeypatch.setattr(fuseki_loader, "put_turtle", lambda *args, **kwargs: puts.append(args))
+
+    assert fuseki_loader.run("full") == 1
+    assert puts == []

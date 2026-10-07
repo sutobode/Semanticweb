@@ -2,7 +2,9 @@ services:
   fuseki:
     build:
       context: ./deployment/fuseki
-    image: vietheritage/fuseki:4.8.0
+      args:
+        JENA_VERSION: ${JENA_VERSION:-4.10.0}
+    image: vietheritage/fuseki:4.10.0
     container_name: vietheritage-fuseki
     user: "0:0"
     environment:
@@ -12,6 +14,12 @@ services:
     volumes:
       - ./deployment/fuseki/config.ttl:/fuseki/config.ttl:ro
       - fuseki-data:/fuseki/databases
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -H 'Accept: application/sparql-results+json' --get --data-urlencode 'query=ASK WHERE {}' http://localhost:3030/vietheritage/sparql | grep -Eq '\"boolean\"[[:space:]]*:[[:space:]]*true'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
     restart: unless-stopped
 
   neo4j:

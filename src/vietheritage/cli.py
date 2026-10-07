@@ -129,9 +129,12 @@ def _cmd_query(args: argparse.Namespace) -> int:
 
 
 def _cmd_cq_test(args: argparse.Namespace) -> int:
+    from vietheritage.rdf.fuseki_loader import golden_query_endpoint, load_golden
     from vietheritage.reporting.query_runner import run as cq_test_run
 
-    return cq_test_run()
+    if load_golden() != 0:
+        return 1
+    return cq_test_run(endpoint=golden_query_endpoint())
 
 
 def _cmd_verify(args: argparse.Namespace) -> int:
