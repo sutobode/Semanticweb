@@ -223,3 +223,24 @@ def test_ax011_owa_fixture_is_consistent_without_a_named_location(inputs):
     inferred, _ = reasoner.reason([ontology, fixture])
 
     assert not any(isinstance(value, URIRef) for value in inferred.objects(site, VH.locatedIn))
+
+
+def test_nested_has_member_entails_part_chain_without_retyping(inputs) -> None:
+    ontology = inputs[0]
+    outer, inner, site = VHR["complex-member-outer"], VHR["complex-member-inner"], VHR["site-member"]
+    data = Graph()
+    data.add((outer, RDF.type, VH.HeritageComplex))
+    data.add((inner, RDF.type, VH.HeritageComplex))
+    data.add((site, RDF.type, VH.HeritageSite))
+    data.add((outer, VH.hasMember, inner))
+    data.add((inner, VH.hasMember, site))
+
+    inferred, _ = reasoner.reason([ontology, data])
+
+    for triple in (
+        (inner, VH.partOf, outer), (site, VH.partOf, inner), (site, VH.partOf, outer),
+        (outer, VH.hasPart, inner), (inner, VH.hasPart, site),
+    ):
+        assert triple in inferred
+    assert (inner, RDF.type, VH.HeritageSite) not in inferred
+    assert (site, RDF.type, VH.HeritageComplex) not in inferred

@@ -158,7 +158,7 @@ def test_ax009_functional_properties_for_8_datatype_properties(graph: Graph) -> 
 
 
 def test_ontology_version_and_ax010_exact_definition(graph: Graph) -> None:
-    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.7.1")}
+    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.7.2")}
     cls = VH.HeritageSiteWithHistoricalBuilder
     assert set(graph.objects(cls, RDFS.subClassOf)) == {VH.HeritageSite}
     equivalents = list(graph.objects(cls, OWL.equivalentClass))
@@ -210,3 +210,18 @@ def test_ax017_is_only_asymmetric_and_keeps_event_domain_range(graph: Graph) -> 
     assert set(graph.objects(prop, RDFS.range)) == {VH.HistoricalEvent}
     for characteristic in (OWL.TransitiveProperty, OWL.SymmetricProperty, OWL.IrreflexiveProperty):
         assert (prop, RDF.type, characteristic) not in graph
+
+
+def test_has_member_range_is_exactly_site_or_complex(graph: Graph) -> None:
+    prop = VH.hasMember
+    assert set(graph.objects(prop, RDFS.domain)) == {VH.HeritageComplex}
+    assert set(graph.objects(prop, RDFS.subPropertyOf)) == {VH.hasPart}
+    ranges = list(graph.objects(prop, RDFS.range))
+    assert len(ranges) == 1 and VH.CulturalHeritageEntity not in ranges
+    union = ranges[0]
+    assert (union, RDF.type, OWL.Class) in graph
+    lists = list(graph.objects(union, OWL.unionOf))
+    assert len(lists) == 1
+    assert list(graph.items(lists[0])) == [VH.HeritageSite, VH.HeritageComplex]
+    assert (VH.partOf, OWL.inverseOf, VH.hasPart) in graph
+    assert (VH.partOf, RDF.type, OWL.TransitiveProperty) in graph

@@ -10,12 +10,12 @@ Semantic snapshot hiện tại đã hoàn tất Member 4 M4.1-M4.4 và được 
 | Hạng mục | Kết quả đã kiểm chứng |
 |---|---:|
 | Canonical records | `1,111` |
-| Ontology triples | `344` |
+| Ontology triples | `350` |
 | Asserted triples | `13,577` |
-| Inferred delta | `713,580` |
+| Inferred delta | `713,894` |
 | Verified external links | `222` |
 | Metadata triples | `1,526` |
-| Final public graph | `729,247` |
+| Final public graph | `729,567` |
 | SPARQL competency questions | `10/10 PASS` |
 | Cypher competency questions | `10/10 PASS` |
 | SPARQL/Cypher parity | `10/10 PASS` |

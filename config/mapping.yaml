@@ -167,8 +167,9 @@ derived_entities:
       located_in: [area-name-2035d470f202]
     attach:
       registry_id: registry-9aa10e718d44
-  # Complex cha tách biệt; thành viên là các HeritageSite đã có trong canonical (không retype,
-  # không tạo bản sao). partOf/hasPart để reasoner suy ra từ hasMember (AX-002/AX-003).
+  # Complex cha tách biệt; thành viên là HeritageSite đã có trong canonical hoặc complex lồng nhau
+  # (range hasMember = HeritageSite ∪ HeritageComplex, DEC-036; không retype, không tạo bản sao).
+  # partOf/hasPart để reasoner suy ra từ hasMember (AX-002/AX-003).
   # Cục Di sản liệt kê 6 di tích quốc gia đặc biệt thành phần của di sản thế giới (UNESCO 2025).
   complex-6d95f2254f28:
     entity_type: HeritageComplex

@@ -15,10 +15,10 @@ vh: a owl:Ontology ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-04"^^xsd:date ;
+    dcterms:modified "2026-10-07"^^xsd:date ;
     dcterms:title "VietHeritageLOD Ontology"@en,
         "Ontology VietHeritageLOD"@vi ;
-    owl:versionInfo "1.7.1" .
+    owl:versionInfo "1.7.2" .
 
 vh:Artisan a owl:Class ;
     rdfs:label "Artisan"@en,
@@ -133,7 +133,8 @@ vh:hasMember a rdf:Property,
     rdfs:label "has member"@en,
         "có thành viên"@vi ;
     rdfs:domain vh:HeritageComplex ;
-    rdfs:range vh:CulturalHeritageEntity ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( vh:HeritageSite vh:HeritageComplex ) ] ;
     rdfs:subPropertyOf vh:hasPart .
 
 vh:hasRelatedSite a rdf:Property,

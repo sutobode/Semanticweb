@@ -104,3 +104,53 @@ def test_ax017_without_asymmetric_declaration_is_not_run(ontology):
     vh = Namespace(DEFAULT_BASE + "/ontology/")
     legacy.remove((vh.hasHistoricalSuccessor, RDF.type, OWL.AsymmetricProperty))
     assert validate_axioms(Graph(), legacy)["axioms"]["AX-017"] == "NOT_RUN"
+
+
+@pytest.mark.parametrize("member_type", ["HeritageSite", "HeritageComplex"])
+def test_has_member_accepts_site_or_nested_complex(member_type, ontology):
+    vh = Namespace(DEFAULT_BASE + "/ontology/")
+    vhr = Namespace(DEFAULT_BASE + "/resource/")
+    data = Graph()
+    data.add((vhr["complex-member-parent"], RDF.type, vh.HeritageComplex))
+    data.add((vhr["member-target"], RDF.type, vh[member_type]))
+    data.add((vhr["complex-member-parent"], vh.hasMember, vhr["member-target"]))
+    result = validate_semantics(data, ontology)
+    assert result["status"] == "PASS"
+    assert result["errors"] == []
+
+
+def test_has_member_rejects_other_heritage_branch(ontology):
+    vh = Namespace(DEFAULT_BASE + "/ontology/")
+    vhr = Namespace(DEFAULT_BASE + "/resource/")
+    data = Graph()
+    data.add((vhr["complex-member-parent"], RDF.type, vh.HeritageComplex))
+    data.add((vhr["museum-target"], RDF.type, vh.Museum))
+    data.add((vhr["complex-member-parent"], vh.hasMember, vhr["museum-target"]))
+    result = validate_semantics(data, ontology)
+    assert result["status"] == "FAIL"
+    assert [(error["code"], error["property"]) for error in result["errors"]] == [
+        ("RANGE_VIOLATION", str(vh.hasMember)),
+    ]
+
+
+def test_production_has_member_hierarchy_meets_refined_range(ontology):
+    vh = Namespace(DEFAULT_BASE + "/ontology/")
+    production = Graph().parse(ROOT / "data/rdf/vietheritage.ttl", format="turtle")
+    edges = set(production.subject_objects(vh.hasMember))
+    data = Graph()
+    for parent, member in edges:
+        data.add((parent, vh.hasMember, member))
+        for node in (parent, member):
+            for cls in production.objects(node, RDF.type):
+                data.add((node, RDF.type, cls))
+    member_types = [
+        "HeritageComplex" if (member, RDF.type, vh.HeritageComplex) in production else "HeritageSite"
+        for _, member in edges
+    ]
+    assert len(edges) == 16
+    assert sorted(member_types).count("HeritageSite") == 15
+    assert member_types.count("HeritageComplex") == 1
+    nested = next(member for _, member in edges if (member, RDF.type, vh.HeritageComplex) in production)
+    assert (nested, RDF.type, vh.HeritageSite) not in production
+    result = validate_semantics(data, ontology)
+    assert result["status"] == "PASS", result["errors"]

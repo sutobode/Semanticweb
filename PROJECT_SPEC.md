@@ -12,7 +12,7 @@
 |---|---|
 | Project Name | VietHeritageLOD |
 | Tên đầy đủ | Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam |
-| Specification Version | 1.7.1 |
+| Specification Version | 1.7.2 |
 | Status | Implementation baseline — FINAL |
 | Ngày phát hành specification | 2026-10-04 |
 | Deadline presentation | 2026-10-10 |
@@ -1335,9 +1335,9 @@ Theo quy chuẩn W3C OWL 2 và methodology ontology engineering (course referenc
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.7.1" ;
+    owl:versionInfo "1.7.2" ;
     dcterms:created "2026-09-12"^^xsd:date ;
-    dcterms:modified "2026-10-04"^^xsd:date .
+    dcterms:modified "2026-10-07"^^xsd:date .
 ```
 
 `owl:versionInfo` MUST khớp `Specification Version` ở Section 0 tại mỗi lần freeze ontology. Thiếu ontology header là lỗi blocking của `TEST-033` (namespace inventory).
@@ -1659,7 +1659,8 @@ flowchart LR
     SITE -->|builtBy| PERSON
     SITE -->|recognizedBy| ORG
     SITE -->|hasArchitecturalStyle| STYLE
-    COMPLEX -->|hasMember| ENTITY
+    COMPLEX -->|hasMember| SITE
+    COMPLEX -->|hasMember| COMPLEX
     SITE -->|hasRelatedSite| SITE
     EVENT -->|hasHistoricalSuccessor| EVENT
 
@@ -1691,7 +1692,7 @@ Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain k
 | `vh:builtBy` | `vh:HeritageSite` | `vh:HistoricalPerson` | none | `rdfs:subPropertyOf vh:associatedWithPerson` |
 | `vh:recognizedBy` | `vh:HeritageSite` | `vh:Organization` | none | none |
 | `vh:hasArchitecturalStyle` | `vh:HeritageSite` | `vh:ArchitecturalStyle` | none | none |
-| `vh:hasMember` | `vh:HeritageComplex` | `vh:CulturalHeritageEntity` | none | `rdfs:subPropertyOf vh:hasPart` |
+| `vh:hasMember` | `vh:HeritageComplex` | `vh:HeritageSite` or `vh:HeritageComplex` (`owl:unionOf`) | none | `rdfs:subPropertyOf vh:hasPart` |
 | `vh:hasRelatedSite` | `vh:HeritageSite` | `vh:HeritageSite` | none | `owl:SymmetricProperty` |
 | `vh:hasHistoricalSuccessor` | `vh:HistoricalEvent` | `vh:HistoricalEvent` | none | asymmetric (AX-017); không transitive |
 
@@ -1726,14 +1727,16 @@ CQ01 với pattern `?site vh:locatedIn+ ?area` và `?area rdfs:label "Hà Nội"
 
 ### 15.2.2 Phân biệt `vh:hasPart` và `vh:hasMember`
 
-Hai property này có cùng domain và range nên MUST được phân biệt tường minh, tránh trở thành hai tên gọi cho một quan hệ:
+Hai property này có cùng domain nên MUST được phân biệt tường minh, tránh trở thành hai tên gọi cho một quan hệ:
 
 ```turtle
-vh:hasMember rdfs:subPropertyOf vh:hasPart .
+vh:hasMember rdfs:subPropertyOf vh:hasPart ;
+    rdfs:range [ a owl:Class ; owl:unionOf ( vh:HeritageSite vh:HeritageComplex ) ] .
 ```
 
 - `vh:hasPart` là quan hệ cấu thành tổng quát, là inverse của `vh:partOf` và hưởng lợi từ tính transitive của `vh:partOf`.
 - `vh:hasMember` là danh sách thành viên được registry liệt kê tường minh (`member_sites` ở Section 12.2). Mọi member đều là part, nhưng không phải part nào cũng được registry liệt kê thành member.
+- Từ 1.7.2, range của `vh:hasMember` hẹp hơn `vh:hasPart`: member chỉ có thể là di tích thành phần (`vh:HeritageSite`) hoặc complex lồng nhau (`vh:HeritageComplex`). Các nhánh `CulturalHeritageEntity` khác (Museum, IntangibleHeritage, NationalTreasure, DocumentaryHeritage, CulturalObject) không phải member hợp lệ; validator báo `RANGE_VIOLATION`. Complex lồng nhau vẫn là `HeritageComplex` (range union không suy ra `HeritageSite`), và `partOf` transitive nối site con tới complex ngoài cùng.
 
 `vh:builtBy` chỉ dùng cho một `vh:HistoricalPerson`:
 
@@ -4141,7 +4144,7 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-033 | Disjoint union cho intangible heritage | `vh:IntangibleHeritage owl:disjointUnionOf` ba subclass đại diện/khẩn cấp/quốc gia (AX-008) | Một di sản phi vật thể chỉ thuộc một danh mục tại một thời điểm; `disjointUnionOf` khẳng định cả completeness và exclusiveness đúng OWL 2 |
 | DEC-034 | Vocabulary reuse và multilingual labeling | `vh:sourcePageId`/`vh:sourceTitle` là `rdfs:subPropertyOf` của `dcterms:identifier`/`dcterms:title`; provenance dùng `dcterms:source`/`prov:wasDerivedFrom`; mọi class/property MUST có `rdfs:label` cả `@vi` và `@en` | Phân biệt định danh/tiêu đề trang với provenance URI, tránh trùng ngữ nghĩa và đảm bảo T-Box đa ngôn ngữ |
 | DEC-035 | Domain của `vh:locatedIn` | Mở rộng thành union `vh:CulturalHeritageEntity` hoặc `vh:AdministrativeArea`; map thêm `parent_area` → `vh:locatedIn` | CQ01 dùng `vh:locatedIn+` để tìm site trong đơn vị hành chính con; domain cũ khiến area-to-area triple suy ra sai type và CQ01 không trả đủ kết quả |
-| DEC-036 | Phân biệt `hasPart` và `hasMember` | `vh:hasMember rdfs:subPropertyOf vh:hasPart` | Hai property có cùng domain/range; nếu không khai quan hệ thì trở thành hai tên gọi trùng nghĩa, vi phạm nguyên tắc naming rõ ràng |
+| DEC-036 | Phân biệt `hasPart` và `hasMember`; range `hasMember` (1.7.2) | `vh:hasMember rdfs:subPropertyOf vh:hasPart`; `rdfs:range` = `owl:unionOf (vh:HeritageSite vh:HeritageComplex)` | Không khai quan hệ thì hai property trùng nghĩa. `hasMember` là membership tường minh của di tích thành phần hoặc complex lồng nhau; production có cả hai dạng (15 site, 1 complex), không nhánh `CulturalHeritageEntity` nào khác là member hợp lệ |
 | DEC-037 | Person class reuse và disjointness | `vh:HistoricalPerson`/`vh:Artisan` cùng `rdfs:subClassOf foaf:Person`; `vh:Artisan` được thêm vào AX-004 | FOAF đã khai prefix nhưng gần như không dùng; `vh:Artisan` trước đây không nằm trong bất kỳ disjointness axiom nên lỗi type không bị phát hiện |
 | DEC-038 | Cardinality là axiom, không chỉ là bảng | 8 datatype property `0..1` MUST khai `owl:FunctionalProperty` (AX-009); validation bổ sung mã `CARDINALITY_VIOLATION` | Cardinality chỉ ghi trong bảng không tồn tại trong ontology; do OWA reasoner không báo lỗi kiểu database nên cần validation layer để thông báo rõ ràng |
 | DEC-039 | Java runtime | Eclipse Temurin `21-jre`, khớp `deployment/fuseki/Dockerfile`; Silk chỉ là policy source nên không ràng buộc runtime | Section 8 trước đây ghi `17.0.12` MUST trong khi Dockerfile dùng `21-jre` — hai MUST mâu thuẫn khiến build không xác định |

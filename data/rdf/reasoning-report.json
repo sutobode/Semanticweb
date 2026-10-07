@@ -1,5 +1,5 @@
 {
-  "run_id": "20261007T101539Z-ad50ab",
+  "run_id": "20261007T154342Z-77f0f6",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -43,15 +43,15 @@
     "AX-011": "PASS",
     "AX-017": "PASS"
   },
-  "source_triples": 13919,
-  "inferred_triples": 713580,
-  "closure_triples": 727499,
-  "ontology_triples": 344,
-  "ontology_version": "1.7.1",
+  "source_triples": 13925,
+  "inferred_triples": 713894,
+  "closure_triples": 727819,
+  "ontology_triples": 350,
+  "ontology_version": "1.7.2",
   "asserted_triples": 13577,
   "production_inputs": [
-    "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
-    "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\rdf\\vietheritage.ttl"
+    "D:\\Semanticweb\\ontology\\vietheritage.ttl",
+    "D:\\Semanticweb\\data\\rdf\\vietheritage.ttl"
   ],
   "semantic_validation": {
     "status": "PASS",
@@ -70,11 +70,11 @@
   },
   "fixture_verification": {
     "inputs": [
-      "C:\\Users\\Asus\\Desktop\\Semanticweb\\ontology\\vietheritage.ttl",
-      "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
+      "D:\\Semanticweb\\ontology\\vietheritage.ttl",
+      "D:\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
     ],
-    "source_triples": 370,
-    "inferred_triples": 1400,
+    "source_triples": 376,
+    "inferred_triples": 1445,
     "semantic_validation": {
       "status": "PASS",
       "errors": [],
@@ -91,9 +91,9 @@
       }
     },
     "AX-011": {
-      "input": "C:\\Users\\Asus\\Desktop\\Semanticweb\\data\\fixtures\\semantic\\ax011-owa-no-location.ttl",
-      "source_triples": 345,
-      "inferred_triples": 1205,
+      "input": "D:\\Semanticweb\\data\\fixtures\\semantic\\ax011-owa-no-location.ttl",
+      "source_triples": 351,
+      "inferred_triples": 1241,
       "named_locations": 0,
       "status": "PASS",
       "owa": true
