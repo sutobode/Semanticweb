@@ -19,6 +19,7 @@
     "location_compatible": {"type": "boolean"},
     "multiple_local_approved": {"type": "boolean"},
     "component_fingerprint": {"type": ["string", "null"], "pattern": "^[a-f0-9]{16}$"},
+    "label_en": {"type": ["string", "null"], "minLength": 1},
     "status": {"enum": ["verified", "rejected", "manual_review"]},
     "reviewer": {"type": ["string", "null"]},
     "reviewed_at": {"type": ["string", "null"], "format": "date-time"},

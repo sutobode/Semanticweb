@@ -3,8 +3,8 @@ import json
 from pathlib import Path
 
 import pytest
-from rdflib import Graph, Namespace
-from rdflib.namespace import OWL, RDF
+from rdflib import Graph, Literal, Namespace, URIRef
+from rdflib.namespace import OWL, RDF, RDFS
 
 import vietheritage.linking.linker as linker_module
 from vietheritage.linking.linker import dbpedia_score, link_records, review_dbpedia_candidate
@@ -138,6 +138,42 @@ def test_loader_reads_explicit_dbpedia_wikidata_manifest(tmp_path, monkeypatch) 
     monkeypatch.setattr(linker_module, "REPO_ROOT", tmp_path)
     candidates = linker_module._load_dbpedia_candidates()
     assert candidates["registry-a"][0]["uri"].endswith("/A")
+
+
+def test_local_english_labels_are_attached_only_to_verified_targets(tmp_path, monkeypatch) -> None:
+    raw = tmp_path / "data" / "raw"
+    raw.mkdir(parents=True)
+    rows = [
+        {"wikidata_id": "Q123", "uri": "http://dbpedia.org/resource/English_Title"},
+        {"wikidata_id": "Q456", "uri": "http://dbpedia.org/resource/Rejected_Title"},
+        {"wikidata_id": "invalid", "uri": "http://dbpedia.org/resource/Ignored"},
+    ]
+    (raw / "dbpedia_wikidata_candidates.jsonl").write_text(
+        "\n".join(json.dumps(row) for row in rows) + "\n", encoding="utf-8",
+    )
+    monkeypatch.setattr(linker_module, "REPO_ROOT", tmp_path)
+    reviews = [
+        {"target_uri": "https://www.wikidata.org/entity/Q123", "status": "verified"},
+        {"target_uri": "https://www.wikidata.org/entity/Q456", "status": "rejected"},
+    ]
+
+    assert linker_module.attach_local_english_labels(reviews) == 1
+    assert reviews[0]["label_en"] == "English Title"
+    assert reviews[1]["label_en"] is None
+
+
+def test_external_link_turtle_materializes_english_label(tmp_path) -> None:
+    output = tmp_path / "external-links.ttl"
+    linker_module._write_turtle([{
+        "source_uri": str(VHR["registry-a"]),
+        "target_uri": "https://www.wikidata.org/entity/Q123",
+        "label_en": "English Title",
+    }], output)
+
+    graph = Graph().parse(output, format="turtle")
+    target = URIRef("https://www.wikidata.org/entity/Q123")
+    assert (VHR["registry-a"], OWL.sameAs, target) in graph
+    assert (target, RDFS.label, Literal("English Title", lang="en")) in graph
 
 
 def test_shared_identity_with_compatible_site_subclasses_requires_reviewed_exception(ontology):
@@ -363,7 +399,9 @@ def test_linking_only_run_keeps_protected_inputs_and_review_decisions(tmp_path, 
         linking / "link-review.jsonl", linking / "dbpedia_candidates.csv",
     )}
     graph = Graph().parse(rdf / "external-links.ttl", format="turtle")
-    assert len(graph) == 2
+    assert len(graph) == 3
+    assert (URIRef("https://www.wikidata.org/entity/Q123"), RDFS.label,
+            Literal("Ha Long Bay", lang="en")) in graph
     candidates = list(csv.DictReader((linking / "dbpedia_candidates.csv").open(encoding="utf-8")))
     assert candidates[0]["status"] == "auto_candidate"
     reviews = [json.loads(line) for line in (linking / "link-review.jsonl").read_text(encoding="utf-8").splitlines()]

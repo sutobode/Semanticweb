@@ -2544,13 +2544,13 @@ Expected fixture: site `vhr:site-archaeological-1`.
 
 ```sparql
 PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
-PREFIX vhr: <http://localhost:3030/vietheritage/resource/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?site ?siteLabel
 WHERE {
   ?site a vh:HeritageSite ;
         rdfs:label ?siteLabel ;
-        vh:associatedWithPerson vhr:person-ly-thuong-kiet .
+        (vh:associatedWithPerson|vh:builtBy) ?person .
+  ?person a vh:HistoricalPerson .
   FILTER(LANG(?siteLabel) = "vi")
 }
 ORDER BY ?siteLabel
@@ -2562,13 +2562,14 @@ Expected fixture: ba site `vhr:registry-dsvh-national-monument-000001`, `vhr:sit
 
 ```sparql
 PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
-PREFIX vhr: <http://localhost:3030/vietheritage/resource/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?site ?label
 WHERE {
-  { ?site a vh:HeritageSite ; rdfs:label ?label ; vh:associatedWithEvent vhr:event-example . }
+  { ?site a vh:HeritageSite ; rdfs:label ?label ; vh:associatedWithEvent ?context .
+    ?context a vh:HistoricalEvent . }
   UNION
-  { ?site a vh:HeritageSite ; rdfs:label ?label ; vh:belongsToPeriod vhr:period-example . }
+  { ?site a vh:HeritageSite ; rdfs:label ?label ; vh:belongsToPeriod ?context .
+    ?context a vh:HistoricalPeriod . }
   FILTER(LANG(?label) = "vi")
 }
 ORDER BY ?label
@@ -2674,8 +2675,8 @@ ORDER BY ?site
 | `CQ01-sites-by-location.rq` | CQ-01 | label area | site, label | Yes |
 | `CQ02-unesco-before-year.rq` | CQ-02 | year=2000 | site, label, year | Yes |
 | `CQ03-sites-by-type.rq` | CQ-03 | ArchaeologicalSite | site, label | Yes |
-| `CQ04-sites-by-person.rq` | CQ-04 | person URI | site, siteLabel | Yes |
-| `CQ05-sites-by-event-or-period.rq` | CQ-05 | event/period URI | site, label | Yes |
+| `CQ04-sites-by-person.rq` | CQ-04 | typed person relations | site, siteLabel | Yes |
+| `CQ05-sites-by-event-or-period.rq` | CQ-05 | typed event/period relations | site, label | Yes |
 | `CQ06-top-areas.rq` | CQ-06 | limit=10 | area, areaLabel, siteCount | Yes |
 | `CQ07-persons-with-many-sites.rq` | CQ-07 | count > 1 | person, name, siteCount | Yes |
 | `CQ08-sites-in-complex.rq` | CQ-08 | complex URI | site, label | Yes |

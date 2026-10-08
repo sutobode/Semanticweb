@@ -11,9 +11,10 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote, urlsplit
 
-from rdflib import Graph, Namespace, URIRef
-from rdflib.namespace import OWL
+from rdflib import Graph, Literal, Namespace, URIRef
+from rdflib.namespace import OWL, RDFS
 
 from vietheritage.validation.semantic import (
     Contract,
@@ -47,6 +48,37 @@ def _load_dbpedia_candidates() -> dict[str, list[dict[str, Any]]]:
                 row = json.loads(line)
                 result.setdefault(row["entity_id"], []).append(row)
     return result
+
+
+def _load_local_english_labels() -> dict[str, str]:
+    """Map Wikidata targets to titles available in the local DBpedia bridge snapshot."""
+    path = REPO_ROOT / "data" / "raw" / "dbpedia_wikidata_candidates.jsonl"
+    candidates: dict[str, set[str]] = defaultdict(set)
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            qid, uri = row.get("wikidata_id"), row.get("uri")
+            parsed = urlsplit(str(uri or ""))
+            if not isinstance(qid, str) or not _QID_RE.fullmatch(qid):
+                continue
+            if parsed.netloc != "dbpedia.org" or not parsed.path.startswith("/resource/"):
+                continue
+            title = unquote(parsed.path.rsplit("/", 1)[-1]).replace("_", " ").strip()
+            if title:
+                candidates[f"https://www.wikidata.org/entity/{qid}"].add(title)
+    return {target: next(iter(labels)) for target, labels in candidates.items() if len(labels) == 1}
+
+
+def attach_local_english_labels(reviews: list[dict[str, Any]]) -> int:
+    labels = _load_local_english_labels()
+    count = 0
+    for row in reviews:
+        label = labels.get(str(row.get("target_uri"))) if row.get("status") == "verified" else None
+        row["label_en"] = label
+        count += label is not None
+    return count
 
 
 def _link_key(value: str) -> str:
@@ -104,6 +136,7 @@ def _review_row(source_uri: str, target_uri: str, dataset: str, method: str, sco
         "location_compatible": bool(extra.get("location_compatible", False)),
         "multiple_local_approved": bool(extra.get("multiple_local_approved", False)),
         "component_fingerprint": extra.get("component_fingerprint"),
+        "label_en": extra.get("label_en"),
         "status": status,
         "reviewer": extra.get("reviewer") or ("automated:vietheritage-linker/0.1.0" if status == "verified" else None),
         "reviewed_at": extra.get("reviewed_at") or (_now() if status == "verified" else None),
@@ -285,6 +318,7 @@ def link_records(
                 row["status"] = "verified"
             reviews.append(row)
     _reject_identity_conflicts(reviews, assertions, ontology, records, link_reviews or [])
+    attach_local_english_labels(reviews)
     reviews.sort(key=lambda row: (row["source_uri"], row["target_uri"], row["reason"] or ""))
     return reviews, [row for row in reviews if row["status"] == "verified"]
 
@@ -294,7 +328,10 @@ def _write_turtle(verified: list[dict[str, Any]], path: Path) -> None:
     graph.bind("owl", OWL)
     graph.bind("vhr", VHR)
     for row in verified:
-        graph.add((URIRef(row["source_uri"]), OWL.sameAs, URIRef(row["target_uri"])))
+        target = URIRef(row["target_uri"])
+        graph.add((URIRef(row["source_uri"]), OWL.sameAs, target))
+        if row.get("label_en"):
+            graph.add((target, RDFS.label, Literal(row["label_en"], lang="en")))
     triples = sorted(graph, key=lambda t: tuple(map(str, t)))
     ordered = Graph()
     ordered.bind("owl", OWL)
@@ -330,9 +367,9 @@ def run(run_mode: str = "sample", *, refresh_metadata: bool = True) -> int:
             "source_uri", "target_uri", "target_dataset", "method", "score", "distance_km",
             "type_compatible", "same_entity", "granularity_compatible", "scope_compatible",
             "location_compatible", "multiple_local_approved", "component_fingerprint",
-            "status", "reviewer", "reviewed_at", "reason",
+            "label_en", "status", "reviewer", "reviewed_at", "reason",
         ]
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(reviews)
     candidates = [row for row in reviews if row["target_dataset"] == "dbpedia"]

@@ -1,4 +1,5 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix vhr: <http://localhost:3030/vietheritage/resource/> .
 
 vhr:complex-0b2af36f62d1 owl:sameAs <https://www.wikidata.org/entity/Q190060> .
@@ -318,4 +319,40 @@ vhr:treasure-2108149739ef owl:sameAs <https://www.wikidata.org/entity/Q42548080>
 vhr:treasure-3ea58582f3e4 owl:sameAs <https://www.wikidata.org/entity/Q3514747> .
 
 vhr:treasure-c2c8d55270eb owl:sameAs <https://www.wikidata.org/entity/Q30920268> .
+
+<https://www.wikidata.org/entity/Q102843> rdfs:label "Tug of war"@en .
+
+<https://www.wikidata.org/entity/Q10810559> rdfs:label "Tràng An Scenic Landscape Complex"@en .
+
+<https://www.wikidata.org/entity/Q190060> rdfs:label "Citadel of the Hồ Dynasty"@en .
+
+<https://www.wikidata.org/entity/Q190128> rdfs:label "Hạ Long Bay"@en .
+
+<https://www.wikidata.org/entity/Q1923756> rdfs:label "Đông Hồ painting"@en .
+
+<https://www.wikidata.org/entity/Q206219> rdfs:label "Imperial Citadel of Thăng Long"@en .
+
+<https://www.wikidata.org/entity/Q23513> rdfs:label "Phong Nha – Kẻ Bàng National Park"@en .
+
+<https://www.wikidata.org/entity/Q2397005> rdfs:label "Space of gong culture"@en .
+
+<https://www.wikidata.org/entity/Q3514747> rdfs:label "Ngoc Lu drum"@en .
+
+<https://www.wikidata.org/entity/Q3525838> rdfs:label "Quan họ"@en .
+
+<https://www.wikidata.org/entity/Q391406> rdfs:label "Mỹ Sơn"@en .
+
+<https://www.wikidata.org/entity/Q42548080> rdfs:label "Võ Cạnh inscription"@en .
+
+<https://www.wikidata.org/entity/Q5015164> rdfs:label "Ca Huế"@en .
+
+<https://www.wikidata.org/entity/Q5964411> rdfs:label "Hò khoan"@en .
+
+<https://www.wikidata.org/entity/Q5964889> rdfs:label "Hùng Temple"@en .
+
+<https://www.wikidata.org/entity/Q81105> rdfs:label "Ca trù"@en .
+
+<https://www.wikidata.org/entity/Q863860> rdfs:label "Võ thuật Bình Định"@en .
+
+<https://www.wikidata.org/entity/Q933384> rdfs:label "Independence Palace"@en .
 
