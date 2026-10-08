@@ -108,8 +108,9 @@ derived_entities:
       registry_category: world_heritage
       relation: recognized_by
   # UNESCO 1358 là tài sản nối tiếp gồm ba thành phần vật lý có ID riêng.
-  # Bản ghi registry hiện có giữ nguyên HeritageSite; complex tách biệt tránh vi phạm disjointness.
-  complex-b9e928b2f160:
+  # Hai dòng DSVH là source evidence của cùng whole HeritageComplex; component
+  # chỉ được tạo từ domain ID tường minh, không từ tên hoặc page dùng chung.
+  complex-0b2af36f62d1:
     entity_type: HeritageComplex
     label_vi: "Di sản Văn hóa Thế giới Thành Nhà Hồ"
     aliases_vi: ["Quần thể Di sản Thế giới Thành Nhà Hồ"]
@@ -121,10 +122,14 @@ derived_entities:
     address: "Tỉnh Thanh Hóa"
     relations:
       located_in: [area-name-2035d470f202]
-      member_sites: [registry-unesco-1358-001, registry-unesco-1358-002, registry-unesco-1358-003]
+      member_sites: [site-4d19a4ce38d6, site-b300f9a5ca4f, site-c7bf6641dd4b]
+    identity:
+      canonical_anchor: "unesco:1358"
+      granularity: whole
+      source_record_ids: [registry-9aa10e718d44, registry-aec3cbfb5219]
     attach:
       registry_id: registry-9aa10e718d44
-  registry-unesco-1358-001:
+  site-4d19a4ce38d6:
     entity_type: HeritageSite
     label_vi: "Thành nội Thành Nhà Hồ"
     aliases_vi: ["Thành nội", "Di tích Thành Nhà Hồ"]
@@ -137,9 +142,12 @@ derived_entities:
     address: "Tỉnh Thanh Hóa"
     relations:
       located_in: [area-name-2035d470f202]
+    identity:
+      canonical_anchor: "unesco:1358-001"
+      granularity: component
     attach:
       registry_id: registry-9aa10e718d44
-  registry-unesco-1358-002:
+  site-b300f9a5ca4f:
     entity_type: HeritageSite
     label_vi: "La Thành"
     description_vi: "Thành phần 1358-002 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là La Thanh Outer Walled Section."
@@ -151,9 +159,12 @@ derived_entities:
     address: "Tỉnh Thanh Hóa"
     relations:
       located_in: [area-name-2035d470f202]
+    identity:
+      canonical_anchor: "unesco:1358-002"
+      granularity: component
     attach:
       registry_id: registry-9aa10e718d44
-  registry-unesco-1358-003:
+  site-c7bf6641dd4b:
     entity_type: HeritageSite
     label_vi: "Đàn Nam Giao"
     description_vi: "Thành phần 1358-003 của Di sản Văn hóa Thế giới Thành Nhà Hồ; UNESCO định danh là Nam Giao Altar."
@@ -165,6 +176,9 @@ derived_entities:
     address: "Tỉnh Thanh Hóa"
     relations:
       located_in: [area-name-2035d470f202]
+    identity:
+      canonical_anchor: "unesco:1358-003"
+      granularity: component
     attach:
       registry_id: registry-9aa10e718d44
   # Complex cha tách biệt; thành viên là HeritageSite đã có trong canonical hoặc complex lồng nhau

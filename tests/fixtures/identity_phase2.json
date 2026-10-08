@@ -1,0 +1,75 @@
+{
+  "records": [
+    {
+      "registry_id": "registry-9aa10e718d44",
+      "registry_category": "world_heritage",
+      "label_vi": "Thành nhà Hồ",
+      "registry_url": "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481",
+      "retrieved_at": "2026-10-08T00:00:00Z",
+      "registry_fields": {"recognition_text": "2011", "location": "Tỉnh Thanh Hóa"}
+    },
+    {
+      "registry_id": "registry-aec3cbfb5219",
+      "registry_category": "national_special_monuments",
+      "label_vi": "DTLS và KTNT Thành Nhà Hồ",
+      "registry_url": "https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752",
+      "retrieved_at": "2026-10-08T00:00:00Z",
+      "registry_fields": {"recognition_text": "548/QĐ-TTg Ngày 10/5/2012", "location": "Tỉnh Thanh Hóa"}
+    },
+    {
+      "source_namespace": "unesco",
+      "source_record_id": "1358-001",
+      "entity_type": "HeritageSite",
+      "label_vi": "Thành nội Thành Nhà Hồ",
+      "source_url": "https://whc.unesco.org/en/list/1358/maps/",
+      "retrieved_at": "2026-10-08T00:00:00Z",
+      "external_ids": {"unesco": "1358-001"},
+      "_identity_granularity": "component"
+    },
+    {
+      "source_namespace": "unesco",
+      "source_record_id": "1358-002",
+      "entity_type": "HeritageSite",
+      "label_vi": "La Thành",
+      "source_url": "https://whc.unesco.org/en/list/1358/maps/",
+      "retrieved_at": "2026-10-08T00:00:00Z",
+      "external_ids": {"unesco": "1358-002"},
+      "_identity_granularity": "component"
+    },
+    {
+      "source_namespace": "unesco",
+      "source_record_id": "1358-003",
+      "entity_type": "HeritageSite",
+      "label_vi": "Đàn Nam Giao",
+      "source_url": "https://whc.unesco.org/en/list/1358/maps/",
+      "retrieved_at": "2026-10-08T00:00:00Z",
+      "external_ids": {"unesco": "1358-003"},
+      "_identity_granularity": "component"
+    }
+  ],
+  "pages": [
+    {
+      "page_id": 84491,
+      "title": "Thành nhà Hồ",
+      "wikidata_id": "Q190060",
+      "infobox": {"id": "1358"},
+      "registry_links": [
+        {"registry_id": "registry-9aa10e718d44", "part_label": null},
+        {"registry_id": "registry-aec3cbfb5219", "part_label": null}
+      ]
+    }
+  ],
+  "mapping": {
+    "derived_entities": {
+      "complex-0b2af36f62d1": {
+        "entity_type": "HeritageComplex",
+        "external_ids": {"unesco": "1358"},
+        "identity": {
+          "canonical_anchor": "unesco:1358",
+          "granularity": "whole",
+          "source_record_ids": ["registry-9aa10e718d44", "registry-aec3cbfb5219"]
+        }
+      }
+    }
+  }
+}

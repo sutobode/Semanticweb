@@ -29,7 +29,7 @@ collect:
 normalize:
 	$(PYTHON) -m vietheritage.cli normalize --run-mode $(RUN_MODE)
 
-## make resolve — normalized -> entities/identity map
+## make resolve — normalized + identity evidence -> entities/identity decisions
 resolve:
 	$(PYTHON) -m vietheritage.cli resolve --run-mode $(RUN_MODE)
 

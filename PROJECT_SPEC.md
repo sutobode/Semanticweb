@@ -585,8 +585,8 @@ Wikipedia category discovery MAY được dùng để tìm enrichment candidate,
 
 | Trường | Contract |
 |---|---|
-| Input | `normalized.jsonl` |
-| Output | `data/processed/entities.jsonl`, `identity_map.jsonl`, `collision_report.json` |
+| Input | `normalized.jsonl` + reviewed identity evidence from `pages.jsonl`, Wikidata exact-enrichment manifests and domain config |
+| Output | `data/processed/entities.jsonl`, `identity_map.jsonl`, `identity_decisions.jsonl`, `collision_report.json` |
 | Algorithm | DEC-006, mục 13 |
 | Fuzzy matching | MUST NOT dùng trong core identity |
 | Failure | Collision không giải quyết được làm stage FAIL |

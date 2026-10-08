@@ -15,6 +15,7 @@
 #   rỗng, 3 trang không có bảng) — xem docs/REGISTRY_SOURCES.md §1.
 #   Lỗi mạng/HTTP/parse vẫn là blocking cho mọi category.
 base_url: https://dsvh.gov.vn/
+source_namespace: dsvh
 request:
   timeout_seconds: 30
   retries: 3
