@@ -96,6 +96,62 @@ def test_canonical_record_schema_rejects_entity_type_outside_enum() -> None:
         jsonschema.validate(record, schema)
 
 
+def test_canonical_record_preserves_source_years_with_one_canonical_year() -> None:
+    schema = _load("canonical-record.schema.json")
+    record = {
+        "entity_id": "complex-unesco-1358",
+        "entity_type": "HeritageComplex",
+        "label_vi": "Di sản Văn hóa Thế giới Thành Nhà Hồ",
+        "registry_id": "registry-world-1358",
+        "registry_category": "world_heritage",
+        "registry_url": "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481",
+        "recognition_year": 2011,
+        "source_status": "registry+enriched",
+        "coverage_snapshot": "20261008T000000Z",
+        "source_page_id": 84491,
+        "source_title": "Thành nhà Hồ",
+        "retrieved_at": "2026-10-08T00:00:00Z",
+        "source_records": [
+            {
+                "source_namespace": "dsvh",
+                "source_record_id": "registry-world-1358",
+                "source_url": "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481",
+                "registry_category": "world_heritage",
+                "recognition_year": 2011,
+                "retrieved_at": "2026-10-08T00:00:00Z",
+                "provenance": {
+                    "source": "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481",
+                    "method": "registry",
+                    "license": "Official registry snapshot",
+                },
+            },
+            {
+                "source_namespace": "dsvh",
+                "source_record_id": "registry-national-special-1358",
+                "source_url": "https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752",
+                "registry_category": "national_special_monuments",
+                "recognition_year": 2012,
+                "retrieved_at": "2026-10-08T00:00:00Z",
+                "provenance": {
+                    "source": "https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752",
+                    "method": "registry",
+                    "license": "Official registry snapshot",
+                },
+            },
+        ],
+        "provenance": {
+            "source": "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481",
+            "method": "registry-plus-mediawiki-enrichment",
+            "license": "CC BY-SA 4.0",
+        },
+    }
+    jsonschema.validate(record, schema)
+
+    record["recognition_year"] = [2011, 2012]
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(record, schema)
+
+
 def test_coverage_schema_claim_enum() -> None:
     schema = _load("coverage.schema.json")
     report = {

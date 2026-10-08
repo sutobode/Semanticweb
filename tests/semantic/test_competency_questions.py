@@ -117,8 +117,16 @@ def test_cq_fixture_validates_and_uses_existing_inference(components):
     assert external_links == set(components["verified"])
 
 
+def test_cq02_uses_direct_recognition_without_site_class_restriction():
+    text = (ROOT / "sparql" / QUERIES["CQ02"]).read_text(encoding="utf-8")
+    parseQuery(text)
+    assert "vh:recognizedBy vhr:organization-unesco" in text
+    assert "vh:UNESCOHeritageSite" not in text
+    assert "vh:HeritageSite" not in text
+
+
 @pytest.mark.parametrize(("omitted", "cqs"), [
-    ("inferred", ("CQ02", "CQ04", "CQ07")),
+    ("inferred", ("CQ04", "CQ07")),
     ("verified", ("CQ09", "CQ10")),
     ("snapshot", ("CQ10",)),
 ])

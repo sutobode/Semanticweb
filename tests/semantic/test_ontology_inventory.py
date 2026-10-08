@@ -157,8 +157,14 @@ def test_ax009_functional_properties_for_8_datatype_properties(graph: Graph) -> 
         assert (VH[name], RDF.type, OWL.FunctionalProperty) not in graph, f"{name} must NOT be FunctionalProperty"
 
 
+def test_recognition_properties_apply_to_all_cultural_heritage_entities(graph: Graph) -> None:
+    assert set(graph.objects(VH.recognizedBy, RDFS.domain)) == {VH.CulturalHeritageEntity}
+    assert set(graph.objects(VH.recognitionYear, RDFS.domain)) == {VH.CulturalHeritageEntity}
+    assert (VH.recognitionYear, RDF.type, OWL.FunctionalProperty) in graph
+
+
 def test_ontology_version_and_ax010_exact_definition(graph: Graph) -> None:
-    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.7.2")}
+    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.8.0")}
     cls = VH.HeritageSiteWithHistoricalBuilder
     assert set(graph.objects(cls, RDFS.subClassOf)) == {VH.HeritageSite}
     equivalents = list(graph.objects(cls, OWL.equivalentClass))

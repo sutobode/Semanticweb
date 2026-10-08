@@ -9,9 +9,39 @@
     "entity_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
     "entity_type": {"enum": ["HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage", "Artisan", "CulturalObject"]},
     "label_vi": {"type": "string", "minLength": 1},
-    "registry_id": {"type": ["string", "null"], "minLength": 1},
-    "registry_category": {"type": ["string", "null"], "minLength": 1},
-    "registry_url": {"type": ["string", "null"], "format": "uri"},
+    "registry_id": {"type": ["string", "null"], "minLength": 1, "description": "Source record selected for the canonical classification."},
+    "registry_category": {"type": ["string", "null"], "minLength": 1, "description": "Single selected canonical registry classification."},
+    "registry_url": {"type": ["string", "null"], "format": "uri", "description": "URL of the selected source record."},
+    "source_records": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Source observations attached to this entity; secondary categories and years remain evidence rather than additional canonical values.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_namespace", "source_record_id", "source_url", "retrieved_at", "provenance"],
+        "properties": {
+          "source_namespace": {"type": "string", "minLength": 1},
+          "source_record_id": {"type": "string", "minLength": 1},
+          "source_url": {"type": "string", "format": "uri"},
+          "label_vi": {"type": ["string", "null"], "minLength": 1},
+          "registry_category": {"type": ["string", "null"], "minLength": 1},
+          "recognition_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+          "retrieved_at": {"type": "string", "format": "date-time"},
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "method", "license"],
+            "properties": {
+              "source": {"type": "string", "format": "uri"},
+              "method": {"type": "string", "enum": ["registry", "mediawiki-api", "registry-plus-mediawiki-enrichment", "fixture", "derived"]},
+              "license": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
     "source_status": {"enum": ["registry_only", "registry+wikipedia", "registry+enriched", "derived"]},
     "coverage_snapshot": {"type": ["string", "null"], "minLength": 1},
     "source_page_id": {"type": ["integer", "null"], "minimum": 1},
@@ -33,7 +63,7 @@
     "relations": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
     "site_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "construction_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
-    "recognition_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
+    "recognition_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999, "description": "Year of the single selected canonical recognition or classification."},
     "address": {"type": ["string", "null"]},
     "birth_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},
     "death_year": {"type": ["integer", "null"], "minimum": 1, "maximum": 9999},

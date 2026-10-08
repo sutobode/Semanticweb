@@ -12,7 +12,7 @@
 |---|---|
 | Project Name | VietHeritageLOD |
 | Tên đầy đủ | Đồ thị tri thức Linked Open Data về Di sản Văn hóa Việt Nam |
-| Specification Version | 1.7.2 |
+| Specification Version | 1.8.0 |
 | Status | Implementation baseline — FINAL |
 | Ngày phát hành specification | 2026-10-04 |
 | Deadline presentation | 2026-10-10 |
@@ -888,11 +888,13 @@ linking:
 
 File `schema/raw-page.schema.json` MUST be JSON Schema Draft 2020-12. Each line of `registry_records.jsonl` and `pages.jsonl` after merge is a valid JSON object.
 
+Một source record là bằng chứng từ một nguồn tại một snapshot, không phải canonical entity. Nói cách khác, **source record != canonical entity**. Collector MUST gán identity cho source record để truy vết và deduplicate observation của chính nguồn đó, nhưng MUST NOT mint canonical entity identity. Canonical identity chỉ được tạo sau khi identity evidence đã được enrichment và một global reconciliation pass hoàn tất.
+
 ## 11.1 Schema field table
 
 | Field | Type | Required | Nullable | Source | Meaning |
 |---|---|---:|---:|---|---|
-| `registry_id` | string | Yes for registry records | No | Official registry or deterministic fallback | Coverage identity |
+| `registry_id` | string | Yes for registry records | No | Official registry or deterministic fallback | Source-record identity; không phải canonical entity identity |
 | `registry_category` | string | Yes for registry records | No | `config/registry_sources.yaml` | Baseline category |
 | `registry_url` | URI string | Yes for registry records | No | Official registry detail/index | Official record URL |
 | `label_vi` | string | Yes | No | Registry row or Wikipedia title | Vietnamese label |
@@ -947,7 +949,7 @@ File `schema/raw-page.schema.json` MUST be JSON Schema Draft 2020-12. Each line 
 - Collector MUST không ghi `owl:sameAs` vào raw data.
 - `retrieved_at` MUST dùng UTC với hậu tố `Z`.
 - Registry record thiếu `registry_id`, `registry_category`, `label_vi` hoặc `registry_url` MUST vào quarantine.
-- Enrichment record thiếu `page_id` hoặc `title` MUST vào enrichment quarantine; this does not remove its registry entity.
+- Enrichment record thiếu `page_id` hoặc `title` MUST vào enrichment quarantine; this does not remove its registry source record.
 
 ---
 
@@ -963,6 +965,16 @@ Canonical record có envelope chung:
   "registry_id": "dsvh-national-monument-000001",
   "registry_category": "national_monuments",
   "registry_url": "https://dsvh.gov.vn/...",
+  "source_records": [
+    {
+      "source_namespace": "dsvh",
+      "source_record_id": "dsvh-national-monument-000001",
+      "source_url": "https://dsvh.gov.vn/...",
+      "registry_category": "national_monuments",
+      "retrieved_at": "2026-09-12T03:00:00Z",
+      "provenance": {"source": "https://dsvh.gov.vn/...", "method": "registry", "license": "Official registry snapshot"}
+    }
+  ],
   "source_status": "registry+wikipedia",
   "coverage_snapshot": "2026-09-12T03:00:00Z",
   "source_page_id": 100001,
@@ -982,9 +994,10 @@ Canonical record có envelope chung:
 
 | Field | Type | Required | Nullable | Meaning |
 |---|---|---:|---:|---|
-| `registry_id` | string | Yes for registry-derived | No | Official coverage identity |
-| `registry_category` | string | Yes for registry-derived | No | Baseline category |
-| `registry_url` | URI | Yes for registry-derived | No | Official source URL |
+| `registry_id` | string | Yes for registry-derived | No | Source record selected for canonical classification |
+| `registry_category` | string | Yes for registry-derived | No | One selected canonical classification |
+| `registry_url` | URI | Yes for registry-derived | No | URL of the selected source record |
+| `source_records` | array object | No until clean-rebuild reconciliation is implemented | No | All source records attached to the canonical entity, including secondary categories/years and provenance |
 | `source_status` | enum | Yes | No | Enrichment completeness state |
 | `coverage_snapshot` | string | Yes | No | Registry snapshot ID |
 | `entity_id` | string | Yes | No | Stable internal ID |
@@ -1013,6 +1026,8 @@ Artisan, CulturalObject
 ```
 
 `source_status=registry_only` là trạng thái hợp lệ và MUST NOT bị lọc bỏ chỉ vì thiếu Wikipedia enrichment. `source_page_id` và `source_title` chỉ MUST có khi entity đã enrichment Wikipedia thành công (`source_status=registry+wikipedia` hoặc `source_status=registry+enriched`); chúng MAY vắng mặt hoặc `null` với `registry_only`.
+
+Top-level `registry_id`, `registry_category`, `registry_url` và `recognition_year` represent exactly one selected canonical classification. `source_records` preserves every attached source observation, including secondary registry categories and recognition years, without emitting those secondary years as additional direct `vh:recognitionYear` values. Phase 1 makes this array optional so the current generated dataset remains schema-valid; the clean-rebuild reconciler MUST populate it before publication.
 
 ### `HeritageSite`
 
@@ -1203,50 +1218,40 @@ Wikipedia category discovery và seed page chỉ là enrichment input. Chúng MU
 
 # 13. Entity Identity Contract
 
-## 13.1 Stable ID
+## 13.1 Source record và canonical identity
 
-- Registry-derived entity MUST dùng `registry-{slug(registry_id)}`. `registry_category` được lưu riêng và không lặp lại trong ID.
-- Nếu official registry không có ID, dùng `registry-{sha256(canonical_source_url + registry_category + normalized_label)[:12]}`.
-- Wikipedia page chỉ là enrichment source và MUST NOT tạo full-domain entity mới ngoài registry baseline.
-- Person, area, event, period, complex, organization và style được tham chiếu bởi registry entity chỉ được tạo khi xuất hiện rõ trong canonical relation; identity dùng QID, page ID hoặc type-prefixed hash deterministic.
-- Person có QID dùng `person-wikidata-{lowercase(QID)}`; không có QID dùng `person-name-{sha256(normalized_name)[:12]}`.
-- Area có QID dùng `area-wikidata-{lowercase(QID)}`; không có QID dùng `area-name-{sha256(normalized_name)[:12]}`.
-- Event dùng `event-{sha256(normalized_name + start_year)[:12]}`.
-- Period dùng `period-{sha256(normalized_name + start_year + end_year)[:12]}`.
-- Complex, organization và style dùng type prefix cùng canonical-name hash deterministic nếu không có official/QID identity.
+- `registry_id` trong raw data là namespace-qualified source-record identity. Nó theo dõi một observation của registry và MUST NOT tự động trở thành canonical entity identity.
+- Source records MUST được normalize và enrichment identity evidence trước khi chạy đúng một global reconciliation pass.
+- DSVH là authoritative heritage source; Wikipedia/Wikidata chỉ cung cấp enrichment hoặc identity evidence. UNESCO MAY tạo serial property/component khi có domain identifier tường minh.
+- Canonical `entity_id` chỉ được mint sau reconciliation, từ stable anchor đã chọn deterministic và được ghi cùng mọi source-record mapping vào `identity_map.jsonl`.
+- Wikipedia page hoặc QID không được tự tạo heritage entity và không tự động trở thành public `owl:sameAs`.
+- Person, area, event, period, complex, organization và style chỉ được tạo khi source nêu tường minh một real-world entity riêng biệt trong canonical relation.
 
-Hash MUST là SHA-256 trên chuỗi canonical normalized UTF-8, lấy 12 ký tự hexadecimal lowercase đầu tiên. `entity_id` MUST dùng lowercase ASCII; QID chỉ giữ chữ `Q` hoa trong `external_ids.wikidata` và external Wikidata URI.
-
-## 13.2 Thứ tự identity resolution
+## 13.2 Thứ tự identity evidence
 
 ```text
-1. Official registry_id for registry-derived entities
-2. Valid QID for explicitly represented derived entities
-3. Wikipedia page_id for explicitly represented derived entities
-4. Canonical normalized identity = entity_type + label + normalized area
-5. Deterministic SHA-256 key
+1. Namespace-qualified stable source identifier
+2. Reviewed Wikidata QID
+3. Entity-level Wikipedia page_id
+4. UNESCO or equivalent domain identifier
+5. Compatible normalized aliases + geographic/community evidence
 ```
 
-Identity có nguồn từ registry MUST NOT bị thay bằng Wikipedia page ID hoặc fuzzy match. Fuzzy matching không được phép trong core identity.
+Labels alone MUST NOT authorize a merge. Alias/geography evidence chỉ tạo candidate; thiếu strong identifier thì cần manual review. Whole/component, broad/localized scope, conflicting strong identifiers, incompatible type hoặc incompatible location MUST block automatic merge.
 
-## 13.3 Duplicate
+## 13.3 Global reconciliation
 
-Hai registry record là duplicate khi có cùng `registry_id` hoặc cùng deterministic fallback identity. Enrichment record là duplicate khi có cùng `page_id` hoặc QID.
+Reconciliation MUST dùng indexed lookup theo source ID, QID, page ID và domain ID; MUST NOT thực hiện all-pairs `O(n²)` matching. Kết quả của mỗi source record là một trong: attached evidence của entity hiện có, candidate entity mới, component/related entity có bằng chứng tường minh, manual review, quarantine hoặc explicit exclusion.
 
-Duplicate record MUST được merge theo quy tắc:
-
-1. Giữ registry identity làm primary identity cho registry-derived entity.
-2. Union alias và category.
-3. Chọn giá trị non-null từ source revision mới hơn.
-4. Ghi merge vào `identity_map.jsonl`.
+Một canonical entity giữ đúng một selected `registry_category` và tối đa một selected `recognition_year`. Secondary category/year MUST được giữ trong `source_records` và source-to-entity mapping, không sinh thêm direct functional value.
 
 ## 13.4 Collision
 
-Nếu một identity key ánh xạ tới hai entity type khác nhau, pipeline MUST tạo `IDENTITY_COLLISION` và FAIL stage. Không tự merge.
+Nếu identity component có conflicting strong identifier, incompatible intrinsic type, whole/component conflict hoặc broad/localized mismatch, pipeline MUST tạo blocking identity review/collision và không tự merge.
 
-## 13.5 Title change
+## 13.5 Stability
 
-Title Wikipedia chỉ là label. Title đổi không làm đổi URI hoặc entity ID nếu `page_id` giữ nguyên.
+Canonical ID selection MUST independent of input order. Wikipedia title chỉ là label; title đổi không làm đổi canonical URI khi stable anchor và persisted source-to-entity mapping giữ nguyên.
 
 ---
 
@@ -1335,9 +1340,9 @@ Theo quy chuẩn W3C OWL 2 và methodology ontology engineering (course referenc
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.7.2" ;
+    owl:versionInfo "1.8.0" ;
     dcterms:created "2026-09-12"^^xsd:date ;
-    dcterms:modified "2026-10-07"^^xsd:date .
+    dcterms:modified "2026-10-08"^^xsd:date .
 ```
 
 `owl:versionInfo` MUST khớp `Specification Version` ở Section 0 tại mỗi lần freeze ontology. Thiếu ontology header là lỗi blocking của `TEST-033` (namespace inventory).
@@ -1677,7 +1682,7 @@ flowchart LR
     class MUSEUM,INTANGIBLE,TREASURE,DOCHERITAGE,ARTISAN,OBJECT newclass
 ```
 
-Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain khai trong bảng Section 15.2. Các class `Museum`, `IntangibleHeritage`, `NationalTreasure`, `DocumentaryHeritage` và `CulturalObject` có thể dùng `vh:locatedIn` nhờ domain rộng `vh:CulturalHeritageEntity`; `vh:Artisan` là `owl:Thing` và liên kết qua field `associated_intangible_heritage`. `vh:recognizedBy` giữ domain hẹp `vh:HeritageSite` và MUST NOT dùng cho các nhánh không phải `HeritageSite`. Các field JSON riêng như `custodian` hoặc `current_holder` không tạo thêm object property ngoài 12 property đã freeze.
+Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain khai trong bảng Section 15.2. Các class `Museum`, `IntangibleHeritage`, `NationalTreasure`, `DocumentaryHeritage` và `CulturalObject` có thể dùng `vh:locatedIn` nhờ domain rộng `vh:CulturalHeritageEntity`; `vh:Artisan` là `owl:Thing` và liên kết qua field `associated_intangible_heritage`. Từ 1.8.0, `vh:recognizedBy` áp dụng cho mọi `vh:CulturalHeritageEntity`, cho phép một serial property kiểu `vh:HeritageComplex` mang recognition authority mà không bị retype thành `vh:HeritageSite`. Các field JSON riêng như `custodian` hoặc `current_holder` không tạo thêm object property ngoài 12 property đã freeze.
 
 ## 15.2 Object properties — 12 property project-owned
 
@@ -1690,7 +1695,7 @@ Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain k
 | `vh:associatedWithEvent` | `vh:HeritageSite` | `vh:HistoricalEvent` | none | none |
 | `vh:belongsToPeriod` | `vh:HeritageSite` | `vh:HistoricalPeriod` | none | none |
 | `vh:builtBy` | `vh:HeritageSite` | `vh:HistoricalPerson` | none | `rdfs:subPropertyOf vh:associatedWithPerson` |
-| `vh:recognizedBy` | `vh:HeritageSite` | `vh:Organization` | none | none |
+| `vh:recognizedBy` | `vh:CulturalHeritageEntity` | `vh:Organization` | none | none |
 | `vh:hasArchitecturalStyle` | `vh:HeritageSite` | `vh:ArchitecturalStyle` | none | none |
 | `vh:hasMember` | `vh:HeritageComplex` | `vh:HeritageSite` or `vh:HeritageComplex` (`owl:unionOf`) | none | `rdfs:subPropertyOf vh:hasPart` |
 | `vh:hasRelatedSite` | `vh:HeritageSite` | `vh:HeritageSite` | none | `owl:SymmetricProperty` |
@@ -1751,7 +1756,7 @@ Generator MUST chỉ sinh triple `vh:builtBy` khi target đã được xác đ�
 | URI | Domain | Range | Cardinality | Meaning |
 |---|---|---|---|---|
 | `vh:constructionYear` | `vh:HeritageSite` | `xsd:gYear` | `0..1` | Năm xây dựng |
-| `vh:recognitionYear` | `vh:HeritageSite` | `xsd:gYear` | `0..1` | Năm công nhận |
+| `vh:recognitionYear` | `vh:CulturalHeritageEntity` | `xsd:gYear` | `0..1` | Năm của selected canonical recognition/classification |
 | `vh:address` | `vh:CulturalHeritageEntity` | `xsd:string` | `0..1` | Địa chỉ |
 | `vh:sourcePageId` | `owl:Thing` | `xsd:integer` | `0..1` | Page ID nguồn |
 | `vh:sourceTitle` | `owl:Thing` | `xsd:string` | `0..1` | Title nguồn |
@@ -2153,7 +2158,7 @@ File `config/mapping.yaml` là nguồn mapping authoritative.
 | `periods` | period ID exists | `vh:belongsToPeriod` | URI | omit relation |
 | `part_of` | complex ID exists | `vh:partOf` | URI | omit relation |
 | `member_sites` | member site IDs exist | `vh:hasMember` | one URI triple per member | omit relation |
-| `recognized_by` | subject là `HeritageSite`, organization ID exists | `vh:recognizedBy` | URI | omit relation |
+| `recognized_by` | subject là `CulturalHeritageEntity`, organization ID exists | `vh:recognizedBy` | URI | omit relation |
 | `built_by` | HistoricalPerson ID exists | `vh:builtBy` | URI | omit relation; Organization target MUST NOT emit |
 | `source_page_id` | successful Wikipedia enrichment | `vh:sourcePageId` | `xsd:integer` | omit for `registry_only` |
 | `source_title` | successful Wikipedia enrichment | `vh:sourceTitle` | `xsd:string` | omit for `registry_only` |
@@ -2504,18 +2509,21 @@ Expected columns: `site`, `label`. Fixture MUST return `vhr:registry-dsvh-nation
 
 ```sparql
 PREFIX vh: <http://localhost:3030/vietheritage/ontology/>
+PREFIX vhr: <http://localhost:3030/vietheritage/resource/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?site ?label ?year
 WHERE {
-  ?site a vh:UNESCOHeritageSite ; rdfs:label ?label ; vh:recognitionYear ?year .
+  ?site vh:recognizedBy vhr:organization-unesco ;
+        rdfs:label ?label ;
+        vh:recognitionYear ?year .
   FILTER(?year < "2000"^^xsd:gYear)
   FILTER(LANG(?label) = "vi")
 }
 ORDER BY ?year
 ```
 
-Expected columns: `site`, `label`, `year`; fixture có ít nhất một result.
+Expected columns: `site`, `label`, `year`; fixture có ít nhất một result. CQ02 truy vấn direct recognition thay vì yêu cầu type `vh:UNESCOHeritageSite`, vì vậy trả được cả recognized `vh:HeritageSite` và recognized `vh:HeritageComplex`. AX-005 vẫn suy `vh:UNESCOHeritageSite` cho subject thực sự là `vh:HeritageSite` và không bị thay đổi bởi query contract này.
 
 ## CQ-03 — Site theo loại
 
@@ -4155,7 +4163,7 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-044 | Tách `entity_type` và `ontology_subclass` | `entity_type` chỉ nhận 1 trong 14 canonical type; subclass ontology (ví dụ `vh:NationalIntangibleHeritage`) được gán qua `registry_category_subclass` (Section 19.1) | Config trước đây khai `entity_type: NationalIntangibleHeritage` — ngoài enum schema; đồng thời 3 subclass của AX-008 không có đường nào để nhận instance |
 | DEC-045 | Canonical dash trong identity key | `canonical_dash` chuẩn hóa `-`/`‒`/`–`/`—` thành `-` trước khi tạo identity key (NOR-004) | Hai bản ghi chỉ khác loại dash trước đây tạo hai entity trùng; display literal vẫn giữ ký tự gốc |
 | DEC-046 | Python interpreter version cho môi trường local | Nới `AC-001` từ `Python 3.12.8` cứng thành `Python >=3.12,<3.14` cho môi trường phát triển local; `pyproject.toml` khai `requires-python = ">=3.12,<3.14"` | Máy triển khai thực tế chạy Python 3.13.13; pin cứng `3.12.8` sẽ chặn `make setup` ngay từ Gate G0 mà không có lợi ích semantics nào cho RDF/OWL/SPARQL; giới hạn trên `<3.14` để tránh breaking change chưa kiểm chứng của minor version tương lai |
-| DEC-047 | Domain của `vh:recognizedBy` | Giữ `rdfs:domain vh:HeritageSite` như ontology 1.6.1; MUST NOT dùng property này cho Museum, IntangibleHeritage, NationalTreasure, DocumentaryHeritage hoặc nhánh non-HeritageSite khác | Tránh domain inference biến non-site entity thành HeritageSite và xung đột disjointness |
+| DEC-047 | Domain recognition sau clean-rebuild design (1.8.0) | `vh:recognizedBy` và `vh:recognitionYear` dùng domain `vh:CulturalHeritageEntity`; `recognitionYear` vẫn functional và chỉ biểu diễn selected canonical recognition/classification | Serial property như Thành Nhà Hồ là `HeritageComplex` phải mang UNESCO authority/year mà không bị retype thành `HeritageSite`; secondary designation years ở source evidence, không thành direct values |
 | DEC-048 | Canonical dataset URI | Dataset identity duy nhất là `{BASE}/dataset/vietheritage`; các dạng `vh:dataset-vietheritage` và `vhr:dataset-vietheritage` là obsolete | Một stable URI duy nhất cho metadata, publication và graph loading |
 | DEC-049 | Ontology 1.7.0 Phase A / AX-010 | Thêm defined overlapping subclass HeritageSiteWithHistoricalBuilder bằng existential builtBy.HistoricalPerson; inventory 24/12/10, namespace giữ nguyên | Suy class từ builder có thật; không hứa provenance completeness, không thêm nhánh disjoint hoặc canonical type |
 | DEC-050 | AX-017 successor asymmetry | Chỉ khai AsymmetricProperty; validator dùng chung sameAs components để kiểm self/reciprocal; không general acyclicity | Mini không hỗ trợ constraint này; asymmetry đã kéo theo irreflexivity; production thiếu cạnh vẫn hợp lệ |
@@ -4599,7 +4607,7 @@ ORDER BY label;
 CQ02 — UNESCO trước năm 2000:
 
 ```cypher
-MATCH (s:UNESCOHeritageSite)
+MATCH (s)-[:RECOGNIZED_BY]->(:Organization {entityId: "organization-unesco"})
 WHERE s.recognitionYear < 2000
 RETURN s.uri AS site, s.labelVi AS label, s.recognitionYear AS year
 ORDER BY year;

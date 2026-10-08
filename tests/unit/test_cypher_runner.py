@@ -128,7 +128,8 @@ def test_queries_use_appendix_c_semantics() -> None:
         for name in CQ_CONTRACT
     }
     assert "[:LOCATED_IN*1..]" in texts["CQ01"]
-    assert ":UNESCOHeritageSite" in texts["CQ02"] and "recognitionYear < 2000" in texts["CQ02"]
+    assert "[:RECOGNIZED_BY]" in texts["CQ02"] and "organization-unesco" in texts["CQ02"]
+    assert ":UNESCOHeritageSite" not in texts["CQ02"] and "recognitionYear < 2000" in texts["CQ02"]
     assert ":ArchaeologicalSite" in texts["CQ03"]
     assert "ASSOCIATED_WITH_PERSON|BUILT_BY" in texts["CQ04"]
     assert "ASSOCIATED_WITH_EVENT|BELONGS_TO_PERIOD" in texts["CQ05"]

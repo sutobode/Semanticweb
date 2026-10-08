@@ -3,8 +3,8 @@ import json
 from pathlib import Path
 
 import pytest
-from rdflib import Graph, Namespace
-from rdflib.namespace import OWL, RDF
+from rdflib import Graph, Literal, Namespace
+from rdflib.namespace import OWL, RDF, XSD
 
 from vietheritage.validation.semantic import (
     DEFAULT_BASE,
@@ -48,6 +48,18 @@ def test_missing_disjoint_union_branch_is_not_inconsistent_under_owa(ontology) -
     vh = Namespace(DEFAULT_BASE + "/ontology/")
     data = Graph().add((vh.example, RDF.type, vh.IntangibleHeritage))
     assert validate_axioms(data, ontology)["status"] == "PASS"
+
+
+def test_recognition_properties_accept_heritage_complex(ontology) -> None:
+    vh = Namespace(DEFAULT_BASE + "/ontology/")
+    vhr = Namespace(DEFAULT_BASE + "/resource/")
+    data = Graph()
+    data.add((vhr["complex-unesco-1358"], RDF.type, vh.HeritageComplex))
+    data.add((vhr["organization-unesco"], RDF.type, vh.Organization))
+    data.add((vhr["complex-unesco-1358"], vh.recognizedBy, vhr["organization-unesco"]))
+    data.add((vhr["complex-unesco-1358"], vh.recognitionYear, Literal("2011", datatype=XSD.gYear)))
+
+    assert validate_semantics(data, ontology)["status"] == "PASS"
 
 
 def test_ax011_does_not_add_closed_world_location_validation(ontology) -> None:
