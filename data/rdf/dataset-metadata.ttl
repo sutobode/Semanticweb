@@ -12,7 +12,7 @@
         "canonical_records=1091",
         "inferred_closure_triples=705689",
         "inferred_delta_triples=691420",
-        "registry_records=1091",
+        "registry_records=1017",
         "verified_external_links=159" ;
     dcterms:identifier "20261008T104250Z" ;
     dcterms:issued "20261008T104250Z"^^xsd:string ;
@@ -1778,4 +1778,3 @@ vhr:activity-run-72d2e0bf8a9b a prov:Activity ;
         <https://vi.wikipedia.org/wiki/Y%C3%AAn_T%E1%BB%AD>,
         <https://whc.unesco.org/en/list/1358/>,
         <https://whc.unesco.org/en/list/1358/maps/> .
-

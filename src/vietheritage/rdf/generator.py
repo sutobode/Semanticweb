@@ -279,6 +279,33 @@ def _verified_link_count() -> int:
     return sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line.strip() and json.loads(line).get("status") == "verified")
 
 
+def _source_observation_count(records: list[dict[str, Any]]) -> int:
+    snapshots = {record.get("coverage_snapshot") for record in records if record.get("coverage_snapshot")}
+    normalized_path = PROCESSED_DIR / "normalized.jsonl"
+    if len(snapshots) == 1 and normalized_path.exists():
+        snapshot = next(iter(snapshots))
+        normalized_count = sum(
+            json.loads(line).get("coverage_snapshot") == snapshot
+            for line in normalized_path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        )
+        if normalized_count:
+            return normalized_count
+
+    observations: set[tuple[str, str]] = set()
+    for record in records:
+        source_records = record.get("source_records") or []
+        if source_records:
+            observations.update(
+                (str(source.get("source_namespace") or ""), str(source["source_record_id"]))
+                for source in source_records
+                if source.get("source_record_id")
+            )
+        elif record.get("registry_id"):
+            observations.add(("", str(record["registry_id"])))
+    return len(observations)
+
+
 def _metadata_counts(asserted_count: int, records: list[dict[str, Any]]) -> dict[str, int]:
     inferred_path = RDF_DIR / "inferred.ttl"
     reasoning_path = RDF_DIR / "reasoning-report.json"
@@ -292,7 +319,7 @@ def _metadata_counts(asserted_count: int, records: list[dict[str, Any]]) -> dict
                 or closure_count != reasoning.get("source_triples", 0) + inferred_count):
             raise ValueError("REASONING_METRICS_MISMATCH: inferred delta requires a matching successful reasoning report")
     return {
-        "registry_records": len(records),
+        "registry_records": _source_observation_count(records),
         "canonical_records": len(records),
         "asserted_triples": asserted_count,
         "inferred_closure_triples": closure_count,
