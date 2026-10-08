@@ -1,13 +1,81 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix vhr: <http://localhost:3030/vietheritage/resource/> .
 
-vhr:event-46f796e3c0a8 owl:sameAs <https://www.wikidata.org/entity/Q7096923> .
+vhr:complex-0b2af36f62d1 owl:sameAs <https://www.wikidata.org/entity/Q190060> .
+
+vhr:documentary-824b3bd42b04 owl:sameAs <https://www.wikidata.org/entity/Q8032387> .
 
 vhr:event-51a97bb466db owl:sameAs <https://www.wikidata.org/entity/Q5361929> .
 
-vhr:event-6fa18c98b523 owl:sameAs <https://www.wikidata.org/entity/Q2095768> .
+vhr:intangible-047f5a142ad0 owl:sameAs <https://www.wikidata.org/entity/Q10757359> .
 
-vhr:event-b79650374533 owl:sameAs <https://www.wikidata.org/entity/Q2994973> .
+vhr:intangible-0c8fd84100ba owl:sameAs <https://www.wikidata.org/entity/Q10828632> .
+
+vhr:intangible-0fc6bb6b3339 owl:sameAs <https://www.wikidata.org/entity/Q10788647> .
+
+vhr:intangible-0fcd1d647f66 owl:sameAs <https://www.wikidata.org/entity/Q10788628> .
+
+vhr:intangible-13e975f03caa owl:sameAs <https://www.wikidata.org/entity/Q7023407> .
+
+vhr:intangible-14e25a07d5dc owl:sameAs <https://www.wikidata.org/entity/Q118108897> .
+
+vhr:intangible-169e58e4c0cc owl:sameAs <https://www.wikidata.org/entity/Q18459572> .
+
+vhr:intangible-2b39d6d6a982 owl:sameAs <https://www.wikidata.org/entity/Q87648758> .
+
+vhr:intangible-37f80994a311 owl:sameAs <https://www.wikidata.org/entity/Q5015164> .
+
+vhr:intangible-5d46fbf1669d owl:sameAs <https://www.wikidata.org/entity/Q11050297> .
+
+vhr:intangible-64e6420037ed owl:sameAs <https://www.wikidata.org/entity/Q10770854> .
+
+vhr:intangible-8cc69f6ad3e4 owl:sameAs <https://www.wikidata.org/entity/Q2397005> .
+
+vhr:intangible-8cf3df019d34 owl:sameAs <https://www.wikidata.org/entity/Q10788658> .
+
+vhr:intangible-9085739e65f8 owl:sameAs <https://www.wikidata.org/entity/Q10748777> .
+
+vhr:intangible-9765581ebf35 owl:sameAs <https://www.wikidata.org/entity/Q5221505> .
+
+vhr:intangible-a396266d8060 owl:sameAs <https://www.wikidata.org/entity/Q5964411> .
+
+vhr:intangible-a4bd25174a35 owl:sameAs <https://www.wikidata.org/entity/Q18458480> .
+
+vhr:intangible-b97d6a2a7cfa owl:sameAs <https://www.wikidata.org/entity/Q10788643> .
+
+vhr:intangible-bc27f6e1cc11 owl:sameAs <https://www.wikidata.org/entity/Q102843> .
+
+vhr:intangible-c15458e0a22e owl:sameAs <https://www.wikidata.org/entity/Q863860> .
+
+vhr:intangible-cd670d2c4d2c owl:sameAs <https://www.wikidata.org/entity/Q18461064> .
+
+vhr:intangible-cec127ded39e owl:sameAs <https://www.wikidata.org/entity/Q2447747> .
+
+vhr:intangible-d0db8836f313 owl:sameAs <https://www.wikidata.org/entity/Q81105> .
+
+vhr:intangible-d65ae1ee7f7b owl:sameAs <https://www.wikidata.org/entity/Q61128046> .
+
+vhr:intangible-d67d66e8bc12 owl:sameAs <https://www.wikidata.org/entity/Q10788613> .
+
+vhr:intangible-d835862e04c5 owl:sameAs <https://www.wikidata.org/entity/Q10836741> .
+
+vhr:intangible-e094bc25d96c owl:sameAs <https://www.wikidata.org/entity/Q87649081> .
+
+vhr:intangible-e694ebb6ed82 owl:sameAs <https://www.wikidata.org/entity/Q3525838> .
+
+vhr:intangible-e9fbd0d3ef53 owl:sameAs <https://www.wikidata.org/entity/Q1923756> .
+
+vhr:intangible-ec4bfaf52265 owl:sameAs <https://www.wikidata.org/entity/Q10770840> .
+
+vhr:intangible-ecc8021e3d08 owl:sameAs <https://www.wikidata.org/entity/Q24953325> .
+
+vhr:intangible-edfcb45ac84a owl:sameAs <https://www.wikidata.org/entity/Q5563375> .
+
+vhr:intangible-f4ad3142d921 owl:sameAs <https://www.wikidata.org/entity/Q10770871> .
+
+vhr:intangible-f4ef95ba40ff owl:sameAs <https://www.wikidata.org/entity/Q10830183> .
+
+vhr:intangible-fcdbfd38cf2d owl:sameAs <https://www.wikidata.org/entity/Q10788557> .
 
 vhr:person-wikidata-q10788162 owl:sameAs <https://www.wikidata.org/entity/Q10788162> .
 
@@ -49,399 +117,205 @@ vhr:person-wikidata-q7799843 owl:sameAs <https://www.wikidata.org/entity/Q779984
 
 vhr:person-wikidata-q7833315 owl:sameAs <https://www.wikidata.org/entity/Q7833315> .
 
-vhr:registry-00a0f7887fe0 owl:sameAs <https://www.wikidata.org/entity/Q61133202> .
+vhr:site-043cc20e73c8 owl:sameAs <https://www.wikidata.org/entity/Q23513> .
 
-vhr:registry-00e726adaa7a owl:sameAs <https://www.wikidata.org/entity/Q10840581> .
+vhr:site-09896739817f owl:sameAs <https://www.wikidata.org/entity/Q10747169> .
 
-vhr:registry-0120cc05bbed owl:sameAs <https://www.wikidata.org/entity/Q10802059> .
+vhr:site-0d6fda41945c owl:sameAs <https://www.wikidata.org/entity/Q6409093> .
 
-vhr:registry-01239fd4c29a owl:sameAs <https://www.wikidata.org/entity/Q24957059> .
+vhr:site-0dedc7b0f0a5 owl:sameAs <https://www.wikidata.org/entity/Q10800918> .
 
-vhr:registry-01f067c85ba9 owl:sameAs <https://www.wikidata.org/entity/Q10788621> .
+vhr:site-0f20e89f733b owl:sameAs <https://www.wikidata.org/entity/Q32247548> .
 
-vhr:registry-042d5ab0b6bb owl:sameAs <https://www.wikidata.org/entity/Q7189921> .
+vhr:site-10d025fdd160 owl:sameAs <https://www.wikidata.org/entity/Q10748441> .
 
-vhr:registry-04545eb2de66 owl:sameAs <https://www.wikidata.org/entity/Q10763514> .
+vhr:site-10d255569b6b owl:sameAs <https://www.wikidata.org/entity/Q24959007> .
 
-vhr:registry-069da54d9cc1 owl:sameAs <https://www.wikidata.org/entity/Q10748387> .
+vhr:site-133a08dabdea owl:sameAs <https://www.wikidata.org/entity/Q49054268> .
 
-vhr:registry-06fd74b2ed89-3a7ac2 owl:sameAs <https://www.wikidata.org/entity/Q10840586> .
+vhr:site-13a7750d3046 owl:sameAs <https://www.wikidata.org/entity/Q7263979> .
 
-vhr:registry-06fd74b2ed89-d87046 owl:sameAs <https://www.wikidata.org/entity/Q10748486> .
+vhr:site-14c37bbb06ef owl:sameAs <https://www.wikidata.org/entity/Q10841699> .
 
-vhr:registry-07620c963e29 owl:sameAs <https://www.wikidata.org/entity/Q391406> .
+vhr:site-1875d5cb19f3 owl:sameAs <https://www.wikidata.org/entity/Q10800919> .
 
-vhr:registry-07c670fd681c owl:sameAs <https://www.wikidata.org/entity/Q10788582> .
+vhr:site-196c55450c3d owl:sameAs <https://www.wikidata.org/entity/Q7799949> .
 
-vhr:registry-098ac344f344 owl:sameAs <https://www.wikidata.org/entity/Q2421186> .
+vhr:site-1db2e3edb645 owl:sameAs <https://www.wikidata.org/entity/Q1202019> .
 
-vhr:registry-0a0a09f6922b owl:sameAs <https://www.wikidata.org/entity/Q10825828> .
+vhr:site-21bba3091820 owl:sameAs <https://www.wikidata.org/entity/Q933384> .
 
-vhr:registry-0a21487c70d6 owl:sameAs <https://www.wikidata.org/entity/Q5964411> .
+vhr:site-225eeea9c688 owl:sameAs <https://www.wikidata.org/entity/Q32178090> .
 
-vhr:registry-0a2da6c36d50 owl:sameAs <https://www.wikidata.org/entity/Q10748567> .
+vhr:site-243acfef67ac owl:sameAs <https://www.wikidata.org/entity/Q124807221> .
 
-vhr:registry-0d2eff0b3bad owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
+vhr:site-25e4a9be3d16 owl:sameAs <https://www.wikidata.org/entity/Q1091048> .
 
-vhr:registry-1056e0888fbf owl:sameAs <https://www.wikidata.org/entity/Q32178090> .
+vhr:site-296789be93b5 owl:sameAs <https://www.wikidata.org/entity/Q5965459> .
 
-vhr:registry-11035d9f76fe owl:sameAs <https://www.wikidata.org/entity/Q111496697> .
+vhr:site-2a46ef898e2e owl:sameAs <https://www.wikidata.org/entity/Q30923818> .
 
-vhr:registry-13bda57bbfca owl:sameAs <https://www.wikidata.org/entity/Q11050297> .
+vhr:site-2c135ce311cf-53c105 owl:sameAs <https://www.wikidata.org/entity/Q109438443> .
 
-vhr:registry-13c76c9faa2b owl:sameAs <https://www.wikidata.org/entity/Q61132225> .
+vhr:site-2c135ce311cf-f33488 owl:sameAs <https://www.wikidata.org/entity/Q109430307> .
 
-vhr:registry-1a3b5cf1fd3c owl:sameAs <https://www.wikidata.org/entity/Q5964889> .
+vhr:site-2e9f5ee5710e owl:sameAs <https://www.wikidata.org/entity/Q10802059> .
 
-vhr:registry-1a571f967972 owl:sameAs <https://www.wikidata.org/entity/Q18458480> .
+vhr:site-2ec6c319b0e1 owl:sameAs <https://www.wikidata.org/entity/Q1532226> .
 
-vhr:registry-213cb56ca491 owl:sameAs <https://www.wikidata.org/entity/Q747876> .
+vhr:site-37ca211b9843 owl:sameAs <https://www.wikidata.org/entity/Q10825609> .
 
-vhr:registry-24c63b39d00d owl:sameAs <https://www.wikidata.org/entity/Q10779418> .
+vhr:site-38dd646d9c17 owl:sameAs <https://www.wikidata.org/entity/Q10763514> .
 
-vhr:registry-25c02fe4b3cb owl:sameAs <https://www.wikidata.org/entity/Q7023407> .
+vhr:site-3afaf3a72b8b owl:sameAs <https://www.wikidata.org/entity/Q109435586> .
 
-vhr:registry-280af8a8985a owl:sameAs <https://www.wikidata.org/entity/Q10779416> .
+vhr:site-3cb10bcfd5a1 owl:sameAs <https://www.wikidata.org/entity/Q192721> .
 
-vhr:registry-280cb1b6430b owl:sameAs <https://www.wikidata.org/entity/Q108881843> .
+vhr:site-3f951f505bf6 owl:sameAs <https://www.wikidata.org/entity/Q10841708> .
 
-vhr:registry-2a6c75ce60cc owl:sameAs <https://www.wikidata.org/entity/Q10788557> .
+vhr:site-400bea8d9808 owl:sameAs <https://www.wikidata.org/entity/Q10810560> .
 
-vhr:registry-2b793c130204 owl:sameAs <https://www.wikidata.org/entity/Q10825842> .
+vhr:site-417f8fd7e614 owl:sameAs <https://www.wikidata.org/entity/Q1421202> .
 
-vhr:registry-2daf70c29214 owl:sameAs <https://www.wikidata.org/entity/Q10788613> .
+vhr:site-42b94f80081e owl:sameAs <https://www.wikidata.org/entity/Q10784247> .
 
-vhr:registry-323072c2ad18 owl:sameAs <https://www.wikidata.org/entity/Q108892983> .
+vhr:site-45b536fd5002 owl:sameAs <https://www.wikidata.org/entity/Q5964889> .
 
-vhr:registry-32e0653c213c owl:sameAs <https://www.wikidata.org/entity/Q102128113> .
+vhr:site-4693d6c15803 owl:sameAs <https://www.wikidata.org/entity/Q206219> .
 
-vhr:registry-3b32c29bb958 owl:sameAs <https://www.wikidata.org/entity/Q10788582> .
+vhr:site-4b1796e4efd5 owl:sameAs <https://www.wikidata.org/entity/Q10841707> .
 
-vhr:registry-3c300abb9903 owl:sameAs <https://www.wikidata.org/entity/Q10748441> .
+vhr:site-4c4205f751da owl:sameAs <https://www.wikidata.org/entity/Q10733393> .
 
-vhr:registry-3dadb54d3b06 owl:sameAs <https://www.wikidata.org/entity/Q42548080> .
+vhr:site-4e7253030836 owl:sameAs <https://www.wikidata.org/entity/Q10840581> .
 
-vhr:registry-3ecbfb5fc045 owl:sameAs <https://www.wikidata.org/entity/Q108872892> .
+vhr:site-518863de16eb owl:sameAs <https://www.wikidata.org/entity/Q10748440> .
 
-vhr:registry-40889f0bafcb-4c9dbe owl:sameAs <https://www.wikidata.org/entity/Q10842291> .
+vhr:site-54034cb72a1a owl:sameAs <https://www.wikidata.org/entity/Q10825842> .
 
-vhr:registry-40ac2ce5e0b0 owl:sameAs <https://www.wikidata.org/entity/Q108866893> .
+vhr:site-5a1d8aef0c7c owl:sameAs <https://www.wikidata.org/entity/Q10831650> .
 
-vhr:registry-43a3e7715b7a-9c23d0 owl:sameAs <https://www.wikidata.org/entity/Q3517494> .
+vhr:site-5b105c124d15 owl:sameAs <https://www.wikidata.org/entity/Q1069757> .
 
-vhr:registry-43a3e7715b7a-cf42ea owl:sameAs <https://www.wikidata.org/entity/Q1151254> .
+vhr:site-5da5f985a673 owl:sameAs <https://www.wikidata.org/entity/Q1359941> .
 
-vhr:registry-457560d306b8 owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
+vhr:site-6164fd1b14fb owl:sameAs <https://www.wikidata.org/entity/Q7168306> .
 
-vhr:registry-4705920b4c79 owl:sameAs <https://www.wikidata.org/entity/Q10733393> .
+vhr:site-65ae9bf75d4c owl:sameAs <https://www.wikidata.org/entity/Q109432294> .
 
-vhr:registry-495b869c012b owl:sameAs <https://www.wikidata.org/entity/Q111016718> .
+vhr:site-66a97d78c479 owl:sameAs <https://www.wikidata.org/entity/Q10779399> .
 
-vhr:registry-49e23450854b owl:sameAs <https://www.wikidata.org/entity/Q738218> .
+vhr:site-6b2504486147 owl:sameAs <https://www.wikidata.org/entity/Q10841724> .
 
-vhr:registry-4a975bb4e6e4 owl:sameAs <https://www.wikidata.org/entity/Q109289159> .
+vhr:site-6b9f8a8fc673 owl:sameAs <https://www.wikidata.org/entity/Q61133593> .
 
-vhr:registry-4b63395140f1 owl:sameAs <https://www.wikidata.org/entity/Q111180402> .
+vhr:site-6f7ea2a70ddd owl:sameAs <https://www.wikidata.org/entity/Q391406> .
 
-vhr:registry-4c721ee5ef7e owl:sameAs <https://www.wikidata.org/entity/Q10757359> .
+vhr:site-74a71514de64 owl:sameAs <https://www.wikidata.org/entity/Q10841695> .
 
-vhr:registry-4ceaa6994aa0 owl:sameAs <https://www.wikidata.org/entity/Q10763516> .
+vhr:site-796f8e251c85-4c9dbe owl:sameAs <https://www.wikidata.org/entity/Q10842291> .
 
-vhr:registry-4e1cea144116 owl:sameAs <https://www.wikidata.org/entity/Q18459572> .
+vhr:site-7b2f41acf952 owl:sameAs <https://www.wikidata.org/entity/Q24958616> .
 
-vhr:registry-4ed29edf7fc7 owl:sameAs <https://www.wikidata.org/entity/Q130218170> .
+vhr:site-7b773d133804 owl:sameAs <https://www.wikidata.org/entity/Q10841674> .
 
-vhr:registry-4efd5222b068 owl:sameAs <https://www.wikidata.org/entity/Q17118720> .
+vhr:site-7d4bf176349f owl:sameAs <https://www.wikidata.org/entity/Q10748567> .
 
-vhr:registry-4f7f50ef1f82 owl:sameAs <https://www.wikidata.org/entity/Q5965459> .
+vhr:site-7e3c43dfbee0 owl:sameAs <https://www.wikidata.org/entity/Q98137184> .
 
-vhr:registry-4fb6751f4dcd owl:sameAs <https://www.wikidata.org/entity/Q10784247> .
+vhr:site-833ac260163d owl:sameAs <https://www.wikidata.org/entity/Q2879088> .
 
-vhr:registry-4fe12d568009 owl:sameAs <https://www.wikidata.org/entity/Q111148511> .
+vhr:site-87195fbb2e64 owl:sameAs <https://www.wikidata.org/entity/Q10748387> .
 
-vhr:registry-50e10d2b672f owl:sameAs <https://www.wikidata.org/entity/Q23513> .
+vhr:site-8bbbb332f06d-3a7ac2 owl:sameAs <https://www.wikidata.org/entity/Q10840586> .
 
-vhr:registry-522fa9481918 owl:sameAs <https://www.wikidata.org/entity/Q5157981> .
+vhr:site-8bbbb332f06d-d87046 owl:sameAs <https://www.wikidata.org/entity/Q10748486> .
 
-vhr:registry-535519ce64d1 owl:sameAs <https://www.wikidata.org/entity/Q10841708> .
+vhr:site-92669274548a owl:sameAs <https://www.wikidata.org/entity/Q10779418> .
 
-vhr:registry-5376a5cee3b1 owl:sameAs <https://www.wikidata.org/entity/Q108866842> .
+vhr:site-9be7ad59bdaa owl:sameAs <https://www.wikidata.org/entity/Q10840631> .
 
-vhr:registry-53caa1c3d5a1 owl:sameAs <https://www.wikidata.org/entity/Q190128> .
+vhr:site-9c522ed420c0 owl:sameAs <https://www.wikidata.org/entity/Q10763516> .
 
-vhr:registry-56398aeb8cc7 owl:sameAs <https://www.wikidata.org/entity/Q111079381> .
+vhr:site-9cf7d563072a owl:sameAs <https://www.wikidata.org/entity/Q20025761> .
 
-vhr:registry-56f716fc59f9 owl:sameAs <https://www.wikidata.org/entity/Q2879088> .
+vhr:site-a389e1e00011 owl:sameAs <https://www.wikidata.org/entity/Q10810559> .
 
-vhr:registry-5772ea302cb4 owl:sameAs <https://www.wikidata.org/entity/Q10748589> .
+vhr:site-a58cac4fd9bf owl:sameAs <https://www.wikidata.org/entity/Q3485391> .
 
-vhr:registry-579e94fa60af owl:sameAs <https://www.wikidata.org/entity/Q1421202> .
+vhr:site-a594d3da37e3 owl:sameAs <https://www.wikidata.org/entity/Q10825850> .
 
-vhr:registry-5941413e7349 owl:sameAs <https://www.wikidata.org/entity/Q2857598> .
+vhr:site-ad7055225bd8 owl:sameAs <https://www.wikidata.org/entity/Q61132225> .
 
-vhr:registry-59a9f2e4db82 owl:sameAs <https://www.wikidata.org/entity/Q24953325> .
+vhr:site-b55651032efb owl:sameAs <https://www.wikidata.org/entity/Q5157981> .
 
-vhr:registry-5aad81f84a8a owl:sameAs <https://www.wikidata.org/entity/Q10788621> .
+vhr:site-b77d83422367 owl:sameAs <https://www.wikidata.org/entity/Q7189921> .
 
-vhr:registry-5caff4376e24 owl:sameAs <https://www.wikidata.org/entity/Q10779399> .
+vhr:site-b84ac54dd1f9 owl:sameAs <https://www.wikidata.org/entity/Q10841706> .
 
-vhr:registry-5d0cea2ddae1 owl:sameAs <https://www.wikidata.org/entity/Q10841707> .
+vhr:site-bc0e69fdb1ab owl:sameAs <https://www.wikidata.org/entity/Q10779476> .
 
-vhr:registry-6265fc244896 owl:sameAs <https://www.wikidata.org/entity/Q110881838> .
+vhr:site-c2316ed384ff owl:sameAs <https://www.wikidata.org/entity/Q845438> .
 
-vhr:registry-648a56354008 owl:sameAs <https://www.wikidata.org/entity/Q10810559> .
+vhr:site-c42b7ce19e51 owl:sameAs <https://www.wikidata.org/entity/Q798059> .
 
-vhr:registry-65dfbc2c2a74 owl:sameAs <https://www.wikidata.org/entity/Q87648758> .
+vhr:site-c657d084fe85 owl:sameAs <https://www.wikidata.org/entity/Q10800930> .
 
-vhr:registry-66c1aa1f3a96 owl:sameAs <https://www.wikidata.org/entity/Q10840631> .
+vhr:site-ce161d52b3ef owl:sameAs <https://www.wikidata.org/entity/Q10825828> .
 
-vhr:registry-6905d3a28443 owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
+vhr:site-ce4d3b80da77 owl:sameAs <https://www.wikidata.org/entity/Q3917231> .
 
-vhr:registry-69f5b6f43b02 owl:sameAs <https://www.wikidata.org/entity/Q30923818> .
+vhr:site-d12388ec3b7c owl:sameAs <https://www.wikidata.org/entity/Q10825838> .
 
-vhr:registry-6cab2bb8dd4a owl:sameAs <https://www.wikidata.org/entity/Q131914172> .
+vhr:site-d31cb21c1e88 owl:sameAs <https://www.wikidata.org/entity/Q190128> .
 
-vhr:registry-6ced0fd3e045 owl:sameAs <https://www.wikidata.org/entity/Q10836741> .
+vhr:site-d427fca039d9 owl:sameAs <https://www.wikidata.org/entity/Q6755207> .
 
-vhr:registry-6de9a6387a83 owl:sameAs <https://www.wikidata.org/entity/Q22712354> .
+vhr:site-d5e0a793e774 owl:sameAs <https://www.wikidata.org/entity/Q24957059> .
 
-vhr:registry-6e3cc6129a1c owl:sameAs <https://www.wikidata.org/entity/Q7799949> .
+vhr:site-d743588e00d7 owl:sameAs <https://www.wikidata.org/entity/Q1328473> .
 
-vhr:registry-7422e8dbff6e owl:sameAs <https://www.wikidata.org/entity/Q10810560> .
+vhr:site-d748c36d2252 owl:sameAs <https://www.wikidata.org/entity/Q2421186> .
 
-vhr:registry-7952b46ed559 owl:sameAs <https://www.wikidata.org/entity/Q10779476> .
+vhr:site-d82b7a495e29 owl:sameAs <https://www.wikidata.org/entity/Q10748589> .
 
-vhr:registry-7b4ed2fcd3bb owl:sameAs <https://www.wikidata.org/entity/Q206219> .
+vhr:site-d9035693ec4c owl:sameAs <https://www.wikidata.org/entity/Q2857598> .
 
-vhr:registry-7b94c57c3288 owl:sameAs <https://www.wikidata.org/entity/Q49054268> .
+vhr:site-dadc663c9d9b owl:sameAs <https://www.wikidata.org/entity/Q5370392> .
 
-vhr:registry-7c58ee50f226 owl:sameAs <https://www.wikidata.org/entity/Q111516001> .
+vhr:site-dc0d9fa04847 owl:sameAs <https://www.wikidata.org/entity/Q738218> .
 
-vhr:registry-7e0c7fffcb1f owl:sameAs <https://www.wikidata.org/entity/Q10788621> .
+vhr:site-e07c4698a050 owl:sameAs <https://www.wikidata.org/entity/Q695916> .
 
-vhr:registry-8328a08abe0a owl:sameAs <https://www.wikidata.org/entity/Q1923756> .
+vhr:site-e227e976ac26 owl:sameAs <https://www.wikidata.org/entity/Q2344822> .
 
-vhr:registry-8587adde8d72 owl:sameAs <https://www.wikidata.org/entity/Q108899547> .
+vhr:site-e68049fdd455 owl:sameAs <https://www.wikidata.org/entity/Q2227195> .
 
-vhr:registry-858946833c17 owl:sameAs <https://www.wikidata.org/entity/Q1328473> .
+vhr:site-ea4bcd24fbcb owl:sameAs <https://www.wikidata.org/entity/Q10807145> .
 
-vhr:registry-867b37079ef1 owl:sameAs <https://www.wikidata.org/entity/Q20025761> .
+vhr:site-ead6825f17f7 owl:sameAs <https://www.wikidata.org/entity/Q10779417> .
 
-vhr:registry-86aa62e80844 owl:sameAs <https://www.wikidata.org/entity/Q5965459> .
+vhr:site-ed17918106fb owl:sameAs <https://www.wikidata.org/entity/Q2791723> .
 
-vhr:registry-86c84cab36c8 owl:sameAs <https://www.wikidata.org/entity/Q109317842> .
+vhr:site-ee840a4252b0 owl:sameAs <https://www.wikidata.org/entity/Q1406000> .
 
-vhr:registry-86f42708d93f owl:sameAs <https://www.wikidata.org/entity/Q10779425> .
+vhr:site-efedd90814e4 owl:sameAs <https://www.wikidata.org/entity/Q10779416> .
 
-vhr:registry-88143959304d owl:sameAs <https://www.wikidata.org/entity/Q23513> .
+vhr:site-f0e28410fbdf-9c23d0 owl:sameAs <https://www.wikidata.org/entity/Q3517494> .
 
-vhr:registry-8961020b8c81 owl:sameAs <https://www.wikidata.org/entity/Q10810560> .
+vhr:site-f0e28410fbdf-cf42ea owl:sameAs <https://www.wikidata.org/entity/Q1151254> .
 
-vhr:registry-89d5a86b73af owl:sameAs <https://www.wikidata.org/entity/Q3917231> .
+vhr:site-f52331feb930 owl:sameAs <https://www.wikidata.org/entity/Q22712354> .
 
-vhr:registry-8c2f4a8fef2d owl:sameAs <https://www.wikidata.org/entity/Q131925836> .
+vhr:site-fa6ee9f82277 owl:sameAs <https://www.wikidata.org/entity/Q10825862> .
 
-vhr:registry-8d3bf5f7a11c owl:sameAs <https://www.wikidata.org/entity/Q10748440> .
+vhr:site-fd240c2575e5 owl:sameAs <https://www.wikidata.org/entity/Q10779425> .
 
-vhr:registry-8e8fb3d090cb owl:sameAs <https://www.wikidata.org/entity/Q1202019> .
+vhr:treasure-0876b579230d owl:sameAs <https://www.wikidata.org/entity/Q10768928> .
 
-vhr:registry-904980409990 owl:sameAs <https://www.wikidata.org/entity/Q10825862> .
+vhr:treasure-2108149739ef owl:sameAs <https://www.wikidata.org/entity/Q42548080> .
 
-vhr:registry-9212aafdc929 owl:sameAs <https://www.wikidata.org/entity/Q747876> .
+vhr:treasure-3ea58582f3e4 owl:sameAs <https://www.wikidata.org/entity/Q3514747> .
 
-vhr:registry-923800e18d3a owl:sameAs <https://www.wikidata.org/entity/Q1532226> .
-
-vhr:registry-95f28984a882 owl:sameAs <https://www.wikidata.org/entity/Q106654643> .
-
-vhr:registry-994d06b85166 owl:sameAs <https://www.wikidata.org/entity/Q798059> .
-
-vhr:registry-9aa10e718d44 owl:sameAs <https://www.wikidata.org/entity/Q190060> .
-
-vhr:registry-9ef87450d978 owl:sameAs <https://www.wikidata.org/entity/Q30920268> .
-
-vhr:registry-a011486f3195 owl:sameAs <https://www.wikidata.org/entity/Q2344822> .
-
-vhr:registry-a09415b18df3 owl:sameAs <https://www.wikidata.org/entity/Q111020846> .
-
-vhr:registry-a0ae9a89210d owl:sameAs <https://www.wikidata.org/entity/Q106654903> .
-
-vhr:registry-a1555aff960a owl:sameAs <https://www.wikidata.org/entity/Q109069927> .
-
-vhr:registry-a1864f5227fc owl:sameAs <https://www.wikidata.org/entity/Q108909366> .
-
-vhr:registry-a3ceed236a60 owl:sameAs <https://www.wikidata.org/entity/Q10800918> .
-
-vhr:registry-a75893095411 owl:sameAs <https://www.wikidata.org/entity/Q10825850> .
-
-vhr:registry-a794f65377e2 owl:sameAs <https://www.wikidata.org/entity/Q1406000> .
-
-vhr:registry-a8a1804bdd58 owl:sameAs <https://www.wikidata.org/entity/Q87648913> .
-
-vhr:registry-a8b5be6289af owl:sameAs <https://www.wikidata.org/entity/Q10770860> .
-
-vhr:registry-a913a5cc48aa owl:sameAs <https://www.wikidata.org/entity/Q5370392> .
-
-vhr:registry-ab21ac8be815 owl:sameAs <https://www.wikidata.org/entity/Q2791723> .
-
-vhr:registry-abf3b206c90f owl:sameAs <https://www.wikidata.org/entity/Q111188049> .
-
-vhr:registry-ac781f8e46c5 owl:sameAs <https://www.wikidata.org/entity/Q1069757> .
-
-vhr:registry-acbca91bfb08 owl:sameAs <https://www.wikidata.org/entity/Q10748777> .
-
-vhr:registry-ae5d1861d80d owl:sameAs <https://www.wikidata.org/entity/Q10788643> .
-
-vhr:registry-aec3cbfb5219 owl:sameAs <https://www.wikidata.org/entity/Q190060> .
-
-vhr:registry-af0d3127bdec owl:sameAs <https://www.wikidata.org/entity/Q10825838> .
-
-vhr:registry-b09f2b4c1884 owl:sameAs <https://www.wikidata.org/entity/Q2227195> .
-
-vhr:registry-b26d0c6dea7a owl:sameAs <https://www.wikidata.org/entity/Q3485391> .
-
-vhr:registry-b52f76eaec10 owl:sameAs <https://www.wikidata.org/entity/Q10779417> .
-
-vhr:registry-b54471e322bd owl:sameAs <https://www.wikidata.org/entity/Q3514747> .
-
-vhr:registry-b55f4328e473 owl:sameAs <https://www.wikidata.org/entity/Q10770840> .
-
-vhr:registry-b70dc5c6502d owl:sameAs <https://www.wikidata.org/entity/Q10841695> .
-
-vhr:registry-b7b3b2663144 owl:sameAs <https://www.wikidata.org/entity/Q109301061> .
-
-vhr:registry-b89b72bd95bd owl:sameAs <https://www.wikidata.org/entity/Q206219> .
-
-vhr:registry-baafb654c1c5 owl:sameAs <https://www.wikidata.org/entity/Q10828632> .
-
-vhr:registry-bc5c52f756d3 owl:sameAs <https://www.wikidata.org/entity/Q110889122> .
-
-vhr:registry-bcb4c089c343 owl:sameAs <https://www.wikidata.org/entity/Q108899942> .
-
-vhr:registry-beb262b427f2 owl:sameAs <https://www.wikidata.org/entity/Q845438> .
-
-vhr:registry-bed91e8d63f3 owl:sameAs <https://www.wikidata.org/entity/Q87649081> .
-
-vhr:registry-bfe1fe4b153d owl:sameAs <https://www.wikidata.org/entity/Q24958616> .
-
-vhr:registry-c00abce048ce owl:sameAs <https://www.wikidata.org/entity/Q10788658> .
-
-vhr:registry-c307cf647441 owl:sameAs <https://www.wikidata.org/entity/Q24959007> .
-
-vhr:registry-c342ba116022 owl:sameAs <https://www.wikidata.org/entity/Q6755207> .
-
-vhr:registry-c6035a7663a0 owl:sameAs <https://www.wikidata.org/entity/Q10768928> .
-
-vhr:registry-c637c6eb34c7 owl:sameAs <https://www.wikidata.org/entity/Q863860> .
-
-vhr:registry-c63ce0666c33 owl:sameAs <https://www.wikidata.org/entity/Q106653114> .
-
-vhr:registry-c842907c028e owl:sameAs <https://www.wikidata.org/entity/Q98137184> .
-
-vhr:registry-c8d51ad38ec1 owl:sameAs <https://www.wikidata.org/entity/Q111144596> .
-
-vhr:registry-c93fde3a690b owl:sameAs <https://www.wikidata.org/entity/Q933384> .
-
-vhr:registry-ca33ac006161 owl:sameAs <https://www.wikidata.org/entity/Q61128046> .
-
-vhr:registry-cd94fa9c91cc owl:sameAs <https://www.wikidata.org/entity/Q108857815> .
-
-vhr:registry-ceb69ee34426 owl:sameAs <https://www.wikidata.org/entity/Q124807221> .
-
-vhr:registry-cec0cf31819e owl:sameAs <https://www.wikidata.org/entity/Q10841674> .
-
-vhr:registry-cf3a95fb74c2 owl:sameAs <https://www.wikidata.org/entity/Q10841724> .
-
-vhr:registry-d00b9a5d0e88 owl:sameAs <https://www.wikidata.org/entity/Q10841699> .
-
-vhr:registry-d032fe5483f2 owl:sameAs <https://www.wikidata.org/entity/Q10788647> .
-
-vhr:registry-d138cb6ebc3c owl:sameAs <https://www.wikidata.org/entity/Q110880197> .
-
-vhr:registry-d1ad44474257 owl:sameAs <https://www.wikidata.org/entity/Q10830183> .
-
-vhr:registry-d386c8c283f7 owl:sameAs <https://www.wikidata.org/entity/Q10825609> .
-
-vhr:registry-d3b7c0e4a4b8 owl:sameAs <https://www.wikidata.org/entity/Q5221505> .
-
-vhr:registry-d4056431591b owl:sameAs <https://www.wikidata.org/entity/Q10788621> .
-
-vhr:registry-d728cc4ff5cd owl:sameAs <https://www.wikidata.org/entity/Q10770860> .
-
-vhr:registry-d7fe92e1ee10 owl:sameAs <https://www.wikidata.org/entity/Q118108897> .
-
-vhr:registry-da36c0d9c6bc owl:sameAs <https://www.wikidata.org/entity/Q10841706> .
-
-vhr:registry-dbfdaf968c44 owl:sameAs <https://www.wikidata.org/entity/Q10747169> .
-
-vhr:registry-dd149c47b5fe owl:sameAs <https://www.wikidata.org/entity/Q17118720> .
-
-vhr:registry-de1174f06c3e owl:sameAs <https://www.wikidata.org/entity/Q10807145> .
-
-vhr:registry-df6380ddf3c3 owl:sameAs <https://www.wikidata.org/entity/Q10800919> .
-
-vhr:registry-dfc07d4f4ef2 owl:sameAs <https://www.wikidata.org/entity/Q10788575> .
-
-vhr:registry-dfcef178d549 owl:sameAs <https://www.wikidata.org/entity/Q61133593> .
-
-vhr:registry-dffde3b26917 owl:sameAs <https://www.wikidata.org/entity/Q8032387> .
-
-vhr:registry-e1865c62018e owl:sameAs <https://www.wikidata.org/entity/Q108874729> .
-
-vhr:registry-e2626eec5cfe owl:sameAs <https://www.wikidata.org/entity/Q32247548> .
-
-vhr:registry-e2653026213b owl:sameAs <https://www.wikidata.org/entity/Q10800930> .
-
-vhr:registry-e4c164e3008e owl:sameAs <https://www.wikidata.org/entity/Q109432294> .
-
-vhr:registry-e4e91580e671 owl:sameAs <https://www.wikidata.org/entity/Q111033900> .
-
-vhr:registry-e543d4676cd5 owl:sameAs <https://www.wikidata.org/entity/Q7928443> .
-
-vhr:registry-e633de15bf3a owl:sameAs <https://www.wikidata.org/entity/Q190128> .
-
-vhr:registry-e82140e01f4a owl:sameAs <https://www.wikidata.org/entity/Q5015164> .
-
-vhr:registry-e85d7323b189 owl:sameAs <https://www.wikidata.org/entity/Q61133202> .
-
-vhr:registry-e9774843bbdf owl:sameAs <https://www.wikidata.org/entity/Q1359941> .
-
-vhr:registry-e9c405b05532 owl:sameAs <https://www.wikidata.org/entity/Q106653085> .
-
-vhr:registry-ea51124b7ac0 owl:sameAs <https://www.wikidata.org/entity/Q1091048> .
-
-vhr:registry-eae5ea01ab51 owl:sameAs <https://www.wikidata.org/entity/Q391406> .
-
-vhr:registry-ebc184b27537 owl:sameAs <https://www.wikidata.org/entity/Q102142197> .
-
-vhr:registry-ecd3af733215 owl:sameAs <https://www.wikidata.org/entity/Q10788575> .
-
-vhr:registry-edd10d42ca41 owl:sameAs <https://www.wikidata.org/entity/Q131920509> .
-
-vhr:registry-eddc98c3dc3a owl:sameAs <https://www.wikidata.org/entity/Q109435586> .
-
-vhr:registry-ee1512a1ebe9 owl:sameAs <https://www.wikidata.org/entity/Q108852147> .
-
-vhr:registry-ee97a15984e2 owl:sameAs <https://www.wikidata.org/entity/Q111148688> .
-
-vhr:registry-f37954b48f8e owl:sameAs <https://www.wikidata.org/entity/Q192721> .
-
-vhr:registry-f5c20a16045c owl:sameAs <https://www.wikidata.org/entity/Q10831650> .
-
-vhr:registry-f683a854a413 owl:sameAs <https://www.wikidata.org/entity/Q6409093> .
-
-vhr:registry-fa9d5dcb6ca1 owl:sameAs <https://www.wikidata.org/entity/Q131914762> .
-
-vhr:registry-fb867e4b336e owl:sameAs <https://www.wikidata.org/entity/Q695916> .
-
-vhr:registry-fd03e1f1662c-53c105 owl:sameAs <https://www.wikidata.org/entity/Q109438443> .
-
-vhr:registry-fd03e1f1662c-f33488 owl:sameAs <https://www.wikidata.org/entity/Q109430307> .
-
-vhr:registry-fd1b03a52bcd owl:sameAs <https://www.wikidata.org/entity/Q7263979> .
-
-vhr:registry-fda343a6ebcc owl:sameAs <https://www.wikidata.org/entity/Q50922911> .
-
-vhr:registry-fe7f386c05f7 owl:sameAs <https://www.wikidata.org/entity/Q7168306> .
-
-vhr:registry-fe9a3f2c5ba6 owl:sameAs <https://www.wikidata.org/entity/Q10788628> .
+vhr:treasure-c2c8d55270eb owl:sameAs <https://www.wikidata.org/entity/Q30920268> .
 

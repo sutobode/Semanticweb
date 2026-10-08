@@ -10,7 +10,7 @@ This procedure is prepared for a later authorized rebuild. Do not run collection
 4. Production Fuseki and Neo4j credentials and endpoints are absent from the staging environment.
 5. The operator records a run ID in UTC, for example `20261008T120000Z-clean-rebuild`.
 
-## Immutable Snapshot
+## Verified Rollback Snapshot
 
 Run this only immediately before an authorized rebuild or promotion.
 
@@ -83,7 +83,7 @@ Get-ChildItem $Backup -File | Get-FileHash -Algorithm SHA256 |
   Export-Csv "$Backup\volume-sha256.csv" -NoTypeInformation
 ```
 
-Upload the backup and an independently stored or signed hash manifest to WORM/object-lock storage and verify the upload before restarting services with `docker --context $ProductionDockerContext compose --project-directory "$Root" start fuseki neo4j explorer`; check `$LASTEXITCODE` and health afterward. This is a mandatory promotion gate; Windows read-only attributes are not an immutability control.
+For this academic project, the mandatory promotion gate is a complete local rollback snapshot stored outside the production checkout, with verified hashes and readable database archives. WORM/object-lock storage and an independently signed manifest are recommended production-hardening controls, not requirements of `PROJECT_SPEC.md`. If available, upload and verify them before promotion. Restart services with `docker --context $ProductionDockerContext compose --project-directory "$Root" start fuseki neo4j explorer`; check `$LASTEXITCODE` and health afterward.
 
 ## Run-Scoped Staging
 
@@ -109,7 +109,7 @@ Assert-Native "install staging dependencies"
 Assert-Native "install staging package"
 ```
 
-Download or mount the WORM snapshot inside the candidate VM before using it. Define a candidate-local path, verify the independently stored signed manifest, and reject missing or non-absolute paths:
+Make the verified rollback snapshot available to the candidate environment before using it. Define a candidate-local path and reject missing or non-absolute paths:
 
 ```powershell
 $Backup = "D:\verified-backups\$RunId"
@@ -117,7 +117,7 @@ if (-not [IO.Path]::IsPathRooted($Backup) -or -not (Test-Path "$Backup\sha256.cs
     -not (Test-Path "$Backup\data\raw")) {
   throw "Verified candidate-local backup is unavailable"
 }
-# Verify the WORM/object-store signature and every downloaded backup hash here.
+# Verify every backup hash here. If WORM/object-lock storage is used, also verify its signature or independent manifest.
 ```
 
 Do not copy the production `.env`; Python loaders do not automatically load a repository `.env`. Start from a sanitized process environment, set explicit staging endpoints and credentials, and reject accidental production values. `RUN_FUSEKI_INTEGRATION` must be absent during the test gate because that opt-in test performs a real load.
@@ -293,7 +293,7 @@ Promotion is forbidden unless all gates pass:
 
 ## Promotion
 
-The repository's current Compose file is not blue/green capable and binds services to loopback. Promotion therefore requires an already provisioned host-local gateway/reverse proxy or a separately approved secure binding override on both prior and candidate hosts. DNS may switch only between those externally reachable gateway endpoints, never directly to Compose's loopback ports. If that routing control is unavailable, do not promote and do not mutate production volumes in place.
+`PROJECT_SPEC.md` requires the services to remain bound to loopback and requires an access-controlled reverse proxy only when demonstrating the system outside the local machine. It does not require blue/green or atomic gateway cutover. For this academic project, a controlled maintenance cutover on the local host is permitted after all candidate gates pass and the verified local rollback snapshot is rechecked. A pre-provisioned gateway, blue/green deployment, and atomic endpoint switching remain recommended production-hardening controls. Never mutate the prior database volumes in place.
 
 1. Freeze writes and stop production explorer/load jobs.
 2. Verify the immutable backup hashes.
@@ -301,7 +301,7 @@ The repository's current Compose file is not blue/green capable and binds servic
 4. Verify the package hashes against the staging manifest.
 5. Confirm the isolated candidate Fuseki and Neo4j services use the recorded image digests and staging-only volumes.
 6. Run read-only smoke, artifact-specific CQ, SHACL, and parity checks against the candidate services.
-7. Switch the external service endpoints from the prior host to the candidate host in one controlled change.
+7. For a local academic deployment, stop the prior services and start the accepted candidate on the standard loopback ports in one controlled maintenance window. For an externally reachable deployment, switch only through an approved access-controlled gateway.
 8. Keep the prior artifact directory and prior database volumes unchanged until the retention window expires.
 
 ## Rollback

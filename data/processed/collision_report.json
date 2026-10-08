@@ -1,4 +1,58 @@
 {
   "status": "PASS",
-  "collisions": 0
+  "collisions": 0,
+  "manual_reviews": 2,
+  "quarantined": 0,
+  "blockers": [],
+  "reviews": [
+    {
+      "review_id": "identity-review-7a204332bdac",
+      "status": "manual_review",
+      "reason_codes": [
+        "WEAK_ALIAS_SCOPE_CANDIDATE"
+      ],
+      "source_record_ids": [
+        "registry-6278b59d35ab",
+        "registry-f604261a8dbb"
+      ],
+      "shared_evidence": [
+        {
+          "type": "alias_scope",
+          "value": "tượng thần visnu|area-name-956704bccf88"
+        }
+      ]
+    },
+    {
+      "review_id": "identity-review-fbe89ad122e6",
+      "status": "manual_review",
+      "reason_codes": [
+        "WEAK_ALIAS_SCOPE_CANDIDATE"
+      ],
+      "source_record_ids": [
+        "registry-212f94c8fa3c",
+        "registry-687eb84427a0",
+        "registry-bdf3df6e4870"
+      ],
+      "shared_evidence": [
+        {
+          "type": "alias_scope",
+          "value": "tượng avalokitesvara|area-name-01ecaf4d6cda"
+        }
+      ]
+    }
+  ],
+  "applied_identity_reviews": [
+    "bai-choi-local-inscriptions",
+    "chu-nom-dao-local-practices",
+    "hat-sli-local-practices",
+    "kate-local-festivals",
+    "khen-mong-local-inscriptions",
+    "long-tong-local-festivals",
+    "mo-muong-local-inscriptions",
+    "mua-roi-nuoc-local-practices",
+    "nghinh-ong-local-festivals",
+    "then-local-inscriptions",
+    "trong-quan-local-practices",
+    "xoe-thai-local-inscriptions"
+  ]
 }

@@ -43,7 +43,7 @@ services:
     build:
       context: .
       dockerfile: deployment/explorer/Dockerfile
-    image: vietheritage/explorer:0.1.0
+    image: vietheritage/explorer:phase6-20261008
     container_name: vietheritage-explorer
     environment:
       APP_HOST: 0.0.0.0
@@ -61,4 +61,8 @@ services:
 
 volumes:
   fuseki-data:
+    name: vh-phase6-20261008t074906z-fuseki
+    external: true
   neo4j-data:
+    name: vh-phase6-20261008t074906z-neo4j
+    external: true
