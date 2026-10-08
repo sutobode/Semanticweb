@@ -8,6 +8,7 @@ from rdflib.namespace import OWL, RDF
 
 import vietheritage.linking.linker as linker_module
 from vietheritage.linking.linker import dbpedia_score, link_records, review_dbpedia_candidate
+from vietheritage.validation.semantic import identity_component_fingerprint
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -30,7 +31,8 @@ def fixed_clock(monkeypatch):
 def _record(name, qid=None, candidates=()):
     return {"entity_id": f"registry-{name}", "label_vi": name,
             "external_ids": {"wikidata": qid} if qid else {},
-            "dbpedia_candidates": list(candidates)}
+            "dbpedia_candidates": list(candidates),
+            "identity_profile": {"granularity": "entity", "scope": "entity"}}
 
 
 def _assertions(records, types=None):
@@ -48,16 +50,39 @@ def _link(records, ontology, *, types=None, link_reviews=()):
 
 def _bridge(distance=2):
     return {"uri": DBPEDIA, "score": 1.0, "distance_km": distance,
-            "type_compatible": True, "method": "dbpedia-wikidata-sameas",
+            "type_compatible": True, "same_entity": True,
+            "granularity_compatible": True, "scope_compatible": True,
+            "location_compatible": distance is not None, "method": "dbpedia-wikidata-sameas",
             "wikidata_id": "Q123", "evidence": "local explicit owl:sameAs to canonical Q123"}
 
 
 def _approval(distance=2):
     return {"source_uri": str(VHR["registry-a"]), "target_uri": DBPEDIA,
             "target_dataset": "dbpedia", "method": "silk", "score": 1.0,
-            "distance_km": distance, "type_compatible": True, "status": "verified",
+            "distance_km": distance, "type_compatible": True, "same_entity": True,
+            "granularity_compatible": True, "scope_compatible": True,
+            "location_compatible": distance is not None, "status": "verified",
             "reviewer": "fixture:test_linker", "reviewed_at": NOW,
             "reason": "Fixture identity and current candidate evidence independently checked"}
+
+
+def _multiple_local_approval(records):
+    fingerprint = identity_component_fingerprint(
+        {VHR[record["entity_id"]] for record in records},
+        {str(VHR[record["entity_id"]]): record for record in records},
+    )
+    return [
+        {
+            **_approval(),
+            "source_uri": str(VHR[record["entity_id"]]),
+            "target_dataset": "wikidata",
+            "target_uri": "https://www.wikidata.org/entity/Q123",
+            "multiple_local_approved": True,
+            "component_fingerprint": fingerprint,
+            "reason": "Reviewed duplicate local records represent the same active entity",
+        }
+        for record in records
+    ]
 
 
 def test_qid_is_verified_and_invalid_qid_rejected(ontology) -> None:
@@ -83,9 +108,12 @@ def test_dbpedia_candidate_only_verified_candidate_enters_verified_links(ontolog
         "label_vi": "Vịnh Hạ Long",
         "external_ids": {},
         "dbpedia_candidates": [
-            {"uri": "http://dbpedia.org/resource/Ha_Long_Bay", "label": "Vịnh Hạ Long", "distance_km": 2},
+            {"uri": "http://dbpedia.org/resource/Ha_Long_Bay", "label": "Vịnh Hạ Long", "distance_km": 2,
+             "type_compatible": True, "same_entity": True, "granularity_compatible": True,
+             "scope_compatible": True, "location_compatible": True},
             {"uri": "http://dbpedia.org/resource/Other", "label": "Other", "distance_km": 100},
         ],
+        "identity_profile": {"granularity": "entity", "scope": "entity"},
     }]
     queued, unpublished = _link(records, ontology)
     assert not unpublished
@@ -112,14 +140,43 @@ def test_loader_reads_explicit_dbpedia_wikidata_manifest(tmp_path, monkeypatch) 
     assert candidates["registry-a"][0]["uri"].endswith("/A")
 
 
-def test_shared_identity_with_compatible_site_subclasses_remains_publishable(ontology):
+def test_shared_identity_with_compatible_site_subclasses_requires_reviewed_exception(ontology):
     records = [_record("a", "Q123"), _record("b", "Q123")]
     reviews, verified = _link(records, ontology, types={
         "registry-a": "HistoricalSite", "registry-b": "ReligiousSite",
     })
+    assert not verified
+    assert all("SECOND_ACTIVE_LOCAL_ENTITY" in row["reason"] for row in reviews)
+
+    reviews, verified = _link(records, ontology, types={
+        "registry-a": "HistoricalSite", "registry-b": "ReligiousSite",
+    }, link_reviews=_multiple_local_approval(records))
     assert len(verified) == 2
     assert all(row["status"] == "verified" for row in reviews)
+    assert all(row["multiple_local_approved"] is True for row in reviews)
+    assert all(row["reviewer"] == "fixture:test_linker" for row in reviews)
     assert {row["target_uri"] for row in verified} == {"https://www.wikidata.org/entity/Q123"}
+
+
+@pytest.mark.parametrize(("left_profile", "right_profile", "reason"), [
+    ({"granularity": "whole", "scope": "entity"},
+     {"granularity": "component", "scope": "entity"}, "WHOLE_COMPONENT_CONFLICT"),
+    ({"granularity": "entity", "scope": "broad"},
+     {"granularity": "entity", "scope": "localized"}, "BROAD_LOCALIZED_CONFLICT"),
+    ({"granularity": "entity", "scope": "entity", "locations": ["Hà Nội"]},
+     {"granularity": "entity", "scope": "entity", "locations": ["Huế"]}, "INCOMPATIBLE_LOCATION"),
+    ({"granularity": "entity", "scope": "entity", "communities": ["Kinh"]},
+     {"granularity": "entity", "scope": "entity", "communities": ["Chăm"]}, "INCOMPATIBLE_COMMUNITY"),
+])
+def test_reviewed_exception_cannot_override_intrinsic_identity_conflicts(
+    ontology, left_profile, right_profile, reason,
+):
+    records = [_record("a", "Q123"), _record("b", "Q123")]
+    records[0]["identity_profile"] = left_profile
+    records[1]["identity_profile"] = right_profile
+    reviews, verified = _link(records, ontology, link_reviews=_multiple_local_approval(records))
+    assert not verified
+    assert all(reason in row["reason"] for row in reviews)
 
 
 @pytest.mark.parametrize("left,right", [
@@ -152,7 +209,10 @@ def test_subclass_ancestry_and_both_disjoint_constructs_are_respected(ontology, 
 def test_identity_safety_checks_connected_components_not_only_shared_targets(ontology):
     # Each direct shared-target group is compatible; the complete component is not:
     # representative a -- Q123 -- generic b -- DBpedia -- national c -- Q456.
-    candidate = {"uri": DBPEDIA, "score": 1.0, "distance_km": 2, "type_compatible": True}
+    candidate = {"uri": DBPEDIA, "score": 1.0, "distance_km": 2,
+                 "type_compatible": True, "same_entity": True,
+                 "granularity_compatible": True, "scope_compatible": True,
+                 "location_compatible": True}
     records = [_record("a", "Q123"), _record("b", "Q123", [candidate]),
                _record("c", "Q456", [candidate])]
     types = {"registry-a": "RepresentativeIntangibleHeritage", "registry-b": "IntangibleHeritage",
@@ -200,10 +260,9 @@ def test_missing_geo_and_legacy_automated_review_cannot_verify_qid_bridge(ontolo
     reviews, verified = _link(records, ontology, link_reviews=[legacy])
     assert len(verified) == 1 and verified[0]["target_dataset"] == "wikidata"
     dbpedia = next(row for row in reviews if row["target_dataset"] == "dbpedia")
-    assert dbpedia["status"] == "manual_review"
+    assert dbpedia["status"] == "rejected"
     assert dbpedia["reviewer"] is None and dbpedia["reviewed_at"] is None
-    assert "DBPEDIA_REVIEW_REQUIRED" in dbpedia["reason"]
-    assert "evidence_qid=Q123; canonical_qid=Q123" in dbpedia["reason"]
+    assert "INCOMPATIBLE_LOCATION" in dbpedia["reason"]
 
 
 @pytest.mark.parametrize("qid", [None, "Q456"])
@@ -228,11 +287,19 @@ def test_current_bridge_with_valid_geo_and_explicit_review_is_publishable(ontolo
     assert dbpedia["reason"] == _approval()["reason"]
 
 
-def test_missing_geo_can_only_be_published_after_explicit_review(ontology):
+def test_type_only_candidate_rejection_has_specific_reason(ontology):
+    candidate = _bridge() | {"type_compatible": False}
+    reviews, verified = _link([_record("a", "Q123", [candidate])], ontology)
+    assert len(verified) == 1
+    dbpedia = next(row for row in reviews if row["target_dataset"] == "dbpedia")
+    assert "INCOMPATIBLE_TYPE" in dbpedia["reason"]
+
+
+def test_missing_geo_cannot_be_published_after_explicit_review(ontology):
     records = [_record("a", "Q123", [_bridge(None)])]
-    _, verified = _link(records, ontology, link_reviews=[_approval(None)])
-    assert len(verified) == 2
-    assert next(row for row in verified if row["target_dataset"] == "dbpedia")["reviewer"].startswith("fixture:")
+    reviews, verified = _link(records, ontology, link_reviews=[_approval(None)])
+    assert len(verified) == 1
+    assert next(row for row in reviews if row["target_dataset"] == "dbpedia")["status"] == "rejected"
 
 
 def test_review_of_different_geographic_evidence_is_not_reused(ontology):
@@ -251,7 +318,9 @@ def test_explicit_review_cannot_override_policy_rejection(ontology):
 
 def test_independent_valid_path_survives_a_stale_bridge_for_the_same_pair(ontology):
     independent = {"uri": DBPEDIA, "score": 1.0, "distance_km": 2,
-                   "type_compatible": True, "evidence": "independent reviewed local identity"}
+                   "type_compatible": True, "same_entity": True,
+                   "granularity_compatible": True, "scope_compatible": True,
+                   "location_compatible": True, "evidence": "independent reviewed local identity"}
     records = [_record("a", candidates=[_bridge(), independent])]
     reviews, verified = _link(records, ontology, link_reviews=[_approval()])
     assert len(reviews) == 2 and len(verified) == 1

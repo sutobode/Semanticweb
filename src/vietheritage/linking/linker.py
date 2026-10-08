@@ -15,7 +15,13 @@ from typing import Any
 from rdflib import Graph, Namespace, URIRef
 from rdflib.namespace import OWL
 
-from vietheritage.validation.semantic import Contract
+from vietheritage.validation.semantic import (
+    Contract,
+    identity_component_fingerprint,
+    identity_component_issues,
+    reviewed_multiple_local_approvals,
+    reviewed_multiple_local_exception,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
@@ -91,7 +97,13 @@ def _review_row(source_uri: str, target_uri: str, dataset: str, method: str, sco
         "method": method,
         "score": score,
         "distance_km": extra.get("distance_km"),
-        "type_compatible": bool(extra.get("type_compatible", True)),
+        "type_compatible": bool(extra.get("type_compatible", False)),
+        "same_entity": bool(extra.get("same_entity", False)),
+        "granularity_compatible": bool(extra.get("granularity_compatible", False)),
+        "scope_compatible": bool(extra.get("scope_compatible", False)),
+        "location_compatible": bool(extra.get("location_compatible", False)),
+        "multiple_local_approved": bool(extra.get("multiple_local_approved", False)),
+        "component_fingerprint": extra.get("component_fingerprint"),
         "status": status,
         "reviewer": extra.get("reviewer") or ("automated:vietheritage-linker/0.1.0" if status == "verified" else None),
         "reviewed_at": extra.get("reviewed_at") or (_now() if status == "verified" else None),
@@ -108,8 +120,12 @@ def _approved_dbpedia_review(candidate: dict, reviews: list[dict]) -> dict | Non
                 or row.get("target_dataset") != "dbpedia"
                 or row.get("status") != "verified"
                 or not reviewer or reviewer.casefold().startswith("automated:")
-                or not row.get("reviewed_at") or not row.get("reason")
-                or str(row.get("type_compatible")).lower() != "true"):
+                or not str(row.get("reviewed_at") or "").strip()
+                or not str(row.get("reason") or "").strip()
+                or any(str(row.get(field)).lower() != "true" for field in (
+                    "type_compatible", "same_entity", "granularity_compatible",
+                    "scope_compatible", "location_compatible",
+                ))):
             continue
         # A review of different candidate evidence is not a current approval.
         try:
@@ -122,7 +138,10 @@ def _approved_dbpedia_review(candidate: dict, reviews: list[dict]) -> dict | Non
     return None
 
 
-def _reject_identity_conflicts(reviews: list[dict], assertions: Graph, ontology: Graph) -> None:
+def _reject_identity_conflicts(
+    reviews: list[dict], assertions: Graph, ontology: Graph,
+    records: list[dict[str, Any]], previous_reviews: list[dict],
+) -> None:
     """Reject the whole unsafe component, without choosing an arbitrary winner.
 
     Pending candidates participate too: later review must not approve a known
@@ -136,7 +155,7 @@ def _reject_identity_conflicts(reviews: list[dict], assertions: Graph, ontology:
     for source, target in pairs:
         neighbours[source].add(target)
         neighbours[target].add(source)
-    disjoint = sorted(set(contract.disjoint_pairs()), key=lambda triple: tuple(map(str, triple)))
+    by_uri = {str(VHR[record["entity_id"]]): record for record in records}
     visited = set()
     rejected = {}
     for start in sorted(neighbours, key=str):
@@ -149,15 +168,27 @@ def _reject_identity_conflicts(reviews: list[dict], assertions: Graph, ontology:
                 component.add(node)
                 pending.extend(neighbours[node] - component)
         visited.update(component)
-        witnesses = {}
-        for node in sorted(component, key=str):
-            for cls in contract.types(node):
-                witnesses.setdefault(cls, node)
-        conflicts = [f"{axiom}: {witnesses[left]} ({left}) <> {witnesses[right]} ({right})"
-                     for left, right, axiom in disjoint if left in witnesses and right in witnesses]
+        conflicts = identity_component_issues(component, by_uri, contract)
+        local_count = sum(str(node) in by_uri for node in component)
+        exception = reviewed_multiple_local_exception(component, by_uri, previous_reviews)
+        approvals = reviewed_multiple_local_approvals(component, by_uri, previous_reviews)
+        if local_count > 1 and not exception:
+            conflicts.append("SECOND_ACTIVE_LOCAL_ENTITY")
         if conflicts:
-            reason = "IDENTITY_TYPE_CONFLICT: " + "; ".join(conflicts)
+            reason = "; ".join(sorted(set(conflicts)))
             rejected.update({str(node): reason for node in component})
+        elif local_count > 1:
+            fingerprint = identity_component_fingerprint(component, by_uri)
+            component_uris = {str(node) for node in component}
+            for row in reviews:
+                if row["source_uri"] not in by_uri or row["target_uri"] not in component_uris:
+                    continue
+                approval = approvals.get(row["source_uri"])
+                if approval:
+                    row.update({key: approval.get(key) for key in (
+                        "reviewer", "reviewed_at", "reason", "component_fingerprint",
+                    )})
+                    row["multiple_local_approved"] = True
     for row in reviews:
         if row["status"] != "rejected" and row["source_uri"] in rejected:
             row["status"] = "rejected"
@@ -180,7 +211,11 @@ def link_records(
         qid = external.get("wikidata")
         if qid:
             if _QID_RE.fullmatch(qid):
-                row = _review_row(source_uri, f"https://www.wikidata.org/entity/{qid}", "wikidata", "wikidata-qid", 1.0, "verified", reason="normalized deterministic QID")
+                row = _review_row(
+                    source_uri, f"https://www.wikidata.org/entity/{qid}", "wikidata", "wikidata-qid", 1.0,
+                    "verified", reason="normalized deterministic QID", type_compatible=True, same_entity=True,
+                    granularity_compatible=True, scope_compatible=True, location_compatible=True,
+                )
                 reviews.append(row)
             else:
                 reviews.append(_review_row(source_uri, "https://www.wikidata.org/entity/INVALID", "wikidata", "wikidata-qid", 0.0, "rejected", reason="invalid QID"))
@@ -193,7 +228,7 @@ def link_records(
             if not target_uri:
                 continue
             target_label = candidate.get("label", "")
-            compatible = bool(candidate.get("type_compatible", True))
+            compatible = candidate.get("type_compatible") is True
             score = float(candidate.get("score", dbpedia_score(record.get("label_vi", ""), target_label, compatible)))
             distance = candidate.get("distance_km")
             status = review_dbpedia_candidate(score, distance, compatible)
@@ -201,11 +236,31 @@ def link_records(
             bridge = candidate.get("method") == "dbpedia-wikidata-sameas" or "wikidata_id" in candidate
             stale_bridge = bridge and (not qid or candidate.get("wikidata_id") != qid
                                        or _QID_RE.fullmatch(qid) is None)
+            compatibility = {
+                "same_entity": candidate.get("same_entity") is True or (bridge and not stale_bridge),
+                "granularity_compatible": candidate.get("granularity_compatible") is True or (bridge and not stale_bridge),
+                "scope_compatible": candidate.get("scope_compatible") is True or (bridge and not stale_bridge),
+                "location_compatible": candidate.get("location_compatible") is True or (
+                    bridge and not stale_bridge and distance is not None and float(distance) <= 20
+                ),
+            }
             if bridge:
                 evidence += f"; evidence_qid={candidate.get('wikidata_id')}; canonical_qid={qid}"
             if stale_bridge:
                 status = "rejected"
                 reason = "STALE_QID_BRIDGE: " + evidence
+            elif not compatible or not all(compatibility.values()):
+                status = "rejected"
+                reason_codes = {
+                    "type_compatible": "INCOMPATIBLE_TYPE",
+                    "same_entity": "NOT_SAME_ENTITY",
+                    "granularity_compatible": "INCOMPATIBLE_GRANULARITY",
+                    "scope_compatible": "INCOMPATIBLE_SCOPE",
+                    "location_compatible": "INCOMPATIBLE_LOCATION",
+                }
+                failed = ([] if compatible else [reason_codes["type_compatible"]])
+                failed.extend(reason_codes[field] for field, value in compatibility.items() if not value)
+                reason = f"IDENTITY_PROFILE_INCOMPATIBLE:{','.join(failed)}: {evidence}"
             elif status == "rejected":
                 reason = "DBPEDIA_POLICY_REJECTED: " + evidence
             else:
@@ -221,6 +276,7 @@ def link_records(
                 status,
                 distance_km=distance,
                 type_compatible=compatible,
+                **compatibility,
                 reason=reason,
             )
             approval = _approved_dbpedia_review(row, link_reviews or [])
@@ -228,7 +284,7 @@ def link_records(
                 row.update({key: approval[key] for key in ("reviewer", "reviewed_at", "reason")})
                 row["status"] = "verified"
             reviews.append(row)
-    _reject_identity_conflicts(reviews, assertions, ontology)
+    _reject_identity_conflicts(reviews, assertions, ontology, records, link_reviews or [])
     reviews.sort(key=lambda row: (row["source_uri"], row["target_uri"], row["reason"] or ""))
     return reviews, [row for row in reviews if row["status"] == "verified"]
 
@@ -270,7 +326,12 @@ def run(run_mode: str = "sample", *, refresh_metadata: bool = True) -> int:
     LINKING_DIR.mkdir(parents=True, exist_ok=True)
     (LINKING_DIR / "link-review.jsonl").write_text("\n".join(json.dumps(row, ensure_ascii=False) for row in reviews) + ("\n" if reviews else ""), encoding="utf-8")
     with (LINKING_DIR / "link_review.csv").open("w", newline="", encoding="utf-8") as handle:
-        fields = ["source_uri", "target_uri", "target_dataset", "method", "score", "distance_km", "type_compatible", "status", "reviewer", "reviewed_at", "reason"]
+        fields = [
+            "source_uri", "target_uri", "target_dataset", "method", "score", "distance_km",
+            "type_compatible", "same_entity", "granularity_compatible", "scope_compatible",
+            "location_compatible", "multiple_local_approved", "component_fingerprint",
+            "status", "reviewer", "reviewed_at", "reason",
+        ]
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         writer.writerows(reviews)

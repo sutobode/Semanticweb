@@ -11,16 +11,26 @@ from .semantic import (
     DEFAULT_BASE,
     Contract,
     base_uri,
+    identity_component_issues,
     issue,
     literal_matches,
     report,
+    reviewed_multiple_local_exception,
     same_as_components,
     validate_semantics,
 )
 from .shacl import validate_graph as validate_shapes
 
-ENTITY_ID = re.compile(r"(?:registry|person|area|event|period|complex|organization|style|site)-[A-Za-z0-9._~-]+")
+ENTITY_ID = re.compile(
+    r"(?:registry|person|area|event|period|complex|organization|style|site|museum|"
+    r"intangible|treasure|documentary|artisan|object)-[A-Za-z0-9._~-]+"
+)
+PRODUCTION_SITE_ID = re.compile(r"site-[0-9a-f]{12}(?:-[0-9a-f]{6})?")
 GEO = "http://www.w3.org/2003/01/geo/wgs84_pos#"
+
+
+def is_fixture_site_id(identifier: str) -> bool:
+    return identifier.startswith("site-") and PRODUCTION_SITE_ID.fullmatch(identifier) is None
 
 
 def _http(value) -> bool:
@@ -47,8 +57,11 @@ def _uri_errors(data: Graph, contract: Contract, records: list[dict], mode: str)
         valid = all(re.fullmatch(r"[A-Za-z0-9._~-]+", segment) for segment in path.rstrip("/").split("/"))
         if path.startswith("resource/"):
             identifier = path[len("resource/"):]
-            if mode == "full" and identifier.startswith("site-"):
-                errors.append(issue("FIXTURE_ID_IN_PRODUCTION", node, message="site- IDs are fixture-only."))
+            if mode == "full" and is_fixture_site_id(identifier):
+                errors.append(issue(
+                    "FIXTURE_ID_IN_PRODUCTION", node,
+                    message="Noncanonical site- IDs are fixture-only.",
+                ))
             auxiliary = bool(contract.types(node) & {PROV.Activity, DCAT.Distribution})
             valid = valid and (auxiliary or ENTITY_ID.fullmatch(identifier) is not None)
         elif path.startswith("ontology/"):
@@ -69,13 +82,20 @@ def _uri_errors(data: Graph, contract: Contract, records: list[dict], mode: str)
 def _identity_errors(data: Graph, assertions: Graph, contract: Contract, records: dict, reviews: list[dict]) -> list[dict]:
     errors = []
     reviewed = {(row.get("source_uri"), row.get("target_uri")) for row in reviews
-                if row.get("status") == "verified" and row.get("target_dataset") == "dbpedia"
-                and str(row.get("type_compatible", "")).lower() == "true"}
+                 if row.get("status") == "verified" and row.get("target_dataset") == "dbpedia"
+                 and all(str(row.get(field, "")).lower() == "true" for field in (
+                     "type_compatible", "same_entity", "granularity_compatible",
+                     "scope_compatible", "location_compatible",
+                 ))
+                 and str(row.get("reviewer") or "").strip()
+                 and not str(row.get("reviewer") or "").strip().casefold().startswith("automated:")
+                 and str(row.get("reviewed_at") or "").strip()
+                 and str(row.get("reason") or "").strip()}
     approved_pairs = []
     for source, target in assertions.subject_objects(OWL.sameAs):
         record = records.get(str(source), {})
         qid = (record.get("external_ids") or {}).get("wikidata")
-        wikidata = isinstance(target, URIRef) and re.fullmatch(r"https://www\.wikidata\.org/entity/Q[0-9]+", str(target))
+        wikidata = isinstance(target, URIRef) and re.fullmatch(r"https://www\.wikidata\.org/entity/Q[1-9][0-9]*", str(target))
         dbpedia = isinstance(target, URIRef) and re.fullmatch(r"https?://dbpedia\.org/resource/[^\s<>\"{}|\\^`?#/]+", str(target))
         allowed = bool(record) and (
             (wikidata and str(target).rsplit("/", 1)[-1] == qid)
@@ -95,6 +115,26 @@ def _identity_errors(data: Graph, assertions: Graph, contract: Contract, records
         else:
             approved_pairs.append((source, target))
 
+    components = same_as_components(approved_pairs)
+    unsafe: set = set()
+    seen_components: set[tuple[str, ...]] = set()
+    for component in components.values():
+        key = tuple(sorted(map(str, component)))
+        if key in seen_components:
+            continue
+        seen_components.add(key)
+        conflicts = identity_component_issues(component, records, contract)
+        local_count = sum(str(node) in records for node in component)
+        if local_count > 1 and not reviewed_multiple_local_exception(component, records, reviews):
+            conflicts.append("SECOND_ACTIVE_LOCAL_ENTITY")
+        if conflicts:
+            unsafe.update(component)
+            local = sorted((node for node in component if str(node) in records), key=str)
+            errors.append(issue(
+                "INVALID_SAME_AS", local[0] if local else min(component, key=str), OWL.sameAs,
+                "; ".join(sorted(set(conflicts))),
+            ))
+    approved_pairs = [(source, target) for source, target in approved_pairs if source not in unsafe and target not in unsafe]
     components = same_as_components(approved_pairs)
     # OWL Mini may entail reflexive, reversed and transitive identities. Only
     # those justified by the approved assertion components are accepted.
@@ -156,6 +196,19 @@ def validate_public_graph(
             errors.append(issue("PROVENANCE_VIOLATION", node, message="Official registry provenance is required."))
         if record.get("registry_url") and URIRef(record["registry_url"]) not in sources & derived:
             errors.append(issue("PROVENANCE_VIOLATION", node, message="Canonical registry source is missing from RDF provenance."))
+        expected_sources = {
+            URIRef(candidate)
+            for source_record in record.get("source_records") or []
+            for candidate in (source_record.get("source_url"), (source_record.get("provenance") or {}).get("source"))
+            if candidate
+        }
+        missing_sources = expected_sources - (sources & derived)
+        if missing_sources:
+            errors.append(issue(
+                "PROVENANCE_VIOLATION", node,
+                message="Source-record provenance is missing from RDF.",
+                missing_sources=sorted(map(str, missing_sources)),
+            ))
         wikipedia = record.get("source_status") in {"registry+wikipedia", "registry+enriched"}
         wikipedia |= any((urlsplit(str(value)).hostname or "").endswith(".wikipedia.org") for value in sources | derived)
         wikipedia |= any(data.objects(node, contract.vh.sourcePageId)) or any(data.objects(node, contract.vh.sourceTitle))
@@ -176,6 +229,10 @@ def validate_public_graph(
         component = results.value(entry, SH.sourceConstraintComponent)
         if path == RDFS.label:
             code = "MISSING_LABEL"
+        elif path == contract.vh.recognizedBy:
+            code = "RANGE_VIOLATION"
+        elif path == contract.vh.recognitionYear and component == SH.MaxCountConstraintComponent:
+            code = "CARDINALITY_VIOLATION"
         elif str(path) in {GEO + "lat", GEO + "long"}:
             code = "DATATYPE_VIOLATION" if component == SH.DatatypeConstraintComponent else "INVALID_COORDINATE"
         elif component == SH.DatatypeConstraintComponent:

@@ -87,6 +87,20 @@ def test_constraint_required_properties_type_and_site_labels() -> None:
         recognition_year=2010,
         coordinates={"lat": 21, "lon": 105.5},
         external_ids={"wikidata": "Q123"},
+        registry_id="registry-a",
+        registry_category="world_heritage",
+        source_records=[
+            {
+                "source_namespace": "dsvh", "source_record_id": "registry-a",
+                "source_url": "https://example.org/registry-a",
+            },
+            {
+                "source_namespace": "unesco", "source_record_id": "1358",
+                "source_url": "https://whc.unesco.org/en/list/1358/",
+            },
+        ],
+        identity_profile={"granularity": "whole", "scope": "broad", "locations": ["Thanh Hóa"],
+                          "communities": ["Cộng đồng địa phương"]},
         relations={"recognized_by": ["organization-unesco"]},
     )
 
@@ -103,6 +117,16 @@ def test_constraint_required_properties_type_and_site_labels() -> None:
         "labelVi": "site-a",
         "sourceUrl": "https://example.org/source",
         "retrievedAt": "2026-10-07T00:00:00Z",
+        "registryId": "registry-a",
+        "registryCategory": "world_heritage",
+        "sourceRecordCount": 2,
+        "sourceRecordIds": ["1358", "registry-a"],
+        "sourceNamespaces": ["dsvh", "unesco"],
+        "sourceUrls": ["https://example.org/registry-a", "https://whc.unesco.org/en/list/1358/"],
+        "identityGranularity": "whole",
+        "identityScope": "broad",
+        "identityLocations": ["Thanh Hóa"],
+        "identityCommunities": ["Cộng đồng địa phương"],
         "constructionYear": 1010,
         "recognitionYear": 2010,
         "lat": 21.0,

@@ -1,0 +1,76 @@
+version: 1
+reviewer: "phase4:repository-evidence-review"
+reviewed_at: "2026-10-08T00:00:00Z"
+decisions:
+  - group_id: then-local-inscriptions
+    classification: GRANULARITY_EXCEPTION
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-23964f5ef4d2, registry-29098ec74fed, registry-c3556d4d22fb, registry-cbe27038f75a, registry-006e43c89987, registry-151bcd496d7f, registry-78fb29c1bd88, registry-4be33e3c428f]
+    evidence: {page_id: 2222332, wikidata_id: Q16481207}
+    rationale: "The shared page describes the broad Then practice; the registry rows are separately scoped ethnic and provincial inscriptions. The page and QID remain enrichment evidence, not exact identity evidence."
+  - group_id: bai-choi-local-inscriptions
+    classification: GRANULARITY_EXCEPTION
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-185f7241c8fb, registry-6153b8266f12, registry-8792b692e3c9, registry-622a4e5990c4, registry-9a609934ebb2]
+    evidence: {page_id: 62900, wikidata_id: Q10742121}
+    rationale: "The shared page covers the broad Bài Chòi practice while the source rows retain separate national and provincial scopes."
+  - group_id: xoe-thai-local-inscriptions
+    classification: GRANULARITY_EXCEPTION
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-417a99343a7a, registry-6b9dfe136a55, registry-b9f015fa9be1, registry-b7cb354049f4]
+    evidence: {page_id: 19608258, wikidata_id: Q109438441}
+    rationale: "The broad Xòe Thái page is intentionally shared by four registry inscriptions, but does not establish exact identity across their scopes."
+  - group_id: mo-muong-local-inscriptions
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-13e7735ee6f7, registry-5b668ab5ddc0, registry-3d0ee5945d46, registry-c97f1ce3be0a, registry-cb253981b164]
+    evidence: {page_id: 19822650}
+    rationale: "Existing collector tests intentionally share one practice page across five provincial inscriptions; the page is not sufficient exact-identity evidence."
+  - group_id: khen-mong-local-inscriptions
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-0d2eff0b3bad, registry-457560d306b8, registry-6905d3a28443, registry-a8a1804bdd58]
+    evidence: {page_id: 18220534, wikidata_id: Q87648913}
+    rationale: "The common concept page and QID do not override the distinct provincial source scopes."
+  - group_id: nghinh-ong-local-festivals
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-01f067c85ba9, registry-d4056431591b, registry-7e0c7fffcb1f, registry-5aad81f84a8a]
+    evidence: {page_id: 87176, wikidata_id: Q10788621}
+    rationale: "The source rows describe separately located Nghinh Ông festivals; the shared overview page is enrichment evidence only."
+  - group_id: trong-quan-local-practices
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-4efd5222b068, registry-dd149c47b5fe]
+    evidence: {page_id: 138961, wikidata_id: Q17118720}
+    rationale: "Hưng Yên and Hải Dương source registrations remain distinct without stronger exact-identity evidence."
+  - group_id: chu-nom-dao-local-practices
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-00a0f7887fe0, registry-e85d7323b189]
+    evidence: {page_id: 14440663, wikidata_id: Q61133202}
+    rationale: "Bắc Kạn and Lào Cai registrations share a concept page but have distinct source scopes."
+  - group_id: kate-local-festivals
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-dfc07d4f4ef2, registry-ecd3af733215]
+    evidence: {page_id: 308056, wikidata_id: Q10788575}
+    rationale: "The Bình Thuận and Ninh Thuận festival registrations are not merged from a shared overview page alone."
+  - group_id: long-tong-local-festivals
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-07c670fd681c, registry-3b32c29bb958]
+    evidence: {page_id: 308420, wikidata_id: Q10788582}
+    rationale: "The Thái Nguyên and Lào Cai festival registrations retain separate source identities."
+  - group_id: mua-roi-nuoc-local-practices
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-213cb56ca491, registry-9212aafdc929]
+    evidence: {page_id: 58922, wikidata_id: Q747876}
+    rationale: "The Hải Dương and Thái Bình registrations share a general practice page but lack exact local-entity evidence."
+  - group_id: hat-sli-local-practices
+    classification: MANUAL_DISTINCT
+    decision: KEEP_DISTINCT
+    source_record_ids: [registry-a8b5be6289af, registry-d728cc4ff5cd]
+    evidence: {page_id: 277697, wikidata_id: Q10770860}
+    rationale: "The Lạng Sơn and Bắc Kạn registrations retain separate source identities."

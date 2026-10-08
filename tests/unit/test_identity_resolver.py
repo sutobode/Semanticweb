@@ -145,6 +145,7 @@ def test_run_writes_entities_and_collision_report_pass(tmp_path: Path, monkeypat
         encoding="utf-8",
     )
     monkeypatch.setattr(resolver_module, "PROCESSED_DIR", processed_dir)
+    monkeypatch.setattr(resolver_module, "IDENTITY_REVIEW_PATH", tmp_path / "no-identity-reviews.yaml")
 
     exit_code = run(run_mode="sample")
     assert exit_code == 0
@@ -169,6 +170,7 @@ def test_run_returns_nonzero_and_fail_status_on_collision(tmp_path: Path, monkey
         "\n".join(json.dumps(item, ensure_ascii=False) for item in lines) + "\n", encoding="utf-8"
     )
     monkeypatch.setattr(resolver_module, "PROCESSED_DIR", processed_dir)
+    monkeypatch.setattr(resolver_module, "IDENTITY_REVIEW_PATH", tmp_path / "no-identity-reviews.yaml")
 
     exit_code = run(run_mode="sample")
     assert exit_code == 1
@@ -275,6 +277,79 @@ def test_reconciliation_blocks_incompatible_strong_identity_components(
     assert {decision["decision"] for decision in decisions} == {"manual_review"}
 
 
+def test_location_identity_uses_existing_area_aliases_and_order_independent_sets() -> None:
+    records = [
+        _source_record("registry-a", wikidata_id="Q1", location="TP. Hà Nội, tỉnh Bắc Ninh"),
+        _source_record("registry-b", wikidata_id="Q1", location="Bắc Ninh; Thành phố Hà Nội"),
+    ]
+    entities, _, _, report = _reconcile(records)
+    assert len(entities) == 1
+    assert report["status"] == "PASS"
+
+
+def test_reviewed_shared_page_can_enrich_distinct_local_records_without_merging() -> None:
+    records = [
+        _source_record("registry-aaaaaaaaaaaa", location="Tỉnh Lào Cai"),
+        _source_record("registry-bbbbbbbbbbbb", location="Tỉnh Sơn La"),
+    ]
+    pages = [{
+        "page_id": 10, "wikidata_id": "Q1",
+        "registry_ids": ["registry-aaaaaaaaaaaa", "registry-bbbbbbbbbbbb"],
+    }]
+    reviews = {
+        "version": 1,
+        "reviewer": "fixture:test_identity_resolver",
+        "reviewed_at": "2026-10-08T00:00:00Z",
+        "decisions": [{
+            "group_id": "local-practices", "classification": "MANUAL_DISTINCT",
+            "decision": "KEEP_DISTINCT",
+            "source_record_ids": ["registry-aaaaaaaaaaaa", "registry-bbbbbbbbbbbb"],
+            "evidence": {"page_id": 10, "wikidata_id": "Q1"},
+            "rationale": "Reviewed local registrations share an enrichment page only.",
+        }],
+    }
+    entities, identity_map, decisions, report = _reconcile(
+        records, pages=pages, identity_reviews=reviews,
+    )
+    assert len(entities) == len(identity_map) == 2
+    assert report["status"] == "PASS"
+    assert report["applied_identity_reviews"] == ["local-practices"]
+    assert {decision["decision"] for decision in decisions} == {"selected_source"}
+    assert all(not entry["merged_from"] for entry in identity_map)
+    assert all(entity["_suppressed_external_ids"] == {"wikidata": ["Q1"]} for entity in entities)
+
+
+def test_reviewed_distinct_group_must_cover_every_record_sharing_the_evidence() -> None:
+    records = [
+        _source_record("registry-aaaaaaaaaaaa"),
+        _source_record("registry-bbbbbbbbbbbb"),
+        _source_record("registry-cccccccccccc"),
+    ]
+    pages = [{"page_id": 10, "registry_ids": [record["registry_id"] for record in records]}]
+    reviews = {
+        "version": 1, "reviewer": "fixture:test_identity_resolver",
+        "reviewed_at": "2026-10-08T00:00:00Z",
+        "decisions": [{
+            "group_id": "incomplete-group", "classification": "MANUAL_DISTINCT",
+            "decision": "KEEP_DISTINCT",
+            "source_record_ids": ["registry-aaaaaaaaaaaa", "registry-bbbbbbbbbbbb"],
+            "evidence": {"page_id": 10},
+            "rationale": "This intentionally incomplete review must fail closed.",
+        }],
+    }
+    with pytest.raises(ValueError, match="IDENTITY_REVIEW_SCOPE_MISMATCH"):
+        _reconcile(records, pages=pages, identity_reviews=reviews)
+
+
+def test_identity_review_requires_non_whitespace_audit_fields() -> None:
+    reviews = {
+        "version": 1, "reviewer": "   ", "reviewed_at": "2026-10-08T00:00:00Z",
+        "decisions": [],
+    }
+    with pytest.raises(ValueError, match="IDENTITY_REVIEW_INVALID"):
+        _reconcile([_source_record("registry-aaaaaaaaaaaa")], identity_reviews=reviews)
+
+
 def test_conflicting_identifiers_on_one_source_record_are_blocking() -> None:
     record = _source_record(
         "registry-a",
@@ -361,10 +436,15 @@ def test_run_enriches_before_reconciliation_and_writes_decision_manifest(tmp_pat
     }
     (config_dir / "registry_sources.yaml").write_text(json.dumps(registry_config), encoding="utf-8")
     (config_dir / "mapping.yaml").write_text("{}", encoding="utf-8")
+    (config_dir / "identity_reviews.yaml").write_text(json.dumps({
+        "version": 1, "reviewer": "fixture:test_identity_resolver",
+        "reviewed_at": "2026-10-08T00:00:00Z", "decisions": [],
+    }), encoding="utf-8")
     monkeypatch.setattr(resolver_module, "RAW_DIR", raw_dir)
     monkeypatch.setattr(resolver_module, "PROCESSED_DIR", processed_dir)
     monkeypatch.setattr(resolver_module, "REGISTRY_CONFIG_PATH", config_dir / "registry_sources.yaml")
     monkeypatch.setattr(resolver_module, "MAPPING_PATH", config_dir / "mapping.yaml")
+    monkeypatch.setattr(resolver_module, "IDENTITY_REVIEW_PATH", config_dir / "identity_reviews.yaml")
 
     assert run(run_mode="sample") == 0
     entities = [json.loads(line) for line in (processed_dir / "entities.jsonl").read_text(encoding="utf-8").splitlines()]

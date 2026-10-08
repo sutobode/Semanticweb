@@ -31,6 +31,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -75,7 +76,7 @@ _CANONICAL_FIELDS = {
     "end_year", "level", "country_code", "parent_area", "museum_type",
     "organization_type", "artisan_title", "community", "location",
     "current_holder", "custodian", "object_type", "associated_intangible_heritage",
-    "provenance",
+    "source_records", "identity_profile", "provenance",
 }
 
 _DEFAULT_ROLES = {
@@ -265,6 +266,55 @@ def _add_relation(record: dict[str, Any], name: str, target_id: str) -> None:
         targets.append(target_id)
 
 
+def _identity_profile(entity: dict[str, Any], spec: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    identity = (spec or {}).get("identity") or {}
+    existing = entity.get("identity_profile") or {}
+    profile = {
+        "granularity": existing.get("granularity") or entity.get("_identity_granularity") or identity.get("granularity"),
+        "scope": existing.get("scope") or entity.get("_identity_scope") or identity.get("scope"),
+        "locations": existing.get("locations") or entity.get("_identity_locations"),
+        "communities": existing.get("communities") or entity.get("_identity_communities"),
+    }
+    return {key: value for key, value in profile.items() if value not in (None, [], {})} or None
+
+
+def _merge_attached_entity_spec(record: dict[str, Any], spec: dict[str, Any]) -> None:
+    """Apply domain-reviewed fields to an already reconciled canonical entity."""
+    for name, value in (spec.get("external_ids") or {}).items():
+        record["external_ids"].setdefault(name, value)
+    for relation, targets in (spec.get("relations") or {}).items():
+        for target in targets:
+            _add_relation(record, relation, target)
+    profile = _identity_profile(record, spec)
+    if profile:
+        record["identity_profile"] = profile
+    source_url = spec.get("source_url")
+    anchor = (spec.get("identity") or {}).get("canonical_anchor")
+    if source_url and anchor:
+        namespace, separator, source_record_id = str(anchor).partition(":")
+        source_records = record.get("source_records") or []
+        if separator and all(item.get("source_url") != source_url for item in source_records):
+            source_records.append({
+                "source_namespace": namespace,
+                "source_record_id": source_record_id,
+                "source_url": source_url,
+                "label_vi": spec.get("label_vi"),
+                "retrieved_at": spec.get("retrieved_at") or record["retrieved_at"],
+                "provenance": {
+                    "source": source_url,
+                    "method": "derived",
+                    "license": spec.get("license", REGISTRY_LICENSE),
+                },
+            })
+            record["source_records"] = source_records
+    for field in (
+        "description_vi", "coordinates", "address", "organization_type", "museum_type",
+        "community", "location", "current_holder", "custodian", "object_type",
+    ):
+        if record.get(field) in (None, "", [], {}) and spec.get(field) not in (None, "", [], {}):
+            record[field] = spec[field]
+
+
 def _map_wikipedia_relations(record: dict[str, Any], page: dict[str, Any], mapping: dict[str, Any],
                              derived: DerivedRegistry | None) -> None:
     if derived is None or record["entity_type"] != "HeritageSite":
@@ -358,7 +408,7 @@ def map_record(
 ) -> dict[str, Any]:
     mapping = mapping if mapping is not None else load_mapping()
     category = entity.get("registry_category")
-    entity_type = category_types.get(category)
+    entity_type = entity.get("entity_type") or category_types.get(category)
     if not entity_type:
         raise ValueError(f"MAPPING_UNKNOWN_CATEGORY: {category}")
     entity_id = entity.get("_entity_id") or entity.get("entity_id")
@@ -380,7 +430,8 @@ def map_record(
         or (identity_page or {}).get("wikidata_id")
         or (exact_wikidata or {}).get(entity_id)
     )
-    if qid:
+    suppressed_qids = set((entity.get("_suppressed_external_ids") or {}).get("wikidata") or [])
+    if qid and qid not in suppressed_qids:
         external_ids["wikidata"] = qid
 
     source_status = "registry+wikipedia" if page else "registry_only"
@@ -411,6 +462,8 @@ def map_record(
         "coordinates": (identity_page or {}).get("coordinates") or entity.get("coordinates"),
         "external_ids": external_ids,
         "relations": {key: list(value) for key, value in (entity.get("relations") or {}).items()},
+        "source_records": deepcopy(entity.get("source_records")),
+        "identity_profile": _identity_profile(entity),
         "parent_area": entity.get("parent_area"),
         "site_types": [],
         "provenance": {
@@ -419,6 +472,8 @@ def map_record(
             "license": license_text,
         },
     }
+    if entity.get("recognition_year") is not None:
+        record["recognition_year"] = entity["recognition_year"]
 
     for column, targets in _roles_for(mapping, category).items():
         value = fields.get(column)
@@ -426,7 +481,8 @@ def map_record(
             continue
         for target in targets:
             if target == "recognition_year":
-                record["recognition_year"] = parse_recognition_year(value)
+                if record.get("recognition_year") is None:
+                    record["recognition_year"] = parse_recognition_year(value)
             elif target == "site_types":
                 if entity_type == "HeritageSite":
                     record["site_types"] = [value]
@@ -460,7 +516,7 @@ def map_record(
     for derived_id, spec in (mapping.get("derived_entities") or {}).items():
         attach = spec.get("attach") or {}
         selectors = {key: attach.get(key) for key in ("registry_category", "registry_id", "registry_ids") if attach.get(key)}
-        if entity_type != "HeritageSite" or not selectors:
+        if entity_type not in {"HeritageSite", "HeritageComplex"} or not selectors:
             continue
         if selectors.get("registry_category") not in (None, category):
             continue
@@ -471,8 +527,15 @@ def map_record(
             continue
         if attach.get("relation"):
             _add_relation(record, attach["relation"], derived_id)
+        if derived_id == entity_id:
+            _merge_attached_entity_spec(record, spec)
+            continue
         if derived is not None:
             extra = {k: v for k, v in spec.items() if k not in {"entity_type", "attach"}}
+            profile = _identity_profile({}, spec)
+            extra.pop("identity", None)
+            if profile:
+                extra["identity_profile"] = profile
             retrieved_at = extra.pop("retrieved_at", entity.get("retrieved_at"))
             license_text = extra.pop("license", REGISTRY_LICENSE)
             source = extra.get("source_url") or extra.get("registry_url") or (category_urls or {}).get(category) or registry_url
@@ -574,6 +637,20 @@ def _prune_dangling_relations(records: list[dict[str, Any]]) -> int:
 def apply_curated_relations(records: list[dict[str, Any]], mapping: dict[str, Any]) -> None:
     """Add source-reviewed relations between existing canonical entities."""
     by_id = {record["entity_id"]: record for record in records}
+    by_registry_id: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        registry_id = record.get("registry_id")
+        if registry_id:
+            by_registry_id.setdefault(registry_id, []).append(record)
+
+    def endpoint(identifier: str) -> dict[str, Any] | None:
+        if identifier in by_id:
+            return by_id[identifier]
+        matches = by_registry_id.get(identifier, [])
+        if len(matches) > 1:
+            raise ValueError(f"MAPPING_CURATED_RELATION_ENDPOINT_AMBIGUOUS: {identifier}")
+        return matches[0] if matches else None
+
     seen: set[tuple[str, str, str]] = set()
     relation_properties = mapping.get("relation_properties") or {}
     for spec in mapping.get("curated_relations") or []:
@@ -590,9 +667,13 @@ def apply_curated_relations(records: list[dict[str, Any]], mapping: dict[str, An
             raise ValueError(f"MAPPING_CURATED_RELATION_UNKNOWN: {relation}")
         if subject_id == target_id:
             raise ValueError(f"MAPPING_CURATED_RELATION_SELF_EDGE: {subject_id}")
-        subject, target = by_id.get(subject_id), by_id.get(target_id)
+        subject, target = endpoint(subject_id), endpoint(target_id)
         if subject is None or target is None:
             raise ValueError(f"MAPPING_CURATED_RELATION_ENDPOINT_MISSING: {subject_id} -> {target_id}")
+        resolved_subject_id = subject["entity_id"]
+        resolved_target_id = target["entity_id"]
+        if resolved_subject_id == resolved_target_id:
+            raise ValueError(f"MAPPING_CURATED_RELATION_SELF_EDGE: {subject_id}")
         if subject.get("entity_type") != "HeritageSite" or target.get("entity_type") != "HeritageSite":
             raise ValueError(f"MAPPING_CURATED_RELATION_ENDPOINT_TYPE: {subject_id} -> {target_id}")
         source_url = spec.get("source_url")
@@ -601,9 +682,9 @@ def apply_curated_relations(records: list[dict[str, Any]], mapping: dict[str, An
             raise ValueError(f"MAPPING_CURATED_RELATION_SOURCE_INVALID: {subject_id} -> {target_id}")
         if not spec.get("evidence_text") or not provenance.get("method") or not provenance.get("license"):
             raise ValueError(f"MAPPING_CURATED_RELATION_PROVENANCE_MISSING: {subject_id} -> {target_id}")
-        if target_id in (subject.get("relations") or {}).get(relation, []):
+        if resolved_target_id in (subject.get("relations") or {}).get(relation, []):
             raise ValueError(f"MAPPING_CURATED_RELATION_DUPLICATE: {key}")
-        _add_relation(subject, relation, target_id)
+        _add_relation(subject, relation, resolved_target_id)
         subject["relations"] = {
             name: sorted(targets) for name, targets in sorted(subject["relations"].items()) if targets
         }

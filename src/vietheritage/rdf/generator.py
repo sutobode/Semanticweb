@@ -21,7 +21,7 @@ from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 from rdflib import Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, PROV, RDF, RDFS, SKOS, XSD
 
-from vietheritage.validation.policy import ENTITY_ID
+from vietheritage.validation.policy import ENTITY_ID, is_fixture_site_id
 from vietheritage.validation.semantic import DEFAULT_BASE, Contract, base_uri
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -95,10 +95,10 @@ def add_entity_type_triples(g: Graph, entity_id: str, record: dict[str, Any], *,
         if entity_type != "IntangibleHeritage":
             raise ValueError(f"MAPPING_TYPE_MISMATCH: {category} requires IntangibleHeritage")
         g.add((subject, RDF.type, _term(subclass)))
+    if category == "world_heritage" and entity_type in {"HeritageSite", "HeritageComplex"}:
+        g.add((subject, _term("vh:recognizedBy"), entity_uri("organization-unesco")))
     if entity_type != "HeritageSite":
         return
-    if category == "world_heritage":
-        g.add((subject, _term("vh:recognizedBy"), entity_uri("organization-unesco")))
 
     for site_type in record.get("site_types", []) or []:
         normalized = site_type.strip().lower()
@@ -209,6 +209,13 @@ def add_provenance(g: Graph, entity_id: str, record: dict[str, Any], *, mapping=
     ):
         if candidate and candidate not in sources:
             sources.append(str(candidate))
+    for source_record in record.get("source_records") or []:
+        for candidate in (
+            source_record.get("source_url"),
+            (source_record.get("provenance") or {}).get("source"),
+        ):
+            if candidate and candidate not in sources:
+                sources.append(str(candidate))
     for source in sources:
         for predicate in mapping["provenance_properties"]["source_url"]["predicates"]:
             g.add((subject, _term(predicate), URIRef(source)))
@@ -330,6 +337,13 @@ def build_dataset_metadata(records: list[dict[str, Any]], asserted_count: int) -
     source_urls.update(str(record.get("registry_url")) for record in records if record.get("registry_url"))
     source_urls.update(str(record.get("source_url")) for record in records if record.get("source_url"))
     source_urls.update(record["provenance"]["source"] for record in records if record.get("provenance", {}).get("source"))
+    source_urls.update(
+        str(candidate)
+        for record in records
+        for source_record in record.get("source_records") or []
+        for candidate in (source_record.get("source_url"), (source_record.get("provenance") or {}).get("source"))
+        if candidate
+    )
     for source in sorted(source_urls):
         source_uri = URIRef(source)
         graph.add((dataset, DCTERMS.source, source_uri))
@@ -392,8 +406,8 @@ def run(run_mode: str = "sample") -> int:
                     continue
                 record = json.loads(line)
                 validator.validate(record)
-                if run_mode == "full" and record["entity_id"].startswith("site-"):
-                    raise ValueError("FIXTURE_ID_IN_PRODUCTION: site- IDs are fixture-only")
+                if run_mode == "full" and is_fixture_site_id(record["entity_id"]):
+                    raise ValueError("FIXTURE_ID_IN_PRODUCTION: noncanonical site- IDs are fixture-only")
                 records.append(record)
         g = build_graph(records)
         turtle_output = serialize_deterministic(g)

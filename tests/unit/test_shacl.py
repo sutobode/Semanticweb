@@ -39,6 +39,24 @@ def test_shacl_rejects_entity_without_provenance(tmp_path: Path) -> None:
     assert "source URI" in text or "provenance" in text
 
 
+def test_shacl_accepts_directly_recognized_heritage_complex() -> None:
+    vh = Namespace("http://localhost:3030/vietheritage/ontology/")
+    vhr = Namespace("http://localhost:3030/vietheritage/resource/")
+    graph = Graph()
+    graph.add((vhr["complex"], RDF.type, vh.HeritageComplex))
+    graph.add((vhr["complex"], RDFS.label, Literal("Quần thể", lang="vi")))
+    graph.add((vhr["complex"], vh.recognizedBy, vhr.unesco))
+    graph.add((vhr["complex"], vh.recognitionYear, Literal("2011", datatype=XSD.gYear)))
+    graph.add((vhr.unesco, RDF.type, vh.Organization))
+    graph.add((vhr.unesco, RDFS.label, Literal("UNESCO", lang="vi")))
+
+    ontology = Graph().parse(Path(__file__).resolve().parents[2] / "ontology/vietheritage.ttl")
+    conforms, text, _results = validate_graph(
+        graph, ontology=ontology, entities={vhr["complex"], vhr.unesco}, source_entities=set()
+    )
+    assert conforms is True, text
+
+
 
 def _write_dataset(path: Path, with_license: bool) -> None:
     dcat = Namespace("http://www.w3.org/ns/dcat#")

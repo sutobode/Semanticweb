@@ -42,6 +42,18 @@
         }
       }
     },
+    "identity_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Reconciled intrinsic identity dimensions used to guard external identity publication.",
+      "properties": {
+        "granularity": {"enum": ["entity", "whole", "component"]},
+        "scope": {"enum": ["entity", "broad", "localized"]},
+        "locations": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "communities": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      },
+      "minProperties": 1
+    },
     "source_status": {"enum": ["registry_only", "registry+wikipedia", "registry+enriched", "derived"]},
     "coverage_snapshot": {"type": ["string", "null"], "minLength": 1},
     "source_page_id": {"type": ["integer", "null"], "minimum": 1},

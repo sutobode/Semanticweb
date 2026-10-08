@@ -15,7 +15,9 @@ from typing import Any
 from urllib.parse import urlsplit
 
 import yaml
+from jsonschema import Draft202012Validator, FormatChecker
 
+from vietheritage.normalization.areas import default_resolver
 from vietheritage.normalization.normalizer import canonical_identity_key, parse_recognition_year
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -23,6 +25,8 @@ RAW_DIR = REPO_ROOT / "data" / "raw"
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
 REGISTRY_CONFIG_PATH = REPO_ROOT / "config" / "registry_sources.yaml"
 MAPPING_PATH = REPO_ROOT / "config" / "mapping.yaml"
+IDENTITY_REVIEW_PATH = REPO_ROOT / "config" / "identity_reviews.yaml"
+IDENTITY_REVIEW_SCHEMA_PATH = REPO_ROOT / "schema" / "identity-review.schema.json"
 DECISIONS_FILENAME = "identity_decisions.jsonl"
 
 _TYPE_PREFIXES = {
@@ -239,6 +243,21 @@ def _normalized_scope_values(value: Any) -> list[str]:
     return sorted({canonical_identity_key(str(item)) for item in values if item not in (None, "")})
 
 
+def _normalized_location_values(value: Any) -> list[str]:
+    """Use the configured source-area identities before falling back to normalized text."""
+    values = value if isinstance(value, list) else [value]
+    normalized: set[str] = set()
+    area_resolver = default_resolver()
+    for item in values:
+        if item in (None, ""):
+            continue
+        areas = area_resolver.resolve(str(item)).areas
+        normalized.update(area.entity_id for area in areas)
+        if not areas:
+            normalized.add(canonical_identity_key(str(item)))
+    return sorted(normalized)
+
+
 def _page_index(pages: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     by_source: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for page in pages:
@@ -281,6 +300,34 @@ def _identity_overrides(mapping: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return result
 
 
+def _reviewed_distinct_evidence(config: dict[str, Any]) -> dict[str, list[tuple[str, str, Any]]]:
+    """Index reviewed shared-page evidence that must not be used as exact identity."""
+    if not config:
+        return {}
+    schema = json.loads(IDENTITY_REVIEW_SCHEMA_PATH.read_text(encoding="utf-8"))
+    errors = sorted(
+        Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(config),
+        key=lambda error: list(error.path),
+    )
+    if errors:
+        error = errors[0]
+        path = "/".join(map(str, error.path)) or "$"
+        raise ValueError(f"IDENTITY_REVIEW_INVALID:{path}:{error.message}")
+    group_ids = [str(item["group_id"]) for item in config["decisions"]]
+    if len(group_ids) != len(set(group_ids)):
+        raise ValueError("IDENTITY_REVIEW_INVALID:duplicate group_id")
+    result: dict[str, list[tuple[str, str, Any]]] = defaultdict(list)
+    for item in config.get("decisions") or []:
+        group_id = str(item["group_id"])
+        evidence = item.get("evidence") or {}
+        for source_id in item["source_record_ids"]:
+            if evidence.get("page_id") is not None:
+                result[str(source_id)].append((group_id, "page_ids", int(evidence["page_id"])))
+            if evidence.get("wikidata_id"):
+                result[str(source_id)].append((group_id, "wikidata_ids", str(evidence["wikidata_id"]).upper()))
+    return result
+
+
 def _add_evidence(record: dict[str, Any], field: str, value: Any) -> None:
     if value in (None, ""):
         return
@@ -297,12 +344,22 @@ def enrich_identity_evidence(
     exact_wikidata: list[dict[str, Any]] | None = None,
     category_types: dict[str, str] | None = None,
     mapping: dict[str, Any] | None = None,
+    identity_reviews: dict[str, Any] | None = None,
+    normalize_locations: bool = True,
     default_source_namespace: str = "dsvh",
 ) -> list[dict[str, Any]]:
     """Attach strong identity evidence before the single reconciliation pass."""
     page_index = _page_index(pages or [])
     qid_index = _exact_qid_index(exact_wikidata or [])
     overrides = _identity_overrides(mapping or {})
+    reviewed_distinct = _reviewed_distinct_evidence(identity_reviews or {})
+    expected_review_evidence = {
+        (source_id, group_id, field, value)
+        for source_id, suppressions in reviewed_distinct.items()
+        for group_id, field, value in suppressions
+    }
+    matched_review_evidence: set[tuple[str, str, str, Any]] = set()
+    observed_review_evidence: dict[tuple[str, Any], set[str]] = defaultdict(set)
     prepared: list[dict[str, Any]] = []
 
     for original in records:
@@ -357,15 +414,50 @@ def enrich_identity_evidence(
                 for name, value in override.get("external_ids", {}).items():
                     _add_evidence(record, "domain_ids", f"{str(name).casefold()}:{value}")
 
+        for group_id, field, suppressed in reviewed_distinct.get(str(source_record_id), []):
+            values = record["_identity_evidence"].get(field, [])
+            if suppressed in values:
+                record["_identity_evidence"][field] = [value for value in values if value != suppressed]
+                matched_review_evidence.add((str(source_record_id), group_id, field, suppressed))
+                if field == "wikidata_ids":
+                    suppressed_ids = record.setdefault("_suppressed_external_ids", {}).setdefault("wikidata", [])
+                    if suppressed not in suppressed_ids:
+                        suppressed_ids.append(suppressed)
+        for field in ("page_ids", "wikidata_ids"):
+            for value in record["_identity_evidence"].get(field, []):
+                observed_review_evidence[(field, value)].add(str(source_record_id))
+        for group_id, field, suppressed in reviewed_distinct.get(str(source_record_id), []):
+            if (str(source_record_id), group_id, field, suppressed) in matched_review_evidence:
+                observed_review_evidence[(field, suppressed)].add(str(source_record_id))
+
         fields = record.get("registry_fields") or {}
         location = record.get("_identity_locations") or record.get("location") or fields.get("location")
         community = record.get("_identity_communities") or record.get("community")
-        record["_identity_locations"] = _normalized_scope_values(location)
+        record["_identity_locations"] = (
+            _normalized_location_values(location) if normalize_locations else _normalized_scope_values(location)
+        )
         record["_identity_communities"] = _normalized_scope_values(community)
         for values in record["_identity_evidence"].values():
             values.sort(key=str)
         prepared.append(record)
 
+    missing_review_evidence = sorted(expected_review_evidence - matched_review_evidence, key=str)
+    if missing_review_evidence:
+        source_id, group_id, field, value = missing_review_evidence[0]
+        raise ValueError(
+            f"IDENTITY_REVIEW_EVIDENCE_MISSING:{group_id}:{source_id}:{field}:{value}"
+        )
+    for item in (identity_reviews or {}).get("decisions") or []:
+        expected_sources = set(map(str, item["source_record_ids"]))
+        for name, value in (item.get("evidence") or {}).items():
+            field = "page_ids" if name == "page_id" else "wikidata_ids"
+            normalized = int(value) if field == "page_ids" else str(value).upper()
+            actual_sources = observed_review_evidence.get((field, normalized), set())
+            if actual_sources != expected_sources:
+                raise ValueError(
+                    f"IDENTITY_REVIEW_SCOPE_MISMATCH:{item['group_id']}:{field}:{normalized}:"
+                    f"expected={','.join(sorted(expected_sources))}:actual={','.join(sorted(actual_sources))}"
+                )
     _add_supplement_evidence(prepared, (mapping or {}).get("registry_supplements"))
     return prepared
 
@@ -614,13 +706,17 @@ def reconcile_records(
     exact_wikidata: list[dict[str, Any]] | None = None,
     category_types: dict[str, str] | None = None,
     mapping: dict[str, Any] | None = None,
+    identity_reviews: dict[str, Any] | None = None,
+    normalize_locations: bool = True,
     category_priority: dict[str, int] | None = None,
     default_source_namespace: str = "dsvh",
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     """Enrich and reconcile records using strong-identifier indexes and union-find."""
     prepared = enrich_identity_evidence(
         records, pages=pages, exact_wikidata=exact_wikidata, category_types=category_types,
-        mapping=mapping, default_source_namespace=default_source_namespace,
+        mapping=mapping, identity_reviews=identity_reviews,
+        normalize_locations=normalize_locations,
+        default_source_namespace=default_source_namespace,
     )
     category_priority = category_priority or {
         category: index for index, category in enumerate(sorted({
@@ -774,18 +870,22 @@ def reconcile_records(
         "quarantined": len(quarantine),
         "blockers": blockers,
         "reviews": manual_reviews,
+        "applied_identity_reviews": sorted(
+            str(item["group_id"]) for item in (identity_reviews or {}).get("decisions") or []
+        ),
     }
     return entities, identity_map, decisions, report
 
 
-def _load_configuration() -> tuple[dict[str, str], dict[str, int], str, dict[str, Any]]:
+def _load_configuration() -> tuple[dict[str, str], dict[str, int], str, dict[str, Any], dict[str, Any]]:
     registry_config = yaml.safe_load(REGISTRY_CONFIG_PATH.read_text(encoding="utf-8")) if REGISTRY_CONFIG_PATH.exists() else {}
     categories = (registry_config or {}).get("categories") or []
     category_types = {item["key"]: item["entity_type"] for item in categories}
     category_priority = {item["key"]: index for index, item in enumerate(categories)}
     namespace = str((registry_config or {}).get("source_namespace") or "dsvh")
     mapping = yaml.safe_load(MAPPING_PATH.read_text(encoding="utf-8")) if MAPPING_PATH.exists() else {}
-    return category_types, category_priority, namespace, mapping or {}
+    identity_reviews = yaml.safe_load(IDENTITY_REVIEW_PATH.read_text(encoding="utf-8")) if IDENTITY_REVIEW_PATH.exists() else {}
+    return category_types, category_priority, namespace, mapping or {}, identity_reviews or {}
 
 
 def run(run_mode: str = "sample") -> int:
@@ -795,7 +895,7 @@ def run(run_mode: str = "sample") -> int:
         print(f"resolve: {normalized_path} not found; run normalize first")
         return 1
 
-    category_types, category_priority, namespace, mapping = _load_configuration()
+    category_types, category_priority, namespace, mapping, identity_reviews = _load_configuration()
     exact_wikidata = [
         *_read_jsonl(RAW_DIR / "wikidata_exact_enrichment.jsonl"),
         *_read_jsonl(RAW_DIR / "wikidata_sparql_exact_enrichment.jsonl"),
@@ -806,6 +906,7 @@ def run(run_mode: str = "sample") -> int:
         exact_wikidata=exact_wikidata,
         category_types=category_types,
         mapping=mapping,
+        identity_reviews=identity_reviews,
         category_priority=category_priority,
         default_source_namespace=namespace,
     )

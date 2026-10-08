@@ -68,8 +68,13 @@ def publication():
         "provenance": {"source": str(SOURCE), "method": "registry", "license": "CC BY-SA 4.0"},
         "external_ids": {"wikidata": "Q42"},
     }
-    reviews = [{"source_uri": str(ENTITY), "target_uri": str(DBPEDIA),
-                "target_dataset": "dbpedia", "status": "verified", "type_compatible": "True"}]
+    reviews = [{
+        "source_uri": str(ENTITY), "target_uri": str(DBPEDIA),
+        "target_dataset": "dbpedia", "status": "verified", "type_compatible": "True",
+        "same_entity": "True", "granularity_compatible": "True", "scope_compatible": "True",
+        "location_compatible": "True", "reviewer": "fixture:test_validation",
+        "reviewed_at": "2026-09-23T00:00:00Z", "reason": "Reviewed fixture identity",
+    }]
     links = Graph().add((ENTITY, OWL.sameAs, QID)).add((ENTITY, OWL.sameAs, DBPEDIA))
     inferred = Graph().add((QID, OWL.sameAs, DBPEDIA))
     return {"ontology": ontology, "asserted": asserted, "external-links": links,
@@ -166,6 +171,12 @@ def test_invalid_uri_and_production_fixture_id(publication, identifier, mode, co
     assert code in codes(check(publication, run_mode=mode))
 
 
+@pytest.mark.parametrize("identifier", ["site-0123456789ab", "site-0123456789ab-abcdef"])
+def test_production_site_identity_is_allowed(publication, identifier):
+    publication[0]["asserted"].add((VHR[identifier], RDF.type, VH.HeritageSite))
+    assert "FIXTURE_ID_IN_PRODUCTION" not in codes(check(publication, run_mode="full"))
+
+
 def test_uri_policy_uses_environment_base(publication, monkeypatch):
     base = "https://heritage.example/vietheritage"
     monkeypatch.setenv("VH_BASE_URI", base)
@@ -194,6 +205,34 @@ def test_same_as_requires_approved_local_identity(publication, invalid):
     else:
         graphs["inferred"].add((ENTITY, OWL.sameAs, URIRef("https://www.wikidata.org/entity/Q99")))
     assert "INVALID_SAME_AS" in codes(check(publication))
+
+
+@pytest.mark.parametrize(("field", "value"), [
+    ("reviewer", " automated:linker"),
+    ("reviewer", "   "),
+    ("reason", "   "),
+])
+def test_dbpedia_review_requires_trimmed_human_evidence(publication, field, value):
+    publication[2][0][field] = value
+    assert "INVALID_SAME_AS" in codes(check(publication))
+
+
+def test_publication_rejects_same_as_component_with_incompatible_communities(publication):
+    graphs, records, _reviews = publication
+    other = VHR["registry-other"]
+    graphs["asserted"].add((other, RDF.type, VH.HistoricalSite))
+    graphs["external-links"].add((other, OWL.sameAs, QID))
+    records[0]["identity_profile"] = {
+        "granularity": "entity", "scope": "entity", "communities": ["Kinh"],
+    }
+    records.append({
+        **records[0], "entity_id": "registry-other", "registry_id": "other",
+        "identity_profile": {"granularity": "entity", "scope": "entity", "communities": ["Chăm"]},
+    })
+
+    result = check(publication)
+    assert "INVALID_SAME_AS" in codes(result)
+    assert any("INCOMPATIBLE_COMMUNITY" in error["message"] for error in result["errors"])
 
 
 @pytest.fixture

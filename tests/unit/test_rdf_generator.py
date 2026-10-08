@@ -108,6 +108,43 @@ def test_heritage_complex_emits_asserted_has_member_only() -> None:
     assert (VHR["site-x"], VH.partOf, VHR["complex-x"]) not in g
 
 
+def test_reconciled_complex_emits_one_subject_selected_year_and_all_source_provenance() -> None:
+    record = {
+        "entity_id": "complex-thanh-nha-ho", "entity_type": "HeritageComplex",
+        "label_vi": "Di sản Văn hóa Thế giới Thành Nhà Hồ", "source_status": "registry_only",
+        "registry_id": "registry-world", "registry_category": "world_heritage",
+        "registry_url": "https://dsvh.gov.vn/thanh-nha-ho", "coverage_snapshot": "snapshot",
+        "source_url": "https://whc.unesco.org/en/list/1358/", "retrieved_at": "2026-10-05T00:00:00Z",
+        "recognition_year": 2011, "relations": {"recognized_by": ["organization-unesco"]},
+        "source_records": [
+            {
+                "source_namespace": "dsvh", "source_record_id": "registry-world",
+                "source_url": "https://dsvh.gov.vn/thanh-nha-ho", "recognition_year": 2011,
+                "retrieved_at": "2026-10-05T00:00:00Z",
+                "provenance": {"source": "https://dsvh.gov.vn/thanh-nha-ho",
+                               "method": "registry", "license": "Official source"},
+            },
+            {
+                "source_namespace": "dsvh", "source_record_id": "registry-national",
+                "source_url": "https://dsvh.gov.vn/national-special", "recognition_year": 2012,
+                "retrieved_at": "2026-10-05T00:00:00Z",
+                "provenance": {"source": "https://dsvh.gov.vn/national-special",
+                               "method": "registry", "license": "Official source"},
+            },
+        ],
+        "provenance": {"source": "https://dsvh.gov.vn/thanh-nha-ho",
+                       "method": "registry", "license": "Official source"},
+    }
+    graph = build_graph([record])
+    subject = VHR[record["entity_id"]]
+
+    assert set(graph.subjects(RDF.type, VH.HeritageComplex)) == {subject}
+    assert set(graph.objects(subject, VH.recognitionYear)) == {Literal("2011", datatype=XSD.gYear)}
+    assert (subject, VH.recognizedBy, VHR["organization-unesco"]) in graph
+    assert URIRef("https://dsvh.gov.vn/national-special") in set(graph.objects(subject, DCTERMS.source))
+    assert set(graph.objects(subject, DCTERMS.source)) == set(graph.objects(subject, PROV.wasDerivedFrom))
+
+
 def test_heritage_site_emits_multiple_architectural_styles() -> None:
     source = "https://dsvh.gov.vn/thap-nhan-3238"
     records = [

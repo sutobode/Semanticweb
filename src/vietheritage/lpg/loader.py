@@ -148,6 +148,25 @@ def _property_map(record: dict[str, Any]) -> dict[str, Any]:
         "sourceUrl": source_url,
         "retrievedAt": retrieved_at,
     }
+    if record.get("registry_id"):
+        properties["registryId"] = str(record["registry_id"])
+    if record.get("registry_category"):
+        properties["registryCategory"] = str(record["registry_category"])
+    source_records = record.get("source_records") or []
+    if source_records:
+        properties["sourceRecordCount"] = len(source_records)
+        properties["sourceRecordIds"] = sorted({str(item["source_record_id"]) for item in source_records})
+        properties["sourceNamespaces"] = sorted({str(item["source_namespace"]) for item in source_records})
+        properties["sourceUrls"] = sorted({str(item["source_url"]) for item in source_records})
+    identity = record.get("identity_profile") or {}
+    if identity.get("granularity"):
+        properties["identityGranularity"] = str(identity["granularity"])
+    if identity.get("scope"):
+        properties["identityScope"] = str(identity["scope"])
+    if identity.get("locations"):
+        properties["identityLocations"] = sorted(map(str, identity["locations"]))
+    if identity.get("communities"):
+        properties["identityCommunities"] = sorted(map(str, identity["communities"]))
     for source, target in _OPTIONAL_PROPERTIES.items():
         value = record.get(source)
         if value is not None:

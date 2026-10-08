@@ -13,9 +13,60 @@
     "score": {"type": "number", "minimum": 0, "maximum": 1},
     "distance_km": {"type": ["number", "null"], "minimum": 0},
     "type_compatible": {"type": "boolean"},
+    "same_entity": {"type": "boolean"},
+    "granularity_compatible": {"type": "boolean"},
+    "scope_compatible": {"type": "boolean"},
+    "location_compatible": {"type": "boolean"},
+    "multiple_local_approved": {"type": "boolean"},
+    "component_fingerprint": {"type": ["string", "null"], "pattern": "^[a-f0-9]{16}$"},
     "status": {"enum": ["verified", "rejected", "manual_review"]},
     "reviewer": {"type": ["string", "null"]},
     "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
     "reason": {"type": ["string", "null"]}
-  }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "verified"}}, "required": ["status"]},
+      "then": {
+        "required": ["type_compatible", "same_entity", "granularity_compatible", "scope_compatible", "location_compatible", "reviewer", "reviewed_at", "reason"],
+        "properties": {
+          "type_compatible": {"const": true},
+          "same_entity": {"const": true},
+          "granularity_compatible": {"const": true},
+          "scope_compatible": {"const": true},
+          "location_compatible": {"const": true},
+          "reviewer": {"type": "string", "pattern": ".*\\S.*"},
+          "reviewed_at": {"type": "string", "format": "date-time"},
+          "reason": {"type": "string", "pattern": ".*\\S.*"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"multiple_local_approved": {"const": true}}, "required": ["multiple_local_approved"]},
+      "then": {
+        "required": ["component_fingerprint", "type_compatible", "same_entity", "granularity_compatible", "scope_compatible", "location_compatible", "reviewer"],
+        "properties": {
+          "component_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
+          "status": {"const": "verified"},
+          "type_compatible": {"const": true},
+          "same_entity": {"const": true},
+          "granularity_compatible": {"const": true},
+          "scope_compatible": {"const": true},
+          "location_compatible": {"const": true},
+          "reviewer": {"type": "string", "pattern": "^(?!\\s)(?![aA][uU][tT][oO][mM][aA][tT][eE][dD]:).*\\S.*$"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "verified"}, "target_dataset": {"const": "dbpedia"}},
+        "required": ["status", "target_dataset"]
+      },
+      "then": {
+        "properties": {
+          "reviewer": {"type": "string", "pattern": "^(?!\\s)(?![aA][uU][tT][oO][mM][aA][tT][eE][dD]:).*\\S.*$"}
+        }
+      }
+    }
+  ]
 }

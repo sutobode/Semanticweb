@@ -534,6 +534,29 @@ def test_curated_related_site_preserves_source_and_asserted_direction():
     assert spec["provenance"]["method"] == "derived"
 
 
+def test_curated_related_site_resolves_registry_ids_after_identity_rekey():
+    mapping = load_mapping()
+    spec = mapping["curated_relations"][0]
+    records = [
+        {
+            "entity_id": "site-subject",
+            "registry_id": spec["subject_id"],
+            "entity_type": "HeritageSite",
+            "relations": {},
+        },
+        {
+            "entity_id": "site-target",
+            "registry_id": spec["target_id"],
+            "entity_type": "HeritageSite",
+            "relations": {},
+        },
+    ]
+
+    apply_curated_relations(records, {**mapping, "curated_relations": [spec]})
+
+    assert records[0]["relations"]["related_sites"] == ["site-target"]
+
+
 def test_mapper_joins_page_by_registry_id_and_uses_only_verified_relations():
     page = {
         "page_id": 7, "title": "Văn Miếu – Quốc Tử Giám", "source_url": "https://vi.wikipedia.org/wiki/V",

@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from hashlib import sha256
 from itertools import combinations
 
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
@@ -67,6 +68,120 @@ def same_as_components(pairs) -> dict:
         for member in connected:
             components[member] = connected
     return components
+
+
+def _profile_values(record: dict, field: str) -> set[str]:
+    profile = record.get("identity_profile") or {}
+    values = profile.get(field) or []
+    if isinstance(values, str):
+        values = [values]
+    return {str(value).strip().casefold() for value in values if str(value).strip()}
+
+
+def identity_component_fingerprint(component, records: dict[str, dict]) -> str:
+    """Fingerprint active local members and the compatibility evidence being approved."""
+    payload = []
+    for uri in sorted((str(node) for node in component if str(node) in records)):
+        record = records[uri]
+        profile = record.get("identity_profile") or {}
+        payload.append({
+            "uri": uri,
+            "entity_type": record.get("entity_type"),
+            "granularity": profile.get("granularity"),
+            "scope": profile.get("scope"),
+            "locations": sorted(_profile_values(record, "locations") | {
+                str(value).casefold() for value in (record.get("relations") or {}).get("located_in", [])
+            }),
+            "communities": sorted(_profile_values(record, "communities")),
+        })
+    return sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+
+
+def identity_component_issues(component, records: dict[str, dict], contract: "Contract") -> list[str]:
+    """Return non-overridable identity conflicts for one sameAs component."""
+    local = [(str(node), records[str(node)]) for node in component if str(node) in records]
+    reasons: set[str] = set()
+    types = {record.get("entity_type") for _, record in local if record.get("entity_type")}
+    if len(types) > 1:
+        reasons.add("INCOMPATIBLE_TYPE")
+
+    granularities = {
+        (record.get("identity_profile") or {}).get("granularity") for _, record in local
+    } - {None, "entity"}
+    if {"whole", "component"} <= granularities:
+        reasons.add("WHOLE_COMPONENT_CONFLICT")
+    scopes = {(record.get("identity_profile") or {}).get("scope") for _, record in local} - {None, "entity"}
+    if {"broad", "localized"} <= scopes:
+        reasons.add("BROAD_LOCALIZED_CONFLICT")
+
+    location_sets = []
+    for _, record in local:
+        values = _profile_values(record, "locations") | {
+            str(value).casefold() for value in (record.get("relations") or {}).get("located_in", [])
+        }
+        if values:
+            location_sets.append(values)
+    if len(location_sets) > 1 and not set.intersection(*location_sets):
+        reasons.add("INCOMPATIBLE_LOCATION")
+    community_sets = [_profile_values(record, "communities") for _, record in local]
+    community_sets = [values for values in community_sets if values]
+    if len(community_sets) > 1 and not set.intersection(*community_sets):
+        reasons.add("INCOMPATIBLE_COMMUNITY")
+
+    local_ids = {record.get("entity_id") for _, record in local}
+    for _, record in local:
+        relations = record.get("relations") or {}
+        if local_ids.intersection(relations.get("member_sites") or []) or local_ids.intersection(relations.get("part_of") or []):
+            reasons.add("WHOLE_COMPONENT_RELATION")
+
+    witnesses = {}
+    for node in component:
+        for cls in contract.types(node):
+            witnesses.setdefault(cls, node)
+    for left, right, axiom in contract.disjoint_pairs():
+        if left in witnesses and right in witnesses:
+            reasons.add(
+                f"IDENTITY_TYPE_CONFLICT:{axiom}:"
+                f"{witnesses[left]}({left})<>{witnesses[right]}({right})"
+            )
+    return sorted(reasons)
+
+
+def reviewed_multiple_local_approvals(component, records: dict[str, dict], reviews: list[dict]) -> dict[str, dict]:
+    """Return current human approvals keyed by each covered active local URI."""
+    local_uris = sorted(str(node) for node in component if str(node) in records)
+    if len(local_uris) < 2:
+        return {}
+    fingerprint = identity_component_fingerprint(component, records)
+    component_uris = {str(node) for node in component}
+    approvals = {}
+    for source_uri in local_uris:
+        for row in reviews:
+            reviewer = str(row.get("reviewer") or "").strip()
+            if (
+                row.get("source_uri") == source_uri
+                and row.get("target_uri") in component_uris
+                and row.get("status") == "verified"
+                and str(row.get("multiple_local_approved", "")).lower() == "true"
+                and all(str(row.get(field, "")).lower() == "true" for field in (
+                    "type_compatible", "same_entity", "granularity_compatible",
+                    "scope_compatible", "location_compatible",
+                ))
+                and row.get("component_fingerprint") == fingerprint
+                and reviewer
+                and not reviewer.casefold().startswith("automated:")
+                and str(row.get("reviewed_at") or "").strip()
+                and str(row.get("reason") or "").strip()
+            ):
+                approvals[source_uri] = row
+                break
+    return approvals
+
+
+def reviewed_multiple_local_exception(component, records: dict[str, dict], reviews: list[dict]) -> bool:
+    """Require current human approval for every active local edge in the component."""
+    local_count = sum(str(node) in records for node in component)
+    return local_count < 2 or len(reviewed_multiple_local_approvals(component, records, reviews)) == local_count
 
 
 class Contract:

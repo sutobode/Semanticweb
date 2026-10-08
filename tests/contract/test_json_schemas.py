@@ -6,8 +6,10 @@ from pathlib import Path
 
 import jsonschema
 import pytest
+import yaml
 
-SCHEMA_DIR = Path(__file__).resolve().parents[2] / "schema"
+ROOT = Path(__file__).resolve().parents[2]
+SCHEMA_DIR = ROOT / "schema"
 
 SCHEMA_FILES = [
     "raw-page.schema.json",
@@ -15,6 +17,8 @@ SCHEMA_FILES = [
     "run-report.schema.json",
     "coverage.schema.json",
     "link-review.schema.json",
+    "link-review-v1.schema.json",
+    "identity-review.schema.json",
 ]
 
 
@@ -181,9 +185,69 @@ def test_link_review_schema_status_enum() -> None:
         "target_dataset": "wikidata",
         "method": "wikidata-qid",
         "score": 1.0,
+        "type_compatible": True,
+        "same_entity": True,
+        "granularity_compatible": True,
+        "scope_compatible": True,
+        "location_compatible": True,
         "status": "verified",
+        "reviewer": "fixture:test_json_schemas",
+        "reviewed_at": "2026-10-08T00:00:00Z",
+        "reason": "Reviewed fixture identity",
     }
     jsonschema.validate(row, schema)
+
+    del row["scope_compatible"]
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(row, schema)
+
+    dbpedia = {
+        **row, "scope_compatible": True, "target_dataset": "dbpedia",
+        "target_uri": "http://dbpedia.org/resource/Test", "reviewer": "automated:linker",
+    }
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(dbpedia, schema)
+
+    multiple_local = {
+        **dbpedia, "target_dataset": "wikidata", "reviewer": "fixture:reviewer",
+        "status": "manual_review", "multiple_local_approved": True,
+        "component_fingerprint": "0123456789abcdef",
+    }
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(multiple_local, schema)
+
+
+def test_internal_identity_review_config_schema() -> None:
+    schema = _load("identity-review.schema.json")
+    config = yaml.safe_load((ROOT / "config/identity_reviews.yaml").read_text(encoding="utf-8"))
+    jsonschema.validate(config, schema, format_checker=jsonschema.FormatChecker())
+    assert len(config["decisions"]) == 12
+
+
+def test_legacy_generated_link_reviews_remain_explicitly_versioned() -> None:
+    path = ROOT / "data/linking/link-review.jsonl"
+    if not path.exists():
+        pytest.skip("legacy full link-review snapshot is not present")
+    schema = _load("link-review-v1.schema.json")
+    validator = jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker())
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(rows) == 282
+    assert not [error for row in rows for error in validator.iter_errors(row)]
+
+
+def test_current_link_review_schema_rejects_whitespace_human_approval() -> None:
+    schema = _load("link-review.schema.json")
+    row = {
+        "source_uri": "http://localhost:3030/vietheritage/resource/registry-x",
+        "target_uri": "http://dbpedia.org/resource/Test",
+        "target_dataset": "dbpedia", "method": "silk", "score": 1.0,
+        "type_compatible": True, "same_entity": True, "granularity_compatible": True,
+        "scope_compatible": True, "location_compatible": True, "status": "verified",
+        "reviewer": " automated:linker", "reviewed_at": "2026-10-08T00:00:00Z",
+        "reason": " ",
+    }
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(row, schema, format_checker=jsonschema.FormatChecker())
 
 
 def test_run_report_schema_run_id_pattern() -> None:

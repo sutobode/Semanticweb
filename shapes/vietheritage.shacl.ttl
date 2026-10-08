@@ -37,6 +37,7 @@
         sh:path dcterms:source ;
         sh:minCount 1 ;
         sh:nodeKind sh:IRI ;
+        sh:equals prov:wasDerivedFrom ;
         sh:severity sh:Violation ;
         sh:message "A public entity must retain a source URI."@en
     ] ;
@@ -55,6 +56,25 @@
         sh:path prov:wasGeneratedBy ; sh:minCount 1 ; sh:nodeKind sh:IRI ;
         sh:class prov:Activity ;
         sh:message "A source-derived entity must identify its generation activity."@en
+    ] .
+
+<http://localhost:3030/vietheritage/shapes/RecognitionShape>
+    a sh:NodeShape ;
+    sh:targetSubjectsOf vh:recognizedBy, vh:recognitionYear ;
+    sh:class vh:CulturalHeritageEntity ;
+    sh:property [
+        sh:path vh:recognizedBy ;
+        sh:nodeKind sh:IRI ;
+        sh:class vh:Organization ;
+        sh:severity sh:Violation ;
+        sh:message "Recognition targets must be organizations."@en
+    ] ;
+    sh:property [
+        sh:path vh:recognitionYear ;
+        sh:datatype xsd:gYear ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A heritage entity has at most one selected recognition year."@en
     ] .
 
 <http://localhost:3030/vietheritage/shapes/LatitudeShape>

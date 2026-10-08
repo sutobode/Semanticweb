@@ -117,6 +117,7 @@ derived_entities:
     description_vi: "Tài sản nối tiếp UNESCO số 1358 gồm ba thành phần: Thành nội, La Thành và Đàn Nam Giao."
     registry_url: "https://dsvh.gov.vn/di-tich-thanh-nha-ho-481"
     source_url: "https://whc.unesco.org/en/list/1358/"
+    license: "UNESCO World Heritage Centre"
     retrieved_at: "2026-10-05T09:48:43Z"
     external_ids: {unesco: "1358"}
     address: "Tỉnh Thanh Hóa"
