@@ -71,6 +71,12 @@ button:hover, .button:hover { background: var(--action-dark); border-color: var(
 a.badge { text-decoration: underline; }
 .result-taxonomy { margin: .35rem 0; }
 .taxonomy-label { color: var(--muted); font-size: .9rem; font-weight: 700; }
+.match-reasons { border-top: 1px solid #e1e8f0; margin-top: .75rem; padding-top: .65rem; }
+.match-reasons h3 { color: var(--muted); font-size: .9rem; margin: 0 0 .35rem; }
+.match-reasons ul { display: flex; flex-wrap: wrap; gap: .35rem .8rem; list-style: none; margin: 0; padding: 0; }
+.match-reasons li { font-size: .88rem; }
+.match-reasons li::before { color: #27743d; content: "✓ "; font-weight: 800; }
+.inferred-badge { display: inline-block; background: #f0e9ff; color: #5b328c; border: 1px solid #ceb9e8; border-radius: 999px; padding: .05rem .4rem; margin-left: .2rem; font-size: .78rem; font-weight: 700; }
 .uri, .hash { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; word-break: break-all; font-size: .9rem; color: var(--muted); }
 .uri a { color: #38536f; }
 pre { overflow: auto; max-width: 100%; background: #162236; color: #e8f1ff; padding: 1rem; border-radius: .5rem; }

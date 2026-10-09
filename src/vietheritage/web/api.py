@@ -38,6 +38,8 @@ VH = Namespace(f"{DEFAULT_BASE_URI}/ontology/")
 VHR = Namespace(f"{DEFAULT_BASE_URI}/resource/")
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 SKOS_NS = Namespace("http://www.w3.org/2004/02/skos/core#")
+DATA_GRAPH = URIRef(f"{DEFAULT_BASE_URI}/graph/data")
+INFERRED_GRAPH = URIRef(f"{DEFAULT_BASE_URI}/graph/inferred")
 
 JSONLD_CONTEXT: dict[str, Any] = {
     "vh": f"{DEFAULT_BASE_URI}/ontology/",
@@ -82,6 +84,22 @@ ENTITY_TYPES = {
     "DocumentaryHeritage",
     "Artisan",
     "CulturalObject",
+}
+SEMANTIC_TYPES = {
+    "UNESCOHeritageSite",
+    "HistoricalSite",
+    "ReligiousSite",
+    "ArchaeologicalSite",
+    "ArchitecturalSite",
+    "HeritageSiteWithHistoricalBuilder",
+}
+RELATION_FILTERS = {
+    "associatedWithPerson": VH.associatedWithPerson,
+    "builtBy": VH.builtBy,
+    "associatedWithEvent": VH.associatedWithEvent,
+    "belongsToPeriod": VH.belongsToPeriod,
+    "partOf": VH.partOf,
+    "sameAs": OWL.sameAs,
 }
 
 CQ_PRESENTATION = {
@@ -195,6 +213,10 @@ def _binding_int(binding: dict[str, Any] | None, default: int = 0) -> int:
         return int(_binding_value(binding) or default)
     except ValueError:
         return default
+
+
+def _binding_bool(binding: dict[str, Any] | None) -> bool:
+    return bool(binding and str(binding.get("value", "")).lower() in {"true", "1"})
 
 
 def _term_from_binding(binding: dict[str, Any]) -> URIRef | BNode | Literal:
@@ -329,54 +351,98 @@ class SemanticAPI:
             f"?entity a ?type ; rdfs:label ?label .",
             f"FILTER(STRSTARTS(STR(?entity), {_literal(f'{DEFAULT_BASE_URI}/resource/') }))",
             'FILTER(LANG(?label) = "vi" || LANG(?label) = "")',
-            "OPTIONAL { ?entity dcterms:subject ?category . }",
-            "OPTIONAL { ?entity vh:address ?location . }",
-            "OPTIONAL { ?entity vh:recognitionYear ?recognitionYear . }",
-            "OPTIONAL { ?entity vh:constructionYear ?constructionYear . }",
-            "OPTIONAL { ?entity owl:sameAs ?external . }",
-            "OPTIONAL { ?entity prov:wasDerivedFrom ?source . }",
         ]
         q = params.get("q", "").strip()
         if q:
             escaped = _literal(q)
             clauses.append(
                 f"FILTER(CONTAINS(LCASE(STR(?label)), LCASE(STR({escaped}))) || "
-                f"(BOUND(?location) && CONTAINS(LCASE(STR(?location)), LCASE(STR({escaped})))))"
+                f"EXISTS {{ ?entity vh:address ?keywordLocation . "
+                f"FILTER(CONTAINS(LCASE(STR(?keywordLocation)), LCASE(STR({escaped})))) }})"
             )
         entity_type = params.get("entity_type", "").strip()
         if entity_type:
             if entity_type not in ENTITY_TYPES:
                 raise APIError(400, "INVALID_ENTITY_TYPE", "entity_type is not a known ontology class")
-            clauses.append(f"?entity a <{DEFAULT_BASE_URI}/ontology/{entity_type}> .")
+            clauses.append(f"FILTER EXISTS {{ ?entity a <{DEFAULT_BASE_URI}/ontology/{entity_type}> . }}")
+        semantic_type = params.get("semantic_type", "").strip()
+        if semantic_type:
+            if semantic_type not in SEMANTIC_TYPES:
+                raise APIError(400, "INVALID_SEMANTIC_TYPE", "semantic_type is not a supported ontology classification")
+            semantic_iri = URIRef(f"{DEFAULT_BASE_URI}/ontology/{semantic_type}")
+            clauses.append(f"FILTER EXISTS {{ ?entity a {_iri(semantic_iri)} . }}")
+        relation = params.get("relation", "").strip()
+        if relation:
+            relation_iri = RELATION_FILTERS.get(relation)
+            if relation_iri is None:
+                raise APIError(400, "INVALID_RELATION", "relation is not a supported ontology property")
+            clauses.append(f"FILTER EXISTS {{ ?entity {_iri(relation_iri)} ?relatedResource . }}")
         category = params.get("registry_category", "").strip()
         if category:
             if not CATEGORY_RE.fullmatch(category):
                 raise APIError(400, "INVALID_CATEGORY", "registry_category is invalid")
-            clauses.append(f"?entity dcterms:subject {_literal(category)} .")
+            clauses.append(f"FILTER EXISTS {{ ?entity dcterms:subject {_literal(category)} . }}")
         location = params.get("location", "").strip()
         if location:
             escaped = _literal(location)
-            clauses.append(f"FILTER(BOUND(?location) && CONTAINS(LCASE(STR(?location)), LCASE(STR({escaped}))))")
+            clauses.append(
+                f"FILTER EXISTS {{ ?entity vh:address ?matchedLocation . "
+                f"FILTER(CONTAINS(LCASE(STR(?matchedLocation)), LCASE(STR({escaped})))) }}"
+            )
         year = params.get("year", "").strip()
         if year:
             if not re.fullmatch(r"[1-9][0-9]{0,3}", year):
                 raise APIError(400, "INVALID_YEAR", "year must be a four-digit positive year")
             year_literal = f'"{year}"^^xsd:gYear'
-            clauses.append(f"FILTER(?recognitionYear = {year_literal} || ?constructionYear = {year_literal})")
+            clauses.append(
+                f"FILTER EXISTS {{ {{ ?entity vh:recognitionYear {year_literal} . }} "
+                f"UNION {{ ?entity vh:constructionYear {year_literal} . }} }}"
+            )
         return "\n".join(clauses)
 
     def search(self, params: dict[str, str]) -> dict[str, Any]:
         page = _validated_page(params.get("page"), 1)
         page_size = _validated_page(params.get("page_size"), 25, 100)
         where = self._where(params)
-        total_query = f"PREFIX rdfs: <{RDFS}> PREFIX dcterms: <{DCTERMS}> PREFIX owl: <{OWL}> PREFIX prov: <{PROV}> PREFIX vh: <{VH}> SELECT (COUNT(DISTINCT ?entity) AS ?total) WHERE {{ {where} }}"
+        prefixes = f"PREFIX rdfs: <{RDFS}> PREFIX dcterms: <{DCTERMS}> PREFIX owl: <{OWL}> PREFIX prov: <{PROV}> PREFIX vh: <{VH}>"
+        total_query = f"{prefixes} SELECT (COUNT(DISTINCT ?entity) AS ?total) WHERE {{ {where} }}"
         total_result = self.client.query(total_query)
         total_bindings = total_result.get("results", {}).get("bindings", [])
         total = _binding_int(total_bindings[0].get("total") if total_bindings else None)
         offset = (page - 1) * page_size
-        query = f"PREFIX rdfs: <{RDFS}> PREFIX dcterms: <{DCTERMS}> PREFIX owl: <{OWL}> PREFIX prov: <{PROV}> PREFIX vh: <{VH}> SELECT DISTINCT ?entity ?label ?type ?category ?location ?recognitionYear ?constructionYear ?external ?source WHERE {{ {where} }} ORDER BY LCASE(STR(?label)) LIMIT {page_size} OFFSET {offset}"
-        result = self.client.query(query)
-        items = self._group_search(result.get("results", {}).get("bindings", []))
+        page_query = f"{prefixes} SELECT ?entity (MIN(LCASE(STR(?label))) AS ?sortLabel) WHERE {{ {where} }} GROUP BY ?entity ORDER BY ?sortLabel STR(?entity) LIMIT {page_size} OFFSET {offset}"
+        page_result = self.client.query(page_query)
+        page_entities = [
+            _binding_value(row.get("entity"))
+            for row in page_result.get("results", {}).get("bindings", [])
+            if row.get("entity", {}).get("type") == "uri" and _binding_value(row.get("entity"))
+        ]
+        items = []
+        if page_entities:
+            values = " ".join(_iri(entity) for entity in page_entities)
+            detail_clauses = [
+                f"VALUES ?entity {{ {values} }}",
+                "?entity a ?type ; rdfs:label ?label .",
+                'FILTER(LANG(?label) = "vi" || LANG(?label) = "")',
+                "OPTIONAL { ?entity dcterms:subject ?category . }",
+                "OPTIONAL { ?entity vh:address ?location . }",
+                "OPTIONAL { ?entity vh:recognitionYear ?recognitionYear . }",
+                "OPTIONAL { ?entity vh:constructionYear ?constructionYear . }",
+                "OPTIONAL { ?entity owl:sameAs ?external . }",
+                "OPTIONAL { ?entity prov:wasDerivedFrom ?source . }",
+            ]
+            semantic_type = params.get("semantic_type", "").strip()
+            if semantic_type:
+                semantic_iri = URIRef(f"{DEFAULT_BASE_URI}/ontology/{semantic_type}")
+                detail_clauses.extend([
+                    f"BIND(EXISTS {{ GRAPH {_iri(INFERRED_GRAPH)} {{ ?entity a {_iri(semantic_iri)} . }} }} AS ?semanticInferred)",
+                    f"BIND(EXISTS {{ GRAPH {_iri(DATA_GRAPH)} {{ ?entity a {_iri(semantic_iri)} . }} }} AS ?semanticAsserted)",
+                ])
+            detail_query = f"{prefixes} SELECT DISTINCT ?entity ?label ?type ?category ?location ?recognitionYear ?constructionYear ?external ?source ?semanticInferred ?semanticAsserted WHERE {{ {' '.join(detail_clauses)} }} ORDER BY STR(?entity) LCASE(STR(?label))"
+            detail_result = self.client.query(detail_query)
+            hydrated = self._group_search(detail_result.get("results", {}).get("bindings", []), params)
+            hydrated_by_id = {item["@id"]: item for item in hydrated}
+            items = [hydrated_by_id[entity] for entity in page_entities if entity in hydrated_by_id]
         return {
             "@context": JSONLD_CONTEXT,
             "items": items,
@@ -387,7 +453,8 @@ class SemanticAPI:
         }
 
     @staticmethod
-    def _group_search(bindings: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _group_search(bindings: list[dict[str, Any]], params: dict[str, str] | None = None) -> list[dict[str, Any]]:
+        params = params or {}
         grouped: dict[str, dict[str, Any]] = {}
         for row in bindings:
             entity = _binding_value(row.get("entity"))
@@ -404,6 +471,8 @@ class SemanticAPI:
                     "year": None,
                     "external_links": [],
                     "sources": [],
+                    "semantic_inferred": False,
+                    "semantic_asserted": False,
                 },
             )
             for key, target in (("type", "@type"), ("category", "category"), ("external", "external_links"), ("source", "sources")):
@@ -417,8 +486,29 @@ class SemanticAPI:
             if location:
                 item["location"] = location
             item["year"] = item["year"] or _binding_value(row.get("recognitionYear")) or _binding_value(row.get("constructionYear"))
+            item["semantic_inferred"] = item["semantic_inferred"] or _binding_bool(row.get("semanticInferred"))
+            item["semantic_asserted"] = item["semantic_asserted"] or _binding_bool(row.get("semanticAsserted"))
         for item in grouped.values():
             item["source_status"] = "registry+wikipedia" if any("wikipedia.org" in source for source in item["sources"]) else "registry_only"
+            semantic_inferred = item.pop("semantic_inferred")
+            semantic_asserted = item.pop("semantic_asserted")
+            semantic_inferred_only = semantic_inferred and not semantic_asserted
+            reasons = []
+            for filter_name, value in (
+                ("keyword", params.get("q", "").strip()),
+                ("entity_type", params.get("entity_type", "").strip()),
+                ("semantic_type", params.get("semantic_type", "").strip()),
+                ("relation", params.get("relation", "").strip()),
+                ("registry_category", params.get("registry_category", "").strip()),
+                ("location", params.get("location", "").strip()),
+                ("year", params.get("year", "").strip()),
+            ):
+                if value:
+                    reason = {"filter": filter_name, "value": value}
+                    if filter_name == "semantic_type":
+                        reason["inferred"] = semantic_inferred_only
+                    reasons.append(reason)
+            item["match_reasons"] = reasons
         return list(grouped.values())
 
     def config(self) -> dict[str, Any]:
@@ -440,6 +530,8 @@ class SemanticAPI:
         total = self.client.query(prefix + f' SELECT (COUNT(DISTINCT ?entity) AS ?total) WHERE {{ VALUES ?type {{ {canonical_types} }} ?entity a ?type . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
         classes = self.client.query(prefix + f' SELECT ?type (COUNT(DISTINCT ?entity) AS ?count) WHERE {{ ?entity a ?type ; rdfs:label ?label . FILTER(?type != <{OWL.Thing}>) FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }} GROUP BY ?type ORDER BY DESC(?count)')
         categories = self.client.query(prefix + f' SELECT ?category (COUNT(DISTINCT ?entity) AS ?count) WHERE {{ ?entity dcterms:subject ?category . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }} GROUP BY ?category ORDER BY ?category')
+        relation_values = " ".join(_iri(value) for value in RELATION_FILTERS.values())
+        relations = self.client.query(prefix + f' SELECT ?relation (COUNT(DISTINCT ?entity) AS ?count) WHERE {{ VALUES ?relation {{ {relation_values} }} ?entity ?relation ?target . FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }} GROUP BY ?relation ORDER BY ?relation')
         links = self.client.query(prefix + f' SELECT (COUNT(*) AS ?count) WHERE {{ GRAPH <{DEFAULT_BASE_URI}/graph/external-links> {{ ?entity owl:sameAs ?external }} FILTER(STRSTARTS(STR(?entity), "{DEFAULT_BASE_URI}/resource/")) }}')
         return {
             "@context": JSONLD_CONTEXT,
@@ -454,6 +546,11 @@ class SemanticAPI:
             "categories": [
                 {"@id": _binding_value(row.get("category")), "count": _binding_int(row.get("count"))}
                 for row in categories.get("results", {}).get("bindings", [])
+            ],
+            "relations": [
+                {"@id": _binding_value(row.get("relation")), "count": _binding_int(row.get("count"))}
+                for row in relations.get("results", {}).get("bindings", [])
+                if _binding_value(row.get("relation"))
             ],
         }
 
@@ -491,7 +588,7 @@ class SemanticAPI:
             object_binding = row.get("object", {})
             graph = _binding_value(row.get("graph")) or ""
             triple = {"predicate": predicate, "object": object_value, "object_type": object_binding.get("type", "literal"), "graph": graph}
-            if "/graph/inferred" in graph:
+            if graph == str(INFERRED_GRAPH):
                 result["closure_triples"].append(triple)
             else:
                 result["asserted_triples"].append(triple)

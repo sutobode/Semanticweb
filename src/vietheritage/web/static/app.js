@@ -11,6 +11,16 @@ const entityTypeGroups = [
   ['Con người và bối cảnh', ['HistoricalPerson', 'HistoricalEvent', 'HistoricalPeriod', 'AdministrativeArea', 'Organization', 'Artisan']],
   ['Thuộc tính mô tả', ['ArchitecturalStyle']]
 ];
+const semanticTypeLabels = {
+  UNESCOHeritageSite: 'Di sản UNESCO', HistoricalSite: 'Di tích lịch sử', ReligiousSite: 'Di tích tôn giáo / tín ngưỡng',
+  ArchaeologicalSite: 'Di tích khảo cổ', ArchitecturalSite: 'Di tích kiến trúc',
+  HeritageSiteWithHistoricalBuilder: 'Di tích có người xây dựng lịch sử'
+};
+const relationLabels = {
+  associatedWithPerson: 'Có liên quan đến nhân vật lịch sử', builtBy: 'Được xây dựng bởi nhân vật lịch sử',
+  associatedWithEvent: 'Có liên quan đến sự kiện lịch sử', belongsToPeriod: 'Thuộc giai đoạn lịch sử',
+  partOf: 'Thuộc quần thể di sản', sameAs: 'Có liên kết ngoài đã xác minh'
+};
 const categoryLabels = {
   world_heritage: 'Di sản thế giới', national_special_monuments: 'Di tích quốc gia đặc biệt', national_monuments: 'Di tích quốc gia',
   intangible_representative: 'Di sản phi vật thể đại diện của nhân loại', intangible_urgent: 'Di sản phi vật thể cần bảo vệ khẩn cấp',
@@ -79,7 +89,7 @@ function entityTypeBadges(values) {
   });
   return visible.map((raw) => {
     const name = shortUri(raw);
-    const label = entityTypeLabels[name] || name;
+    const label = entityTypeLabels[name] || semanticTypeLabels[name] || name;
     return /^https?:\/\//i.test(raw)
       ? `<a class="badge" href="${esc(safeHref(raw))}" target="_blank" rel="noopener" title="${esc(raw)}">${esc(label)}</a>`
       : `<span class="badge" title="${esc(raw)}">${esc(label)}</span>`;
@@ -120,12 +130,19 @@ async function home() {
   } catch (error) { errorView(error, home); }
 }
 
-function searchFormMarkup(state, categories) {
-  const typeOptions = entityTypeGroups.map(([group, types]) => `<optgroup label="${esc(group)}">${types.map((type) => `<option value="${type}"${state.entity_type === type ? ' selected' : ''}>${esc(entityTypeLabels[type])}</option>`).join('')}</optgroup>`).join('');
-  const categoryValues = [...new Set(categories.map((item) => shortUri(item['@id'] || item)).filter(Boolean))];
+function searchFormMarkup(state, stats) {
+  const availableClasses = Array.isArray(stats.classes) ? new Set(stats.classes.map((item) => shortUri(item['@id'])).filter(Boolean)) : null;
+  const typeOptions = entityTypeGroups.map(([group, types]) => {
+    const options = types.filter((type) => !availableClasses || availableClasses.has(type)).map((type) => `<option value="${type}"${state.entity_type === type ? ' selected' : ''}>${esc(entityTypeLabels[type])}</option>`).join('');
+    return options ? `<optgroup label="${esc(group)}">${options}</optgroup>` : '';
+  }).join('');
+  const semanticOptions = Object.entries(semanticTypeLabels).filter(([type]) => !availableClasses || availableClasses.has(type)).map(([type, label]) => `<option value="${type}"${state.semantic_type === type ? ' selected' : ''}>${esc(label)}</option>`).join('');
+  const availableRelations = Array.isArray(stats.relations) ? new Set(stats.relations.map((item) => shortUri(item['@id'])).filter(Boolean)) : null;
+  const relationOptions = Object.entries(relationLabels).filter(([relation]) => !availableRelations || availableRelations.has(relation)).map(([relation, label]) => `<option value="${relation}"${state.relation === relation ? ' selected' : ''}>${esc(label)}</option>`).join('');
+  const categoryValues = [...new Set((stats.categories || []).map((item) => shortUri(item['@id'] || item)).filter(Boolean))];
   if (state.registry_category && !categoryValues.includes(state.registry_category)) categoryValues.push(state.registry_category);
   const categoryOptions = categoryValues.map((value) => `<option value="${esc(value)}"${state.registry_category === value ? ' selected' : ''}>${esc(categoryLabel(value))}</option>`).join('');
-  return `<section aria-labelledby="search-title"><h1 id="search-title">Tìm kiếm di sản</h1><p id="search-help">Tìm theo nhãn tiếng Việt, địa điểm, loại thực thể, danh mục trong nguồn đăng ký hoặc năm. Kết quả được truy vấn từ RDF graph.</p><form id="search-form" aria-describedby="search-help"><div class="field"><label for="search-q">Từ khóa</label><input id="search-q" name="q" placeholder="Ví dụ: Huế, Hội An" value="${esc(state.q || '')}"></div><div class="field"><label for="search-type">Loại thực thể</label><select id="search-type" name="entity_type"><option value="">Tất cả loại thực thể</option>${typeOptions}</select></div><div class="field"><label for="search-category">Danh mục trong nguồn đăng ký</label><select id="search-category" name="registry_category"><option value="">Tất cả danh mục</option>${categoryOptions}</select></div><div class="field"><label for="search-location">Địa điểm</label><input id="search-location" name="location" placeholder="Hà Nội" value="${esc(state.location || '')}"></div><div class="field"><label for="search-year">Năm</label><input id="search-year" name="year" inputmode="numeric" pattern="[0-9]{1,4}" placeholder="1999" value="${esc(state.year || '')}"></div><button type="submit">Tìm kiếm</button></form><div id="results" class="results" aria-live="polite" aria-atomic="false"></div></section>`;
+  return `<section aria-labelledby="search-title"><h1 id="search-title">Tìm kiếm di sản</h1><p id="search-help">Kết hợp từ khóa với loại thực thể, phân loại ngữ nghĩa và các quan hệ trong knowledge graph.</p><form id="search-form" aria-describedby="search-help"><div class="field"><label for="search-q">Từ khóa</label><input id="search-q" name="q" placeholder="Ví dụ: Huế, Hội An" value="${esc(state.q || '')}"></div><div class="field"><label for="search-type">Loại thực thể</label><select id="search-type" name="entity_type"><option value="">Tất cả loại thực thể</option>${typeOptions}</select></div><div class="field"><label for="search-semantic-type">Phân loại ngữ nghĩa</label><select id="search-semantic-type" name="semantic_type"><option value="">Tất cả phân loại</option>${semanticOptions}</select></div><div class="field"><label for="search-location">Địa điểm</label><input id="search-location" name="location" placeholder="Hà Nội" value="${esc(state.location || '')}"></div><div class="field"><label for="search-category">Danh mục trong nguồn đăng ký</label><select id="search-category" name="registry_category"><option value="">Tất cả danh mục</option>${categoryOptions}</select></div><div class="field"><label for="search-relation">Quan hệ</label><select id="search-relation" name="relation"><option value="">Tất cả quan hệ</option>${relationOptions}</select></div><div class="field"><label for="search-year">Năm</label><input id="search-year" name="year" inputmode="numeric" pattern="[0-9]{1,4}" placeholder="1999" value="${esc(state.year || '')}"></div><button type="submit">Tìm kiếm</button></form><div id="results" class="results" aria-live="polite" aria-atomic="false"></div></section>`;
 }
 function defaultSparqlQuery() {
   return `PREFIX vh: <${config.canonical_base}/ontology/>
@@ -142,9 +159,9 @@ LIMIT 20`;
 
 async function search() {
   loading('Đang chuẩn bị bộ lọc tìm kiếm…');
-  let categories = [];
-  try { categories = (await api('/api/stats')).categories || []; } catch (_) { /* Search remains usable without filter metadata. */ }
-  render(searchFormMarkup(searchState(), categories), { focus: true });
+  let stats = { categories: [], classes: null, relations: null };
+  try { stats = await api('/api/stats'); } catch (_) { /* Search remains usable without filter metadata. */ }
+  render(searchFormMarkup(searchState(), stats), { focus: true });
   const form = document.getElementById('search-form');
   const results = document.getElementById('results');
   const run = async (page = 1) => {
@@ -158,7 +175,7 @@ async function search() {
     try {
       const data = await api(`/api/search?${params}`);
       const items = data.items || [];
-      results.innerHTML = `<div class="result-summary" role="status"><strong>${esc(data.total)}</strong> kết quả · trang ${esc(data.page)}</div>${items.length ? `<div class="result-list">${items.map((item) => { const types = entityTypeBadges(item['@type']); const itemCategories = categoryBadges(item.category); return `<article class="card"><h2><a href="#/entity/${encodeURIComponent(shortUri(item['@id']))}">${esc(valueOf(item.label) || item['@id'])}</a></h2>${types ? `<p class="result-taxonomy"><span class="taxonomy-label">Loại:</span> ${types}</p>` : ''}${itemCategories ? `<p class="result-taxonomy"><span class="taxonomy-label">Danh mục:</span> ${itemCategories}</p>` : ''}<p>${esc(item.location || '')} ${esc(item.year || '')}</p><p class="uri">${uriLink(item['@id'], 'canonical')}</p></article>`; }).join('')}</div>` : '<p class="empty" role="status">Không có kết quả. Hãy thử từ khóa ngắn hơn hoặc bỏ bớt bộ lọc.</p>'}${data.page > 1 || data.has_next ? `<nav class="pagination" aria-label="Phân trang">${data.page > 1 ? '<button id="previous" type="button">← Trang trước</button>' : ''}${data.has_next ? '<button id="next" type="button">Trang sau →</button>' : ''}</nav>` : ''}`;
+      results.innerHTML = `<div class="result-summary" role="status"><strong>${esc(data.total)}</strong> kết quả · trang ${esc(data.page)}</div>${items.length ? `<div class="result-list">${items.map((item) => { const types = entityTypeBadges(item['@type']); const itemCategories = categoryBadges(item.category); const reasons = (item.match_reasons || []).map((reason) => { let label = ''; if (reason.filter === 'keyword') label = 'Khớp từ khóa'; else if (reason.filter === 'entity_type') label = `Loại thực thể: ${entityTypeLabels[reason.value] || reason.value}`; else if (reason.filter === 'semantic_type') label = `Phân loại: ${semanticTypeLabels[reason.value] || reason.value}`; else if (reason.filter === 'relation') label = relationLabels[reason.value] || reason.value; else if (reason.filter === 'registry_category') label = `Danh mục: ${categoryLabel(reason.value)}`; else if (reason.filter === 'location') label = `Địa điểm: ${reason.value}`; else if (reason.filter === 'year') label = `Năm: ${reason.value}`; return label ? `<li>${esc(label)}${reason.inferred ? ' <span class="inferred-badge">Suy luận</span>' : ''}</li>` : ''; }).join(''); return `<article class="card"><h2><a href="#/entity/${encodeURIComponent(shortUri(item['@id']))}">${esc(valueOf(item.label) || item['@id'])}</a></h2>${types ? `<p class="result-taxonomy"><span class="taxonomy-label">Loại:</span> ${types}</p>` : ''}${itemCategories ? `<p class="result-taxonomy"><span class="taxonomy-label">Danh mục:</span> ${itemCategories}</p>` : ''}<p>${esc(item.location || '')} ${esc(item.year || '')}</p>${reasons ? `<section class="match-reasons" aria-label="Vì sao kết quả khớp"><h3>Vì sao khớp</h3><ul>${reasons}</ul></section>` : ''}<p class="uri">${uriLink(item['@id'], 'canonical')}</p></article>`; }).join('')}</div>` : '<p class="empty" role="status">Không có kết quả. Hãy thử từ khóa ngắn hơn hoặc bỏ bớt bộ lọc.</p>'}${data.page > 1 || data.has_next ? `<nav class="pagination" aria-label="Phân trang">${data.page > 1 ? '<button id="previous" type="button">← Trang trước</button>' : ''}${data.has_next ? '<button id="next" type="button">Trang sau →</button>' : ''}</nav>` : ''}`;
       document.getElementById('previous')?.addEventListener('click', () => run(data.page - 1));
       document.getElementById('next')?.addEventListener('click', () => run(data.page + 1));
     } catch (error) {

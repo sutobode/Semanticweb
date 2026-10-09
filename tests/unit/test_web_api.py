@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 import pytest
@@ -26,6 +27,8 @@ class FakeTransport:
     def __init__(self) -> None:
         self.queries: list[str] = []
         self.calls: list[dict[str, Any]] = []
+        self.search_bindings: list[dict[str, Any]] | None = None
+        self.search_entities = [("http://localhost:3030/vietheritage/resource/site-a", "Huế")]
 
     def get(self, _url: str, **kwargs: Any) -> FakeResponse:
         query = kwargs["params"]["query"]
@@ -34,20 +37,28 @@ class FakeTransport:
         if "CONSTRUCT " in query.upper() or "DESCRIBE " in query.upper():
             return FakeResponse({}, "@prefix vh: <http://localhost:3030/vietheritage/ontology/> .")
         if "COUNT(DISTINCT ?entity)" in query:
-            return FakeResponse({"results": {"bindings": [{"total": {"type": "literal", "value": "1"}}]}})
+            return FakeResponse({"results": {"bindings": [{"total": {"type": "literal", "value": str(len(self.search_entities))}}]}})
+        if "SELECT ?entity (MIN(" in query:
+            limit = int(re.search(r"LIMIT (\d+)", query).group(1))
+            offset = int(re.search(r"OFFSET (\d+)", query).group(1))
+            bindings = [
+                {
+                    "entity": {"type": "uri", "value": entity},
+                    "sortLabel": {"type": "literal", "value": label.lower()},
+                }
+                for entity, label in self.search_entities[offset:offset + limit]
+            ]
+            return FakeResponse({"results": {"bindings": bindings}})
         if "SELECT DISTINCT ?entity" in query:
+            bindings = self.search_bindings if self.search_bindings is not None else [self.search_row()]
+            bindings = [
+                row for row in bindings
+                if f'<{row.get("entity", {}).get("value", "")}>' in query
+            ]
             return FakeResponse(
                 {
                     "results": {
-                        "bindings": [
-                            {
-                                "entity": {"type": "uri", "value": "http://localhost:3030/vietheritage/resource/site-a"},
-                                "label": {"type": "literal", "xml:lang": "vi", "value": "Huế"},
-                                "type": {"type": "uri", "value": "http://localhost:3030/vietheritage/ontology/HeritageSite"},
-                                "category": {"type": "literal", "value": "world_heritage"},
-                                "source": {"type": "uri", "value": "https://vi.wikipedia.org/wiki/Hue"},
-                            }
-                        ]
+                        "bindings": bindings
                     }
                 }
             )
@@ -79,6 +90,17 @@ class FakeTransport:
             obj["xml:lang"] = lang
         return {"graph": {"type": "uri", "value": graph}, "predicate": {"type": "uri", "value": str(predicate)}, "object": obj}
 
+    @staticmethod
+    def search_row(entity_id: str = "site-a", label: str = "Huế", **extra: Any) -> dict[str, Any]:
+        return {
+            "entity": {"type": "uri", "value": f"http://localhost:3030/vietheritage/resource/{entity_id}"},
+            "label": {"type": "literal", "xml:lang": "vi", "value": label},
+            "type": {"type": "uri", "value": "http://localhost:3030/vietheritage/ontology/HeritageSite"},
+            "category": {"type": "literal", "value": "world_heritage"},
+            "source": {"type": "uri", "value": "https://vi.wikipedia.org/wiki/Hue"},
+            **extra,
+        }
+
 
 def make_api(transport: FakeTransport) -> SemanticAPI:
     return SemanticAPI(FusekiClient(endpoint="http://fake/sparql", request_get=transport.get))
@@ -92,17 +114,164 @@ def test_search_returns_jsonld_ids_categories_and_pagination() -> None:
     assert result["items"][0]["@id"].endswith("site-a")
     assert result["items"][0]["source_status"] == "registry+wikipedia"
     assert result["items"][0]["category"]
+    assert result["items"][0]["match_reasons"] == [{"filter": "keyword", "value": "Huế"}]
     assert any("Huế" in query for query in transport.queries)
 
 
 def test_search_registry_category_matches_stored_literal() -> None:
     transport = FakeTransport()
     result = make_api(transport).search({"registry_category": "world_heritage"})
-    search_queries = [query for query in transport.queries if "?entity" in query]
+    search_queries = [
+        query for query in transport.queries
+        if "COUNT(DISTINCT ?entity)" in query or "SELECT ?entity (MIN(" in query
+    ]
     assert result["total"] == 1
     assert result["items"]
     assert all('dcterms:subject "world_heritage"' in query for query in search_queries)
     assert all("/resource/category/world_heritage" not in query for query in search_queries)
+    assert result["items"][0]["match_reasons"] == [
+        {"filter": "registry_category", "value": "world_heritage"}
+    ]
+
+
+def test_search_canonical_type_filter_still_uses_rdf_type() -> None:
+    transport = FakeTransport()
+    result = make_api(transport).search({"entity_type": "HeritageSite"})
+    assert any(
+        "FILTER EXISTS { ?entity a <http://localhost:3030/vietheritage/ontology/HeritageSite> . }" in query
+        for query in transport.queries
+    )
+    assert result["items"][0]["match_reasons"] == [
+        {"filter": "entity_type", "value": "HeritageSite"}
+    ]
+
+
+def test_search_marks_inferred_only_unesco_semantic_match() -> None:
+    transport = FakeTransport()
+    transport.search_bindings = [
+        transport.search_row(
+            semanticInferred={"type": "literal", "value": "true"},
+            semanticAsserted={"type": "literal", "value": "false"},
+        )
+    ]
+    result = make_api(transport).search({"semantic_type": "UNESCOHeritageSite"})
+    page_query = next(query for query in transport.queries if "SELECT ?entity (MIN(" in query)
+    detail_query = next(query for query in transport.queries if "SELECT DISTINCT ?entity" in query)
+    assert "FILTER EXISTS { ?entity a <http://localhost:3030/vietheritage/ontology/UNESCOHeritageSite> . }" in page_query
+    assert "GRAPH <http://localhost:3030/vietheritage/graph/inferred>" in detail_query
+    assert "GRAPH <http://localhost:3030/vietheritage/graph/data>" in detail_query
+    assert result["items"][0]["match_reasons"] == [
+        {"filter": "semantic_type", "value": "UNESCOHeritageSite", "inferred": True}
+    ]
+
+
+def test_search_does_not_mark_asserted_semantic_type_as_inferred_only() -> None:
+    transport = FakeTransport()
+    transport.search_bindings = [
+        transport.search_row(
+            semanticInferred={"type": "literal", "value": "true"},
+            semanticAsserted={"type": "literal", "value": "true"},
+        )
+    ]
+    result = make_api(transport).search({"semantic_type": "HistoricalSite"})
+    assert result["items"][0]["match_reasons"][0]["inferred"] is False
+
+
+@pytest.mark.parametrize("relation", ["associatedWithPerson", "builtBy"])
+def test_search_relation_filter_uses_union_default_graph(relation: str) -> None:
+    transport = FakeTransport()
+    result = make_api(transport).search({"relation": relation})
+    query = next(query for query in transport.queries if "SELECT ?entity (MIN(" in query)
+    assert f"?entity <http://localhost:3030/vietheritage/ontology/{relation}> ?relatedResource" in query
+    assert "GRAPH" not in query.split("?relatedResource", 1)[0].rsplit("FILTER EXISTS", 1)[-1]
+    assert result["items"][0]["match_reasons"] == [{"filter": "relation", "value": relation}]
+
+
+def test_materialized_built_by_inference_can_match_associated_person_relation() -> None:
+    transport = FakeTransport()
+    result = make_api(transport).search({"relation": "associatedWithPerson"})
+    query = next(query for query in transport.queries if "SELECT ?entity (MIN(" in query)
+    assert "FILTER EXISTS { ?entity <http://localhost:3030/vietheritage/ontology/associatedWithPerson>" in query
+    assert result["items"]
+
+
+def test_search_combines_filters_with_and_reasons_and_deduplicates_results() -> None:
+    transport = FakeTransport()
+    row = transport.search_row(
+        semanticInferred={"type": "literal", "value": "true"},
+        semanticAsserted={"type": "literal", "value": "false"},
+    )
+    transport.search_bindings = [row, dict(row)]
+    params = {
+        "q": "Huế",
+        "entity_type": "HeritageSite",
+        "semantic_type": "UNESCOHeritageSite",
+        "relation": "associatedWithPerson",
+        "registry_category": "world_heritage",
+        "location": "Huế",
+        "year": "1993",
+    }
+    result = make_api(transport).search(params)
+    count_query = next(query for query in transport.queries if "COUNT(DISTINCT ?entity)" in query)
+    assert "HeritageSite" in count_query and "UNESCOHeritageSite" in count_query
+    assert "associatedWithPerson" in count_query
+    assert 'dcterms:subject "world_heritage"' in count_query
+    assert "1993" in count_query and "Huế" in count_query
+    assert len(result["items"]) == 1
+    assert [reason["filter"] for reason in result["items"][0]["match_reasons"]] == [
+        "keyword",
+        "entity_type",
+        "semantic_type",
+        "relation",
+        "registry_category",
+        "location",
+        "year",
+    ]
+
+
+def test_search_paginates_distinct_resources_before_hydrating_many_bindings() -> None:
+    transport = FakeTransport()
+    transport.search_entities = [
+        (f"http://localhost:3030/vietheritage/resource/site-{index}", f"Di tích {index}")
+        for index in range(8)
+    ]
+    transport.search_bindings = [
+        transport.search_row(
+            entity_id=f"site-{index}",
+            label=f"Di tích {index}",
+            type={"type": "uri", "value": f"http://localhost:3030/vietheritage/ontology/Type{type_index}"},
+        )
+        for index in range(8)
+        for type_index in range(12 if index == 0 else 1)
+    ]
+    result = make_api(transport).search({"semantic_type": "UNESCOHeritageSite", "page_size": "10"})
+    assert result["total"] == 8
+    assert len(result["items"]) == 8
+    assert len({item["@id"] for item in result["items"]}) == 8
+    assert result["has_next"] is False
+    page_query = next(query for query in transport.queries if "SELECT ?entity (MIN(" in query)
+    detail_query = next(query for query in transport.queries if "SELECT DISTINCT ?entity" in query)
+    assert "GROUP BY ?entity ORDER BY ?sortLabel STR(?entity) LIMIT 10 OFFSET 0" in page_query
+    assert "VALUES ?entity" in detail_query
+    assert "LIMIT" not in detail_query and "OFFSET" not in detail_query
+
+
+def test_search_second_page_uses_stable_distinct_resource_slice() -> None:
+    transport = FakeTransport()
+    transport.search_entities = [
+        (f"http://localhost:3030/vietheritage/resource/site-{index}", f"Di tích {index}")
+        for index in range(5)
+    ]
+    transport.search_bindings = [
+        transport.search_row(entity_id=f"site-{index}", label=f"Di tích {index}")
+        for index in range(5)
+    ]
+    result = make_api(transport).search({"page": "2", "page_size": "2"})
+    assert result["total"] == 5
+    assert [item["@id"].rsplit("/", 1)[-1] for item in result["items"]] == ["site-2", "site-3"]
+    assert result["has_next"] is True
+    page_query = next(query for query in transport.queries if "SELECT ?entity (MIN(" in query)
+    assert "ORDER BY ?sortLabel STR(?entity) LIMIT 2 OFFSET 2" in page_query
 
 
 def test_search_rejects_page_size_over_limit() -> None:
@@ -224,5 +393,6 @@ def test_stats_query_matches_verified_snapshot_metrics() -> None:
     result = make_api(transport).stats()
     assert result["@id"].endswith("/resource/dataset/vietheritage")
     assert any("VALUES ?type" in query and "HeritageSite" in query for query in transport.queries)
+    assert any("VALUES ?relation" in query and "associatedWithPerson" in query for query in transport.queries)
     assert any("COUNT(*)" in query for query in transport.queries)
     assert any("graph/external-links" in query for query in transport.queries)
