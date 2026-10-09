@@ -10,10 +10,19 @@ from urllib.parse import parse_qs, urlparse
 
 from rdflib import Graph
 
-from .api import APIError, CANONICAL_PATH, DEFAULT_BASE_URI, JSONLD_CONTEXT, SemanticAPI, render_entity_html
+from .api import (
+    CANONICAL_PATH,
+    DEFAULT_BASE_URI,
+    JSONLD_CONTEXT,
+    MAX_SPARQL_QUERY_BYTES,
+    APIError,
+    SemanticAPI,
+    render_entity_html,
+)
 
 STATIC_DIR = Path(__file__).with_name("static")
 ONTOLOGY_PATH = Path(__file__).resolve().parents[3] / "ontology" / "vietheritage.ttl"
+MAX_SPARQL_REQUEST_BYTES = MAX_SPARQL_QUERY_BYTES + 4096
 
 
 def _json_bytes(value: Any) -> bytes:
@@ -64,7 +73,7 @@ class Router:
             return 200, common, body
         raise APIError(406, "NOT_ACCEPTABLE", "supported representations are text/html, text/turtle, and application/ld+json")
 
-    def handle(self, path: str, headers: dict[str, str]) -> tuple[int, dict[str, str], bytes]:
+    def handle(self, path: str, headers: dict[str, str], method: str = "GET", body: bytes = b"") -> tuple[int, dict[str, str], bytes]:
         parsed = urlparse(path)
         route = parsed.path.rstrip("/") or "/"
         if CANONICAL_PATH != "/":
@@ -74,12 +83,27 @@ class Router:
                 route = route[len(CANONICAL_PATH):] or "/"
         params = {key: values[-1] for key, values in parse_qs(parsed.query, keep_blank_values=True).items()}
 
+        if route == "/api/sparql":
+            if method != "POST":
+                raise APIError(405, "METHOD_NOT_ALLOWED", "SPARQL query API accepts POST only")
+            if len(body) > MAX_SPARQL_REQUEST_BYTES:
+                raise APIError(413, "QUERY_TOO_LARGE", "SPARQL request is too large")
+            try:
+                payload = json.loads(body.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise APIError(400, "INVALID_JSON", "request body must be valid JSON") from exc
+            if not isinstance(payload, dict) or set(payload) != {"query"} or not isinstance(payload["query"], str):
+                raise APIError(400, "INVALID_REQUEST", "request body must contain only a SPARQL query string")
+            return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.execute_sparql(payload["query"]))
+        if method != "GET":
+            raise APIError(405, "METHOD_NOT_ALLOWED", "read-only API accepts GET, except POST /api/sparql")
+
         if route in {"/", "/app.js", "/styles.css"}:
             return self._static(route)
         if route in {"/ontology", "/ontology/"}:
             return self._ontology(headers)
         if route == "/docs":
-            body = """<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>VietHeritageLOD API</title><link rel=\"stylesheet\" href=\"/styles.css\"></head><body><main class=\"container\"><h1>VietHeritageLOD Read-only API</h1><p><a href=\"/openapi.json\">OpenAPI JSON</a></p><p>SPARQL endpoint: <a href=\"http://localhost:3031/vietheritage/sparql\">Fuseki</a></p><ul><li><code>GET /api/health</code></li><li><code>GET /api/stats</code></li><li><code>GET /api/search?q=Huế</code></li><li><code>GET /vietheritage/resource/&lt;entity_id&gt;</code> with Turtle or JSON-LD Accept</li></ul></main></body></html>"""
+            body = """<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>VietHeritageLOD API</title><link rel=\"stylesheet\" href=\"/styles.css\"></head><body><main class=\"container\"><h1>VietHeritageLOD Read-only API</h1><p><a href=\"/openapi.json\">OpenAPI JSON</a></p><p>SPARQL endpoint: <a href=\"http://localhost:3031/vietheritage/sparql\">Fuseki</a></p><ul><li><code>GET /api/health</code></li><li><code>GET /api/stats</code></li><li><code>GET /api/search?q=Huế</code></li><li><code>POST /api/sparql</code> with a read-only query</li><li><code>GET /vietheritage/resource/&lt;entity_id&gt;</code> with Turtle or JSON-LD Accept</li></ul></main></body></html>"""
             return 200, {"Content-Type": "text/html; charset=utf-8"}, body.encode("utf-8")
         if route == "/openapi.json":
             return 200, {"Content-Type": "application/json; charset=utf-8"}, _json_bytes(self.api.openapi())
@@ -140,9 +164,23 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def do_GET(self) -> None:  # noqa: N802
+    def _handle(self, method: str) -> None:
         try:
-            status, headers, body = self.router.handle(self.path, {key.lower(): value for key, value in self.headers.items()})
+            request_body = b""
+            if method == "POST":
+                try:
+                    content_length = int(self.headers.get("Content-Length", "0"))
+                except ValueError as exc:
+                    raise APIError(400, "INVALID_REQUEST", "Content-Length must be an integer") from exc
+                if content_length < 0 or content_length > MAX_SPARQL_REQUEST_BYTES:
+                    raise APIError(413, "QUERY_TOO_LARGE", "SPARQL request is too large")
+                request_body = self.rfile.read(content_length)
+            status, headers, body = self.router.handle(
+                self.path,
+                {key.lower(): value for key, value in self.headers.items()},
+                method=method,
+                body=request_body,
+            )
         except APIError as exc:
             status = exc.status
             headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -153,11 +191,14 @@ class RequestHandler(BaseHTTPRequestHandler):
             body = _json_bytes({"error": {"code": "INTERNAL_ERROR", "message": "internal server error"}})
         self._send(status, headers, body)
 
+    def do_GET(self) -> None:  # noqa: N802
+        self._handle("GET")
+
     def _method_not_allowed(self) -> None:
         self._send(405, {"Content-Type": "application/json; charset=utf-8", "Allow": "GET"}, _json_bytes({"error": {"code": "METHOD_NOT_ALLOWED", "message": "read-only API accepts GET only"}}))
 
     def do_POST(self) -> None:  # noqa: N802
-        self._method_not_allowed()
+        self._handle("POST")
 
     def do_PUT(self) -> None:  # noqa: N802
         self._method_not_allowed()

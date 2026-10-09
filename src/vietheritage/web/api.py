@@ -11,14 +11,17 @@ import html
 import json
 import os
 import re
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import quote, urlparse
 
 import requests
+from pyparsing import ParseBaseException
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, OWL, PROV, RDF, RDFS, SKOS, XSD
+from rdflib.plugins.sparql.parser import parseQuery
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 QUERY_DIR = REPO_ROOT / "sparql"
@@ -57,6 +60,13 @@ JSONLD_CONTEXT: dict[str, Any] = {
 ENTITY_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*$")
 CATEGORY_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
+MAX_SPARQL_QUERY_BYTES = 50_000
+READ_ONLY_QUERY_FORMS = {
+    "SelectQuery": "SELECT",
+    "AskQuery": "ASK",
+    "ConstructQuery": "CONSTRUCT",
+    "DescribeQuery": "DESCRIBE",
+}
 ENTITY_TYPES = {
     "HeritageSite",
     "AdministrativeArea",
@@ -72,6 +82,59 @@ ENTITY_TYPES = {
     "DocumentaryHeritage",
     "Artisan",
     "CulturalObject",
+}
+
+CQ_PRESENTATION = {
+    "CQ01": {
+        "display_title": "Địa điểm di sản tại Hà Nội",
+        "question": "Những địa điểm di sản nào nằm tại Hà Nội thông qua quan hệ vị trí trực tiếp hoặc nhiều cấp?",
+        "semantic_note": "Truy vấn dùng đường dẫn thuộc tính locatedIn+ để đi qua hệ thống đơn vị hành chính.",
+    },
+    "CQ02": {
+        "display_title": "Di sản UNESCO trước năm 2000",
+        "question": "Những thực thể di sản nào được UNESCO công nhận trước năm 2000?",
+        "semantic_note": "Truy vấn kết hợp tổ chức công nhận với năm công nhận có kiểu dữ liệu xsd:gYear.",
+    },
+    "CQ03": {
+        "display_title": "Di tích khảo cổ",
+        "question": "Những địa điểm di sản nào thuộc loại Di tích khảo cổ (ArchaeologicalSite)?",
+        "semantic_note": "Truy vấn lựa chọn tài nguyên theo lớp chuyên biệt trong ontology.",
+    },
+    "CQ04": {
+        "display_title": "Di tích gắn với nhân vật lịch sử",
+        "question": "Những địa điểm di sản nào gắn với, hoặc được xây dựng bởi, một nhân vật lịch sử?",
+        "semantic_note": "Truy vấn hợp nhất hai quan hệ associatedWithPerson và builtBy bằng property path.",
+    },
+    "CQ05": {
+        "display_title": "Di tích theo sự kiện hoặc giai đoạn",
+        "question": "Những địa điểm di sản nào gắn với sự kiện lịch sử hoặc thuộc một giai đoạn lịch sử?",
+        "semantic_note": "Truy vấn dùng UNION để kết hợp hai kiểu bối cảnh lịch sử.",
+    },
+    "CQ06": {
+        "display_title": "Khu vực có nhiều di tích nhất",
+        "question": "Mười đơn vị hành chính nào chứa nhiều địa điểm di sản nhất?",
+        "semantic_note": "Truy vấn nhóm theo khu vực, đếm các địa điểm riêng biệt và sắp xếp giảm dần.",
+    },
+    "CQ07": {
+        "display_title": "Nhân vật gắn với nhiều di tích",
+        "question": "Những nhân vật lịch sử nào được liên kết với nhiều hơn một địa điểm di sản?",
+        "semantic_note": "Truy vấn dùng GROUP BY và HAVING để tìm các kết nối lặp lại trong graph.",
+    },
+    "CQ08": {
+        "display_title": "Các địa điểm thuộc quần thể di sản",
+        "question": "Những địa điểm di sản nào nằm trong một quần thể di sản qua một hoặc nhiều cấp thành viên?",
+        "semantic_note": "Truy vấn dùng đường dẫn hasMember+ để đi qua cấu trúc bộ phận-toàn thể nhiều cấp.",
+    },
+    "CQ09": {
+        "display_title": "Liên kết định danh bên ngoài",
+        "question": "Những địa điểm di sản nào có liên kết định danh với tài nguyên bên ngoài?",
+        "semantic_note": "Truy vấn khai thác các liên kết owl:sameAs đã được xác minh và nạp vào graph.",
+    },
+    "CQ10": {
+        "display_title": "Nhãn tiếng Anh từ dữ liệu liên kết",
+        "question": "Các tài nguyên di sản có liên kết bên ngoài hiện có những nhãn tiếng Anh nào trong snapshot cục bộ?",
+        "semantic_note": "Truy vấn nối tài nguyên nội bộ với snapshot bên ngoài qua owl:sameAs và lọc nhãn @en.",
+    },
 }
 
 
@@ -194,6 +257,30 @@ class FusekiClient:
             raise APIError(502, "FUSEKI_INVALID_RESPONSE", "Fuseki response is not a JSON object")
         return payload
 
+    def public_query(self, text: str, query_form: str) -> dict[str, Any] | str:
+        graph_result = query_form in {"CONSTRUCT", "DESCRIBE"}
+        accept = "text/turtle" if graph_result else "application/sparql-results+json"
+        try:
+            response = self.request_get(
+                self.endpoint,
+                params={"query": text},
+                headers={"Accept": accept},
+                timeout=self.timeout,
+            )
+            response.raise_for_status()
+            if graph_result:
+                return response.text
+            payload = response.json()
+        except requests.Timeout as exc:
+            raise APIError(504, "SPARQL_TIMEOUT", "SPARQL query timed out") from exc
+        except requests.RequestException as exc:
+            raise APIError(503, "SPARQL_UNAVAILABLE", "SPARQL service is unavailable") from exc
+        except (TypeError, ValueError) as exc:
+            raise APIError(502, "SPARQL_INVALID_RESPONSE", "SPARQL service returned an invalid response") from exc
+        if not isinstance(payload, dict):
+            raise APIError(502, "SPARQL_INVALID_RESPONSE", "SPARQL service returned an invalid response")
+        return payload
+
     def ask(self) -> bool:
         result = self.query("ASK WHERE { ?s ?p ?o }")
         return bool(result.get("boolean"))
@@ -211,6 +298,31 @@ class SemanticAPI:
         except APIError as exc:
             return {"status": "degraded", "fuseki": "error", "dataset": os.getenv("FUSEKI_DATASET", "vietheritage"), "error": exc.code}
         return {"status": "ok" if ok else "degraded", "fuseki": "ok" if ok else "empty", "dataset": os.getenv("FUSEKI_DATASET", "vietheritage")}
+
+    @staticmethod
+    def _read_only_query_form(text: str) -> str:
+        if not isinstance(text, str) or not text.strip():
+            raise APIError(400, "INVALID_SPARQL", "SPARQL query text is required")
+        if len(text.encode("utf-8")) > MAX_SPARQL_QUERY_BYTES:
+            raise APIError(413, "QUERY_TOO_LARGE", "SPARQL query exceeds the 50 KB limit")
+        try:
+            parsed = parseQuery(text)
+            parsed_form = parsed[1].name
+        except (ParseBaseException, TypeError, ValueError) as exc:
+            raise APIError(400, "INVALID_SPARQL", "SPARQL query is malformed or is not read-only") from exc
+        query_form = READ_ONLY_QUERY_FORMS.get(parsed_form)
+        if query_form is None:
+            raise APIError(400, "INVALID_SPARQL", "only SELECT, ASK, CONSTRUCT, and DESCRIBE queries are allowed")
+        return query_form
+
+    def execute_sparql(self, text: str) -> dict[str, Any]:
+        query_form = self._read_only_query_form(text)
+        started = time.perf_counter()
+        result = self.client.public_query(text, query_form)
+        elapsed_ms = round((time.perf_counter() - started) * 1000, 1)
+        if query_form in {"CONSTRUCT", "DESCRIBE"}:
+            return {"query_form": query_form, "rdf": result, "format": "text/turtle", "elapsed_ms": elapsed_ms}
+        return {"query_form": query_form, "results": result, "elapsed_ms": elapsed_ms}
 
     def _where(self, params: dict[str, str]) -> str:
         clauses = [
@@ -240,7 +352,7 @@ class SemanticAPI:
         if category:
             if not CATEGORY_RE.fullmatch(category):
                 raise APIError(400, "INVALID_CATEGORY", "registry_category is invalid")
-            clauses.append(f"?entity dcterms:subject <{DEFAULT_BASE_URI}/resource/category/{category}> .")
+            clauses.append(f"?entity dcterms:subject {_literal(category)} .")
         location = params.get("location", "").strip()
         if location:
             escaped = _literal(location)
@@ -466,7 +578,18 @@ class SemanticAPI:
         result = []
         for path in sorted(QUERY_DIR.glob("CQ*.rq")):
             text = path.read_text(encoding="utf-8")
-            result.append({"id": path.stem[:4], "title": path.stem, "description": path.stem.replace("-", " "), "read_only": True, "sha256": hashlib.sha256(text.encode("utf-8")).hexdigest()})
+            query_id = path.stem[:4]
+            result.append(
+                {
+                    "id": query_id,
+                    "title": path.stem,
+                    "description": path.stem.replace("-", " "),
+                    **CQ_PRESENTATION[query_id],
+                    "sparql": text,
+                    "read_only": True,
+                    "sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                }
+            )
         return result
 
     def run_query(self, query_id: str) -> dict[str, Any]:
@@ -488,6 +611,7 @@ class SemanticAPI:
                 "/api/config": {"get": {"responses": {"200": {"description": "Canonical and public read-only endpoint configuration"}}}},
                 "/api/stats": {"get": {"responses": {"200": {"description": "RDF graph statistics"}}}},
                 "/api/search": {"get": {"parameters": [{"name": "q", "in": "query"}, {"name": "page", "in": "query"}, {"name": "page_size", "in": "query"}], "responses": {"200": {"description": "Search results"}}}},
+                "/api/sparql": {"post": {"responses": {"200": {"description": "Read-only SPARQL query result"}, "400": {"description": "Invalid or non-read-only query"}}}},
                 "/api/entities/{entity_id}": {"get": {"responses": {"200": {"description": "Entity detail"}, "404": {"description": "Not found"}}}},
                 f"{CANONICAL_PATH}/resource/{{entity_id}}": {"get": {"responses": {"200": {"description": "Content-negotiated linked-data resource"}, "404": {"description": "Not found"}}}},
             },

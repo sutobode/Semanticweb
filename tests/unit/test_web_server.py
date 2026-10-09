@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import pytest
 from rdflib.namespace import RDF, RDFS
 
-from vietheritage.web.api import FusekiClient, SemanticAPI
+from vietheritage.web.api import APIError, FusekiClient, SemanticAPI
 from vietheritage.web.server import Router
 
 
 class Response:
+    text = ""
+
     def raise_for_status(self) -> None:
         return None
 
@@ -64,6 +67,31 @@ def test_docs_and_openapi_are_available() -> None:
     assert b"VietHeritageLOD" in docs_body
     assert openapi_status == 200 and openapi_headers["Content-Type"].startswith("application/json")
     assert b"openapi" in openapi_body
+
+
+def test_read_only_sparql_post_route() -> None:
+    request = json.dumps({"query": "SELECT * WHERE { ?s ?p ?o } LIMIT 1"}).encode("utf-8")
+    status, headers, body = router().handle(
+        "/api/sparql",
+        {"content-type": "application/json"},
+        method="POST",
+        body=request,
+    )
+    payload = json.loads(body)
+    assert status == 200
+    assert headers["Content-Type"].startswith("application/json")
+    assert payload["query_form"] == "SELECT"
+
+
+def test_sparql_route_rejects_non_query_payload() -> None:
+    with pytest.raises(APIError) as error:
+        router().handle(
+            "/api/sparql",
+            {"content-type": "application/json"},
+            method="POST",
+            body=json.dumps({"update": "DROP ALL"}).encode("utf-8"),
+        )
+    assert error.value.code == "INVALID_REQUEST"
 
 
 def test_unknown_route_is_api_error() -> None:
