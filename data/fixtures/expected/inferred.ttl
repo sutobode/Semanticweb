@@ -23,3 +23,6 @@ vhr:site-ax007 vh:associatedWithPerson vhr:person-ax007 .
 
 # AX-010
 vhr:site-ax010 a vh:HeritageSiteWithHistoricalBuilder .
+
+# AX-012
+vhr:site-ax012 vh:locatedIn vhr:area-ax012-region, vhr:area-ax012-country .

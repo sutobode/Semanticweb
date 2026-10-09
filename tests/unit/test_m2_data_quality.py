@@ -404,13 +404,23 @@ def _entity(category="national_special_monuments", **fields):
     }
 
 
+def _province_records(derived):
+    """Derived AdministrativeArea records below the region hierarchy (AX-012)."""
+    return [item for item in derived.records() if item.get("level") not in ("miền", "quốc gia")]
+
+
 def test_mapper_links_site_to_area_and_emits_area_record():
     derived = DerivedRegistry()
     record = map_record(_entity(), TYPES, derived=derived)
-    area = derived.records()[0]
+    by_label = {item["label_vi"]: item for item in derived.records()}
+    area = by_label["Hà Nội"]
     assert record["relations"]["located_in"] == [area["entity_id"]]
-    assert area["label_vi"] == "Hà Nội" and area["entity_type"] == "AdministrativeArea"
+    assert area["entity_type"] == "AdministrativeArea"
     assert area["source_status"] == "derived" and area["provenance"]["method"] == "derived"
+    # AX-012: tỉnh -> miền -> quốc gia qua parent_area.
+    assert area["parent_area"] == by_label["Bắc Bộ"]["entity_id"]
+    assert by_label["Bắc Bộ"]["parent_area"] == by_label["Việt Nam"]["entity_id"]
+    assert "parent_area" not in by_label["Việt Nam"]
     assert record["recognition_year"] == 2012
     assert record["address"] == "Thành phố Hà Nội"
 
@@ -425,7 +435,7 @@ def test_mapper_located_in_uses_merged_province():
     derived = DerivedRegistry()
     record = map_record(_entity(location="xã Kiến Quốc, huyện Ninh Giang, tỉnh Hải Dương "
                                          "(nay là xã Khúc Thừa Dụ, Thành phố Hải Phòng)"), TYPES, derived=derived)
-    areas = derived.records()
+    areas = _province_records(derived)
     assert [a["label_vi"] for a in areas] == ["Hải Phòng"]
     assert record["relations"]["located_in"] == [areas[0]["entity_id"]]
     assert areas[0]["level"] == "thành phố trực thuộc trung ương"
@@ -477,7 +487,8 @@ def test_mapper_derived_entities_can_target_one_registry_record_without_back_rel
     seed = map_record(_entity("world_heritage", label="Di sản gốc"), TYPES, mapping=mapping, derived=derived)
     records = {item["entity_id"]: item for item in derived.records()}
 
-    assert set(records) == {"complex-test", "site-test", "area-name-8de4ed043a59"}
+    assert set(records) == {"complex-test", "site-test", "area-name-8de4ed043a59",
+                            "area-name-cbfbd2a491ad", "area-name-0ff967ccae29"}  # + Bắc Bộ, Việt Nam
     assert records["complex-test"]["relations"] == {"member_sites": ["site-test"]}
     assert records["complex-test"]["provenance"]["source"] == "https://whc.unesco.org/en/list/1/"
     assert records["complex-test"]["retrieved_at"] == "2026-10-05T00:00:00Z"

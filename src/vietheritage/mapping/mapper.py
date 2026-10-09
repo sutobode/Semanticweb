@@ -380,18 +380,27 @@ def _construction_year(page: dict[str, Any], mapping: dict[str, Any]) -> int | N
 def _attach_areas(record: dict[str, Any], areas: list, resolver, derived: DerivedRegistry | None,
                   entity: dict[str, Any], category: str | None, category_urls: dict[str, str] | None,
                   registry_url: str | None) -> None:
-    """``relations.located_in`` + entity AdministrativeArea phái sinh cho các tỉnh đã công bố."""
+    """``relations.located_in`` + entity AdministrativeArea phái sinh cho các tỉnh đã công bố.
+
+    Mỗi tỉnh mang ``parent_area`` tới miền, miền tới quốc gia (AX-012); các đơn vị cha cũng
+    được sinh làm entity phái sinh để ``vh:locatedIn`` bắc cầu không trỏ tới URI treo.
+    """
     for area in areas:
         _add_relation(record, "located_in", area.entity_id)
         if derived is not None:
             source = (category_urls or {}).get(category) or registry_url
-            derived.add(
-                area.entity_id, "AdministrativeArea", sources=[source],
-                retrieved_at=entity.get("retrieved_at"), coverage_snapshot=entity.get("coverage_snapshot"),
-                method="derived", license_text=REGISTRY_LICENSE,
-                label_vi=area.label, aliases_vi=list(area.display_aliases),
-                level=area.level, country_code=resolver.country_code,
-            )
+            node = area
+            while node is not None:
+                parent = resolver.parent_of(node)
+                derived.add(
+                    node.entity_id, "AdministrativeArea", sources=[source],
+                    retrieved_at=entity.get("retrieved_at"), coverage_snapshot=entity.get("coverage_snapshot"),
+                    method="derived", license_text=REGISTRY_LICENSE,
+                    label_vi=node.label, aliases_vi=list(node.display_aliases),
+                    level=node.level, country_code=resolver.country_code,
+                    parent_area=parent.entity_id if parent is not None else None,
+                )
+                node = parent
 
 
 def map_record(

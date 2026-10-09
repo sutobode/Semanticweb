@@ -30,6 +30,12 @@
 #   label           : rdfs:label@vi công bố (CQ01 so khớp "Hà Nội"@vi).
 #   level           : vh:areaLevel.
 #   display_aliases : skos:altLabel.
+#   region          : label của đơn vị trong `regions` (parent_area -> vh:locatedIn, AX-012).
+# regions[*]:
+#   Thứ bậc trên cấp tỉnh: miền -> quốc gia. Dùng 3 miền (Bắc/Trung/Nam Bộ, Trung Bộ gồm
+#   Tây Nguyên) vì sau sắp xếp 2025 mỗi tỉnh mới nằm trọn trong một miền; 6 vùng kinh tế -
+#   xã hội không dùng được vì 7 tỉnh mới vắt qua hai vùng (ví dụ Quảng Ngãi + Kon Tum).
+#   parent           : label của đơn vị cha trong `regions` (bỏ trống ở cấp quốc gia).
 
 publish_level: merged_2025        # merged_2025 | source
 
@@ -103,40 +109,46 @@ areas:
 
 # 34 tỉnh/thành sau sắp xếp (Nghị quyết 202/2025/QH15): 6 thành phố trực thuộc trung ương + 28 tỉnh.
 merged_areas:
-  - {label: "Hà Nội", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Hà Nội"]}
-  - {label: "Huế", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Huế"]}
-  - {label: "Hải Phòng", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Hải Phòng"]}
-  - {label: "Đà Nẵng", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Đà Nẵng"]}
-  - {label: "Thành phố Hồ Chí Minh", level: "thành phố trực thuộc trung ương", display_aliases: []}
-  - {label: "Cần Thơ", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Cần Thơ"]}
-  - {label: "An Giang", level: "tỉnh", display_aliases: ["Tỉnh An Giang"]}
-  - {label: "Bắc Ninh", level: "tỉnh", display_aliases: ["Tỉnh Bắc Ninh"]}
-  - {label: "Cà Mau", level: "tỉnh", display_aliases: ["Tỉnh Cà Mau"]}
-  - {label: "Cao Bằng", level: "tỉnh", display_aliases: ["Tỉnh Cao Bằng"]}
-  - {label: "Đắk Lắk", level: "tỉnh", display_aliases: ["Tỉnh Đắk Lắk"]}
-  - {label: "Điện Biên", level: "tỉnh", display_aliases: ["Tỉnh Điện Biên"]}
-  - {label: "Đồng Nai", level: "tỉnh", display_aliases: ["Tỉnh Đồng Nai"]}
-  - {label: "Đồng Tháp", level: "tỉnh", display_aliases: ["Tỉnh Đồng Tháp"]}
-  - {label: "Gia Lai", level: "tỉnh", display_aliases: ["Tỉnh Gia Lai"]}
-  - {label: "Hà Tĩnh", level: "tỉnh", display_aliases: ["Tỉnh Hà Tĩnh"]}
-  - {label: "Hưng Yên", level: "tỉnh", display_aliases: ["Tỉnh Hưng Yên"]}
-  - {label: "Khánh Hòa", level: "tỉnh", display_aliases: ["Tỉnh Khánh Hòa"]}
-  - {label: "Lai Châu", level: "tỉnh", display_aliases: ["Tỉnh Lai Châu"]}
-  - {label: "Lâm Đồng", level: "tỉnh", display_aliases: ["Tỉnh Lâm Đồng"]}
-  - {label: "Lạng Sơn", level: "tỉnh", display_aliases: ["Tỉnh Lạng Sơn"]}
-  - {label: "Lào Cai", level: "tỉnh", display_aliases: ["Tỉnh Lào Cai"]}
-  - {label: "Nghệ An", level: "tỉnh", display_aliases: ["Tỉnh Nghệ An"]}
-  - {label: "Ninh Bình", level: "tỉnh", display_aliases: ["Tỉnh Ninh Bình"]}
-  - {label: "Phú Thọ", level: "tỉnh", display_aliases: ["Tỉnh Phú Thọ"]}
-  - {label: "Quảng Ngãi", level: "tỉnh", display_aliases: ["Tỉnh Quảng Ngãi"]}
-  - {label: "Quảng Ninh", level: "tỉnh", display_aliases: ["Tỉnh Quảng Ninh"]}
-  - {label: "Quảng Trị", level: "tỉnh", display_aliases: ["Tỉnh Quảng Trị"]}
-  - {label: "Sơn La", level: "tỉnh", display_aliases: ["Tỉnh Sơn La"]}
-  - {label: "Tây Ninh", level: "tỉnh", display_aliases: ["Tỉnh Tây Ninh"]}
-  - {label: "Thái Nguyên", level: "tỉnh", display_aliases: ["Tỉnh Thái Nguyên"]}
-  - {label: "Thanh Hóa", level: "tỉnh", display_aliases: ["Tỉnh Thanh Hóa"]}
-  - {label: "Tuyên Quang", level: "tỉnh", display_aliases: ["Tỉnh Tuyên Quang"]}
-  - {label: "Vĩnh Long", level: "tỉnh", display_aliases: ["Tỉnh Vĩnh Long"]}
+  - {label: "Hà Nội", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Hà Nội"], region: "Bắc Bộ"}
+  - {label: "Huế", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Huế"], region: "Trung Bộ"}
+  - {label: "Hải Phòng", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Hải Phòng"], region: "Bắc Bộ"}
+  - {label: "Đà Nẵng", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Đà Nẵng"], region: "Trung Bộ"}
+  - {label: "Thành phố Hồ Chí Minh", level: "thành phố trực thuộc trung ương", display_aliases: [], region: "Nam Bộ"}
+  - {label: "Cần Thơ", level: "thành phố trực thuộc trung ương", display_aliases: ["Thành phố Cần Thơ"], region: "Nam Bộ"}
+  - {label: "An Giang", level: "tỉnh", display_aliases: ["Tỉnh An Giang"], region: "Nam Bộ"}
+  - {label: "Bắc Ninh", level: "tỉnh", display_aliases: ["Tỉnh Bắc Ninh"], region: "Bắc Bộ"}
+  - {label: "Cà Mau", level: "tỉnh", display_aliases: ["Tỉnh Cà Mau"], region: "Nam Bộ"}
+  - {label: "Cao Bằng", level: "tỉnh", display_aliases: ["Tỉnh Cao Bằng"], region: "Bắc Bộ"}
+  - {label: "Đắk Lắk", level: "tỉnh", display_aliases: ["Tỉnh Đắk Lắk"], region: "Trung Bộ"}
+  - {label: "Điện Biên", level: "tỉnh", display_aliases: ["Tỉnh Điện Biên"], region: "Bắc Bộ"}
+  - {label: "Đồng Nai", level: "tỉnh", display_aliases: ["Tỉnh Đồng Nai"], region: "Nam Bộ"}
+  - {label: "Đồng Tháp", level: "tỉnh", display_aliases: ["Tỉnh Đồng Tháp"], region: "Nam Bộ"}
+  - {label: "Gia Lai", level: "tỉnh", display_aliases: ["Tỉnh Gia Lai"], region: "Trung Bộ"}
+  - {label: "Hà Tĩnh", level: "tỉnh", display_aliases: ["Tỉnh Hà Tĩnh"], region: "Trung Bộ"}
+  - {label: "Hưng Yên", level: "tỉnh", display_aliases: ["Tỉnh Hưng Yên"], region: "Bắc Bộ"}
+  - {label: "Khánh Hòa", level: "tỉnh", display_aliases: ["Tỉnh Khánh Hòa"], region: "Trung Bộ"}
+  - {label: "Lai Châu", level: "tỉnh", display_aliases: ["Tỉnh Lai Châu"], region: "Bắc Bộ"}
+  - {label: "Lâm Đồng", level: "tỉnh", display_aliases: ["Tỉnh Lâm Đồng"], region: "Trung Bộ"}
+  - {label: "Lạng Sơn", level: "tỉnh", display_aliases: ["Tỉnh Lạng Sơn"], region: "Bắc Bộ"}
+  - {label: "Lào Cai", level: "tỉnh", display_aliases: ["Tỉnh Lào Cai"], region: "Bắc Bộ"}
+  - {label: "Nghệ An", level: "tỉnh", display_aliases: ["Tỉnh Nghệ An"], region: "Trung Bộ"}
+  - {label: "Ninh Bình", level: "tỉnh", display_aliases: ["Tỉnh Ninh Bình"], region: "Bắc Bộ"}
+  - {label: "Phú Thọ", level: "tỉnh", display_aliases: ["Tỉnh Phú Thọ"], region: "Bắc Bộ"}
+  - {label: "Quảng Ngãi", level: "tỉnh", display_aliases: ["Tỉnh Quảng Ngãi"], region: "Trung Bộ"}
+  - {label: "Quảng Ninh", level: "tỉnh", display_aliases: ["Tỉnh Quảng Ninh"], region: "Bắc Bộ"}
+  - {label: "Quảng Trị", level: "tỉnh", display_aliases: ["Tỉnh Quảng Trị"], region: "Trung Bộ"}
+  - {label: "Sơn La", level: "tỉnh", display_aliases: ["Tỉnh Sơn La"], region: "Bắc Bộ"}
+  - {label: "Tây Ninh", level: "tỉnh", display_aliases: ["Tỉnh Tây Ninh"], region: "Nam Bộ"}
+  - {label: "Thái Nguyên", level: "tỉnh", display_aliases: ["Tỉnh Thái Nguyên"], region: "Bắc Bộ"}
+  - {label: "Thanh Hóa", level: "tỉnh", display_aliases: ["Tỉnh Thanh Hóa"], region: "Trung Bộ"}
+  - {label: "Tuyên Quang", level: "tỉnh", display_aliases: ["Tỉnh Tuyên Quang"], region: "Bắc Bộ"}
+  - {label: "Vĩnh Long", level: "tỉnh", display_aliases: ["Tỉnh Vĩnh Long"], region: "Nam Bộ"}
+
+regions:
+  - {label: "Việt Nam", level: "quốc gia", display_aliases: ["Cộng hòa Xã hội chủ nghĩa Việt Nam"]}
+  - {label: "Bắc Bộ", level: "miền", display_aliases: ["Miền Bắc"], parent: "Việt Nam"}
+  - {label: "Trung Bộ", level: "miền", display_aliases: ["Miền Trung"], parent: "Việt Nam"}
+  - {label: "Nam Bộ", level: "miền", display_aliases: ["Miền Nam"], parent: "Việt Nam"}
 
 # Gợi ý huyện/thị xã -> tỉnh, CHỈ dùng khi ô địa điểm không nêu tên tỉnh nào.
 # Chỉ liệt kê các huyện đã gặp trong snapshot và đã kiểm tra thủ công.

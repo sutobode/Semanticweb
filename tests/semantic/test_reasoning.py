@@ -42,7 +42,8 @@ def actual(inputs) -> tuple[Graph, int]:
     ("AX-006", VHR["site-ax006-b"]),
     ("AX-007", VHR["site-ax007"]),
     ("AX-010", VHR["site-ax010"]),
-], ids=["AX-001", "AX-002", "AX-003", "AX-005", "AX-006", "AX-007", "AX-010"])
+    ("AX-012", VHR["site-ax012"]),
+], ids=["AX-001", "AX-002", "AX-003", "AX-005", "AX-006", "AX-007", "AX-010", "AX-012"])
 def test_axiom_entailments(axiom, subject, inputs, actual) -> None:
     ontology, fixture, expected = inputs
     inferred, _ = actual
@@ -111,8 +112,8 @@ def test_reason_stage_artifact_and_status(valid, inputs, monkeypatch, tmp_path: 
     result = reasoner.run(run_id=run_id)
     report = json.loads((tmp_path / "reports" / run_id / "reasoning.json").read_text())
     assert report["engine"] == "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
-    assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)] + ["AX-010", "AX-011"]
-    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 12)] + ["AX-017"]
+    assert report["scope"] == [f"AX-{i:03d}" for i in range(1, 8)] + ["AX-010", "AX-011", "AX-012"]
+    assert report["aggregate_scope"] == [f"AX-{i:03d}" for i in range(1, 13)] + ["AX-017"]
     assert set(report["axioms"]) == set(report["aggregate_scope"])
     if valid:
         assert result == 0, report

@@ -161,7 +161,9 @@ Mộc bản triều Nguyễn còn bao gồm cả những ván khắc in thu ở 
 Gỗ dùng làm ván khắc tài liệu mộc bản triều Nguyễn là gỗ thị, gỗ cây nha đồng. Nét chữ khắc trên tài liệu mộc bản rất tinh xảo và sắc nét. Đây là những tài liệu có giá trị, phục vụ cho việc nghiên cứu lịch sử và văn hóa Việt Nam thời cận đại.
 Tất cả các bản thảo nói trên đều được đích danh hoàng đế ngự lãm, phê duyệt bằng bút tích trước khi giao cho những người thợ tài hoa nhất trong cung đình khắc lên gỗ quý. Do tính chất cực kỳ quan trọng của mộc bản, dưới thời Minh Mạng, nhà vua từng có chỉ dụ: "Sai quan Bắc thành kiểm xét các ván in nguyên trữ tại Văn Miếu (Hà Nội) về các sách Ngũ Kinh, Tứ Thư Đại Toàn, Vũ Kinh Trực Giải cùng Tiền Hậu Chính Sử và Tứ Trường Văn Thể gửi về kinh để ở Quốc Tử Giám (Kinh đô Huế)".
 Năm 2007, Cục Văn thư và Lưu trữ Nhà nước đã làm hồ sơ trình UNESCO và đến ngày 31/7/2009, Mộc bản triều Nguyễn đã chính thức được UNESCO đưa vào "Chương trình Ký ức thế giới".
-Người có công lưu giữ mộc bản là Ngô Đình Nhu (1911-1963), Cố vấn Chính trị cho Tổng thống Việt Nam Cộng hòa Ngô Đình Diệm, từng là Giám đốc đầu tiên Nha Lưu trữ và Thư viện Quốc gia của Chính quyền Việt Nam Dân chủ Cộng hòa."""@vi ;
+Người có công lưu giữ mộc bản là Ngô Đình Nhu (1911-1963), Cố vấn Chính trị cho Tổng thống Việt Nam Cộng hòa Ngô Đình Diệm, từng là Giám đốc đầu tiên Nha Lưu trữ và Thư viện Quốc gia của Chính quyền Việt Nam Dân chủ Cộng hòa.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
@@ -173,7 +175,9 @@ Mộc bản triều Nguyễn còn bao gồm cả những ván khắc in thu ở 
 Gỗ dùng làm ván khắc tài liệu mộc bản triều Nguyễn là gỗ thị, gỗ cây nha đồng. Nét chữ khắc trên tài liệu mộc bản rất tinh xảo và sắc nét. Đây là những tài liệu có giá trị, phục vụ cho việc nghiên cứu lịch sử và văn hóa Việt Nam thời cận đại.
 Tất cả các bản thảo nói trên đều được đích danh hoàng đế ngự lãm, phê duyệt bằng bút tích trước khi giao cho những người thợ tài hoa nhất trong cung đình khắc lên gỗ quý. Do tính chất cực kỳ quan trọng của mộc bản, dưới thời Minh Mạng, nhà vua từng có chỉ dụ: "Sai quan Bắc thành kiểm xét các ván in nguyên trữ tại Văn Miếu (Hà Nội) về các sách Ngũ Kinh, Tứ Thư Đại Toàn, Vũ Kinh Trực Giải cùng Tiền Hậu Chính Sử và Tứ Trường Văn Thể gửi về kinh để ở Quốc Tử Giám (Kinh đô Huế)".
 Năm 2007, Cục Văn thư và Lưu trữ Nhà nước đã làm hồ sơ trình UNESCO và đến ngày 31/7/2009, Mộc bản triều Nguyễn đã chính thức được UNESCO đưa vào "Chương trình Ký ức thế giới".
-Người có công lưu giữ mộc bản là Ngô Đình Nhu (1911-1963), Cố vấn Chính trị cho Tổng thống Việt Nam Cộng hòa Ngô Đình Diệm, từng là Giám đốc đầu tiên Nha Lưu trữ và Thư viện Quốc gia của Chính quyền Việt Nam Dân chủ Cộng hòa."""@vi ;
+Người có công lưu giữ mộc bản là Ngô Đình Nhu (1911-1963), Cố vấn Chính trị cho Tổng thống Việt Nam Cộng hòa Ngô Đình Diệm, từng là Giám đốc đầu tiên Nha Lưu trữ và Thư viện Quốc gia của Chính quyền Việt Nam Dân chủ Cộng hòa.
+
+"""@vi ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Di_s%E1%BA%A3n_t%C6%B0_li%E1%BB%87u_th%E1%BA%BF_gi%E1%BB%9Bi>,
         <https://vi.wikipedia.org/wiki/M%E1%BB%99c_b%E1%BA%A3n_tri%E1%BB%81u_Nguy%E1%BB%85n> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -590,17 +594,13 @@ vhr:intangible-0c8fd84100ba a vh:IntangibleHeritage,
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 787751 ;
     vh:sourceTitle "Trò Xuân Phả"^^xsd:string ;
-    dcterms:description """Trò Xuân Phả là các trò diễn dân gian mô tả cảnh 5 quốc gia cổ (thuộc Trung Hoa, Hòa Lan, Tú Huần, Chăm Pa, Ai Lao) đem lễ vật cùng với những tiết mục múa hát đặc sắc của quốc gia họ để chúc mừng Hoàng đế nước Việt xưa. Trò Xuân Phả được hình thành và phát triển hơn 1000 năm để trở thành một tổ hợp múa dân gian đặc sắc, độc nhất vô nhị diễn ra hàng năm ở Nghè Xuân Phả, xã Thọ Xuân, tỉnh Thanh Hóa và được ghi danh là di sản văn hóa phi vật thể quốc gia. Trò Xuân Phả gồm có 5 điệu múa rất đặc biệt với tên gọi Hoa Lang, Tú Huần, Ai Lao, Ngô Quốc và Chiêm Thành. Trò Xuân Phả thường diễn ra vào các ngày từ 10 đến 12 tháng 2 âm lịch hàng năm tại di tích Nghè Xuân Phả.
-
-"""@vi ;
+    dcterms:description "Trò Xuân Phả là các trò diễn dân gian mô tả cảnh 5 quốc gia cổ (thuộc Trung Hoa, Hòa Lan, Tú Huần, Chăm Pa, Ai Lao) đem lễ vật cùng với những tiết mục múa hát đặc sắc của quốc gia họ để chúc mừng Hoàng đế nước Việt xưa. Trò Xuân Phả được hình thành và phát triển hơn 1000 năm để trở thành một tổ hợp múa dân gian đặc sắc, độc nhất vô nhị diễn ra hàng năm ở Nghè Xuân Phả, xã Thọ Xuân, tỉnh Thanh Hóa và được ghi danh là di sản văn hóa phi vật thể quốc gia. Trò Xuân Phả gồm có 5 điệu múa rất đặc biệt với tên gọi Hoa Lang, Tú Huần, Ai Lao, Ngô Quốc và Chiêm Thành. Trò Xuân Phả thường diễn ra vào các ngày từ 10 đến 12 tháng 2 âm lịch hàng năm tại di tích Nghè Xuân Phả."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/Tr%C3%B2_Xu%C3%A2n_Ph%E1%BA%A3> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment """Trò Xuân Phả là các trò diễn dân gian mô tả cảnh 5 quốc gia cổ (thuộc Trung Hoa, Hòa Lan, Tú Huần, Chăm Pa, Ai Lao) đem lễ vật cùng với những tiết mục múa hát đặc sắc của quốc gia họ để chúc mừng Hoàng đế nước Việt xưa. Trò Xuân Phả được hình thành và phát triển hơn 1000 năm để trở thành một tổ hợp múa dân gian đặc sắc, độc nhất vô nhị diễn ra hàng năm ở Nghè Xuân Phả, xã Thọ Xuân, tỉnh Thanh Hóa và được ghi danh là di sản văn hóa phi vật thể quốc gia. Trò Xuân Phả gồm có 5 điệu múa rất đặc biệt với tên gọi Hoa Lang, Tú Huần, Ai Lao, Ngô Quốc và Chiêm Thành. Trò Xuân Phả thường diễn ra vào các ngày từ 10 đến 12 tháng 2 âm lịch hàng năm tại di tích Nghè Xuân Phả.
-
-"""@vi ;
+    rdfs:comment "Trò Xuân Phả là các trò diễn dân gian mô tả cảnh 5 quốc gia cổ (thuộc Trung Hoa, Hòa Lan, Tú Huần, Chăm Pa, Ai Lao) đem lễ vật cùng với những tiết mục múa hát đặc sắc của quốc gia họ để chúc mừng Hoàng đế nước Việt xưa. Trò Xuân Phả được hình thành và phát triển hơn 1000 năm để trở thành một tổ hợp múa dân gian đặc sắc, độc nhất vô nhị diễn ra hàng năm ở Nghè Xuân Phả, xã Thọ Xuân, tỉnh Thanh Hóa và được ghi danh là di sản văn hóa phi vật thể quốc gia. Trò Xuân Phả gồm có 5 điệu múa rất đặc biệt với tên gọi Hoa Lang, Tú Huần, Ai Lao, Ngô Quốc và Chiêm Thành. Trò Xuân Phả thường diễn ra vào các ngày từ 10 đến 12 tháng 2 âm lịch hàng năm tại di tích Nghè Xuân Phả."@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/Tr%C3%B2_Xu%C3%A2n_Ph%E1%BA%A3> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -639,13 +639,13 @@ vhr:intangible-0fc6bb6b3339 a vh:IntangibleHeritage,
     vh:recognitionYear "2019"^^xsd:gYear ;
     vh:sourcePageId 315834 ;
     vh:sourceTitle "Lễ hội đập trống"^^xsd:string ;
-    dcterms:description "Lễ hội đập trống là một lễ hội của người Ma Coong, một tộc thuộc dân tộc Bru - Vân Kiều, tại Bố Trạch, miền tây Quảng Bình- Bây giờ là tỉnh Quảng Trị. Lễ hội đập trống mừng mùa trăng mới, đậm chất dân tộc, còn nguyên sơ chưa bị pha tạp còn mang nhiều bản sắc của dân tộc miền Tây Quảng Bình."@vi ;
+    dcterms:description "Lễ hội đập trống là một lễ hội của người Ma Coong, một tộc thuộc dân tộc Bru - Vân Kiều, tại Bố Trạch, miền tây Quảng Bình. Lễ hội đập trống mừng mùa trăng mới, đậm chất dân tộc, còn nguyên sơ chưa bị pha tạp còn mang nhiều bản sắc của dân tộc miền Tây Quảng Bình."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_%C4%91%E1%BA%ADp_tr%E1%BB%91ng> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Lễ hội đập trống là một lễ hội của người Ma Coong, một tộc thuộc dân tộc Bru - Vân Kiều, tại Bố Trạch, miền tây Quảng Bình- Bây giờ là tỉnh Quảng Trị. Lễ hội đập trống mừng mùa trăng mới, đậm chất dân tộc, còn nguyên sơ chưa bị pha tạp còn mang nhiều bản sắc của dân tộc miền Tây Quảng Bình."@vi ;
+    rdfs:comment "Lễ hội đập trống là một lễ hội của người Ma Coong, một tộc thuộc dân tộc Bru - Vân Kiều, tại Bố Trạch, miền tây Quảng Bình. Lễ hội đập trống mừng mùa trăng mới, đậm chất dân tộc, còn nguyên sơ chưa bị pha tạp còn mang nhiều bản sắc của dân tộc miền Tây Quảng Bình."@vi ;
     skos:altLabel "Lễ hội đập trống"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_%C4%91%E1%BA%ADp_tr%E1%BB%91ng> ;
@@ -2363,17 +2363,13 @@ vhr:intangible-469e639fdf06 a vh:IntangibleHeritage,
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 58922 ;
     vh:sourceTitle "Múa rối nước"^^xsd:string ;
-    dcterms:description """Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam. 
-
-"""@vi ;
+    dcterms:description "Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/mua-roi-nuoc-o-hai-duong-3154>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment """Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam. 
-
-"""@vi ;
+    rdfs:comment "Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam."@vi ;
     skos:altLabel "Nghệ thuật múa rối nước"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/mua-roi-nuoc-o-hai-duong-3154>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc> ;
@@ -3992,13 +3988,17 @@ vhr:intangible-8b84e3710e16 a vh:IntangibleHeritage,
     vh:recognitionYear "2013"^^xsd:gYear ;
     vh:sourcePageId 87176 ;
     vh:sourceTitle "Lễ hội nghinh Ông"^^xsd:string ;
-    dcterms:description "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    dcterms:description """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    rdfs:comment """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -4011,13 +4011,17 @@ vhr:intangible-8baa5048ad4f a vh:IntangibleHeritage,
     vh:recognitionYear "2023"^^xsd:gYear ;
     vh:sourcePageId 87176 ;
     vh:sourceTitle "Lễ hội nghinh Ông"^^xsd:string ;
-    dcterms:description "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    dcterms:description """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    rdfs:comment """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -4070,9 +4074,7 @@ vhr:intangible-8cc69f6ad3e4 a vh:IntangibleHeritage,
     dcterms:description """Không gian văn hóa cồng chiêng Tây Nguyên được UNESCO công nhận là Kiệt tác truyền khẩu và phi vật thể nhân loại vào ngày 25 tháng 11 năm 2005. Sau Nhã nhạc cung đình Huế, đây là di sản thứ hai của Việt Nam được nhận danh hiệu.
 Không gian văn hóa Cồng Chiêng Tây Nguyên trải dài ở vùng cao nguyên phía Tây 4 tỉnh Nam Trung Bộ là: Quảng Ngãi, Gia Lai, Đắk Lắk và Lâm Đồng. Chủ thể của không gian văn hóa này gồm nhiều dân tộc khác nhau: Êđê, Jarai, Ba Na, Mạ, Lạch...
 Không gian văn hóa Cồng Chiêng Tây Nguyên bao gồm các yếu tố bộ phận sau: cồng chiêng, các bản nhạc tấu bằng cồng chiêng, những người chơi cồng chiêng, các lễ hội có sử dụng cồng chiêng (Lễ mừng lúa mới, Lễ cúng Bến nước...), những địa điểm tổ chức các lễ hội đó (nhà dài, nhà rông, nhà gươl, rẫy, bến nước, nhà mồ, các khu rừng cạnh các buôn làng Tây Nguyên,...), v.v.
-Hiện tại, ở các vùng có cồng chiêng như ở Tây nguyên, Lễ hội Cồng chiêng được tổ chức hàng năm là một hoạt động vừa có ý nghĩa bảo tồn bản sắc văn hóa vừa là một sản phẩm du lịch ăn khách.
-
-"""@vi ;
+Hiện tại, ở các vùng có cồng chiêng như ở Tây nguyên, Lễ hội Cồng chiêng được tổ chức hàng năm là một hoạt động vừa có ý nghĩa bảo tồn bản sắc văn hóa vừa là một sản phẩm du lịch ăn khách."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
@@ -4082,9 +4084,7 @@ Hiện tại, ở các vùng có cồng chiêng như ở Tây nguyên, Lễ hộ
     rdfs:comment """Không gian văn hóa cồng chiêng Tây Nguyên được UNESCO công nhận là Kiệt tác truyền khẩu và phi vật thể nhân loại vào ngày 25 tháng 11 năm 2005. Sau Nhã nhạc cung đình Huế, đây là di sản thứ hai của Việt Nam được nhận danh hiệu.
 Không gian văn hóa Cồng Chiêng Tây Nguyên trải dài ở vùng cao nguyên phía Tây 4 tỉnh Nam Trung Bộ là: Quảng Ngãi, Gia Lai, Đắk Lắk và Lâm Đồng. Chủ thể của không gian văn hóa này gồm nhiều dân tộc khác nhau: Êđê, Jarai, Ba Na, Mạ, Lạch...
 Không gian văn hóa Cồng Chiêng Tây Nguyên bao gồm các yếu tố bộ phận sau: cồng chiêng, các bản nhạc tấu bằng cồng chiêng, những người chơi cồng chiêng, các lễ hội có sử dụng cồng chiêng (Lễ mừng lúa mới, Lễ cúng Bến nước...), những địa điểm tổ chức các lễ hội đó (nhà dài, nhà rông, nhà gươl, rẫy, bến nước, nhà mồ, các khu rừng cạnh các buôn làng Tây Nguyên,...), v.v.
-Hiện tại, ở các vùng có cồng chiêng như ở Tây nguyên, Lễ hội Cồng chiêng được tổ chức hàng năm là một hoạt động vừa có ý nghĩa bảo tồn bản sắc văn hóa vừa là một sản phẩm du lịch ăn khách.
-
-"""@vi ;
+Hiện tại, ở các vùng có cồng chiêng như ở Tây nguyên, Lễ hội Cồng chiêng được tổ chức hàng năm là một hoạt động vừa có ý nghĩa bảo tồn bản sắc văn hóa vừa là một sản phẩm du lịch ăn khách."""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://dsvh.gov.vn/khong-gian-van-hoa-cong-chieng-tay-nguyen-484>,
         <https://vi.wikipedia.org/wiki/Kh%C3%B4ng_gian_v%C4%83n_h%C3%B3a_c%E1%BB%93ng_chi%C3%AAng_T%C3%A2y_Nguy%C3%AAn> ;
@@ -4242,9 +4242,7 @@ vhr:intangible-9085739e65f8 a vh:IntangibleHeritage,
     dcterms:description """Chợ Khau Vai, còn gọi là chợ tình Khau Vai, là chợ lễ hội ở bản Khau Vai xã Khâu Vai tỉnh Tuyên Quang, Việt Nam.
 Tên gọi "Khau Vai" theo tiếng Tày - Nùng có nghĩa là "đèo Mây - dây Mây", tuy nhiên nhiều văn liệu đã ghi thành "Khâu Vai". Du khách có khi gọi chợ là chợ Phong Lưu. Hàng năm chợ chỉ họp một lần vào ngày 27 tháng 3 âm lịch. Chợ đã có từ gần 100 năm nay, trong đó có nguồn nói là từ năm 1919.
 Lúc đầu chợ gần như không có người bán, người mua hàng hóa đúng nghĩa mà chỉ có một số người bán đồ ăn uống phục vụ cho những người về đây họp chợ. Vì đây là địa điểm để người ta tìm đến nhau, sau một năm (cũng có thể là nhiều năm) xa cách, chủ yếu là những người có mối tình trắc trở, yêu thương nhau thực sự, nhưng vì một lý do nào đó không lấy được nhau, nay mỗi người đều có duyên phận riêng của mình. Đúng ngày này, họ hẹn nhau về đây để tâm sự, thông báo cho nhau cuộc sống riêng của mỗi người, ôn lại những tình cảm xưa. Có rất nhiều đôi vợ chồng cùng nhau đến chợ; đến nơi, vợ đi tìm bạn của vợ, chồng đi tìm bạn của chồng, họ không ghen tuông, không bực bội, mà tôn trọng nhau, tôn trọng bạn của vợ, của chồng mình; họ coi đó là sự linh thiêng, là bổn phận và trách nhiệm trước cuộc sống tinh thần của người bạn đời.
-Hiện nay, chợ tình Khau Vai đang bị thương mại hóa khiến nó mất dần đi vẻ mộc mạc vốn có và trở thành nơi bày bán đủ loại hàng hóa.
-
-"""@vi ;
+Hiện nay, chợ tình Khau Vai đang bị thương mại hóa khiến nó mất dần đi vẻ mộc mạc vốn có và trở thành nơi bày bán đủ loại hàng hóa."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
@@ -4253,9 +4251,7 @@ Hiện nay, chợ tình Khau Vai đang bị thương mại hóa khiến nó mấ
     rdfs:comment """Chợ Khau Vai, còn gọi là chợ tình Khau Vai, là chợ lễ hội ở bản Khau Vai xã Khâu Vai tỉnh Tuyên Quang, Việt Nam.
 Tên gọi "Khau Vai" theo tiếng Tày - Nùng có nghĩa là "đèo Mây - dây Mây", tuy nhiên nhiều văn liệu đã ghi thành "Khâu Vai". Du khách có khi gọi chợ là chợ Phong Lưu. Hàng năm chợ chỉ họp một lần vào ngày 27 tháng 3 âm lịch. Chợ đã có từ gần 100 năm nay, trong đó có nguồn nói là từ năm 1919.
 Lúc đầu chợ gần như không có người bán, người mua hàng hóa đúng nghĩa mà chỉ có một số người bán đồ ăn uống phục vụ cho những người về đây họp chợ. Vì đây là địa điểm để người ta tìm đến nhau, sau một năm (cũng có thể là nhiều năm) xa cách, chủ yếu là những người có mối tình trắc trở, yêu thương nhau thực sự, nhưng vì một lý do nào đó không lấy được nhau, nay mỗi người đều có duyên phận riêng của mình. Đúng ngày này, họ hẹn nhau về đây để tâm sự, thông báo cho nhau cuộc sống riêng của mỗi người, ôn lại những tình cảm xưa. Có rất nhiều đôi vợ chồng cùng nhau đến chợ; đến nơi, vợ đi tìm bạn của vợ, chồng đi tìm bạn của chồng, họ không ghen tuông, không bực bội, mà tôn trọng nhau, tôn trọng bạn của vợ, của chồng mình; họ coi đó là sự linh thiêng, là bổn phận và trách nhiệm trước cuộc sống tinh thần của người bạn đời.
-Hiện nay, chợ tình Khau Vai đang bị thương mại hóa khiến nó mất dần đi vẻ mộc mạc vốn có và trở thành nơi bày bán đủ loại hàng hóa.
-
-"""@vi ;
+Hiện nay, chợ tình Khau Vai đang bị thương mại hóa khiến nó mất dần đi vẻ mộc mạc vốn có và trở thành nơi bày bán đủ loại hàng hóa."""@vi ;
     skos:altLabel "Chợ Khau Vai"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/Ch%E1%BB%A3_Khau_Vai> ;
@@ -4321,17 +4317,13 @@ vhr:intangible-91ee7b6986f2 a vh:IntangibleHeritage,
     vh:recognitionYear "2018"^^xsd:gYear ;
     vh:sourcePageId 58922 ;
     vh:sourceTitle "Múa rối nước"^^xsd:string ;
-    dcterms:description """Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam. 
-
-"""@vi ;
+    dcterms:description "Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment """Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam. 
-
-"""@vi ;
+    rdfs:comment "Múa rối nước là một loại hình nghệ thuật sân khấu dân gian truyền thống ra đời từ nền văn minh lúa nước. Từ một nghệ thuật mang yếu tố dân gian, múa rối nước đã trở thành một nghệ thuật truyền thống, và là một sáng tạo đặc trưng của người Việt Nam."@vi ;
     skos:altLabel "Múa rối nước"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/M%C3%BAa_r%E1%BB%91i_n%C6%B0%E1%BB%9Bc> ;
@@ -4963,13 +4955,17 @@ vhr:intangible-a9d1c6ba4309 a vh:IntangibleHeritage,
     vh:recognitionYear "2019"^^xsd:gYear ;
     vh:sourcePageId 87176 ;
     vh:sourceTitle "Lễ hội nghinh Ông"^^xsd:string ;
-    dcterms:description "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    dcterms:description """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    rdfs:comment """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -5057,13 +5053,13 @@ vhr:intangible-ad4e3cd90c09 a vh:IntangibleHeritage,
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 138961 ;
     vh:sourceTitle "Hát trống quân"^^xsd:string ;
-    dcterms:description "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh, thành đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh, thành lân cận như Hải Phòng, Bắc Ninh, Phú Thọ cũng có di sản này như nghề hát trống quân ở xã Đường An, thành phố Hải Phòng; làng Bùi Xá ở phường Ninh Xá thành phố Bắc Ninh và trống quân Đức Bác, xã Sông Lô, tỉnh Phú Thọ đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
+    dcterms:description "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh lân cận như Hải Dương, Bắc Ninh, Vĩnh Phúc cũng có di sản này như nghề hát trống quân ở xã Thúc Kháng, huyện Bình Giang, tỉnh Hải Dương; làng Bùi Xá xã Ninh Xá, thị xã Thuận Thành, phía nam tỉnh Bắc Ninh và trống quân Đức Bác, huyện Sông Lô, Vĩnh Phúc đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/H%C3%A1t_tr%E1%BB%91ng_qu%C3%A2n> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh, thành đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh, thành lân cận như Hải Phòng, Bắc Ninh, Phú Thọ cũng có di sản này như nghề hát trống quân ở xã Đường An, thành phố Hải Phòng; làng Bùi Xá ở phường Ninh Xá thành phố Bắc Ninh và trống quân Đức Bác, xã Sông Lô, tỉnh Phú Thọ đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
+    rdfs:comment "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh lân cận như Hải Dương, Bắc Ninh, Vĩnh Phúc cũng có di sản này như nghề hát trống quân ở xã Thúc Kháng, huyện Bình Giang, tỉnh Hải Dương; làng Bùi Xá xã Ninh Xá, thị xã Thuận Thành, phía nam tỉnh Bắc Ninh và trống quân Đức Bác, huyện Sông Lô, Vĩnh Phúc đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/H%C3%A1t_tr%E1%BB%91ng_qu%C3%A2n> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -5568,13 +5564,17 @@ vhr:intangible-bc193e99e666 a vh:IntangibleHeritage,
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 87176 ;
     vh:sourceTitle "Lễ hội nghinh Ông"^^xsd:string ;
-    dcterms:description "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    dcterms:description """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá \"Ông\", lễ cúng \"Ông\", lễ nghinh \"Ông\", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá \"Ông\" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau."@vi ;
+    rdfs:comment """Lễ hội nghinh Ông là lễ hội cúng cá Ông của ngư dân các tỉnh miền ven biển Việt Nam từ Quảng Bình trở vào Nam (gồm cả Phú Quốc). Đây là lễ hội cầu ngư: cầu cho biển lặng gió hòa, ngư dân may mắn làm ăn phát đạt, an khang. Lễ hội nghinh Ông là loại lễ hội nước lớn nhất của ngư dân. Có nhiều tên gọi khác nhau như lễ rước cốt ông, lễ cầu ngư, lễ tế cá "Ông", lễ cúng "Ông", lễ nghinh "Ông", lễ nghinh ông Thủy tướng, nhưng tất cả đều có chung một quan niệm rằng cá "Ông" là sinh vật thiêng ở biển, là cứu tinh đối với những người đánh cá và làm nghề trên biển nói chung. Điều này đã trở thành một tín ngưỡng dân gian phổ biến trong các thế hệ ngư dân ở các địa phương nói trên. Ở mỗi địa phương, lễ hội nghinh Ông diễn ra vào một thời điểm khác nhau.
+
+"""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_nghinh_%C3%94ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -5919,13 +5919,13 @@ vhr:intangible-cabfc468df65 a vh:IntangibleHeritage,
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 138961 ;
     vh:sourceTitle "Hát trống quân"^^xsd:string ;
-    dcterms:description "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh, thành đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh, thành lân cận như Hải Phòng, Bắc Ninh, Phú Thọ cũng có di sản này như nghề hát trống quân ở xã Đường An, thành phố Hải Phòng; làng Bùi Xá ở phường Ninh Xá thành phố Bắc Ninh và trống quân Đức Bác, xã Sông Lô, tỉnh Phú Thọ đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
+    dcterms:description "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh lân cận như Hải Dương, Bắc Ninh, Vĩnh Phúc cũng có di sản này như nghề hát trống quân ở xã Thúc Kháng, huyện Bình Giang, tỉnh Hải Dương; làng Bùi Xá xã Ninh Xá, thị xã Thuận Thành, phía nam tỉnh Bắc Ninh và trống quân Đức Bác, huyện Sông Lô, Vĩnh Phúc đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/H%C3%A1t_tr%E1%BB%91ng_qu%C3%A2n> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh, thành đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh, thành lân cận như Hải Phòng, Bắc Ninh, Phú Thọ cũng có di sản này như nghề hát trống quân ở xã Đường An, thành phố Hải Phòng; làng Bùi Xá ở phường Ninh Xá thành phố Bắc Ninh và trống quân Đức Bác, xã Sông Lô, tỉnh Phú Thọ đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
+    rdfs:comment "Hát trống quân là loại hình dân ca thi tài đối đáp thông qua những câu hát giao duyên có nội dung trao đổi về kinh nghiệm sống giữa nam, nữ thanh niên, rất phổ biến ở các tỉnh đồng bằng sông Hồng, trung du và miền núi phía Bắc và khu vực tỉnh Thanh Hóa của Việt Nam. Nghệ thuật Trống Quân phát triển nhất ở Hưng Yên đã được công nhận là Di sản văn hóa phi vật thể Quốc gia, Các tỉnh lân cận như Hải Dương, Bắc Ninh, Vĩnh Phúc cũng có di sản này như nghề hát trống quân ở xã Thúc Kháng, huyện Bình Giang, tỉnh Hải Dương; làng Bùi Xá xã Ninh Xá, thị xã Thuận Thành, phía nam tỉnh Bắc Ninh và trống quân Đức Bác, huyện Sông Lô, Vĩnh Phúc đã cũng được công nhận là Di sản văn hóa phi vật thể Quốc gia. Hát trống quân đã được đưa vào Khoa sáng tác (Học viện Âm nhạc quốc gia Việt Nam) như một môn học chính."@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/H%C3%A1t_tr%E1%BB%91ng_qu%C3%A2n> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -6044,9 +6044,7 @@ vhr:intangible-cec127ded39e a vh:IntangibleHeritage,
     vh:sourceTitle "Nhã nhạc cung đình Huế"^^xsd:string ;
     dcterms:description """Nhã nhạc cung đình Huế là thể loại nhạc của cung đình thời phong kiến, được biểu diễn vào các dịp lễ hội (vua đăng quang, băng hà, các lễ hội tôn nghiêm khác) trong năm của các triều đại nhà Nguyễn của Việt Nam. Nhã nhạc cung đình Huế đã được UNESCO công nhận là Kiệt tác truyền khẩu và phi vật thể nhân loại vào năm 2003. Theo đánh giá của UNESCO, "trong các thể loại nhạc cổ truyền ở Việt Nam, chỉ có Nhã nhạc đạt tới tầm vóc quốc gia".  "Nhã nhạc đã được phát triển từ thế kỷ 13 ở Việt Nam đến thời nhà Nguyễn thì Nhã nhạc cung đình Huế đạt độ chín muồi và hoàn chỉnh nhất". Cùng với không gian văn hóa Cồng Chiêng Tây Nguyên, đây là di sản phi vật thể của Việt Nam đã được UNESCO chính thức ghi danh.
 Nhã nhạc Cung Đình Huế là một sự kế thừa, kể từ khi những dàn nhạc - trong đó có mặt nhiều nhạc khí cung đình - xuất hiện dưới dạng tác phẩm chạm nổi trên các bệ đá kê cột chùa thời Lý, thế kỉ XI-XII, đến lúc ông vua cuối cùng triều Nguyễn thoái vị vào giữa thế kỷ XX.
-Về cơ bản, nhạc nghi thức trong âm nhạc cung đình Việt Nam, nhạc tế trong các đình làng cũng như loại nhạc nghi thức được chơi trong đám cưới hay đám tang, tất cả thường được chia thành hai nhóm chính: nhóm phe văn và nhóm phe võ. Việc phân chia của các nhóm nhạc cụ hòa tấu trong dàn nhạc cung đình ở Huế từ đầu thế kỷ XIX và nguồn gốc của nó đã được tìm thấy trong các quy luật của nhiều nghi thức cúng đình tại các làng xã của người Việt ở Bắc Bộ từ nhiều thế kỷ trước đây.
-
-"""@vi ;
+Về cơ bản, nhạc nghi thức trong âm nhạc cung đình Việt Nam, nhạc tế trong các đình làng cũng như loại nhạc nghi thức được chơi trong đám cưới hay đám tang, tất cả thường được chia thành hai nhóm chính: nhóm phe văn và nhóm phe võ. Việc phân chia của các nhóm nhạc cụ hòa tấu trong dàn nhạc cung đình ở Huế từ đầu thế kỷ XIX và nguồn gốc của nó đã được tìm thấy trong các quy luật của nhiều nghi thức cúng đình tại các làng xã của người Việt ở Bắc Bộ từ nhiều thế kỷ trước đây."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
@@ -6055,9 +6053,7 @@ Về cơ bản, nhạc nghi thức trong âm nhạc cung đình Việt Nam, nh�
     dcterms:subject "intangible_representative" ;
     rdfs:comment """Nhã nhạc cung đình Huế là thể loại nhạc của cung đình thời phong kiến, được biểu diễn vào các dịp lễ hội (vua đăng quang, băng hà, các lễ hội tôn nghiêm khác) trong năm của các triều đại nhà Nguyễn của Việt Nam. Nhã nhạc cung đình Huế đã được UNESCO công nhận là Kiệt tác truyền khẩu và phi vật thể nhân loại vào năm 2003. Theo đánh giá của UNESCO, "trong các thể loại nhạc cổ truyền ở Việt Nam, chỉ có Nhã nhạc đạt tới tầm vóc quốc gia".  "Nhã nhạc đã được phát triển từ thế kỷ 13 ở Việt Nam đến thời nhà Nguyễn thì Nhã nhạc cung đình Huế đạt độ chín muồi và hoàn chỉnh nhất". Cùng với không gian văn hóa Cồng Chiêng Tây Nguyên, đây là di sản phi vật thể của Việt Nam đã được UNESCO chính thức ghi danh.
 Nhã nhạc Cung Đình Huế là một sự kế thừa, kể từ khi những dàn nhạc - trong đó có mặt nhiều nhạc khí cung đình - xuất hiện dưới dạng tác phẩm chạm nổi trên các bệ đá kê cột chùa thời Lý, thế kỉ XI-XII, đến lúc ông vua cuối cùng triều Nguyễn thoái vị vào giữa thế kỷ XX.
-Về cơ bản, nhạc nghi thức trong âm nhạc cung đình Việt Nam, nhạc tế trong các đình làng cũng như loại nhạc nghi thức được chơi trong đám cưới hay đám tang, tất cả thường được chia thành hai nhóm chính: nhóm phe văn và nhóm phe võ. Việc phân chia của các nhóm nhạc cụ hòa tấu trong dàn nhạc cung đình ở Huế từ đầu thế kỷ XIX và nguồn gốc của nó đã được tìm thấy trong các quy luật của nhiều nghi thức cúng đình tại các làng xã của người Việt ở Bắc Bộ từ nhiều thế kỷ trước đây.
-
-"""@vi ;
+Về cơ bản, nhạc nghi thức trong âm nhạc cung đình Việt Nam, nhạc tế trong các đình làng cũng như loại nhạc nghi thức được chơi trong đám cưới hay đám tang, tất cả thường được chia thành hai nhóm chính: nhóm phe văn và nhóm phe võ. Việc phân chia của các nhóm nhạc cụ hòa tấu trong dàn nhạc cung đình ở Huế từ đầu thế kỷ XIX và nguồn gốc của nó đã được tìm thấy trong các quy luật của nhiều nghi thức cúng đình tại các làng xã của người Việt ở Bắc Bộ từ nhiều thế kỷ trước đây."""@vi ;
     skos:altLabel "Nhã nhạc - Âm nhạc Cung đình Việt Nam"@vi,
         "Nhã nhạc cung đình Huế"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
@@ -6148,20 +6144,24 @@ vhr:intangible-d0db8836f313 a vh:IntangibleHeritage,
     vh:recognitionYear "2009"^^xsd:gYear ;
     vh:sourcePageId 32419 ;
     vh:sourceTitle "Ca trù"^^xsd:string ;
-    dcterms:description """Ca trù (chữ Hán: 歌籌) (còn gọi nôm na là hát cô đầu / hát ả đào) là loại hình diễn xướng bằng âm giai nhạc thính phòng rất thịnh hành tại khu vực Bắc Bộ và Bắc Trung Bộ Việt Nam. Ca trù phát triển mạnh mẽ từ thế kỷ 15, từng là loại ca trong cung đình và được giới quý tộc và trí thức yêu thích. Ca trù là một sự phối hợp nhuần nhuyễn và đỉnh cao giữa thi ca và âm nhạc.
-Cho đến những năm 1980 thể loại này hay được gọi cái tên là hát ả đào, tuy nhiên sang thập niên 1990 thì hay gọi tên là hát ca trù. Từ "ca trù" được cho là lấy từ chữ Hán: 歌籌 nghĩa là lối hát bỏ thẻ tre, người nghe hát thấy chỗ nào hay thì ném thẻ cho đào hát. Sau đó cứ đếm thẻ mà trả thành tiền. Các ca nương được gọi là ả đào tuy nhiên chữ "ả" liên kết với mại dâm, nên gọi chệch ra là cô đào, và dạng biến thể là cô đầu. Ca trù từng được tầng lớp trí thức thời phong kiến yêu thích, được biểu diễn tại các đình làng và cả ở cung đình, sau đó phát triển ở các giáo phường, sử dụng phụ nữ và dần bị biến tướng. Thời thực dân, ca trù phát triển ở các đô thị trong các ca quán nơi cung cấp rượu và thuốc phiện. Sau năm 1945 khi Việt Minh lên nắm quyền, nó bị phê phán gắn với các hoạt động mại dâm chế độ cũ. Sau 1954 ca trù chính thức bị cấm, nhưng được khôi phục sau khi công cuộc Đổi Mới được phát động và ngày nay hay được xem là bộ môn nghệ thuật bác học của nền âm nhạc cổ truyền Việt Nam.
+    dcterms:description """Ca trù (chữ Hán: 歌籌) (còn gọi nôm na là hát cô đầu / hát nhà trò) là loại hình diễn xướng bằng âm giai nhạc thính phòng rất thịnh hành tại khu vực Bắc Bộ và Bắc Trung Bộ Việt Nam. Ca trù thịnh hành từ thế kỷ 15, từng là loại ca trong cung đình và được giới quý tộc và trí thức yêu thích. Ca trù là một sự phối hợp nhuần nhuyễn và đỉnh cao giữa thi ca và âm nhạc.
+Cho đến những năm 1980 thể loại này hay được gọi cái tên là hát ả đào, tuy nhiên sang thập niên 1990 thì hay gọi tên là hát ca trù. Từ "ca trù" được cho là lấy từ chữ Hán: 歌籌 nghĩa là lối hát bỏ thẻ tre, người nghe hát thấy chỗ nào hay thì ném thẻ cho đào hát. Sau đó cứ đếm thẻ mà trả thành tiền. Các ca nương được gọi là ả đào tuy nhiên chữ "ả" liên kết với mại dâm, nên gọi chêch ra là cô đào, và dạng biến thể là cô đầu. Ca trù từng được tầng lớp trí thức thời phong kiến yêu thích, được biểu diễn tại các đình làng và cả ở cung đình, sau đó phát triển ở các giáo phường, sử dụng phụ nữ và dần bị biến tướng. Thời thực dân, ca trù phát triển ở các đô thị trong các ca quán nơi cung cấp rượu và thuốc phiện. Sau năm 1945 khi Việt Minh lên nắm quyền, nó bị phê phán gắn với các hoạt động mại dâm chế độ cũ. Sau 1954 ca trù chính thức bị cấm, nhưng được khôi phục sau khi công cuộc Đổi Mới được phát động và ngày nay hay được xem là bộ môn nghệ thuật bác học của nền âm nhạc cổ truyền Việt Nam.
 Ngày 1 tháng 10 năm 2009, ca trù được ghi danh là di sản phi vật thể cần bảo vệ khẩn cấp. Đây là Danh hiệu UNESCO ở Việt Nam có vùng ảnh hưởng lớn, với phạm vi hồ sơ công nhận ban đầu ở 16 tỉnh, thành phố ở nửa phía Bắc Việt Nam nay đã hợp nhất thành 10 tỉnh thành gồm: Phú Thọ, Hà Nội, Bắc Ninh, Hải Phòng, Hưng Yên, Ninh Bình, Thanh Hóa, Nghệ An, Hà Tĩnh và Quảng Bình. Ca trù là kiệt tác di sản truyền khẩu và phi vật thể của nhân loại đứng thứ hai sau ả đào pansori của Hàn Quốc.
-Ngày 23 tháng 2 năm 2020, nhằm ngày giỗ tổ nghiệp ca trù, Google lần đầu tiên tôn vinh loại hình nghệ thuật truyền thống này bằng biểu tượng đặc biệt thay thế tạm thời trên trang chủ của Google tại Việt Nam."""@vi ;
+Ngày 23 tháng 2 năm 2020, nhằm ngày giỗ tổ nghiệp ca trù, Google lần đầu tiên tôn vinh loại hình nghệ thuật truyền thống này bằng biểu tượng đặc biệt thay thế tạm thời trên trang chủ của Google tại Việt Nam.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/ca-tru-485>,
         <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/Ca_tr%C3%B9> ;
     dcterms:subject "intangible_urgent" ;
-    rdfs:comment """Ca trù (chữ Hán: 歌籌) (còn gọi nôm na là hát cô đầu / hát ả đào) là loại hình diễn xướng bằng âm giai nhạc thính phòng rất thịnh hành tại khu vực Bắc Bộ và Bắc Trung Bộ Việt Nam. Ca trù phát triển mạnh mẽ từ thế kỷ 15, từng là loại ca trong cung đình và được giới quý tộc và trí thức yêu thích. Ca trù là một sự phối hợp nhuần nhuyễn và đỉnh cao giữa thi ca và âm nhạc.
-Cho đến những năm 1980 thể loại này hay được gọi cái tên là hát ả đào, tuy nhiên sang thập niên 1990 thì hay gọi tên là hát ca trù. Từ "ca trù" được cho là lấy từ chữ Hán: 歌籌 nghĩa là lối hát bỏ thẻ tre, người nghe hát thấy chỗ nào hay thì ném thẻ cho đào hát. Sau đó cứ đếm thẻ mà trả thành tiền. Các ca nương được gọi là ả đào tuy nhiên chữ "ả" liên kết với mại dâm, nên gọi chệch ra là cô đào, và dạng biến thể là cô đầu. Ca trù từng được tầng lớp trí thức thời phong kiến yêu thích, được biểu diễn tại các đình làng và cả ở cung đình, sau đó phát triển ở các giáo phường, sử dụng phụ nữ và dần bị biến tướng. Thời thực dân, ca trù phát triển ở các đô thị trong các ca quán nơi cung cấp rượu và thuốc phiện. Sau năm 1945 khi Việt Minh lên nắm quyền, nó bị phê phán gắn với các hoạt động mại dâm chế độ cũ. Sau 1954 ca trù chính thức bị cấm, nhưng được khôi phục sau khi công cuộc Đổi Mới được phát động và ngày nay hay được xem là bộ môn nghệ thuật bác học của nền âm nhạc cổ truyền Việt Nam.
+    rdfs:comment """Ca trù (chữ Hán: 歌籌) (còn gọi nôm na là hát cô đầu / hát nhà trò) là loại hình diễn xướng bằng âm giai nhạc thính phòng rất thịnh hành tại khu vực Bắc Bộ và Bắc Trung Bộ Việt Nam. Ca trù thịnh hành từ thế kỷ 15, từng là loại ca trong cung đình và được giới quý tộc và trí thức yêu thích. Ca trù là một sự phối hợp nhuần nhuyễn và đỉnh cao giữa thi ca và âm nhạc.
+Cho đến những năm 1980 thể loại này hay được gọi cái tên là hát ả đào, tuy nhiên sang thập niên 1990 thì hay gọi tên là hát ca trù. Từ "ca trù" được cho là lấy từ chữ Hán: 歌籌 nghĩa là lối hát bỏ thẻ tre, người nghe hát thấy chỗ nào hay thì ném thẻ cho đào hát. Sau đó cứ đếm thẻ mà trả thành tiền. Các ca nương được gọi là ả đào tuy nhiên chữ "ả" liên kết với mại dâm, nên gọi chêch ra là cô đào, và dạng biến thể là cô đầu. Ca trù từng được tầng lớp trí thức thời phong kiến yêu thích, được biểu diễn tại các đình làng và cả ở cung đình, sau đó phát triển ở các giáo phường, sử dụng phụ nữ và dần bị biến tướng. Thời thực dân, ca trù phát triển ở các đô thị trong các ca quán nơi cung cấp rượu và thuốc phiện. Sau năm 1945 khi Việt Minh lên nắm quyền, nó bị phê phán gắn với các hoạt động mại dâm chế độ cũ. Sau 1954 ca trù chính thức bị cấm, nhưng được khôi phục sau khi công cuộc Đổi Mới được phát động và ngày nay hay được xem là bộ môn nghệ thuật bác học của nền âm nhạc cổ truyền Việt Nam.
 Ngày 1 tháng 10 năm 2009, ca trù được ghi danh là di sản phi vật thể cần bảo vệ khẩn cấp. Đây là Danh hiệu UNESCO ở Việt Nam có vùng ảnh hưởng lớn, với phạm vi hồ sơ công nhận ban đầu ở 16 tỉnh, thành phố ở nửa phía Bắc Việt Nam nay đã hợp nhất thành 10 tỉnh thành gồm: Phú Thọ, Hà Nội, Bắc Ninh, Hải Phòng, Hưng Yên, Ninh Bình, Thanh Hóa, Nghệ An, Hà Tĩnh và Quảng Bình. Ca trù là kiệt tác di sản truyền khẩu và phi vật thể của nhân loại đứng thứ hai sau ả đào pansori của Hàn Quốc.
-Ngày 23 tháng 2 năm 2020, nhằm ngày giỗ tổ nghiệp ca trù, Google lần đầu tiên tôn vinh loại hình nghệ thuật truyền thống này bằng biểu tượng đặc biệt thay thế tạm thời trên trang chủ của Google tại Việt Nam."""@vi ;
+Ngày 23 tháng 2 năm 2020, nhằm ngày giỗ tổ nghiệp ca trù, Google lần đầu tiên tôn vinh loại hình nghệ thuật truyền thống này bằng biểu tượng đặc biệt thay thế tạm thời trên trang chủ của Google tại Việt Nam.
+
+"""@vi ;
     skos:altLabel "Hát Ca trù"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/ca-tru-485>,
         <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
@@ -6294,9 +6294,7 @@ vhr:intangible-d67d66e8bc12 a vh:IntangibleHeritage,
     dcterms:description """Lễ hội Gầu tào là một lễ hội của người đồng bào dân tộc H'Mông. Nội dung chính cho lễ hội là Cầu phúc hoặc cầu mệnh.
 
 Hội cầu phúc: Một gia chủ nào đó không có con, thưa con hoặc sinh con một bề, sẽ làm lễ nhờ thầy cúng bói xin cho mở hội Gầu tào nhằm cầu mong có con.
-Hội cầu mệnh: Một gia chủ nào đó bị ốm đau bệnh tật, con cái yếu ớt, thậm chí có con bị chết, mùa màng, vật nuôi lụi dần, cũng nhờ thầy cúng bói xin mở hội Gầu tào.
-
-"""@vi ;
+Hội cầu mệnh: Một gia chủ nào đó bị ốm đau bệnh tật, con cái yếu ớt, thậm chí có con bị chết, mùa màng, vật nuôi lụi dần, cũng nhờ thầy cúng bói xin mở hội Gầu tào."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/le-hoi-gau-tao-cua-nguoi-mong-o-lao-cai-3158>,
@@ -6305,9 +6303,7 @@ Hội cầu mệnh: Một gia chủ nào đó bị ốm đau bệnh tật, con c
     rdfs:comment """Lễ hội Gầu tào là một lễ hội của người đồng bào dân tộc H'Mông. Nội dung chính cho lễ hội là Cầu phúc hoặc cầu mệnh.
 
 Hội cầu phúc: Một gia chủ nào đó không có con, thưa con hoặc sinh con một bề, sẽ làm lễ nhờ thầy cúng bói xin cho mở hội Gầu tào nhằm cầu mong có con.
-Hội cầu mệnh: Một gia chủ nào đó bị ốm đau bệnh tật, con cái yếu ớt, thậm chí có con bị chết, mùa màng, vật nuôi lụi dần, cũng nhờ thầy cúng bói xin mở hội Gầu tào.
-
-"""@vi ;
+Hội cầu mệnh: Một gia chủ nào đó bị ốm đau bệnh tật, con cái yếu ớt, thậm chí có con bị chết, mùa màng, vật nuôi lụi dần, cũng nhờ thầy cúng bói xin mở hội Gầu tào."""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/le-hoi-gau-tao-cua-nguoi-mong-o-lao-cai-3158>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_g%E1%BA%A7u_t%C3%A0o> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -6821,17 +6817,13 @@ vhr:intangible-e7316b38d54a a vh:IntangibleHeritage,
     vh:recognitionYear "2020"^^xsd:gYear ;
     vh:sourcePageId 19979633 ;
     vh:sourceTitle "Lễ hội Bà Thu Bồn"^^xsd:string ;
-    dcterms:description """Lễ hội Bà Thu Bồn (còn được gọi với cái tên là Lệ Bà) là lễ hội truyền thống của cộng đồng cư dân dọc sông Thu Bồn ở Quảng Nam, tổ chức hằng năm từ ngày 10 đến ngày 12 tháng 2 (âm lịch). Không gian thực hành tập trung tại hai cơ sở thờ tự: Lăng Bà Thu Bồn ở xã Duy Tân (Duy Xuyên) và Dinh Bà Thu Bồn ở khu vực Trung Phước/Phường Rạnh thuộc xã Quế Trung. Ngày 30 tháng 9 năm 2020, Bộ Văn hóa, Thể thao và Du lịch ban hành Quyết định số 2731/QĐ-BVHTTDL đưa lễ hội vào Danh mục Di sản văn hóa phi vật thể quốc gia.
-
-"""@vi ;
+    dcterms:description "Lễ hội Bà Thu Bồn (còn được gọi với cái tên là Lệ Bà) là lễ hội truyền thống của cộng đồng cư dân dọc sông Thu Bồn ở Quảng Nam, tổ chức hằng năm từ ngày 10 đến ngày 12 tháng 2 (âm lịch). Không gian thực hành tập trung tại hai cơ sở thờ tự: Lăng Bà Thu Bồn ở xã Duy Tân (Duy Xuyên) và Dinh Bà Thu Bồn ở khu vực Trung Phước/Phường Rạnh thuộc xã Quế Trung. Ngày 30 tháng 9 năm 2020, Bộ Văn hóa, Thể thao và Du lịch ban hành Quyết định số 2731/QĐ-BVHTTDL đưa lễ hội vào Danh mục Di sản văn hóa phi vật thể quốc gia."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_B%C3%A0_Thu_B%E1%BB%93n> ;
     dcterms:subject "national_intangible" ;
-    rdfs:comment """Lễ hội Bà Thu Bồn (còn được gọi với cái tên là Lệ Bà) là lễ hội truyền thống của cộng đồng cư dân dọc sông Thu Bồn ở Quảng Nam, tổ chức hằng năm từ ngày 10 đến ngày 12 tháng 2 (âm lịch). Không gian thực hành tập trung tại hai cơ sở thờ tự: Lăng Bà Thu Bồn ở xã Duy Tân (Duy Xuyên) và Dinh Bà Thu Bồn ở khu vực Trung Phước/Phường Rạnh thuộc xã Quế Trung. Ngày 30 tháng 9 năm 2020, Bộ Văn hóa, Thể thao và Du lịch ban hành Quyết định số 2731/QĐ-BVHTTDL đưa lễ hội vào Danh mục Di sản văn hóa phi vật thể quốc gia.
-
-"""@vi ;
+    rdfs:comment "Lễ hội Bà Thu Bồn (còn được gọi với cái tên là Lệ Bà) là lễ hội truyền thống của cộng đồng cư dân dọc sông Thu Bồn ở Quảng Nam, tổ chức hằng năm từ ngày 10 đến ngày 12 tháng 2 (âm lịch). Không gian thực hành tập trung tại hai cơ sở thờ tự: Lăng Bà Thu Bồn ở xã Duy Tân (Duy Xuyên) và Dinh Bà Thu Bồn ở khu vực Trung Phước/Phường Rạnh thuộc xã Quế Trung. Ngày 30 tháng 9 năm 2020, Bộ Văn hóa, Thể thao và Du lịch ban hành Quyết định số 2731/QĐ-BVHTTDL đưa lễ hội vào Danh mục Di sản văn hóa phi vật thể quốc gia."@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_B%C3%A0_Thu_B%E1%BB%93n> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -6904,9 +6896,7 @@ Thơ Tú Xương có tranh Đông Hồ về ngày Tết là:
 Loẹt lòe trên vách bức tranh gà
 Đó cũng là lí do để chứng minh rằng tranh gỗ dân gian Đông Hồ rất phổ biến.
 Tại Bắc Ninh, có thể về làng tranh Đông Hồ, Song Hồ, Thuận Thành để xem tranh.
-Tại Hà Nội, có thể xem tranh tại 19 ngõ 179 Hoàng Hoa Thám, Ba Đình, Hà Nội.
-
-"""@vi ;
+Tại Hà Nội, có thể xem tranh tại 19 ngõ 179 Hoàng Hoa Thám, Ba Đình, Hà Nội."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/tranh-dan-gian-dong-ho-3151>,
@@ -6920,9 +6910,7 @@ Thơ Tú Xương có tranh Đông Hồ về ngày Tết là:
 Loẹt lòe trên vách bức tranh gà
 Đó cũng là lí do để chứng minh rằng tranh gỗ dân gian Đông Hồ rất phổ biến.
 Tại Bắc Ninh, có thể về làng tranh Đông Hồ, Song Hồ, Thuận Thành để xem tranh.
-Tại Hà Nội, có thể xem tranh tại 19 ngõ 179 Hoàng Hoa Thám, Ba Đình, Hà Nội.
-
-"""@vi ;
+Tại Hà Nội, có thể xem tranh tại 19 ngõ 179 Hoàng Hoa Thám, Ba Đình, Hà Nội."""@vi ;
     skos:altLabel "Tranh Đông Hồ"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/tranh-dan-gian-dong-ho-3151>,
         <https://vi.wikipedia.org/wiki/Tranh_%C4%90%C3%B4ng_H%E1%BB%93> ;
@@ -7542,18 +7530,14 @@ vhr:intangible-fcdbfd38cf2d a vh:IntangibleHeritage,
     vh:sourcePageId 274464 ;
     vh:sourceTitle "Lễ hội chọi trâu Đồ Sơn"^^xsd:string ;
     dcterms:description """Lễ hội chọi trâu Đồ Sơn là một tập tục cổ, có từ xa xưa, là một lễ hội truyền thống của người dân vạn chài tại vùng biển Đồ Sơn, Hải Phòng; diễn ra vào ngày 9 tháng 8 Âm lịch hàng năm; là di sản văn hóa phi vật thể quốc gia năm 2020 của Việt Nam. Đây là một lễ hội với lễ nghi trang trọng, rước kiệu thần, có lọng che, phường bát âm....
-Trong văn hóa cộng đồng người dân Hải Phòng, còn lưu truyền câu ca cổ: "Dù ai buôn đâu bán đâu / Mùng chín tháng tám chọi Trâu thì về"
-
-"""@vi ;
+Trong văn hóa cộng đồng người dân Hải Phòng, còn lưu truyền câu ca cổ: "Dù ai buôn đâu bán đâu / Mùng chín tháng tám chọi Trâu thì về\""""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_ch%E1%BB%8Di_tr%C3%A2u_%C4%90%E1%BB%93_S%C6%A1n> ;
     dcterms:subject "national_intangible" ;
     rdfs:comment """Lễ hội chọi trâu Đồ Sơn là một tập tục cổ, có từ xa xưa, là một lễ hội truyền thống của người dân vạn chài tại vùng biển Đồ Sơn, Hải Phòng; diễn ra vào ngày 9 tháng 8 Âm lịch hàng năm; là di sản văn hóa phi vật thể quốc gia năm 2020 của Việt Nam. Đây là một lễ hội với lễ nghi trang trọng, rước kiệu thần, có lọng che, phường bát âm....
-Trong văn hóa cộng đồng người dân Hải Phòng, còn lưu truyền câu ca cổ: "Dù ai buôn đâu bán đâu / Mùng chín tháng tám chọi Trâu thì về"
-
-"""@vi ;
+Trong văn hóa cộng đồng người dân Hải Phòng, còn lưu truyền câu ca cổ: "Dù ai buôn đâu bán đâu / Mùng chín tháng tám chọi Trâu thì về\""""@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789>,
         <https://vi.wikipedia.org/wiki/L%E1%BB%85_h%E1%BB%99i_ch%E1%BB%8Di_tr%C3%A2u_%C4%90%E1%BB%93_S%C6%A1n> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -7927,18 +7911,14 @@ vhr:site-0d6fda41945c a vh:HeritageSite,
     vh:sourcePageId 28837 ;
     vh:sourceTitle "Khu di tích lịch sử Kim Liên"^^xsd:string ;
     dcterms:description """Khu di tích lịch sử Kim Liên (Khu di tích Chủ tịch Hồ Chí Minh tại Nghệ An) là khu di tích tưởng niệm chủ tịch Hồ Chí Minh tại xã Kim Liên, tỉnh Nghệ An thuộc vùng duyên hải miền Trung Việt Nam, cách phường Trường Vinh 12 km theo quốc lộ 46 . Hiện nay, nơi đây đã được thủ tướng chính phủ Việt Nam đưa vào danh sách xếp hạng 23 di tích quốc gia đặc biệt.
-Là địa danh gắn liền với nơi sinh của Chủ tịch Hồ Chí Minh ở quê ngoại là làng Hoàng Trù, xã Kim Liên, Nam Đàn, Nghệ An; nơi Hồ Chí Minh đã sống những năm 1901 - 1906 ở quê nội làng Kim Liên; khu mộ bà Hoàng Thị Loan (mẹ Chủ tịch Hồ Chí Minh); núi Chung và nhiều di tích khác đã gắn liền với tuổi thơ của Hồ Chí Minh. Khu di tích lịch sử văn hóa Kim Liên được Bộ Văn hóa, Thể thao và Du lịch Việt Nam công nhận là một trong những khu du lịch trọng điểm quốc gia và là một trong bốn khu di tích quan trọng bậc nhất về cuộc đời và sự nghiệp của Chủ tịch Hồ Chí Minh.
-
-"""@vi ;
+Là địa danh gắn liền với nơi sinh của Chủ tịch Hồ Chí Minh ở quê ngoại là làng Hoàng Trù, xã Kim Liên, Nam Đàn, Nghệ An; nơi Hồ Chí Minh đã sống những năm 1901 - 1906 ở quê nội làng Kim Liên; khu mộ bà Hoàng Thị Loan (mẹ Chủ tịch Hồ Chí Minh); núi Chung và nhiều di tích khác đã gắn liền với tuổi thơ của Hồ Chí Minh. Khu di tích lịch sử văn hóa Kim Liên được Bộ Văn hóa, Thể thao và Du lịch Việt Nam công nhận là một trong những khu du lịch trọng điểm quốc gia và là một trong bốn khu di tích quan trọng bậc nhất về cuộc đời và sự nghiệp của Chủ tịch Hồ Chí Minh."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-khu-luu-niem-chu-tich-ho-chi-minh-tai-kim-lien-huyen-nam-dan-tinh-nghe-an-2957>,
         <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_l%E1%BB%8Bch_s%E1%BB%AD_Kim_Li%C3%AAn> ;
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Khu di tích lịch sử Kim Liên (Khu di tích Chủ tịch Hồ Chí Minh tại Nghệ An) là khu di tích tưởng niệm chủ tịch Hồ Chí Minh tại xã Kim Liên, tỉnh Nghệ An thuộc vùng duyên hải miền Trung Việt Nam, cách phường Trường Vinh 12 km theo quốc lộ 46 . Hiện nay, nơi đây đã được thủ tướng chính phủ Việt Nam đưa vào danh sách xếp hạng 23 di tích quốc gia đặc biệt.
-Là địa danh gắn liền với nơi sinh của Chủ tịch Hồ Chí Minh ở quê ngoại là làng Hoàng Trù, xã Kim Liên, Nam Đàn, Nghệ An; nơi Hồ Chí Minh đã sống những năm 1901 - 1906 ở quê nội làng Kim Liên; khu mộ bà Hoàng Thị Loan (mẹ Chủ tịch Hồ Chí Minh); núi Chung và nhiều di tích khác đã gắn liền với tuổi thơ của Hồ Chí Minh. Khu di tích lịch sử văn hóa Kim Liên được Bộ Văn hóa, Thể thao và Du lịch Việt Nam công nhận là một trong những khu du lịch trọng điểm quốc gia và là một trong bốn khu di tích quan trọng bậc nhất về cuộc đời và sự nghiệp của Chủ tịch Hồ Chí Minh.
-
-"""@vi ;
+Là địa danh gắn liền với nơi sinh của Chủ tịch Hồ Chí Minh ở quê ngoại là làng Hoàng Trù, xã Kim Liên, Nam Đàn, Nghệ An; nơi Hồ Chí Minh đã sống những năm 1901 - 1906 ở quê nội làng Kim Liên; khu mộ bà Hoàng Thị Loan (mẹ Chủ tịch Hồ Chí Minh); núi Chung và nhiều di tích khác đã gắn liền với tuổi thơ của Hồ Chí Minh. Khu di tích lịch sử văn hóa Kim Liên được Bộ Văn hóa, Thể thao và Du lịch Việt Nam công nhận là một trong những khu du lịch trọng điểm quốc gia và là một trong bốn khu di tích quan trọng bậc nhất về cuộc đời và sự nghiệp của Chủ tịch Hồ Chí Minh."""@vi ;
     geo1:lat 18.67986111 ;
     geo1:long 105.552 ;
     skos:altLabel "Khu di tích lịch sử Kim Liên"@vi ;
@@ -7957,9 +7937,7 @@ vhr:site-0dedc7b0f0a5 a vh:HeritageSite,
     dcterms:description """Trại giam Tù binh Chiến tranh Phú Quốc, hay Trại giam Tù binh Cộng sản Phú Quốc là một trại giam nằm tại khu vực An Thới ở phía nam đặc khu Phú Quốc. Trong Chiến tranh Đông Dương, trại giam này có tên là Nhà lao Cây Dừa. Đây là trại giam tù binh trung tâm toàn Việt Nam Cộng hòa, từng giam giữ hơn 32.000 tù binh (40.000 tù nhân nếu tính cả tù chính trị nhiều thời kỳ).
 Trại giam Tù binh Chiến tranh Phú Quốc có tất cả là 12 khu (năm 1972) được đánh số từ khu 1 đến khu 12. Riêng khu 13, 14 được xây dựng thêm vào cuối năm 1972. Mỗi khu trại giam có khả năng chứa khoảng 3000 tù nhân. Năm 1972, có khoảng 36 000 tù nhân. Mỗi khu trại giam lại được chia làm nhiều phân khu. Thường thì có 4 phân khu, trong 1 khu. Một phân khu chứa được 950 tù binh. Riêng phân khu B2 dành riêng để giam giữ các sĩ quan. Tù binh có cấp bậc lớn nhất là Thượng tá. Trại giam Tù binh Chiến tranh Phú Quốc do 3 tiểu đoàn quân cảnh (7, 8, 12) canh giữ.
 Ngoài ra, Nhà tù Phú Quốc cũng có một trại giam tù hình sự, giam giữ những tù nhân thường phạm bị kết án 10 năm trở lên, ở phường Dương Đông, mặt tây của đảo.
-Hiện tại Nhà tù Phú Quốc là một trong những điểm du lịch lịch sử.
-
-"""@vi ;
+Hiện tại Nhà tù Phú Quốc là một trong những điểm du lịch lịch sử."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-trai-giam-phu-quoc-2988>,
@@ -7968,9 +7946,7 @@ Hiện tại Nhà tù Phú Quốc là một trong những điểm du lịch lị
     rdfs:comment """Trại giam Tù binh Chiến tranh Phú Quốc, hay Trại giam Tù binh Cộng sản Phú Quốc là một trại giam nằm tại khu vực An Thới ở phía nam đặc khu Phú Quốc. Trong Chiến tranh Đông Dương, trại giam này có tên là Nhà lao Cây Dừa. Đây là trại giam tù binh trung tâm toàn Việt Nam Cộng hòa, từng giam giữ hơn 32.000 tù binh (40.000 tù nhân nếu tính cả tù chính trị nhiều thời kỳ).
 Trại giam Tù binh Chiến tranh Phú Quốc có tất cả là 12 khu (năm 1972) được đánh số từ khu 1 đến khu 12. Riêng khu 13, 14 được xây dựng thêm vào cuối năm 1972. Mỗi khu trại giam có khả năng chứa khoảng 3000 tù nhân. Năm 1972, có khoảng 36 000 tù nhân. Mỗi khu trại giam lại được chia làm nhiều phân khu. Thường thì có 4 phân khu, trong 1 khu. Một phân khu chứa được 950 tù binh. Riêng phân khu B2 dành riêng để giam giữ các sĩ quan. Tù binh có cấp bậc lớn nhất là Thượng tá. Trại giam Tù binh Chiến tranh Phú Quốc do 3 tiểu đoàn quân cảnh (7, 8, 12) canh giữ.
 Ngoài ra, Nhà tù Phú Quốc cũng có một trại giam tù hình sự, giam giữ những tù nhân thường phạm bị kết án 10 năm trở lên, ở phường Dương Đông, mặt tây của đảo.
-Hiện tại Nhà tù Phú Quốc là một trong những điểm du lịch lịch sử.
-
-"""@vi ;
+Hiện tại Nhà tù Phú Quốc là một trong những điểm du lịch lịch sử."""@vi ;
     geo1:lat 10.043948 ;
     geo1:long 104.018179 ;
     skos:altLabel "Nhà tù Phú Quốc"@vi ;
@@ -8060,17 +8036,13 @@ vhr:site-10d255569b6b a vh:HeritageSite,
     vh:recognitionYear "2020"^^xsd:gYear ;
     vh:sourcePageId 3377398 ;
     vh:sourceTitle "Quần thể di tích – danh thắng Tràng Kênh"^^xsd:string ;
-    dcterms:description """Quần thể di tích và danh thắng Tràng Kênh thuộc phường Minh Đức, thành phố Thủy Nguyên, cách trung tâm thành phố Hải Phòng 20 km về phía Đông Bắc; là vùng đất có bề dày lịch sử văn hóa, một danh thắng được tạo bởi hệ thống núi đá vôi, hang động, và sông ngòi; được nhà nước xếp hạng di tích lịch sử văn hóa và danh lam thắng cảnh cấp quốc gia năm 1962.
-
-"""@vi ;
+    dcterms:description "Quần thể di tích và danh thắng Tràng Kênh thuộc phường Minh Đức, thành phố Thủy Nguyên, cách trung tâm thành phố Hải Phòng 20 km về phía Đông Bắc; là vùng đất có bề dày lịch sử văn hóa, một danh thắng được tạo bởi hệ thống núi đá vôi, hang động, và sông ngòi; được nhà nước xếp hạng di tích lịch sử văn hóa và danh lam thắng cảnh cấp quốc gia năm 1962."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/khu-di-tich-bach-dang-giang-thanh-pho-hai-phong-22042>,
         <https://vi.wikipedia.org/wiki/Qu%E1%BA%A7n_th%E1%BB%83_di_t%C3%ADch_%E2%80%93_danh_th%E1%BA%AFng_Tr%C3%A0ng_K%C3%AAnh> ;
     dcterms:subject "national_monuments" ;
-    rdfs:comment """Quần thể di tích và danh thắng Tràng Kênh thuộc phường Minh Đức, thành phố Thủy Nguyên, cách trung tâm thành phố Hải Phòng 20 km về phía Đông Bắc; là vùng đất có bề dày lịch sử văn hóa, một danh thắng được tạo bởi hệ thống núi đá vôi, hang động, và sông ngòi; được nhà nước xếp hạng di tích lịch sử văn hóa và danh lam thắng cảnh cấp quốc gia năm 1962.
-
-"""@vi ;
+    rdfs:comment "Quần thể di tích và danh thắng Tràng Kênh thuộc phường Minh Đức, thành phố Thủy Nguyên, cách trung tâm thành phố Hải Phòng 20 km về phía Đông Bắc; là vùng đất có bề dày lịch sử văn hóa, một danh thắng được tạo bởi hệ thống núi đá vôi, hang động, và sông ngòi; được nhà nước xếp hạng di tích lịch sử văn hóa và danh lam thắng cảnh cấp quốc gia năm 1962."@vi ;
     skos:altLabel "Quần thể di tích – danh thắng Tràng Kênh"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/khu-di-tich-bach-dang-giang-thanh-pho-hai-phong-22042>,
         <https://vi.wikipedia.org/wiki/Qu%E1%BA%A7n_th%E1%BB%83_di_t%C3%ADch_%E2%80%93_danh_th%E1%BA%AFng_Tr%C3%A0ng_K%C3%AAnh> ;
@@ -8420,17 +8392,13 @@ vhr:site-243acfef67ac a vh:HeritageSite,
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 19563639 ;
     vh:sourceTitle "Khu di tích Căn cứ Trung ương Cục miền Nam"^^xsd:string ;
-    dcterms:description """Căn cứ Trung ương Cục miền Nam là một khu di tích lịch sử quốc gia đặc biệt tọa lạc tại khu vực rừng Chàng Riệc, Rùm Đuôn, xã Tân Lập, tỉnh Tây Ninh, Việt Nam.
-
-"""@vi ;
+    dcterms:description "Căn cứ Trung ương Cục miền Nam là một khu di tích lịch sử quốc gia đặc biệt tọa lạc tại khu vực rừng Chàng Riệc, Rùm Đuôn, xã Tân Lập, tỉnh Tây Ninh, Việt Nam."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-can-cu-trung-uong-cuc-mien-nam-2947>,
         <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_C%C4%83n_c%E1%BB%A9_Trung_%C6%B0%C6%A1ng_C%E1%BB%A5c_mi%E1%BB%81n_Nam> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Căn cứ Trung ương Cục miền Nam là một khu di tích lịch sử quốc gia đặc biệt tọa lạc tại khu vực rừng Chàng Riệc, Rùm Đuôn, xã Tân Lập, tỉnh Tây Ninh, Việt Nam.
-
-"""@vi ;
+    rdfs:comment "Căn cứ Trung ương Cục miền Nam là một khu di tích lịch sử quốc gia đặc biệt tọa lạc tại khu vực rừng Chàng Riệc, Rùm Đuôn, xã Tân Lập, tỉnh Tây Ninh, Việt Nam."@vi ;
     skos:altLabel "Khu di tích Căn cứ Trung ương Cục miền Nam"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-can-cu-trung-uong-cuc-mien-nam-2947>,
         <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_C%C4%83n_c%E1%BB%A9_Trung_%C6%B0%C6%A1ng_C%E1%BB%A5c_mi%E1%BB%81n_Nam> ;
@@ -8445,18 +8413,14 @@ vhr:site-25e4a9be3d16 a vh:ArchitecturalSite,
     vh:sourcePageId 23787 ;
     vh:sourceTitle "Chùa Bút Tháp"^^xsd:string ;
     dcterms:description """Chùa Bút Tháp (Ninh Phúc tự 寧福寺) nằm ở bên đê hữu ngạn sông Đuống, khu Bút Tháp, phường Trí Quả, thành phố Bắc Ninh. Ngoài ra, nhân dân trong vùng còn gọi là chùa Nhạn Tháp, chùa Thấp. Tên cũ của chùa trước đây gồm có: Thiếu Lâm Tự, Hoàng Cung Tự.
-Trong chùa có tượng Quan Âm thiên thủ thiên nhãn bằng gỗ lớn nhất Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4.
-
-"""@vi ;
+Trong chùa có tượng Quan Âm thiên thủ thiên nhãn bằng gỗ lớn nhất Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-chua-but-thap-huyen-thuan-thanh-tinh-bac-ninh-2980>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_B%C3%BAt_Th%C3%A1p> ;
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Chùa Bút Tháp (Ninh Phúc tự 寧福寺) nằm ở bên đê hữu ngạn sông Đuống, khu Bút Tháp, phường Trí Quả, thành phố Bắc Ninh. Ngoài ra, nhân dân trong vùng còn gọi là chùa Nhạn Tháp, chùa Thấp. Tên cũ của chùa trước đây gồm có: Thiếu Lâm Tự, Hoàng Cung Tự.
-Trong chùa có tượng Quan Âm thiên thủ thiên nhãn bằng gỗ lớn nhất Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4.
-
-"""@vi ;
+Trong chùa có tượng Quan Âm thiên thủ thiên nhãn bằng gỗ lớn nhất Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."""@vi ;
     geo1:lat 21.06083 ;
     geo1:long 106.0222 ;
     skos:altLabel "Chùa Bút Tháp"@vi ;
@@ -8485,8 +8449,8 @@ vhr:site-296789be93b5 a vh:HeritageSite ;
     vh:recognizedBy vhr:organization-unesco ;
     vh:sourcePageId 4490 ;
     vh:sourceTitle "Phố cổ Hội An"^^xsd:string ;
-    dcterms:description """Đô thị cổ Hội An là một đô thị cổ nằm ở hạ lưu sông Thu Bồn, thuộc vùng đồng bằng ven biển thành phố Đà Nẵng, Việt Nam, cách trung tâm thành phố khoảng 30 km về phía Nam. Nhờ những yếu tố địa lý và khí hậu thuận lợi, Hội An từng là một thương cảng quốc tế sầm uất, nơi gặp gỡ của những thuyền buôn Nhật Bản, Trung Quốc và phương Tây trong suốt thế kỷ XVII và XVIII. Trước thời kỳ này, nơi đây cũng từng có những dấu tích của thương cảng Chăm Pa hay được nhắc đến cùng con đường tơ lụa trên biển. Thế kỷ XIX, do giao thông đường thủy ở đây không còn thuận tiện, cảng thị Hội An dần suy thoái, nhường chỗ cho Đà Nẵng khi đó đang được người Pháp xây dựng. Hội An may mắn không bị tàn phá trong hai cuộc chiến tranh và tránh được quá trình đô thị hóa ồ ạt cuối thế kỷ 20. Bắt đầu từ thập niên 1980, những giá trị kiến trúc và văn hóa của đô thị cổ Hội An dần được giới học giả và cả du khách chú ý, khiến nơi đây trở thành một trong những điểm du lịch hấp dẫn của Việt Nam.
-Đô thị cổ Hội An ngày nay là một điển hình đặc biệt về cảng thị truyền thống ở Đông Nam Á được bảo tồn nguyên vẹn và chu đáo. Phần lớn những ngôi nhà ở đây là những kiến trúc truyền thống có niên đại từ thế kỷ 17 đến thế kỷ 19, phân bố dọc theo những trục phố nhỏ hẹp. Nằm xen kẽ giữa các ngôi nhà phố, những công trình kiến trúc tôn giáo, tín ngưỡng minh chứng cho quá trình hình thành, phát triển và cả suy tàn của đô thị. Hội An cũng là vùng đất ghi nhiều dấu ấn của sự pha trộn, giao thoa văn hóa. Các hội quán, đền miếu mang dấu tích của người Hoa nằm bên những ngôi nhà phố truyền thống của người Việt và những ngôi nhà mang phong cách kiến trúc Pháp. Bên cạnh những giá trị văn hóa qua các công trình kiến trúc, Hội An còn lưu giữ một nền văn hóa phi vật thể đa dạng và phong phú. Cuộc sống thường nhật của cư dân đô thị cổ với những phong tục tập quán, sinh hoạt tín ngưỡng, nghệ thuật dân gian, lễ hội văn hóa vẫn đang được bảo tồn và phát triển. Hội An được xem như một bảo tàng sống về kiến trúc và lối sống đô thị.
+    dcterms:description """Phố cổ Hội An là một đô thị cổ nằm ở hạ lưu sông Thu Bồn, thuộc vùng đồng bằng ven biển thành phố Đà Nẵng, Việt Nam, cách trung tâm thành phố khoảng 30 km về phía Nam. Nhờ những yếu tố địa lý và khí hậu thuận lợi, Hội An từng là một thương cảng quốc tế sầm uất, nơi gặp gỡ của những thuyền buôn Nhật Bản, Trung Quốc và phương Tây trong suốt thế kỷ XVII và XVIII. Trước thời kỳ này, nơi đây cũng từng có những dấu tích của thương cảng Chăm Pa hay được nhắc đến cùng con đường tơ lụa trên biển. Thế kỷ XIX, do giao thông đường thủy ở đây không còn thuận tiện, cảng thị Hội An dần suy thoái, nhường chỗ cho Đà Nẵng khi đó đang được người Pháp xây dựng. Hội An may mắn không bị tàn phá trong hai cuộc chiến tranh và tránh được quá trình đô thị hóa ồ ạt cuối thế kỷ 20. Bắt đầu từ thập niên 1980, những giá trị kiến trúc và văn hóa của phố cổ Hội An dần được giới học giả và cả du khách chú ý, khiến nơi đây trở thành một trong những điểm du lịch hấp dẫn của Việt Nam.
+Đô thị cổ Hội An ngày nay là một điển hình đặc biệt về cảng thị truyền thống ở Đông Nam Á được bảo tồn nguyên vẹn và chu đáo. Phần lớn những ngôi nhà ở đây là những kiến trúc truyền thống có niên đại từ thế kỷ 17 đến thế kỷ 19, phân bố dọc theo những trục phố nhỏ hẹp. Nằm xen kẽ giữa các ngôi nhà phố, những công trình kiến trúc tôn giáo, tín ngưỡng minh chứng cho quá trình hình thành, phát triển và cả suy tàn của đô thị. Hội An cũng là vùng đất ghi nhiều dấu ấn của sự pha trộn, giao thoa văn hóa. Các hội quán, đền miếu mang dấu tích của người Hoa nằm bên những ngôi nhà phố truyền thống của người Việt và những ngôi nhà mang phong cách kiến trúc Pháp. Bên cạnh những giá trị văn hóa qua các công trình kiến trúc, Hội An còn lưu giữ một nền văn hóa phi vật thể đa dạng và phong phú. Cuộc sống thường nhật của cư dân phố cổ với những phong tục tập quán, sinh hoạt tín ngưỡng, nghệ thuật dân gian, lễ hội văn hóa vẫn đang được bảo tồn và phát triển. Hội An được xem như một bảo tàng sống về kiến trúc và lối sống đô thị.
 Với những giá trị nổi bật, tại kỳ họp lần thứ 23 cuối năm 1999 (ngày 4 tháng 12), Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc (UNESCO) đã công nhận đô thị cổ Hội An là một di sản văn hóa thế giới, dựa trên hai tiêu chí:
 
 Hội An là biểu hiện vật thể nổi bật của sự kết hợp các nền văn hóa qua các thời kỳ trong một thương cảng quốc tế.
@@ -8497,8 +8461,8 @@ Hội An là điển hình tiêu biểu về một cảng thị châu Á truyề
         <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-do-thi-co-hoi-an-2942>,
         <https://vi.wikipedia.org/wiki/Ph%E1%BB%91_c%E1%BB%95_H%E1%BB%99i_An> ;
     dcterms:subject "world_heritage" ;
-    rdfs:comment """Đô thị cổ Hội An là một đô thị cổ nằm ở hạ lưu sông Thu Bồn, thuộc vùng đồng bằng ven biển thành phố Đà Nẵng, Việt Nam, cách trung tâm thành phố khoảng 30 km về phía Nam. Nhờ những yếu tố địa lý và khí hậu thuận lợi, Hội An từng là một thương cảng quốc tế sầm uất, nơi gặp gỡ của những thuyền buôn Nhật Bản, Trung Quốc và phương Tây trong suốt thế kỷ XVII và XVIII. Trước thời kỳ này, nơi đây cũng từng có những dấu tích của thương cảng Chăm Pa hay được nhắc đến cùng con đường tơ lụa trên biển. Thế kỷ XIX, do giao thông đường thủy ở đây không còn thuận tiện, cảng thị Hội An dần suy thoái, nhường chỗ cho Đà Nẵng khi đó đang được người Pháp xây dựng. Hội An may mắn không bị tàn phá trong hai cuộc chiến tranh và tránh được quá trình đô thị hóa ồ ạt cuối thế kỷ 20. Bắt đầu từ thập niên 1980, những giá trị kiến trúc và văn hóa của đô thị cổ Hội An dần được giới học giả và cả du khách chú ý, khiến nơi đây trở thành một trong những điểm du lịch hấp dẫn của Việt Nam.
-Đô thị cổ Hội An ngày nay là một điển hình đặc biệt về cảng thị truyền thống ở Đông Nam Á được bảo tồn nguyên vẹn và chu đáo. Phần lớn những ngôi nhà ở đây là những kiến trúc truyền thống có niên đại từ thế kỷ 17 đến thế kỷ 19, phân bố dọc theo những trục phố nhỏ hẹp. Nằm xen kẽ giữa các ngôi nhà phố, những công trình kiến trúc tôn giáo, tín ngưỡng minh chứng cho quá trình hình thành, phát triển và cả suy tàn của đô thị. Hội An cũng là vùng đất ghi nhiều dấu ấn của sự pha trộn, giao thoa văn hóa. Các hội quán, đền miếu mang dấu tích của người Hoa nằm bên những ngôi nhà phố truyền thống của người Việt và những ngôi nhà mang phong cách kiến trúc Pháp. Bên cạnh những giá trị văn hóa qua các công trình kiến trúc, Hội An còn lưu giữ một nền văn hóa phi vật thể đa dạng và phong phú. Cuộc sống thường nhật của cư dân đô thị cổ với những phong tục tập quán, sinh hoạt tín ngưỡng, nghệ thuật dân gian, lễ hội văn hóa vẫn đang được bảo tồn và phát triển. Hội An được xem như một bảo tàng sống về kiến trúc và lối sống đô thị.
+    rdfs:comment """Phố cổ Hội An là một đô thị cổ nằm ở hạ lưu sông Thu Bồn, thuộc vùng đồng bằng ven biển thành phố Đà Nẵng, Việt Nam, cách trung tâm thành phố khoảng 30 km về phía Nam. Nhờ những yếu tố địa lý và khí hậu thuận lợi, Hội An từng là một thương cảng quốc tế sầm uất, nơi gặp gỡ của những thuyền buôn Nhật Bản, Trung Quốc và phương Tây trong suốt thế kỷ XVII và XVIII. Trước thời kỳ này, nơi đây cũng từng có những dấu tích của thương cảng Chăm Pa hay được nhắc đến cùng con đường tơ lụa trên biển. Thế kỷ XIX, do giao thông đường thủy ở đây không còn thuận tiện, cảng thị Hội An dần suy thoái, nhường chỗ cho Đà Nẵng khi đó đang được người Pháp xây dựng. Hội An may mắn không bị tàn phá trong hai cuộc chiến tranh và tránh được quá trình đô thị hóa ồ ạt cuối thế kỷ 20. Bắt đầu từ thập niên 1980, những giá trị kiến trúc và văn hóa của phố cổ Hội An dần được giới học giả và cả du khách chú ý, khiến nơi đây trở thành một trong những điểm du lịch hấp dẫn của Việt Nam.
+Đô thị cổ Hội An ngày nay là một điển hình đặc biệt về cảng thị truyền thống ở Đông Nam Á được bảo tồn nguyên vẹn và chu đáo. Phần lớn những ngôi nhà ở đây là những kiến trúc truyền thống có niên đại từ thế kỷ 17 đến thế kỷ 19, phân bố dọc theo những trục phố nhỏ hẹp. Nằm xen kẽ giữa các ngôi nhà phố, những công trình kiến trúc tôn giáo, tín ngưỡng minh chứng cho quá trình hình thành, phát triển và cả suy tàn của đô thị. Hội An cũng là vùng đất ghi nhiều dấu ấn của sự pha trộn, giao thoa văn hóa. Các hội quán, đền miếu mang dấu tích của người Hoa nằm bên những ngôi nhà phố truyền thống của người Việt và những ngôi nhà mang phong cách kiến trúc Pháp. Bên cạnh những giá trị văn hóa qua các công trình kiến trúc, Hội An còn lưu giữ một nền văn hóa phi vật thể đa dạng và phong phú. Cuộc sống thường nhật của cư dân phố cổ với những phong tục tập quán, sinh hoạt tín ngưỡng, nghệ thuật dân gian, lễ hội văn hóa vẫn đang được bảo tồn và phát triển. Hội An được xem như một bảo tàng sống về kiến trúc và lối sống đô thị.
 Với những giá trị nổi bật, tại kỳ họp lần thứ 23 cuối năm 1999 (ngày 4 tháng 12), Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc (UNESCO) đã công nhận đô thị cổ Hội An là một di sản văn hóa thế giới, dựa trên hai tiêu chí:
 
 Hội An là biểu hiện vật thể nổi bật của sự kết hợp các nền văn hóa qua các thời kỳ trong một thương cảng quốc tế.
@@ -8800,7 +8764,9 @@ Theo tài liệu thì vào đầu thời Gia Long, thành Quảng Trị được
 Trong những năm 1809-1945, nhà Nguyễn lấy làm thành lũy quân sự và trụ sở hành chính. Từ năm 1929, Pháp xây dựng thêm nhà lao ở đây và biến nơi đây thành nơi giam cầm những người có quan điểm chính trị đối lập.
 
 Tại nơi đây đã có những trận đánh lớn trong thời kỳ chiến tranh Việt Nam trong các năm 1968 và 1972. Sau chiến dịch Thành Cổ chiến dịch Xuân - Hè 1972, toàn bộ thành cổ gần như bị san phẳng; chỉ còn sót lại một cửa hướng Đông tương đối nguyên hình và vài đoạn tường thành cùng giao thông hào bên ngoài chi chít vết bom đạn.
-Trong thập niên 90 của thế kỷ 20, UBND tỉnh Quảng Trị cho tôn tạo lại thành để làm di tích. Người ta phục chế vài đoạn tường thành, làm lại bốn cổng chính, ngay trung tâm thành được xây một đài tưởng niệm ghi dấu ấn 81 ngày đêm năm 1972. Góc phía tây nam dựng lên một ngôi nhà hiện đại làm bảo tàng. Toàn bộ đường dẫn vào di tích và mặt đất bên trong thành được tráng xi măng chừa ô trồng cỏ. Thành cổ được người dân trong vùng xem là "Đất tâm linh" vì nơi đây bất cứ tấc đất nào cũng có bom đạn và máu xương các binh sĩ hai bên. Hiện nay là một công viên lớn nhất phường Quảng Trị."""@vi ;
+Trong thập niên 90 của thế kỷ 20, UBND tỉnh Quảng Trị cho tôn tạo lại thành để làm di tích. Người ta phục chế vài đoạn tường thành, làm lại bốn cổng chính, ngay trung tâm thành được xây một đài tưởng niệm ghi dấu ấn 81 ngày đêm năm 1972. Góc phía tây nam dựng lên một ngôi nhà hiện đại làm bảo tàng. Toàn bộ đường dẫn vào di tích và mặt đất bên trong thành được tráng xi măng chừa ô trồng cỏ. Thành cổ được người dân trong vùng xem là "Đất tâm linh" vì nơi đây bất cứ tấc đất nào cũng có bom đạn và máu xương các binh sĩ hai bên. Hiện nay là một công viên lớn nhất phường Quảng Trị.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-thanh-co-quang-tri-va-nhung-dia-diem-luu-niem-su-kien-81-ngay-dem-nam-1972-2975>,
@@ -8811,7 +8777,9 @@ Theo tài liệu thì vào đầu thời Gia Long, thành Quảng Trị được
 Trong những năm 1809-1945, nhà Nguyễn lấy làm thành lũy quân sự và trụ sở hành chính. Từ năm 1929, Pháp xây dựng thêm nhà lao ở đây và biến nơi đây thành nơi giam cầm những người có quan điểm chính trị đối lập.
 
 Tại nơi đây đã có những trận đánh lớn trong thời kỳ chiến tranh Việt Nam trong các năm 1968 và 1972. Sau chiến dịch Thành Cổ chiến dịch Xuân - Hè 1972, toàn bộ thành cổ gần như bị san phẳng; chỉ còn sót lại một cửa hướng Đông tương đối nguyên hình và vài đoạn tường thành cùng giao thông hào bên ngoài chi chít vết bom đạn.
-Trong thập niên 90 của thế kỷ 20, UBND tỉnh Quảng Trị cho tôn tạo lại thành để làm di tích. Người ta phục chế vài đoạn tường thành, làm lại bốn cổng chính, ngay trung tâm thành được xây một đài tưởng niệm ghi dấu ấn 81 ngày đêm năm 1972. Góc phía tây nam dựng lên một ngôi nhà hiện đại làm bảo tàng. Toàn bộ đường dẫn vào di tích và mặt đất bên trong thành được tráng xi măng chừa ô trồng cỏ. Thành cổ được người dân trong vùng xem là "Đất tâm linh" vì nơi đây bất cứ tấc đất nào cũng có bom đạn và máu xương các binh sĩ hai bên. Hiện nay là một công viên lớn nhất phường Quảng Trị."""@vi ;
+Trong thập niên 90 của thế kỷ 20, UBND tỉnh Quảng Trị cho tôn tạo lại thành để làm di tích. Người ta phục chế vài đoạn tường thành, làm lại bốn cổng chính, ngay trung tâm thành được xây một đài tưởng niệm ghi dấu ấn 81 ngày đêm năm 1972. Góc phía tây nam dựng lên một ngôi nhà hiện đại làm bảo tàng. Toàn bộ đường dẫn vào di tích và mặt đất bên trong thành được tráng xi măng chừa ô trồng cỏ. Thành cổ được người dân trong vùng xem là "Đất tâm linh" vì nơi đây bất cứ tấc đất nào cũng có bom đạn và máu xương các binh sĩ hai bên. Hiện nay là một công viên lớn nhất phường Quảng Trị.
+
+"""@vi ;
     geo1:lat 16.751672 ;
     geo1:long 107.186772 ;
     skos:altLabel "Thành cổ Quảng Trị"@vi ;
@@ -8972,17 +8940,13 @@ vhr:site-3f951f505bf6 a vh:ArchitecturalSite,
     vh:recognitionYear "2015"^^xsd:gYear ;
     vh:sourcePageId 362694 ;
     vh:sourceTitle "Đền Trần Thương"^^xsd:string ;
-    dcterms:description """Đền Trần Thương là một ngôi đền thờ Trần Hưng Đạo được dựng lên ngay trên phần đất khi xưa ông dùng làm kho lương phục vụ cuộc kháng chiến chống quân Nguyên - Mông lần 2. Đền Trần Thương nằm ở xã Trần Thương, tỉnh Ninh Bình, Việt Nam. Từ phường Hoa Lư, trung tâm tỉnh Ninh Bình tới đền Trần Thương 50 km. Đây là ngôi đền lớn thờ Trần Hưng Đạo đã được xếp hạng Di tích quốc gia đặc biệt tại Việt Nam và gắn với lễ hội phát lương Đức Thánh Trần diễn ra hàng năm.
-
-"""@vi ;
+    dcterms:description "Đền Trần Thương là một ngôi đền thờ Trần Hưng Đạo được dựng lên ngay trên phần đất khi xưa ông dùng làm kho lương phục vụ cuộc kháng chiến chống quân Nguyên - Mông lần 2. Đền Trần Thương nằm ở xã Trần Thương, tỉnh Ninh Bình, Việt Nam. Từ phường Hoa Lư, trung tâm tỉnh Ninh Bình tới đền Trần Thương 50 km. Đây là ngôi đền lớn thờ Trần Hưng Đạo đã được xếp hạng Di tích quốc gia đặc biệt tại Việt Nam và gắn với lễ hội phát lương Đức Thánh Trần diễn ra hàng năm."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-den-tran-thuong-1313>,
         <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Tr%E1%BA%A7n_Th%C6%B0%C6%A1ng> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Đền Trần Thương là một ngôi đền thờ Trần Hưng Đạo được dựng lên ngay trên phần đất khi xưa ông dùng làm kho lương phục vụ cuộc kháng chiến chống quân Nguyên - Mông lần 2. Đền Trần Thương nằm ở xã Trần Thương, tỉnh Ninh Bình, Việt Nam. Từ phường Hoa Lư, trung tâm tỉnh Ninh Bình tới đền Trần Thương 50 km. Đây là ngôi đền lớn thờ Trần Hưng Đạo đã được xếp hạng Di tích quốc gia đặc biệt tại Việt Nam và gắn với lễ hội phát lương Đức Thánh Trần diễn ra hàng năm.
-
-"""@vi ;
+    rdfs:comment "Đền Trần Thương là một ngôi đền thờ Trần Hưng Đạo được dựng lên ngay trên phần đất khi xưa ông dùng làm kho lương phục vụ cuộc kháng chiến chống quân Nguyên - Mông lần 2. Đền Trần Thương nằm ở xã Trần Thương, tỉnh Ninh Bình, Việt Nam. Từ phường Hoa Lư, trung tâm tỉnh Ninh Bình tới đền Trần Thương 50 km. Đây là ngôi đền lớn thờ Trần Hưng Đạo đã được xếp hạng Di tích quốc gia đặc biệt tại Việt Nam và gắn với lễ hội phát lương Đức Thánh Trần diễn ra hàng năm."@vi ;
     geo1:lat 20.5761573 ;
     geo1:long 106.1037476 ;
     skos:altLabel "Đền Trần Thương"@vi ;
@@ -9049,9 +9013,7 @@ vhr:site-42b94f80081e a vh:ArchitecturalSite,
     dcterms:description """Khu di tích lịch sử Lam Kinh cách phường Hạc Thành 50 km về phía Tây Bắc, nằm trên địa bàn xã Lam Sơn, tỉnh Thanh Hóa. Đây là một di tích lịch sử quốc gia cấp từ năm 1962. Năm 2012, khu di tích này được công nhận là di tích quốc gia đặc biệt.
 Nhân vật tạo lập Lam Kinh là Lê Thái Tổ. Sau 10 năm lãnh đạo cuộc khởi nghĩa Lam Sơn (1418 - 1428) đánh đuổi giặc nhà Minh và lên ngôi hoàng đế đóng đô ở Đông Kinh (Thăng Long), vua Thái Tổ lấy niên hiệu là Thuận Thiên. Đồng thời nhà vua cho xây dựng ở quê hương đất tổ Lam Sơn một kinh thành gọi là Lam Kinh hay còn gọi là Tây Kinh.
 Thành điện Lam Kinh phía bắc dựa vào núi Dầu, mặt Nam nhìn ra sông Chu - có núi Chúa làm tiền án, bên tả là rừng Phú Lâm, bên hữu là núi Hương và núi Hàm Rồng chắn phía tây. Khu Hoàng thành, cung điện và Thái miếu ở Lam Kinh được bố trí xây dựng theo trục Nam - Bắc trên một khoảng đồi gò có hình dáng chữ Vương (王). Bốn mặt xây thành có chiều dài 314m, bề ngang 254m, tường thành phía Bắc hình cánh cung có bán kính 164m, thành dày 1m. Qua khảo cổ và dấu tích còn lại cho thấy xưa kia ở đây đã từng tồn tại Ngọ môn, sân rồng, chính điện, khu Thái miếu... nguy nga tráng lệ.
-Khu di tích lịch sử Lam Kinh rộng khoảng 30 ha, gồm những lăng phần, đền miếu và một hành cung của các vua nhà Hậu Lê mỗi lần về bái yết tổ tiên.
-
-"""@vi ;
+Khu di tích lịch sử Lam Kinh rộng khoảng 30 ha, gồm những lăng phần, đền miếu và một hành cung của các vua nhà Hậu Lê mỗi lần về bái yết tổ tiên."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-lam-kinh-2961>,
@@ -9060,9 +9022,7 @@ Khu di tích lịch sử Lam Kinh rộng khoảng 30 ha, gồm những lăng ph�
     rdfs:comment """Khu di tích lịch sử Lam Kinh cách phường Hạc Thành 50 km về phía Tây Bắc, nằm trên địa bàn xã Lam Sơn, tỉnh Thanh Hóa. Đây là một di tích lịch sử quốc gia cấp từ năm 1962. Năm 2012, khu di tích này được công nhận là di tích quốc gia đặc biệt.
 Nhân vật tạo lập Lam Kinh là Lê Thái Tổ. Sau 10 năm lãnh đạo cuộc khởi nghĩa Lam Sơn (1418 - 1428) đánh đuổi giặc nhà Minh và lên ngôi hoàng đế đóng đô ở Đông Kinh (Thăng Long), vua Thái Tổ lấy niên hiệu là Thuận Thiên. Đồng thời nhà vua cho xây dựng ở quê hương đất tổ Lam Sơn một kinh thành gọi là Lam Kinh hay còn gọi là Tây Kinh.
 Thành điện Lam Kinh phía bắc dựa vào núi Dầu, mặt Nam nhìn ra sông Chu - có núi Chúa làm tiền án, bên tả là rừng Phú Lâm, bên hữu là núi Hương và núi Hàm Rồng chắn phía tây. Khu Hoàng thành, cung điện và Thái miếu ở Lam Kinh được bố trí xây dựng theo trục Nam - Bắc trên một khoảng đồi gò có hình dáng chữ Vương (王). Bốn mặt xây thành có chiều dài 314m, bề ngang 254m, tường thành phía Bắc hình cánh cung có bán kính 164m, thành dày 1m. Qua khảo cổ và dấu tích còn lại cho thấy xưa kia ở đây đã từng tồn tại Ngọ môn, sân rồng, chính điện, khu Thái miếu... nguy nga tráng lệ.
-Khu di tích lịch sử Lam Kinh rộng khoảng 30 ha, gồm những lăng phần, đền miếu và một hành cung của các vua nhà Hậu Lê mỗi lần về bái yết tổ tiên.
-
-"""@vi ;
+Khu di tích lịch sử Lam Kinh rộng khoảng 30 ha, gồm những lăng phần, đền miếu và một hành cung của các vua nhà Hậu Lê mỗi lần về bái yết tổ tiên."""@vi ;
     skos:altLabel "Lam Kinh"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-lam-kinh-2961>,
         <https://vi.wikipedia.org/wiki/Lam_Kinh> ;
@@ -9078,7 +9038,9 @@ vhr:site-45b536fd5002 a vh:HeritageSite ;
     dcterms:description """Đền Hùng (Tên chữ: Hùng Vương miếu) là tên gọi khái quát của Khu di tích lịch sử Đền Hùng - quần thể đền chùa thờ phụng các Vua Hùng và tôn thất của nhà vua trên núi Nghĩa Lĩnh, xã Hy Cương, tỉnh Phú Thọ, xưa thuộc xã Hy Cương, huyện Sơn Vi, gắn với Giỗ Tổ Hùng Vương - Lễ hội Đền Hùng được tổ chức tại địa điểm đó hàng năm vào ngày 10 tháng 3 âm lịch. Hiện nay, theo các tài liệu khoa học đã công bố đa số đều thống nhất nền móng kiến trúc đền Hùng bắt đầu được xây dựng từ thời vua Đinh Tiên Hoàng trị vì. Đến thời Hậu Lê (thế kỷ 15) được xây dựng hoàn chỉnh theo quy mô như hiện tại.
 Từ chân núi đi lên, qua cổng đền, điểm dừng chân của du khách là đền Hạ, tương truyền là nơi nàng Âu Cơ đẻ ra bọc trăm trứng. Trăm trứng ấy đẻ ra trăm người con, năm mươi người theo cha xuống biển, bốn chín người theo mẹ lên núi. Người con ở lại làm vua, lấy tên là Hùng Vương (thứ nhất).
 Qua đền Hạ là đền Trung, nơi các vua Hùng dùng làm nơi họp bàn với các Lạc hầu, Lạc tướng. Trên đỉnh núi là đền Thượng là lăng Hùng Vương thứ sáu (trong dân gian gọi là mộ tổ) từ đền Thượng đi xuống phía Tây nam là đền Giếng, nơi có cái giếng đá quanh năm nước trong vắt. Tương truyền ngày xưa các công chúa Tiên Dung và Ngọc Hoa, con vua Hùng Vương thứ mười tám, thường tới gội đầu tại đó.
-Lễ hội đền Hùng bao gồm những hoạt động văn hóa, văn nghệ mang tính chất nghi thức truyền thống và những hoạt động văn hóa dân gian khác... Các hoạt động văn hóa mang tính chất nghi thức còn lại đến ngày nay là lễ rước kiệu vua và lễ dâng hương. Đó là hai nghi lễ được cử hành đồng thời trong ngày chính hội. Đám rước kiệu xuất phát từ dưới chân núi rồi lần lượt qua các đền để tới đền Thượng, nơi làm lễ dâng hương. Đó là một đám rước tưng bừng những âm thanh của các nhạc cụ cổ truyền và màu sắc sặc sỡ của bạt ngàn cờ, hoa, lọng, kiệu, trang phục truyền thống... Dưới tán lá mát rượi của những cây trò, cây mỡ cổ thụ và âm vang trầm bổng của trống đồng, đám rước như một con rồng uốn lượn trên những bậc đá huyền thoại để tới đỉnh núi Thiêng."""@vi ;
+Lễ hội đền Hùng bao gồm những hoạt động văn hóa, văn nghệ mang tính chất nghi thức truyền thống và những hoạt động văn hóa dân gian khác... Các hoạt động văn hóa mang tính chất nghi thức còn lại đến ngày nay là lễ rước kiệu vua và lễ dâng hương. Đó là hai nghi lễ được cử hành đồng thời trong ngày chính hội. Đám rước kiệu xuất phát từ dưới chân núi rồi lần lượt qua các đền để tới đền Thượng, nơi làm lễ dâng hương. Đó là một đám rước tưng bừng những âm thanh của các nhạc cụ cổ truyền và màu sắc sặc sỡ của bạt ngàn cờ, hoa, lọng, kiệu, trang phục truyền thống... Dưới tán lá mát rượi của những cây trò, cây mỡ cổ thụ và âm vang trầm bổng của trống đồng, đám rước như một con rồng uốn lượn trên những bậc đá huyền thoại để tới đỉnh núi Thiêng.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-den-hung-2939>,
@@ -9087,7 +9049,9 @@ Lễ hội đền Hùng bao gồm những hoạt động văn hóa, văn nghệ 
     rdfs:comment """Đền Hùng (Tên chữ: Hùng Vương miếu) là tên gọi khái quát của Khu di tích lịch sử Đền Hùng - quần thể đền chùa thờ phụng các Vua Hùng và tôn thất của nhà vua trên núi Nghĩa Lĩnh, xã Hy Cương, tỉnh Phú Thọ, xưa thuộc xã Hy Cương, huyện Sơn Vi, gắn với Giỗ Tổ Hùng Vương - Lễ hội Đền Hùng được tổ chức tại địa điểm đó hàng năm vào ngày 10 tháng 3 âm lịch. Hiện nay, theo các tài liệu khoa học đã công bố đa số đều thống nhất nền móng kiến trúc đền Hùng bắt đầu được xây dựng từ thời vua Đinh Tiên Hoàng trị vì. Đến thời Hậu Lê (thế kỷ 15) được xây dựng hoàn chỉnh theo quy mô như hiện tại.
 Từ chân núi đi lên, qua cổng đền, điểm dừng chân của du khách là đền Hạ, tương truyền là nơi nàng Âu Cơ đẻ ra bọc trăm trứng. Trăm trứng ấy đẻ ra trăm người con, năm mươi người theo cha xuống biển, bốn chín người theo mẹ lên núi. Người con ở lại làm vua, lấy tên là Hùng Vương (thứ nhất).
 Qua đền Hạ là đền Trung, nơi các vua Hùng dùng làm nơi họp bàn với các Lạc hầu, Lạc tướng. Trên đỉnh núi là đền Thượng là lăng Hùng Vương thứ sáu (trong dân gian gọi là mộ tổ) từ đền Thượng đi xuống phía Tây nam là đền Giếng, nơi có cái giếng đá quanh năm nước trong vắt. Tương truyền ngày xưa các công chúa Tiên Dung và Ngọc Hoa, con vua Hùng Vương thứ mười tám, thường tới gội đầu tại đó.
-Lễ hội đền Hùng bao gồm những hoạt động văn hóa, văn nghệ mang tính chất nghi thức truyền thống và những hoạt động văn hóa dân gian khác... Các hoạt động văn hóa mang tính chất nghi thức còn lại đến ngày nay là lễ rước kiệu vua và lễ dâng hương. Đó là hai nghi lễ được cử hành đồng thời trong ngày chính hội. Đám rước kiệu xuất phát từ dưới chân núi rồi lần lượt qua các đền để tới đền Thượng, nơi làm lễ dâng hương. Đó là một đám rước tưng bừng những âm thanh của các nhạc cụ cổ truyền và màu sắc sặc sỡ của bạt ngàn cờ, hoa, lọng, kiệu, trang phục truyền thống... Dưới tán lá mát rượi của những cây trò, cây mỡ cổ thụ và âm vang trầm bổng của trống đồng, đám rước như một con rồng uốn lượn trên những bậc đá huyền thoại để tới đỉnh núi Thiêng."""@vi ;
+Lễ hội đền Hùng bao gồm những hoạt động văn hóa, văn nghệ mang tính chất nghi thức truyền thống và những hoạt động văn hóa dân gian khác... Các hoạt động văn hóa mang tính chất nghi thức còn lại đến ngày nay là lễ rước kiệu vua và lễ dâng hương. Đó là hai nghi lễ được cử hành đồng thời trong ngày chính hội. Đám rước kiệu xuất phát từ dưới chân núi rồi lần lượt qua các đền để tới đền Thượng, nơi làm lễ dâng hương. Đó là một đám rước tưng bừng những âm thanh của các nhạc cụ cổ truyền và màu sắc sặc sỡ của bạt ngàn cờ, hoa, lọng, kiệu, trang phục truyền thống... Dưới tán lá mát rượi của những cây trò, cây mỡ cổ thụ và âm vang trầm bổng của trống đồng, đám rước như một con rồng uốn lượn trên những bậc đá huyền thoại để tới đỉnh núi Thiêng.
+
+"""@vi ;
     geo1:lat 21.3682242 ;
     geo1:long 105.3214424 ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-den-hung-2939>,
@@ -9115,16 +9079,18 @@ vhr:site-4693d6c15803 a vh:HeritageSite ;
     vh:recognizedBy vhr:organization-unesco ;
     vh:sourcePageId 15644 ;
     vh:sourceTitle "Hoàng thành Thăng Long"^^xsd:string ;
-    dcterms:description """Hoàng thành Thăng Long (chữ Hán: 昇龍皇城; Hán-Việt: Thăng Long Hoàng thành) là quần thể di tích gắn với lịch sử kinh thành Thăng Long - Đông Kinh và tỉnh thành Hà Nội bắt đầu từ thời kì tiền Thăng Long (An Nam đô hộ phủ thế kỷ VII) qua thời Đinh - Tiền Lê, phát triển mạnh dưới thời Lý, Trần, Lê và thành Hà Nội dưới triều Nguyễn. Đây là công trình kiến trúc các triều vua xây dựng trong nhiều giai đoạn lịch sử và trở thành một trong những di tích quan trọng bậc nhất trong hệ thống các di tích Việt Nam. Hầu hết các kiến trúc tồn tại đến ngày hôm nay được xây dựng sau khi Gia Long phá dỡ và xây dựng lại vào năm 1802, cũng như bị quân Pháp phá đi để xây dựng doanh trại. 
-Vào lúc 20 giờ 30, ngày 31 tháng 7 năm 2010 theo giờ địa phương tại Brasil, tức 6 giờ 30 ngày 1/8/2010 theo giờ Việt Nam, Ủy ban di sản thế giới (WHC) thuộc Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc (UNESCO) đã thông qua nghị quyết công nhận khu Trung tâm Hoàng thành Thăng Long - Hà Nội là di sản Văn hóa thế giới. Những giá trị nổi bật toàn cầu của khu di sản này được ghi nhận bởi 3 đặc điểm nổi bật: chiều dài lịch sử văn hóa suốt 13 thế kỷ; tính liên tục của di sản với tư cách là một trung tâm quyền lực, và các tầng di tích di vật đa dạng, phong phú, sinh động."""@vi ;
+    dcterms:description """Hoàng thành Thăng Long (chữ Hán: 昇龍皇城; Hán-Việt: Thăng Long Hoàng thành) là quần thể di tích gắn với lịch sử kinh thành Thăng Long - Đông Kinh và tỉnh thành Hà Nội bắt đầu từ thời kì tiền Thăng Long (An Nam đô hộ phủ thế kỷ VII) qua thời Đinh - Tiền Lê, phát triển mạnh dưới thời Lý, Trần, Lê và thành Hà Nội dưới triều Nguyễn. Đây là công trình kiến trúc các triều vua xây dựng trong nhiều giai đoạn lịch sử và trở thành một trong những di tích quan trọng bậc nhất trong hệ thống các di tích Việt Nam.
+Vào lúc 20 giờ 30, ngày 31/7/2010 theo giờ địa phương tại Brasil, tức 6 giờ 30 ngày 1/8/2010 theo giờ Việt Nam, Ủy ban di sản thế giới (WHC) thuộc Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc (UNESCO) đã thông qua nghị quyết công nhận khu Trung tâm Hoàng thành Thăng Long - Hà Nội là di sản Văn hóa thế giới. Những giá trị nổi bật toàn cầu của khu di sản này được ghi nhận bởi 3 đặc điểm nổi bật: chiều dài lịch sử văn hóa suốt 13 thế kỷ; tính liên tục của di sản với tư cách là một trung tâm quyền lực, và các tầng di tích di vật đa dạng, phong phú, sinh động."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-khao-co-khu-trung-tam-hoang-thanh-thang-long-ha-noi-2945>,
         <https://dsvh.gov.vn/khu-trung-tam-hoang-thanh-thang-long-ha-noi-480>,
         <https://vi.wikipedia.org/wiki/Ho%C3%A0ng_th%C3%A0nh_Th%C4%83ng_Long> ;
     dcterms:subject "world_heritage" ;
-    rdfs:comment """Hoàng thành Thăng Long (chữ Hán: 昇龍皇城; Hán-Việt: Thăng Long Hoàng thành) là quần thể di tích gắn với lịch sử kinh thành Thăng Long - Đông Kinh và tỉnh thành Hà Nội bắt đầu từ thời kì tiền Thăng Long (An Nam đô hộ phủ thế kỷ VII) qua thời Đinh - Tiền Lê, phát triển mạnh dưới thời Lý, Trần, Lê và thành Hà Nội dưới triều Nguyễn. Đây là công trình kiến trúc các triều vua xây dựng trong nhiều giai đoạn lịch sử và trở thành một trong những di tích quan trọng bậc nhất trong hệ thống các di tích Việt Nam. Hầu hết các kiến trúc tồn tại đến ngày hôm nay được xây dựng sau khi Gia Long phá dỡ và xây dựng lại vào năm 1802, cũng như bị quân Pháp phá đi để xây dựng doanh trại. 
-Vào lúc 20 giờ 30, ngày 31 tháng 7 năm 2010 theo giờ địa phương tại Brasil, tức 6 giờ 30 ngày 1/8/2010 theo giờ Việt Nam, Ủy ban di sản thế giới (WHC) thuộc Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc (UNESCO) đã thông qua nghị quyết công nhận khu Trung tâm Hoàng thành Thăng Long - Hà Nội là di sản Văn hóa thế giới. Những giá trị nổi bật toàn cầu của khu di sản này được ghi nhận bởi 3 đặc điểm nổi bật: chiều dài lịch sử văn hóa suốt 13 thế kỷ; tính liên tục của di sản với tư cách là một trung tâm quyền lực, và các tầng di tích di vật đa dạng, phong phú, sinh động."""@vi ;
+    rdfs:comment """Hoàng thành Thăng Long (chữ Hán: 昇龍皇城; Hán-Việt: Thăng Long Hoàng thành) là quần thể di tích gắn với lịch sử kinh thành Thăng Long - Đông Kinh và tỉnh thành Hà Nội bắt đầu từ thời kì tiền Thăng Long (An Nam đô hộ phủ thế kỷ VII) qua thời Đinh - Tiền Lê, phát triển mạnh dưới thời Lý, Trần, Lê và thành Hà Nội dưới triều Nguyễn. Đây là công trình kiến trúc các triều vua xây dựng trong nhiều giai đoạn lịch sử và trở thành một trong những di tích quan trọng bậc nhất trong hệ thống các di tích Việt Nam.
+Vào lúc 20 giờ 30, ngày 31/7/2010 theo giờ địa phương tại Brasil, tức 6 giờ 30 ngày 1/8/2010 theo giờ Việt Nam, Ủy ban di sản thế giới (WHC) thuộc Tổ chức Giáo dục, Khoa học và Văn hóa Liên Hợp Quốc (UNESCO) đã thông qua nghị quyết công nhận khu Trung tâm Hoàng thành Thăng Long - Hà Nội là di sản Văn hóa thế giới. Những giá trị nổi bật toàn cầu của khu di sản này được ghi nhận bởi 3 đặc điểm nổi bật: chiều dài lịch sử văn hóa suốt 13 thế kỷ; tính liên tục của di sản với tư cách là một trung tâm quyền lực, và các tầng di tích di vật đa dạng, phong phú, sinh động."""@vi ;
+    geo1:lat 21.03944444 ;
+    geo1:long 105.83722222 ;
     skos:altLabel "Khu Trung tâm Hoàng thành Thăng Long - Hà Nội"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-va-khao-co-khu-trung-tam-hoang-thanh-thang-long-ha-noi-2945>,
         <https://dsvh.gov.vn/khu-trung-tam-hoang-thanh-thang-long-ha-noi-480>,
@@ -9383,9 +9349,7 @@ vhr:site-5a1d8aef0c7c a vh:ArchitecturalSite,
     vh:sourceTitle "Đình Thổ Tang"^^xsd:string ;
     dcterms:description """Đình Thổ Tang là ngôi đình của làng Thổ Tang, nay là xã Thổ Tang, tỉnh Phú Thọ, Việt Nam.
 Đây là một trong những ngôi đình cổ nhất của tỉnh Vĩnh Phúc, đình được xây dựng từ thế kỷ XVII, là nơi thờ cúng Lân Hổ Hầu đô thống Đại Vương - một vị tướng có công giúp vua Trần Nhân Tông đánh tan quân Nguyên Mông xâm lược Việt Nam vào thế kỷ XII.
-Đình Thổ Tang được xếp hạng di tích lịch sử văn hóa cấp Quốc gia năm 1964. Ngày 24 tháng 12 năm 2018, Thủ tướng Chính phủ đã xếp hạng ngôi đình là di tích quốc gia đặc biệt.
-
-"""@vi ;
+Đình Thổ Tang được xếp hạng di tích lịch sử văn hóa cấp Quốc gia năm 1964. Ngày 24 tháng 12 năm 2018, Thủ tướng Chính phủ đã xếp hạng ngôi đình là di tích quốc gia đặc biệt."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/dinh-tho-tang-tinh-vinh-phuc-3252>,
@@ -9393,9 +9357,7 @@ vhr:site-5a1d8aef0c7c a vh:ArchitecturalSite,
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Đình Thổ Tang là ngôi đình của làng Thổ Tang, nay là xã Thổ Tang, tỉnh Phú Thọ, Việt Nam.
 Đây là một trong những ngôi đình cổ nhất của tỉnh Vĩnh Phúc, đình được xây dựng từ thế kỷ XVII, là nơi thờ cúng Lân Hổ Hầu đô thống Đại Vương - một vị tướng có công giúp vua Trần Nhân Tông đánh tan quân Nguyên Mông xâm lược Việt Nam vào thế kỷ XII.
-Đình Thổ Tang được xếp hạng di tích lịch sử văn hóa cấp Quốc gia năm 1964. Ngày 24 tháng 12 năm 2018, Thủ tướng Chính phủ đã xếp hạng ngôi đình là di tích quốc gia đặc biệt.
-
-"""@vi ;
+Đình Thổ Tang được xếp hạng di tích lịch sử văn hóa cấp Quốc gia năm 1964. Ngày 24 tháng 12 năm 2018, Thủ tướng Chính phủ đã xếp hạng ngôi đình là di tích quốc gia đặc biệt."""@vi ;
     geo1:lat 21.254636 ;
     geo1:long 105.489701 ;
     skos:altLabel "Đình Thổ Tang"@vi ;
@@ -9687,7 +9649,7 @@ vhr:site-6b9f8a8fc673 a vh:HeritageSite,
     vh:recognitionYear "2013"^^xsd:gYear ;
     vh:sourcePageId 14584334 ;
     vh:sourceTitle "Đền Hai Bà Trưng (Hạ Lôi)"^^xsd:string ;
-    dcterms:description """Đền Hai Bà Trưng còn gọi là đền Hạ Lôi ở thôn Hạ Lôi, xã Mê Linh, thành phố Hà Nội. Đền thờ hai vị liệt nữ - anh hùng dân tộc là Trưng Trắc và Trưng Nhị.
+    dcterms:description """Đền Hai Bà Trưng còn gọi là đền Hạ Lôi ở thôn Hạ Lôi xã Mê Linh, thành phố Hà Nội. Đền thờ hai vị liệt nữ - anh hùng dân tộc là Trưng Trắc và Trưng Nhị.
 Để tưởng nhớ công đức của Hai Bà, nhân dân đã lập đền thờ tại thôn Hạ Lôi, xã Mê Linh, huyện Mê Linh, hàng năm tổ chức lễ hội tưởng nhớ công đức của Hai Bà và các tướng lĩnh từ ngày mùng 4 đến mùng 10 tháng Giêng.
 Đền thờ Hai Bà Trưng được công nhận di tích lịch sử - văn hóa cấp quốc gia năm 1980."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -9695,7 +9657,7 @@ vhr:site-6b9f8a8fc673 a vh:HeritageSite,
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-den-hai-ba-trung-2970>,
         <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Hai_B%C3%A0_Tr%C6%B0ng_(H%E1%BA%A1_L%C3%B4i)> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Đền Hai Bà Trưng còn gọi là đền Hạ Lôi ở thôn Hạ Lôi, xã Mê Linh, thành phố Hà Nội. Đền thờ hai vị liệt nữ - anh hùng dân tộc là Trưng Trắc và Trưng Nhị.
+    rdfs:comment """Đền Hai Bà Trưng còn gọi là đền Hạ Lôi ở thôn Hạ Lôi xã Mê Linh, thành phố Hà Nội. Đền thờ hai vị liệt nữ - anh hùng dân tộc là Trưng Trắc và Trưng Nhị.
 Để tưởng nhớ công đức của Hai Bà, nhân dân đã lập đền thờ tại thôn Hạ Lôi, xã Mê Linh, huyện Mê Linh, hàng năm tổ chức lễ hội tưởng nhớ công đức của Hai Bà và các tướng lĩnh từ ngày mùng 4 đến mùng 10 tháng Giêng.
 Đền thờ Hai Bà Trưng được công nhận di tích lịch sử - văn hóa cấp quốc gia năm 1980."""@vi ;
     geo1:lat 21.160542 ;
@@ -10002,17 +9964,13 @@ vhr:site-7b773d133804 a vh:HeritageSite,
     vh:recognitionYear "2017"^^xsd:gYear ;
     vh:sourcePageId 82343 ;
     vh:sourceTitle "Đền Cửa Ông"^^xsd:string ;
-    dcterms:description """Đền Cửa Ông nằm tại phường Cửa Ông, thành phố Quảng Ninh. Đây là nơi thờ Hưng Nhượng Đại Vương Trần Quốc Tảng cùng nhiều nhân vật nổi tiếng thời nhà Trần, và cũng là nơi diễn ra Lễ hội đền Cửa Ông hằng năm. Cuối năm 2017, đền Cửa Ông được Chính phủ xếp hạng là Di tích quốc gia đặc biệt.
-
-"""@vi ;
+    dcterms:description "Đền Cửa Ông nằm tại phường Cửa Ông, thành phố Quảng Ninh. Đây là nơi thờ Hưng Nhượng Đại Vương Trần Quốc Tảng cùng nhiều nhân vật nổi tiếng thời nhà Trần, và cũng là nơi diễn ra Lễ hội đền Cửa Ông hằng năm. Cuối năm 2017, đền Cửa Ông được Chính phủ xếp hạng là Di tích quốc gia đặc biệt."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/den-cua-ong-3280>,
         <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_C%E1%BB%ADa_%C3%94ng> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Đền Cửa Ông nằm tại phường Cửa Ông, thành phố Quảng Ninh. Đây là nơi thờ Hưng Nhượng Đại Vương Trần Quốc Tảng cùng nhiều nhân vật nổi tiếng thời nhà Trần, và cũng là nơi diễn ra Lễ hội đền Cửa Ông hằng năm. Cuối năm 2017, đền Cửa Ông được Chính phủ xếp hạng là Di tích quốc gia đặc biệt.
-
-"""@vi ;
+    rdfs:comment "Đền Cửa Ông nằm tại phường Cửa Ông, thành phố Quảng Ninh. Đây là nơi thờ Hưng Nhượng Đại Vương Trần Quốc Tảng cùng nhiều nhân vật nổi tiếng thời nhà Trần, và cũng là nơi diễn ra Lễ hội đền Cửa Ông hằng năm. Cuối năm 2017, đền Cửa Ông được Chính phủ xếp hạng là Di tích quốc gia đặc biệt."@vi ;
     skos:altLabel "Đền Cửa Ông"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/den-cua-ong-3280>,
         <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_C%E1%BB%ADa_%C3%94ng> ;
@@ -10039,17 +9997,13 @@ vhr:site-7d4bf176349f a vh:ArchitecturalSite,
     vh:recognitionYear "2014"^^xsd:gYear ;
     vh:sourcePageId 24444 ;
     vh:sourceTitle "Chùa Tây Phương"^^xsd:string ;
-    dcterms:description """Chùa Tây Phương (tên chữ là Sùng Phúc tự 崇福寺) là một ngôi chùa được xây trên đỉnh đồi Câu Lâu thuộc xã Tây Phương, thành phố Hà Nội.
-
-"""@vi ;
+    dcterms:description "Chùa Tây Phương (tên chữ là Sùng Phúc tự 崇福寺) là một ngôi chùa được xây trên đỉnh đồi Câu Lâu thuộc xã Tây Phương, thành phố Hà Nội."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-chua-tay-phuong-1257>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_T%C3%A2y_Ph%C6%B0%C6%A1ng> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Chùa Tây Phương (tên chữ là Sùng Phúc tự 崇福寺) là một ngôi chùa được xây trên đỉnh đồi Câu Lâu thuộc xã Tây Phương, thành phố Hà Nội.
-
-"""@vi ;
+    rdfs:comment "Chùa Tây Phương (tên chữ là Sùng Phúc tự 崇福寺) là một ngôi chùa được xây trên đỉnh đồi Câu Lâu thuộc xã Tây Phương, thành phố Hà Nội."@vi ;
     geo1:lat 21.029009 ;
     geo1:long 105.583043 ;
     skos:altLabel "Chùa Tây Phương"@vi ;
@@ -10165,13 +10119,17 @@ vhr:site-833ac260163d a vh:HeritageSite,
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 80900 ;
     vh:sourceTitle "Nhà tù Côn Đảo"^^xsd:string ;
-    dcterms:description "Nhà tù Côn Đảo là một khu nhà tù tại Côn Đảo. Hệ thống nhà tù này được người Pháp xây dựng để giam giữ những tù phạm đặc biệt nguy hiểm cho chế độ thực dân Pháp như: tù phạm chính trị, tử tù... Nơi đây thời Pháp thuộc đã giam giữ những nhân vật tham gia các phong trào cách mạng và những người ái quốc chống lại chính phủ thuộc địa, và sau đó lại được Mỹ sử dụng để giam cầm tù binh trong cuộc chiến chống Mỹ. Hiện nay, nơi đây đã được thủ tướng chính phủ Việt Nam đưa vào danh sách xếp hạng 23 di tích quốc gia đặc biệt. Địa điểm nổi tiếng nhất trong khu nhà tù này là \"chuồng cọp\". Đây là nơi ghi lại những hành động ngược đãi tù nhân nghiêm trọng của thực dân Pháp và chế độ Quốc gia Việt Nam, Việt Nam Cộng hòa. Nơi này cũng gắn liền với sự hy sinh của nữ liệt sĩ chị Võ Thị Sáu."@vi ;
+    dcterms:description """Nhà tù Côn Đảo là một khu nhà tù tại Côn Đảo. Hệ thống nhà tù này được người Pháp xây dựng để giam giữ những tù phạm đặc biệt nguy hiểm cho chế độ thực dân Pháp như: tù phạm chính trị, tử tù... Nơi đây thời Pháp thuộc đã giam giữ những nhân vật tham gia các phong trào cách mạng và những người ái quốc chống lại chính phủ thuộc địa, và sau đó lại được Mỹ sử dụng để giam cầm tù binh trong cuộc chiến chống Mỹ. Hiện nay, nơi đây đã được thủ tướng chính phủ Việt Nam đưa vào danh sách xếp hạng 23 di tích quốc gia đặc biệt. Địa điểm nổi tiếng nhất trong khu nhà tù này là "chuồng cọp". Đây là nơi ghi lại những hành động ngược đãi tù nhân nghiêm trọng của thực dân Pháp và chế độ Quốc gia Việt Nam, Việt Nam Cộng hòa. Nơi này cũng gắn liền với sự hy sinh của nữ liệt sĩ chị Võ Thị Sáu.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-nha-tu-con-dao-2956>,
         <https://vi.wikipedia.org/wiki/Nh%C3%A0_t%C3%B9_C%C3%B4n_%C4%90%E1%BA%A3o> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Nhà tù Côn Đảo là một khu nhà tù tại Côn Đảo. Hệ thống nhà tù này được người Pháp xây dựng để giam giữ những tù phạm đặc biệt nguy hiểm cho chế độ thực dân Pháp như: tù phạm chính trị, tử tù... Nơi đây thời Pháp thuộc đã giam giữ những nhân vật tham gia các phong trào cách mạng và những người ái quốc chống lại chính phủ thuộc địa, và sau đó lại được Mỹ sử dụng để giam cầm tù binh trong cuộc chiến chống Mỹ. Hiện nay, nơi đây đã được thủ tướng chính phủ Việt Nam đưa vào danh sách xếp hạng 23 di tích quốc gia đặc biệt. Địa điểm nổi tiếng nhất trong khu nhà tù này là \"chuồng cọp\". Đây là nơi ghi lại những hành động ngược đãi tù nhân nghiêm trọng của thực dân Pháp và chế độ Quốc gia Việt Nam, Việt Nam Cộng hòa. Nơi này cũng gắn liền với sự hy sinh của nữ liệt sĩ chị Võ Thị Sáu."@vi ;
+    rdfs:comment """Nhà tù Côn Đảo là một khu nhà tù tại Côn Đảo. Hệ thống nhà tù này được người Pháp xây dựng để giam giữ những tù phạm đặc biệt nguy hiểm cho chế độ thực dân Pháp như: tù phạm chính trị, tử tù... Nơi đây thời Pháp thuộc đã giam giữ những nhân vật tham gia các phong trào cách mạng và những người ái quốc chống lại chính phủ thuộc địa, và sau đó lại được Mỹ sử dụng để giam cầm tù binh trong cuộc chiến chống Mỹ. Hiện nay, nơi đây đã được thủ tướng chính phủ Việt Nam đưa vào danh sách xếp hạng 23 di tích quốc gia đặc biệt. Địa điểm nổi tiếng nhất trong khu nhà tù này là "chuồng cọp". Đây là nơi ghi lại những hành động ngược đãi tù nhân nghiêm trọng của thực dân Pháp và chế độ Quốc gia Việt Nam, Việt Nam Cộng hòa. Nơi này cũng gắn liền với sự hy sinh của nữ liệt sĩ chị Võ Thị Sáu.
+
+"""@vi ;
     skos:altLabel "Nhà tù Côn Đảo"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-nha-tu-con-dao-2956>,
         <https://vi.wikipedia.org/wiki/Nh%C3%A0_t%C3%B9_C%C3%B4n_%C4%90%E1%BA%A3o> ;
@@ -10308,17 +10266,13 @@ vhr:site-8bbbb332f06d-d87046 a vh:HeritageSite ;
     vh:recognitionYear "1994"^^xsd:gYear ;
     vh:sourcePageId 482938 ;
     vh:sourceTitle "Chùa Nga My"^^xsd:string ;
-    dcterms:description """Chùa Hoàng Mai (tên chữ: "Nga My tự") có địa chỉ tại số 8 đường Hoàng Mai, phường Tương Mai, Hà Nội (Xưa thuộc làng Hoàng Mai của vùng đất Kẻ Mơ), nhưng tọa lạc ở trong ngõ 160 và ngõ 94 đường Hoàng Mai, phường Tương Mai, Hà Nội. Theo bia đá trong chùa thì chùa được sửa chữa lớn vào năm Hồng Đức 28 (1497), gồm có tiền đường, nhà thiêu hương và thượng điện. Ngoài ra tấm bia còn cho biết ngôi chùa được xây dựng ngay sau khi vua Lý Công Uẩn dời đô từ Hoa Lư ra Thăng Long.
-
-"""@vi ;
+    dcterms:description "Chùa Hoàng Mai (tên chữ: \"Nga My tự\") có địa chỉ tại số 8 đường Hoàng Mai, phường Tương Mai, Hà Nội (Xưa thuộc làng Hoàng Mai của vùng đất Kẻ Mơ), nhưng tọa lạc ở trong ngõ 160 và ngõ 94 đường Hoàng Mai, phường Tương Mai, Hà Nội. Theo bia đá trong chùa thì chùa được sửa chữa lớn vào năm Hồng Đức 28 (1497), gồm có tiền đường, nhà thiêu hương và thượng điện. Ngoài ra tấm bia còn cho biết ngôi chùa được xây dựng ngay sau khi vua Lý Công Uẩn dời đô từ Hoa Lư ra Thăng Long."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/dinh-hoang-mai-chua-nga-my-thanh-pho-ha-noi-22276>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Nga_My> ;
     dcterms:subject "national_monuments" ;
-    rdfs:comment """Chùa Hoàng Mai (tên chữ: "Nga My tự") có địa chỉ tại số 8 đường Hoàng Mai, phường Tương Mai, Hà Nội (Xưa thuộc làng Hoàng Mai của vùng đất Kẻ Mơ), nhưng tọa lạc ở trong ngõ 160 và ngõ 94 đường Hoàng Mai, phường Tương Mai, Hà Nội. Theo bia đá trong chùa thì chùa được sửa chữa lớn vào năm Hồng Đức 28 (1497), gồm có tiền đường, nhà thiêu hương và thượng điện. Ngoài ra tấm bia còn cho biết ngôi chùa được xây dựng ngay sau khi vua Lý Công Uẩn dời đô từ Hoa Lư ra Thăng Long.
-
-"""@vi ;
+    rdfs:comment "Chùa Hoàng Mai (tên chữ: \"Nga My tự\") có địa chỉ tại số 8 đường Hoàng Mai, phường Tương Mai, Hà Nội (Xưa thuộc làng Hoàng Mai của vùng đất Kẻ Mơ), nhưng tọa lạc ở trong ngõ 160 và ngõ 94 đường Hoàng Mai, phường Tương Mai, Hà Nội. Theo bia đá trong chùa thì chùa được sửa chữa lớn vào năm Hồng Đức 28 (1497), gồm có tiền đường, nhà thiêu hương và thượng điện. Ngoài ra tấm bia còn cho biết ngôi chùa được xây dựng ngay sau khi vua Lý Công Uẩn dời đô từ Hoa Lư ra Thăng Long."@vi ;
     skos:altLabel "Đình Hoàng Mai, chùa Nga My"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/dinh-hoang-mai-chua-nga-my-thanh-pho-ha-noi-22276>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Nga_My> ;
@@ -10988,17 +10942,13 @@ vhr:site-b77d83422367 a vh:ArchitecturalSite,
     vh:recognitionYear "2014"^^xsd:gYear ;
     vh:sourcePageId 24655 ;
     vh:sourceTitle "Chùa Phật Tích"^^xsd:string ;
-    dcterms:description """Chùa Phật Tích (Phật Tích tự 佛跡寺) còn gọi là chùa Vạn Phúc (Vạn Phúc tự 萬福寺) là một ngôi chùa nằm ở sườn phía Nam núi Phật Tích (còn gọi núi Lạn Kha, non Tiên), xã Phật Tích, thành phố Bắc Ninh. Trong chùa có tượng đức Phật bằng đá thời nhà Lý lớn nhất Việt Nam. Chùa Phật Tích được xếp hạng Di tích Lịch sử- Văn hóa tại Quyết định số 313/VH-VP, ngày 28 tháng 4 năm 1962 của Bộ Văn hóa và được Thủ tướng chính phủ ký và xếp hạng 62 Di tích quốc gia đặc biệt của Việt Nam
-
-"""@vi ;
+    dcterms:description "Chùa Phật Tích (Phật Tích tự 佛跡寺) còn gọi là chùa Vạn Phúc (Vạn Phúc tự 萬福寺) là một ngôi chùa nằm ở sườn phía Nam núi Phật Tích (còn gọi núi Lạn Kha, non Tiên), xã Phật Tích, thành phố Bắc Ninh. Trong chùa có tượng đức Phật bằng đá thời nhà Lý lớn nhất Việt Nam. Chùa Phật Tích được xếp hạng Di tích Lịch sử- Văn hóa tại Quyết định số 313/VH-VP, ngày 28 tháng 4 năm 1962 của Bộ Văn hóa và được Thủ tướng chính phủ ký và xếp hạng 62 Di tích quốc gia đặc biệt của Việt Nam"@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/chua-phat-tich-tinh-bac-ninh-3208>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Ph%E1%BA%ADt_T%C3%ADch> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Chùa Phật Tích (Phật Tích tự 佛跡寺) còn gọi là chùa Vạn Phúc (Vạn Phúc tự 萬福寺) là một ngôi chùa nằm ở sườn phía Nam núi Phật Tích (còn gọi núi Lạn Kha, non Tiên), xã Phật Tích, thành phố Bắc Ninh. Trong chùa có tượng đức Phật bằng đá thời nhà Lý lớn nhất Việt Nam. Chùa Phật Tích được xếp hạng Di tích Lịch sử- Văn hóa tại Quyết định số 313/VH-VP, ngày 28 tháng 4 năm 1962 của Bộ Văn hóa và được Thủ tướng chính phủ ký và xếp hạng 62 Di tích quốc gia đặc biệt của Việt Nam
-
-"""@vi ;
+    rdfs:comment "Chùa Phật Tích (Phật Tích tự 佛跡寺) còn gọi là chùa Vạn Phúc (Vạn Phúc tự 萬福寺) là một ngôi chùa nằm ở sườn phía Nam núi Phật Tích (còn gọi núi Lạn Kha, non Tiên), xã Phật Tích, thành phố Bắc Ninh. Trong chùa có tượng đức Phật bằng đá thời nhà Lý lớn nhất Việt Nam. Chùa Phật Tích được xếp hạng Di tích Lịch sử- Văn hóa tại Quyết định số 313/VH-VP, ngày 28 tháng 4 năm 1962 của Bộ Văn hóa và được Thủ tướng chính phủ ký và xếp hạng 62 Di tích quốc gia đặc biệt của Việt Nam"@vi ;
     geo1:lat 21.10666667 ;
     geo1:long 106.0125 ;
     skos:altLabel "Chùa Phật Tích"@vi ;
@@ -11045,9 +10995,7 @@ vhr:site-b84ac54dd1f9 a vh:ArchitecturalSite,
     vh:sourceTitle "Đền Trần (Nam Định)"^^xsd:string ;
     dcterms:description """Đền Trần (陳廟 - Trần Miếu) là một quần thể đền thờ tại đường Trần Thừa, phường Nam Định, tỉnh Ninh Bình, Việt Nam. Từ phường Hoa Lư, trung tâm tỉnh Ninh Bình tới đền Trần 33 km. Đền nằm sát quốc lộ 10, là nơi thờ các vua Trần cùng các quan lại có công phù tá nhà Trần. Đền Trần được xây dựng từ năm 1695, trên nền Thái miếu cũ của nhà Trần đã bị quân Minh phá hủy vào thế kỷ XV.
 Đền Trần bao gồm 3 công trình kiến trúc chính là đền Thiên Trường (hay đền Thượng), đền Cố Trạch (hay đền Hạ) và đền Trùng Hoa. Trước khi vào đền, phải qua hệ thống cổng ngũ môn. Trên cổng ghi các chữ Hán Chính nam môn (正南門 - cổng chính phía nam) và Trần Miếu (陳廟 - Miếu thờ nhà Trần). Qua cổng là một hồ nước hình chữ nhật. Chính giữa phía sau hồ nước là khu đền Thiên Trường. Phía Tây đền Thiên Trường là đền Trùng Hoa, phía Đông là đền Cố Trạch.
-Cả ba đền đều có kiến trúc chung, và quy mô ngang nhau. Mỗi đền gồm tòa tiền đường 5 gian, tòa trung đường 5 gian và tòa chính tẩm 3 gian. Nối tiền đường và trung đường là kinh đàn (thiêu hương) và 2 gian tả hữu.
-
-"""@vi ;
+Cả ba đền đều có kiến trúc chung, và quy mô ngang nhau. Mỗi đền gồm tòa tiền đường 5 gian, tòa trung đường 5 gian và tòa chính tẩm 3 gian. Nối tiền đường và trung đường là kinh đàn (thiêu hương) và 2 gian tả hữu."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-kien-truc-nghe-thuat-den-tran-va-chua-pho-minh-2959>,
@@ -11055,9 +11003,7 @@ Cả ba đền đều có kiến trúc chung, và quy mô ngang nhau. Mỗi đ�
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Đền Trần (陳廟 - Trần Miếu) là một quần thể đền thờ tại đường Trần Thừa, phường Nam Định, tỉnh Ninh Bình, Việt Nam. Từ phường Hoa Lư, trung tâm tỉnh Ninh Bình tới đền Trần 33 km. Đền nằm sát quốc lộ 10, là nơi thờ các vua Trần cùng các quan lại có công phù tá nhà Trần. Đền Trần được xây dựng từ năm 1695, trên nền Thái miếu cũ của nhà Trần đã bị quân Minh phá hủy vào thế kỷ XV.
 Đền Trần bao gồm 3 công trình kiến trúc chính là đền Thiên Trường (hay đền Thượng), đền Cố Trạch (hay đền Hạ) và đền Trùng Hoa. Trước khi vào đền, phải qua hệ thống cổng ngũ môn. Trên cổng ghi các chữ Hán Chính nam môn (正南門 - cổng chính phía nam) và Trần Miếu (陳廟 - Miếu thờ nhà Trần). Qua cổng là một hồ nước hình chữ nhật. Chính giữa phía sau hồ nước là khu đền Thiên Trường. Phía Tây đền Thiên Trường là đền Trùng Hoa, phía Đông là đền Cố Trạch.
-Cả ba đền đều có kiến trúc chung, và quy mô ngang nhau. Mỗi đền gồm tòa tiền đường 5 gian, tòa trung đường 5 gian và tòa chính tẩm 3 gian. Nối tiền đường và trung đường là kinh đàn (thiêu hương) và 2 gian tả hữu.
-
-"""@vi ;
+Cả ba đền đều có kiến trúc chung, và quy mô ngang nhau. Mỗi đền gồm tòa tiền đường 5 gian, tòa trung đường 5 gian và tòa chính tẩm 3 gian. Nối tiền đường và trung đường là kinh đàn (thiêu hương) và 2 gian tả hữu."""@vi ;
     geo1:lat 20.456854 ;
     geo1:long 106.167306 ;
     skos:altLabel "Đền Trần (Nam Định)"@vi ;
@@ -11121,17 +11067,13 @@ vhr:site-bc6afdccc70e a vh:HeritageSite,
     vh:recognitionYear "2015"^^xsd:gYear ;
     vh:sourcePageId 19709423 ;
     vh:sourceTitle "Khu di tích và danh thắng Tây Thiên"^^xsd:string ;
-    dcterms:description """Khu di tích và danh thắng Tây Thiên là quần thể di tích lịch sử – văn hóa và danh lam thắng cảnh nằm trên sườn núi Thạch Bàn thuộc dãy núi Tam Đảo tại xã Đại Đình, tỉnh Phú Thọ. Khu danh thắng Tây Thiên nằm trong vùng lòng chảo của dãy núi Tam Đảo, cao từ 54 m đến 1.100 m so với mực nước biển. Nơi đây bao gồm hệ thống các đình, chùa có giá trị văn hóa và khảo cổ như đền Thượng, đền Thõng, đền Mẫu, đền Cậu, đền Cô... dọc theo con suối Tây Thiên giữa vùng rừng nguyên sinh Tam Đảo. Năm 1991, khu danh thắng Tây Thiên được Nhà nước xếp hạng di tích - danh thắng cấp quốc gia. Ngày 23 tháng 12 năm 2015, di tích lịch sử và danh lam thắng cảnh Tây Thiên – Tam Đảo được Thủ tướng Chính phủ xếp hạng là di tích quốc gia đặc biệt tại Quyết định số 2367/QĐ-TTg.
-
-"""@vi ;
+    dcterms:description "Khu di tích và danh thắng Tây Thiên là quần thể di tích lịch sử – văn hóa và danh lam thắng cảnh nằm trên sườn núi Thạch Bàn thuộc dãy núi Tam Đảo tại xã Đại Đình, tỉnh Phú Thọ. Khu danh thắng Tây Thiên nằm trong vùng lòng chảo của dãy núi Tam Đảo, cao từ 54 m đến 1.100 m so với mực nước biển. Nơi đây bao gồm hệ thống các đình, chùa có giá trị văn hóa và khảo cổ như đền Thượng, đền Thõng, đền Mẫu, đền Cậu, đền Cô... dọc theo con suối Tây Thiên giữa vùng rừng nguyên sinh Tam Đảo. Năm 1991, khu danh thắng Tây Thiên được Nhà nước xếp hạng di tích - danh thắng cấp quốc gia. Ngày 23 tháng 12 năm 2015, di tích lịch sử và danh lam thắng cảnh Tây Thiên – Tam Đảo được Thủ tướng Chính phủ xếp hạng là di tích quốc gia đặc biệt tại Quyết định số 2367/QĐ-TTg."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-tay-thien-tam-dao-1491>,
         <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_v%C3%A0_danh_th%E1%BA%AFng_T%C3%A2y_Thi%C3%AAn> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Khu di tích và danh thắng Tây Thiên là quần thể di tích lịch sử – văn hóa và danh lam thắng cảnh nằm trên sườn núi Thạch Bàn thuộc dãy núi Tam Đảo tại xã Đại Đình, tỉnh Phú Thọ. Khu danh thắng Tây Thiên nằm trong vùng lòng chảo của dãy núi Tam Đảo, cao từ 54 m đến 1.100 m so với mực nước biển. Nơi đây bao gồm hệ thống các đình, chùa có giá trị văn hóa và khảo cổ như đền Thượng, đền Thõng, đền Mẫu, đền Cậu, đền Cô... dọc theo con suối Tây Thiên giữa vùng rừng nguyên sinh Tam Đảo. Năm 1991, khu danh thắng Tây Thiên được Nhà nước xếp hạng di tích - danh thắng cấp quốc gia. Ngày 23 tháng 12 năm 2015, di tích lịch sử và danh lam thắng cảnh Tây Thiên – Tam Đảo được Thủ tướng Chính phủ xếp hạng là di tích quốc gia đặc biệt tại Quyết định số 2367/QĐ-TTg.
-
-"""@vi ;
+    rdfs:comment "Khu di tích và danh thắng Tây Thiên là quần thể di tích lịch sử – văn hóa và danh lam thắng cảnh nằm trên sườn núi Thạch Bàn thuộc dãy núi Tam Đảo tại xã Đại Đình, tỉnh Phú Thọ. Khu danh thắng Tây Thiên nằm trong vùng lòng chảo của dãy núi Tam Đảo, cao từ 54 m đến 1.100 m so với mực nước biển. Nơi đây bao gồm hệ thống các đình, chùa có giá trị văn hóa và khảo cổ như đền Thượng, đền Thõng, đền Mẫu, đền Cậu, đền Cô... dọc theo con suối Tây Thiên giữa vùng rừng nguyên sinh Tam Đảo. Năm 1991, khu danh thắng Tây Thiên được Nhà nước xếp hạng di tích - danh thắng cấp quốc gia. Ngày 23 tháng 12 năm 2015, di tích lịch sử và danh lam thắng cảnh Tây Thiên – Tam Đảo được Thủ tướng Chính phủ xếp hạng là di tích quốc gia đặc biệt tại Quyết định số 2367/QĐ-TTg."@vi ;
     geo1:lat 21.481501 ;
     geo1:long 105.61311 ;
     skos:altLabel "Khu di tích và danh thắng Tây Thiên"@vi ;
@@ -11174,17 +11116,13 @@ vhr:site-c1731ce74131 a vh:HeritageSite ;
     vh:recognizedBy vhr:organization-unesco ;
     vh:sourcePageId 19829973 ;
     vh:sourceTitle "Vịnh Hạ Long – quần đảo Cát Bà"^^xsd:string ;
-    dcterms:description """Vịnh Hạ Long – quần đảo Cát Bà là một trong số 8 di sản thế giới tại Việt Nam. Đây là di sản thế giới liên tỉnh đầu tiên với địa bàn thuộc hai thành phố Quảng Ninh và  Hải Phòng. Di sản thiên nhiên thế giới này được công nhận lần đầu tiên cho vịnh Hạ Long vào năm 1994 với tiêu chí nổi bật toàn cầu về cảnh quan; tới lần thứ hai vào năm 2000, di sản được bổ sung thêm theo tiêu chí địa chất và đến lần thứ 3 năm 2023 thì được mở rộng thêm sang quần đảo Cát Bà.
-
-"""@vi ;
+    dcterms:description "Vịnh Hạ Long – quần đảo Cát Bà là một trong số 8 di sản thế giới tại Việt Nam. Đây là di sản thế giới liên tỉnh đầu tiên với địa bàn thuộc hai thành phố Quảng Ninh và  Hải Phòng. Di sản thiên nhiên thế giới này được công nhận lần đầu tiên cho vịnh Hạ Long vào năm 1994 với tiêu chí nổi bật toàn cầu về cảnh quan; tới lần thứ hai vào năm 2000, di sản được bổ sung thêm theo tiêu chí địa chất và đến lần thứ 3 năm 2023 thì được mở rộng thêm sang quần đảo Cát Bà."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/vinh-ha-long-quan-dao-cat-ba-tinh-quang-ninh-va-thanh-pho-hai-phong-duoc-unesco-cong-nhan-la-di-san-thien-nhien-the-gioi-tro-thanh-di-san-the-gioi-thuoc-dia-ban-hai-tinh-thanh-pho-dau-tien-o-viet-nam-22117>,
         <https://vi.wikipedia.org/wiki/V%E1%BB%8Bnh_H%E1%BA%A1_Long_%E2%80%93_qu%E1%BA%A7n_%C4%91%E1%BA%A3o_C%C3%A1t_B%C3%A0> ;
     dcterms:subject "world_heritage" ;
-    rdfs:comment """Vịnh Hạ Long – quần đảo Cát Bà là một trong số 8 di sản thế giới tại Việt Nam. Đây là di sản thế giới liên tỉnh đầu tiên với địa bàn thuộc hai thành phố Quảng Ninh và  Hải Phòng. Di sản thiên nhiên thế giới này được công nhận lần đầu tiên cho vịnh Hạ Long vào năm 1994 với tiêu chí nổi bật toàn cầu về cảnh quan; tới lần thứ hai vào năm 2000, di sản được bổ sung thêm theo tiêu chí địa chất và đến lần thứ 3 năm 2023 thì được mở rộng thêm sang quần đảo Cát Bà.
-
-"""@vi ;
+    rdfs:comment "Vịnh Hạ Long – quần đảo Cát Bà là một trong số 8 di sản thế giới tại Việt Nam. Đây là di sản thế giới liên tỉnh đầu tiên với địa bàn thuộc hai thành phố Quảng Ninh và  Hải Phòng. Di sản thiên nhiên thế giới này được công nhận lần đầu tiên cho vịnh Hạ Long vào năm 1994 với tiêu chí nổi bật toàn cầu về cảnh quan; tới lần thứ hai vào năm 2000, di sản được bổ sung thêm theo tiêu chí địa chất và đến lần thứ 3 năm 2023 thì được mở rộng thêm sang quần đảo Cát Bà."@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/vinh-ha-long-quan-dao-cat-ba-tinh-quang-ninh-va-thanh-pho-hai-phong-duoc-unesco-cong-nhan-la-di-san-thien-nhien-the-gioi-tro-thanh-di-san-the-gioi-thuoc-dia-ban-hai-tinh-thanh-pho-dau-tien-o-viet-nam-22117>,
         <https://vi.wikipedia.org/wiki/V%E1%BB%8Bnh_H%E1%BA%A1_Long_%E2%80%93_qu%E1%BA%A7n_%C4%91%E1%BA%A3o_C%C3%A1t_B%C3%A0> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -11245,17 +11183,13 @@ vhr:site-c42b7ce19e51 a vh:ArchaeologicalSite,
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 37634 ;
     vh:sourceTitle "Thành Cổ Loa"^^xsd:string ;
-    dcterms:description """Thành Cổ Loa là kinh đô của nhà nước Âu Lạc dưới thời An Dương Vương vào khoảng thế kỷ thứ 3 trước Công nguyên và của nhà nước phong kiến dưới thời Ngô Quyền, ông lập ra Nhà Ngô thế kỷ 10 tại vùng đất xã Đông Anh, thành phố Hà Nội.
-
-"""@vi ;
+    dcterms:description "Thành Cổ Loa là kinh đô của nhà nước Âu Lạc dưới thời An Dương Vương vào khoảng thế kỷ thứ 3 trước Công nguyên và của nhà nước phong kiến dưới thời Ngô Quyền, ông lập ra Nhà Ngô thế kỷ 10 tại vùng đất xã Đông Anh, thành phố Hà Nội."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-kien-truc-nghe-thuat-va-khao-co-co-loa-2958>,
         <https://vi.wikipedia.org/wiki/Th%C3%A0nh_C%E1%BB%95_Loa> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Thành Cổ Loa là kinh đô của nhà nước Âu Lạc dưới thời An Dương Vương vào khoảng thế kỷ thứ 3 trước Công nguyên và của nhà nước phong kiến dưới thời Ngô Quyền, ông lập ra Nhà Ngô thế kỷ 10 tại vùng đất xã Đông Anh, thành phố Hà Nội.
-
-"""@vi ;
+    rdfs:comment "Thành Cổ Loa là kinh đô của nhà nước Âu Lạc dưới thời An Dương Vương vào khoảng thế kỷ thứ 3 trước Công nguyên và của nhà nước phong kiến dưới thời Ngô Quyền, ông lập ra Nhà Ngô thế kỷ 10 tại vùng đất xã Đông Anh, thành phố Hà Nội."@vi ;
     geo1:lat 21.114039 ;
     geo1:long 105.870624 ;
     skos:altLabel "Thành Cổ Loa"@vi ;
@@ -11408,18 +11342,14 @@ vhr:site-ce161d52b3ef a vh:ArchitecturalSite,
     vh:sourcePageId 148546 ;
     vh:sourceTitle "Tháp Bình Sơn"^^xsd:string ;
     dcterms:description """Tháp Bình Sơn, còn gọi là Tháp chùa Vĩnh Khánh hay Tháp Then, là một ngôi tháp cổ, tương truyền nguyên thủy có 13 tầng tuy hiện nay chỉ còn lại 11 tầng. Tháp được xây dựng từ thời Trần, nằm ở trong khuôn viên chùa Vĩnh Khánh (chùa Then) thuộc thôn Bình Sơn, xã Tam Sơn, tỉnh Phú Thọ.
-Là ngọn tháp tiêu biểu cho kiến trúc chùa tháp thời Lý - Trần ở Việt Nam và là ngọn tháp đất nung đời Trần cao nhất còn lại đến ngày nay, tháp Bình Sơn với hình khối thanh thoát, đường nét mềm mại, trang trí phong phú điêu luyện, là di tích lịch sử và di tích nghệ thuật có giá trị cao trên lãnh thổ Việt Nam. Tháp Bình Sơn đã được xếp hạng di tích quốc gia đặc biệt còn lại cuối cùng từ thời Lý- Trần vào tháng 3/2016.
-
-"""@vi ;
+Là ngọn tháp tiêu biểu cho kiến trúc chùa tháp thời Lý - Trần ở Việt Nam và là ngọn tháp đất nung đời Trần cao nhất còn lại đến ngày nay, tháp Bình Sơn với hình khối thanh thoát, đường nét mềm mại, trang trí phong phú điêu luyện, là di tích lịch sử và di tích nghệ thuật có giá trị cao trên lãnh thổ Việt Nam. Tháp Bình Sơn đã được xếp hạng di tích quốc gia đặc biệt còn lại cuối cùng từ thời Lý- Trần vào tháng 3/2016."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-binh-son-1294>,
         <https://vi.wikipedia.org/wiki/Th%C3%A1p_B%C3%ACnh_S%C6%A1n> ;
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Tháp Bình Sơn, còn gọi là Tháp chùa Vĩnh Khánh hay Tháp Then, là một ngôi tháp cổ, tương truyền nguyên thủy có 13 tầng tuy hiện nay chỉ còn lại 11 tầng. Tháp được xây dựng từ thời Trần, nằm ở trong khuôn viên chùa Vĩnh Khánh (chùa Then) thuộc thôn Bình Sơn, xã Tam Sơn, tỉnh Phú Thọ.
-Là ngọn tháp tiêu biểu cho kiến trúc chùa tháp thời Lý - Trần ở Việt Nam và là ngọn tháp đất nung đời Trần cao nhất còn lại đến ngày nay, tháp Bình Sơn với hình khối thanh thoát, đường nét mềm mại, trang trí phong phú điêu luyện, là di tích lịch sử và di tích nghệ thuật có giá trị cao trên lãnh thổ Việt Nam. Tháp Bình Sơn đã được xếp hạng di tích quốc gia đặc biệt còn lại cuối cùng từ thời Lý- Trần vào tháng 3/2016.
-
-"""@vi ;
+Là ngọn tháp tiêu biểu cho kiến trúc chùa tháp thời Lý - Trần ở Việt Nam và là ngọn tháp đất nung đời Trần cao nhất còn lại đến ngày nay, tháp Bình Sơn với hình khối thanh thoát, đường nét mềm mại, trang trí phong phú điêu luyện, là di tích lịch sử và di tích nghệ thuật có giá trị cao trên lãnh thổ Việt Nam. Tháp Bình Sơn đã được xếp hạng di tích quốc gia đặc biệt còn lại cuối cùng từ thời Lý- Trần vào tháng 3/2016."""@vi ;
     skos:altLabel "Tháp Bình Sơn"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-binh-son-1294>,
         <https://vi.wikipedia.org/wiki/Th%C3%A1p_B%C3%ACnh_S%C6%A1n> ;
@@ -11559,7 +11489,9 @@ vhr:site-d427fca039d9 a vh:HeritageSite ;
 Ngày 22 tháng 3 năm 1990, khu danh thắng này đã được Bộ Văn hóa (nay là Bộ Văn hóa, Thể thao và Du lịch) ra quyết định công nhận là Di tích Lịch sử Văn hóa cấp Quốc gia.
 Theo Quyết định được Thủ tướng phê duyệt ngày 11/7/2023, danh thắng Ngũ Hành Sơn ở phường Hòa Hải, quận Ngũ Hành Sơn có tổng diện tích quy hoạch 1.049.701 m2. Phía đông khu danh thắng giáp đường Trường Sa và các khu nghỉ dưỡng ven biển, phía tây giáp sông Cổ Cò, phía nam giáp sông Cổ Cò và khu dân cư hiện trạng, phía bắc giáp đường Phạm Hữu Nhật và khu tái định cư.
 Về phân khu chức năng, Thủ tướng điều chỉnh mở rộng phạm vi khu vực bảo vệ I của danh thắng thành 189.821 m2, bao gồm diện tích khu vực cảnh quan 6 ngọn núi (Kim Sơn, Mộc Sơn, Thuỷ Sơn, Thổ Sơn, Dương Hỏa Sơn, Âm Hỏa Sơn), núi Ghềnh (8.373 m2) và núi đá phía đông nam Âm Hỏa Sơn (328 m2).
-Danh thắng có các công trình, di tích tôn giáo và kiến trúc có giá trị, nhà ở kết hợp kinh doanh đá mỹ nghệ, các khu chức năng, không gian cây xanh chuyên đề, mặt nước, khu vườn tượng, đền thờ tưởng niệm các liệt sĩ và mẹ Việt Nam anh hùng."""@vi ;
+Danh thắng có các công trình, di tích tôn giáo và kiến trúc có giá trị, nhà ở kết hợp kinh doanh đá mỹ nghệ, các khu chức năng, không gian cây xanh chuyên đề, mặt nước, khu vườn tượng, đền thờ tưởng niệm các liệt sĩ và mẹ Việt Nam anh hùng.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
@@ -11569,7 +11501,9 @@ Danh thắng có các công trình, di tích tôn giáo và kiến trúc có gi�
 Ngày 22 tháng 3 năm 1990, khu danh thắng này đã được Bộ Văn hóa (nay là Bộ Văn hóa, Thể thao và Du lịch) ra quyết định công nhận là Di tích Lịch sử Văn hóa cấp Quốc gia.
 Theo Quyết định được Thủ tướng phê duyệt ngày 11/7/2023, danh thắng Ngũ Hành Sơn ở phường Hòa Hải, quận Ngũ Hành Sơn có tổng diện tích quy hoạch 1.049.701 m2. Phía đông khu danh thắng giáp đường Trường Sa và các khu nghỉ dưỡng ven biển, phía tây giáp sông Cổ Cò, phía nam giáp sông Cổ Cò và khu dân cư hiện trạng, phía bắc giáp đường Phạm Hữu Nhật và khu tái định cư.
 Về phân khu chức năng, Thủ tướng điều chỉnh mở rộng phạm vi khu vực bảo vệ I của danh thắng thành 189.821 m2, bao gồm diện tích khu vực cảnh quan 6 ngọn núi (Kim Sơn, Mộc Sơn, Thuỷ Sơn, Thổ Sơn, Dương Hỏa Sơn, Âm Hỏa Sơn), núi Ghềnh (8.373 m2) và núi đá phía đông nam Âm Hỏa Sơn (328 m2).
-Danh thắng có các công trình, di tích tôn giáo và kiến trúc có giá trị, nhà ở kết hợp kinh doanh đá mỹ nghệ, các khu chức năng, không gian cây xanh chuyên đề, mặt nước, khu vườn tượng, đền thờ tưởng niệm các liệt sĩ và mẹ Việt Nam anh hùng."""@vi ;
+Danh thắng có các công trình, di tích tôn giáo và kiến trúc có giá trị, nhà ở kết hợp kinh doanh đá mỹ nghệ, các khu chức năng, không gian cây xanh chuyên đề, mặt nước, khu vườn tượng, đền thờ tưởng niệm các liệt sĩ và mẹ Việt Nam anh hùng.
+
+"""@vi ;
     skos:altLabel "Ngũ Hành Sơn"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
         <https://vi.wikipedia.org/wiki/Ng%C5%A9_H%C3%A0nh_S%C6%A1n> ;
@@ -11658,9 +11592,7 @@ vhr:site-d9035693ec4c a vh:ArchitecturalSite,
     dcterms:description """Chùa Dâu (còn có tên là Diên Ứng (chữ hán: 延應寺), Pháp Vân (chữ hán: 法雲寺), hay Cổ Châu) là một ngôi chùa nằm ở phường Trí Quả, thành phố Bắc Ninh, cách Hà Nội khoảng 30 km. Đây là trung tâm Phật giáo cổ xưa nhất của Việt Nam. Chùa còn được người dân gọi với những tên gọi khác nhau như chùa Cả, Cổ Châu tự, Diên Ứng tự, Thiền Định tự. Đây là ngôi chùa được coi là có lịch sử hình thành sớm nhất Việt Nam mặc dù các dấu tích vật chất không còn, nó đã được xây dựng lại. Chùa là một danh lam bậc nhất của xứ kinh Bắc xưa nay. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4. Chùa Dâu được xem là ngôi chùa cổ nhất Việt Nam.
 Chùa nằm ở vùng Dâu, thời thuộc Hán gọi là Luy Lâu. Tại vùng Dâu có năm ngôi chùa cổ: chùa Dâu thờ Pháp Vân (法雲寺, "thần mây"), chùa Đậu thờ Pháp Vũ (法雨寺, "thần mưa"), chùa Tướng thờ Pháp Lôi (法雷寺, "thần sấm"), chùa Dàn thờ Pháp Điện (法電寺 "thần chớp") và chùa Tổ thờ Man Nương là mẹ của Tứ Pháp. Năm chùa này ngoài thờ Phật còn thờ Tứ Pháp.
 Chùa Đậu tại vùng Dâu đã bị phá hủy trong chiến tranh nên pho tượng Bà Đậu được thờ chung trong chùa Dâu.
-Trong Tứ Pháp thì Pháp Vân đứng đầu, Thạch Quang Phật (tảng đá trong cây Dung thụ) luôn ở bên Pháp Vân và Pháp Vân đại diện cho cả Tứ Pháp, mỗi khi triều đình thỉnh tượng về kinh đô cầu đảo, có thể rước cả bốn tượng hoặc chỉ mình Pháp Vân. Có thể nói Tứ Pháp thì Pháp Vân, Pháp Vũ được thờ cúng rộng rãi hơn cả nhưng Pháp Vân là trọng tâm, nên Chùa Dâu đã trở thành trung tâm của tín ngưỡng này ở cả vùng Dâu lẫn cả nước.
-
-"""@vi ;
+Trong Tứ Pháp thì Pháp Vân đứng đầu, Thạch Quang Phật (tảng đá trong cây Dung thụ) luôn ở bên Pháp Vân và Pháp Vân đại diện cho cả Tứ Pháp, mỗi khi triều đình thỉnh tượng về kinh đô cầu đảo, có thể rước cả bốn tượng hoặc chỉ mình Pháp Vân. Có thể nói Tứ Pháp thì Pháp Vân, Pháp Vũ được thờ cúng rộng rãi hơn cả nhưng Pháp Vân là trọng tâm, nên Chùa Dâu đã trở thành trung tâm của tín ngưỡng này ở cả vùng Dâu lẫn cả nước."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-chua-dau-huyen-thuan-thanh-tinh-bac-ninh-2981>,
@@ -11669,9 +11601,7 @@ Trong Tứ Pháp thì Pháp Vân đứng đầu, Thạch Quang Phật (tảng đ
     rdfs:comment """Chùa Dâu (còn có tên là Diên Ứng (chữ hán: 延應寺), Pháp Vân (chữ hán: 法雲寺), hay Cổ Châu) là một ngôi chùa nằm ở phường Trí Quả, thành phố Bắc Ninh, cách Hà Nội khoảng 30 km. Đây là trung tâm Phật giáo cổ xưa nhất của Việt Nam. Chùa còn được người dân gọi với những tên gọi khác nhau như chùa Cả, Cổ Châu tự, Diên Ứng tự, Thiền Định tự. Đây là ngôi chùa được coi là có lịch sử hình thành sớm nhất Việt Nam mặc dù các dấu tích vật chất không còn, nó đã được xây dựng lại. Chùa là một danh lam bậc nhất của xứ kinh Bắc xưa nay. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4. Chùa Dâu được xem là ngôi chùa cổ nhất Việt Nam.
 Chùa nằm ở vùng Dâu, thời thuộc Hán gọi là Luy Lâu. Tại vùng Dâu có năm ngôi chùa cổ: chùa Dâu thờ Pháp Vân (法雲寺, "thần mây"), chùa Đậu thờ Pháp Vũ (法雨寺, "thần mưa"), chùa Tướng thờ Pháp Lôi (法雷寺, "thần sấm"), chùa Dàn thờ Pháp Điện (法電寺 "thần chớp") và chùa Tổ thờ Man Nương là mẹ của Tứ Pháp. Năm chùa này ngoài thờ Phật còn thờ Tứ Pháp.
 Chùa Đậu tại vùng Dâu đã bị phá hủy trong chiến tranh nên pho tượng Bà Đậu được thờ chung trong chùa Dâu.
-Trong Tứ Pháp thì Pháp Vân đứng đầu, Thạch Quang Phật (tảng đá trong cây Dung thụ) luôn ở bên Pháp Vân và Pháp Vân đại diện cho cả Tứ Pháp, mỗi khi triều đình thỉnh tượng về kinh đô cầu đảo, có thể rước cả bốn tượng hoặc chỉ mình Pháp Vân. Có thể nói Tứ Pháp thì Pháp Vân, Pháp Vũ được thờ cúng rộng rãi hơn cả nhưng Pháp Vân là trọng tâm, nên Chùa Dâu đã trở thành trung tâm của tín ngưỡng này ở cả vùng Dâu lẫn cả nước.
-
-"""@vi ;
+Trong Tứ Pháp thì Pháp Vân đứng đầu, Thạch Quang Phật (tảng đá trong cây Dung thụ) luôn ở bên Pháp Vân và Pháp Vân đại diện cho cả Tứ Pháp, mỗi khi triều đình thỉnh tượng về kinh đô cầu đảo, có thể rước cả bốn tượng hoặc chỉ mình Pháp Vân. Có thể nói Tứ Pháp thì Pháp Vân, Pháp Vũ được thờ cúng rộng rãi hơn cả nhưng Pháp Vân là trọng tâm, nên Chùa Dâu đã trở thành trung tâm của tín ngưỡng này ở cả vùng Dâu lẫn cả nước."""@vi ;
     skos:altLabel "Chùa Dâu"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-chua-dau-huyen-thuan-thanh-tinh-bac-ninh-2981>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_D%C3%A2u> ;
@@ -11852,17 +11782,13 @@ vhr:site-e227e976ac26 a vh:ArchaeologicalSite,
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 5277 ;
     vh:sourceTitle "Óc Eo"^^xsd:string ;
-    dcterms:description """Óc Eo là một di chỉ khảo cổ tại khu vực núi Ba Thê, thuộc xã Óc Eo, tỉnh An Giang, Việt Nam. Di chỉ này do nhà khảo cổ học người Pháp Louis Malleret ở trường Viễn Đông Bác Cổ chủ trì khai quật lần đầu tiên vào năm 1944.
-
-"""@vi ;
+    dcterms:description "Óc Eo là một di chỉ khảo cổ tại khu vực núi Ba Thê, thuộc xã Óc Eo, tỉnh An Giang, Việt Nam. Di chỉ này do nhà khảo cổ học người Pháp Louis Malleret ở trường Viễn Đông Bác Cổ chủ trì khai quật lần đầu tiên vào năm 1944."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-khao-co-va-kien-truc-nghe-thuat-oc-eo-ba-the-2965>,
         <https://vi.wikipedia.org/wiki/%C3%93c_Eo> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Óc Eo là một di chỉ khảo cổ tại khu vực núi Ba Thê, thuộc xã Óc Eo, tỉnh An Giang, Việt Nam. Di chỉ này do nhà khảo cổ học người Pháp Louis Malleret ở trường Viễn Đông Bác Cổ chủ trì khai quật lần đầu tiên vào năm 1944.
-
-"""@vi ;
+    rdfs:comment "Óc Eo là một di chỉ khảo cổ tại khu vực núi Ba Thê, thuộc xã Óc Eo, tỉnh An Giang, Việt Nam. Di chỉ này do nhà khảo cổ học người Pháp Louis Malleret ở trường Viễn Đông Bác Cổ chủ trì khai quật lần đầu tiên vào năm 1944."@vi ;
     geo1:lat 10.232944 ;
     geo1:long 105.162994 ;
     skos:altLabel "Óc Eo"@vi ;
@@ -12004,13 +11930,17 @@ vhr:site-ead6825f17f7 a vh:HeritageSite,
     vh:recognitionYear "2014"^^xsd:gYear ;
     vh:sourcePageId 1700815 ;
     vh:sourceTitle "Khu di tích chiến thắng Rạch Gầm – Xoài Mút"^^xsd:string ;
-    dcterms:description "Khu di tích chiến thắng Rạch Gầm – Xoài Mút tọa lạc tại ấp Đông, xã Kim Sơn, tỉnh Đồng Tháp, Việt Nam; cách phường Mỹ Tho hơn 12 km về phía tây."@vi ;
+    dcterms:description """Khu di tích chiến thắng Rạch Gầm – Xoài Mút tọa lạc tại ấp Đông, xã Kim Sơn, tỉnh Đồng Tháp, Việt Nam; cách phường Mỹ Tho hơn 12 km về phía tây.
+
+"""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
         <https://vi.wikipedia.org/wiki/Khu_di_t%C3%ADch_chi%E1%BA%BFn_th%E1%BA%AFng_R%E1%BA%A1ch_G%E1%BA%A7m_%E2%80%93_Xo%C3%A0i_M%C3%BAt> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment "Khu di tích chiến thắng Rạch Gầm – Xoài Mút tọa lạc tại ấp Đông, xã Kim Sơn, tỉnh Đồng Tháp, Việt Nam; cách phường Mỹ Tho hơn 12 km về phía tây."@vi ;
+    rdfs:comment """Khu di tích chiến thắng Rạch Gầm – Xoài Mút tọa lạc tại ấp Đông, xã Kim Sơn, tỉnh Đồng Tháp, Việt Nam; cách phường Mỹ Tho hơn 12 km về phía tây.
+
+"""@vi ;
     geo1:lat 10.328424 ;
     geo1:long 106.247021 ;
     skos:altLabel "Khu di tích chiến thắng Rạch Gầm – Xoài Mút"@vi ;
@@ -12063,18 +11993,14 @@ vhr:site-ee840a4252b0 a vh:HeritageSite ;
     vh:sourcePageId 102432 ;
     vh:sourceTitle "Tam Cốc – Bích Động"^^xsd:string ;
     dcterms:description """Tam Cốc – Bích Động là quần thể hang động ở phường Nam Hoa Lư, tỉnh Ninh Bình, Việt Nam.
-Tam Cốc – Bích Động còn được biết đến với những cái tên nổi tiếng như "vịnh Hạ Long trên cạn" hay "Nam thiên đệ nhị động" là một khu du lịch trọng điểm quốc gia Việt Nam. Toàn khu vực bao gồm hệ thống các hang động núi đá vôi và các di tích lịch sử liên quan đến hành cung Vũ Lâm của triều đại nhà Trần. Quần thể danh thắng Tràng An - Tam Cốc được Thủ tướng chính phủ Việt Nam xếp hạng là di tích quốc gia đặc biệt và đã được tổ chức UNESCO xếp hạng di sản thế giới.
-
-"""@vi ;
+Tam Cốc – Bích Động còn được biết đến với những cái tên nổi tiếng như "vịnh Hạ Long trên cạn" hay "Nam thiên đệ nhị động" là một khu du lịch trọng điểm quốc gia Việt Nam. Toàn khu vực bao gồm hệ thống các hang động núi đá vôi và các di tích lịch sử liên quan đến hành cung Vũ Lâm của triều đại nhà Trần. Quần thể danh thắng Tràng An - Tam Cốc được Thủ tướng chính phủ Việt Nam xếp hạng là di tích quốc gia đặc biệt và đã được tổ chức UNESCO xếp hạng di sản thế giới."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-lam-thang-canh-trang-an-tam-coc-bich-dong-2946>,
         <https://vi.wikipedia.org/wiki/Tam_C%E1%BB%91c_%E2%80%93_B%C3%ADch_%C4%90%E1%BB%99ng> ;
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Tam Cốc – Bích Động là quần thể hang động ở phường Nam Hoa Lư, tỉnh Ninh Bình, Việt Nam.
-Tam Cốc – Bích Động còn được biết đến với những cái tên nổi tiếng như "vịnh Hạ Long trên cạn" hay "Nam thiên đệ nhị động" là một khu du lịch trọng điểm quốc gia Việt Nam. Toàn khu vực bao gồm hệ thống các hang động núi đá vôi và các di tích lịch sử liên quan đến hành cung Vũ Lâm của triều đại nhà Trần. Quần thể danh thắng Tràng An - Tam Cốc được Thủ tướng chính phủ Việt Nam xếp hạng là di tích quốc gia đặc biệt và đã được tổ chức UNESCO xếp hạng di sản thế giới.
-
-"""@vi ;
+Tam Cốc – Bích Động còn được biết đến với những cái tên nổi tiếng như "vịnh Hạ Long trên cạn" hay "Nam thiên đệ nhị động" là một khu du lịch trọng điểm quốc gia Việt Nam. Toàn khu vực bao gồm hệ thống các hang động núi đá vôi và các di tích lịch sử liên quan đến hành cung Vũ Lâm của triều đại nhà Trần. Quần thể danh thắng Tràng An - Tam Cốc được Thủ tướng chính phủ Việt Nam xếp hạng là di tích quốc gia đặc biệt và đã được tổ chức UNESCO xếp hạng di sản thế giới."""@vi ;
     geo1:lat 20.218515 ;
     geo1:long 105.914698 ;
     skos:altLabel "Tam Cốc – Bích Động"@vi ;
@@ -12114,17 +12040,13 @@ vhr:site-f0e28410fbdf-9c23d0 a vh:HeritageSite,
     vh:recognitionYear "2013"^^xsd:gYear ;
     vh:sourcePageId 25334 ;
     vh:sourceTitle "Đền Ngọc Sơn"^^xsd:string ;
-    dcterms:description """Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4.
-
-"""@vi ;
+    dcterms:description "Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-lich-su-va-danh-lam-thang-canh-ho-hoan-kiem-va-den-ngoc-son-2978>,
         <https://vi.wikipedia.org/wiki/%C4%90%E1%BB%81n_Ng%E1%BB%8Dc_S%C6%A1n> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4.
-
-"""@vi ;
+    rdfs:comment "Đền Ngọc Sơn (Hán-Nôm: 殿玉山 | tiếng Trung: 玉山祠) là một ngôi đền thờ nằm trên đảo Ngọc của hồ Hoàn Kiếm ở Hà Nội, Việt Nam. Đây cũng là một di tích quốc gia đặc biệt của Việt Nam được xếp hạng đợt 4."@vi ;
     geo1:lat 21.03072222 ;
     geo1:long 105.85233333 ;
     skos:altLabel "DTLS và DLTC Hồ Hoàn Kiếm và Đền Ngọc Sơn"@vi ;
@@ -12242,17 +12164,13 @@ vhr:site-fa6ee9f82277 a vh:ArchaeologicalSite,
     vh:recognitionYear "2016"^^xsd:gYear ;
     vh:sourcePageId 408900 ;
     vh:sourceTitle "Phật viện Đồng Dương"^^xsd:string ;
-    dcterms:description """Tháp Đồng Dương là một di tích quan trọng vào bậc nhất của Chăm Pa, gồm có hệ thống các tháp nằm gần nhau, nằm ở làng Đồng Dương, xã Đồng Dương, thành phố Đà Nẵng. Tháp được xây dựng vào thời kỳ Chăm Pa còn bị ảnh hưởng của Phật giáo, nên có tính chất đặc biệt so với các tháp khác trong hệ thống tháp Chăm, nó được mệnh danh là tòa tu viện Phật giáo giữa đô thành. Hệ thống tháp Đồng Dương nằm ngay chính trung tâm đô thành Indrapura trong thời kỳ vương triều Indrapura.
-
-"""@vi ;
+    dcterms:description "Tháp Đồng Dương là một di tích quan trọng vào bậc nhất của Chăm Pa, gồm có hệ thống các tháp nằm gần nhau, nằm ở làng Đồng Dương, xã Đồng Dương, thành phố Đà Nẵng. Tháp được xây dựng vào thời kỳ Chăm Pa còn bị ảnh hưởng của Phật giáo, nên có tính chất đặc biệt so với các tháp khác trong hệ thống tháp Chăm, nó được mệnh danh là tòa tu viện Phật giáo giữa đô thành. Hệ thống tháp Đồng Dương nằm ngay chính trung tâm đô thành Indrapura trong thời kỳ vương triều Indrapura."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-khao-co-va-kien-truc-nghe-thuat-phat-vien-dong-duong-2996>,
         <https://vi.wikipedia.org/wiki/Ph%E1%BA%ADt_vi%E1%BB%87n_%C4%90%E1%BB%93ng_D%C6%B0%C6%A1ng> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Tháp Đồng Dương là một di tích quan trọng vào bậc nhất của Chăm Pa, gồm có hệ thống các tháp nằm gần nhau, nằm ở làng Đồng Dương, xã Đồng Dương, thành phố Đà Nẵng. Tháp được xây dựng vào thời kỳ Chăm Pa còn bị ảnh hưởng của Phật giáo, nên có tính chất đặc biệt so với các tháp khác trong hệ thống tháp Chăm, nó được mệnh danh là tòa tu viện Phật giáo giữa đô thành. Hệ thống tháp Đồng Dương nằm ngay chính trung tâm đô thành Indrapura trong thời kỳ vương triều Indrapura.
-
-"""@vi ;
+    rdfs:comment "Tháp Đồng Dương là một di tích quan trọng vào bậc nhất của Chăm Pa, gồm có hệ thống các tháp nằm gần nhau, nằm ở làng Đồng Dương, xã Đồng Dương, thành phố Đà Nẵng. Tháp được xây dựng vào thời kỳ Chăm Pa còn bị ảnh hưởng của Phật giáo, nên có tính chất đặc biệt so với các tháp khác trong hệ thống tháp Chăm, nó được mệnh danh là tòa tu viện Phật giáo giữa đô thành. Hệ thống tháp Đồng Dương nằm ngay chính trung tâm đô thành Indrapura trong thời kỳ vương triều Indrapura."@vi ;
     skos:altLabel "Phật viện Đồng Dương"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-khao-co-va-kien-truc-nghe-thuat-phat-vien-dong-duong-2996>,
         <https://vi.wikipedia.org/wiki/Ph%E1%BA%ADt_vi%E1%BB%87n_%C4%90%E1%BB%93ng_D%C6%B0%C6%A1ng> ;
@@ -12999,17 +12917,13 @@ vhr:treasure-3ea58582f3e4 a vh:NationalTreasure ;
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 48618 ;
     vh:sourceTitle "Ngọc Lũ I"^^xsd:string ;
-    dcterms:description """Ngọc Lũ I là một trong những chiếc trống đồng Đông Sơn có kích thước to lớn, hình dáng cổ kính, tập trung hoa văn phong phú nhất, hiện được trưng bày tại Bảo tàng Lịch sử Việt Nam. Tuổi của trống được xác định vào khoảng 2500 năm.
-
-"""@vi ;
+    dcterms:description "Ngọc Lũ I là một trong những chiếc trống đồng Đông Sơn có kích thước to lớn, hình dáng cổ kính, tập trung hoa văn phong phú nhất, hiện được trưng bày tại Bảo tàng Lịch sử Việt Nam. Tuổi của trống được xác định vào khoảng 2500 năm."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://vi.wikipedia.org/wiki/Ng%E1%BB%8Dc_L%C5%A9_I> ;
     dcterms:subject "national_treasures" ;
-    rdfs:comment """Ngọc Lũ I là một trong những chiếc trống đồng Đông Sơn có kích thước to lớn, hình dáng cổ kính, tập trung hoa văn phong phú nhất, hiện được trưng bày tại Bảo tàng Lịch sử Việt Nam. Tuổi của trống được xác định vào khoảng 2500 năm.
-
-"""@vi ;
+    rdfs:comment "Ngọc Lũ I là một trong những chiếc trống đồng Đông Sơn có kích thước to lớn, hình dáng cổ kính, tập trung hoa văn phong phú nhất, hiện được trưng bày tại Bảo tàng Lịch sử Việt Nam. Tuổi của trống được xác định vào khoảng 2500 năm."@vi ;
     skos:altLabel "Ngọc Lũ I"@vi ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758>,
         <https://vi.wikipedia.org/wiki/Ng%E1%BB%8Dc_L%C5%A9_I> ;
@@ -15023,7 +14937,7 @@ vhr:event-51a97bb466db a vh:HistoricalEvent ;
     vh:sourcePageId 353787 ;
     vh:sourceTitle "Trận Đà Nẵng (1858–1859)"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%ADn_%C4%90%C3%A0_N%E1%BA%B5ng_(1858%E2%80%931859)> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%ADn_%C4%90%C3%A0_N%E1%BA%B5ng_(1858%E2%80%931859)> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15126,7 +15040,7 @@ vhr:person-wikidata-q10788162 a vh:HistoricalPerson ;
     vh:sourcePageId 107545 ;
     vh:sourceTitle "Lý Ông Trọng"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/L%C3%BD_%C3%94ng_Tr%E1%BB%8Dng> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/L%C3%BD_%C3%94ng_Tr%E1%BB%8Dng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15136,7 +15050,7 @@ vhr:person-wikidata-q1317979 a vh:HistoricalPerson ;
     vh:sourcePageId 42146 ;
     vh:sourceTitle "Lê Đại Hành"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/L%C3%AA_%C4%90%E1%BA%A1i_H%C3%A0nh> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/L%C3%AA_%C4%90%E1%BA%A1i_H%C3%A0nh> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15146,7 +15060,7 @@ vhr:person-wikidata-q16480384 a vh:HistoricalPerson ;
     vh:sourcePageId 94471 ;
     vh:sourceTitle "Trúc Lâm Tam tổ"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%C3%BAc_L%C3%A2m_Tam_t%E1%BB%95> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%C3%BAc_L%C3%A2m_Tam_t%E1%BB%95> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15156,7 +15070,7 @@ vhr:person-wikidata-q16481089 a vh:HistoricalPerson ;
     vh:sourcePageId 2423402 ;
     vh:sourceTitle "Dương Không Lộ"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/D%C6%B0%C6%A1ng_Kh%C3%B4ng_L%E1%BB%99> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/D%C6%B0%C6%A1ng_Kh%C3%B4ng_L%E1%BB%99> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15166,7 +15080,7 @@ vhr:person-wikidata-q16481478 a vh:HistoricalPerson ;
     vh:sourcePageId 1751623 ;
     vh:sourceTitle "Po Klong Garai"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Po_Klong_Garai> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Po_Klong_Garai> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15176,7 +15090,7 @@ vhr:person-wikidata-q210417 a vh:HistoricalPerson ;
     vh:sourcePageId 11680 ;
     vh:sourceTitle "Gia Long"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Gia_Long> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Gia_Long> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15186,7 +15100,7 @@ vhr:person-wikidata-q25418141 a vh:HistoricalPerson ;
     vh:sourcePageId 9148 ;
     vh:sourceTitle "Trưng Nhị"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%C6%B0ng_Nh%E1%BB%8B> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%C6%B0ng_Nh%E1%BB%8B> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15196,7 +15110,7 @@ vhr:person-wikidata-q25418142 a vh:HistoricalPerson ;
     vh:sourcePageId 9147 ;
     vh:sourceTitle "Trưng Trắc"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%C6%B0ng_Tr%E1%BA%AFc> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%C6%B0ng_Tr%E1%BA%AFc> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15206,7 +15120,7 @@ vhr:person-wikidata-q269989 a vh:HistoricalPerson ;
     vh:sourcePageId 27216 ;
     vh:sourceTitle "Bà Triệu"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/B%C3%A0_Tri%E1%BB%87u> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/B%C3%A0_Tri%E1%BB%87u> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15216,7 +15130,7 @@ vhr:person-wikidata-q3339372 a vh:HistoricalPerson ;
     vh:sourcePageId 14155 ;
     vh:sourceTitle "Ngô Viết Thụ"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Ng%C3%B4_Vi%E1%BA%BFt_Th%E1%BB%A5> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Ng%C3%B4_Vi%E1%BA%BFt_Th%E1%BB%A5> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15226,7 +15140,7 @@ vhr:person-wikidata-q49056066 a vh:HistoricalPerson ;
     vh:sourcePageId 11518006 ;
     vh:sourceTitle "Trần Hãng"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C3%A3ng> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C3%A3ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15236,7 +15150,7 @@ vhr:person-wikidata-q6669645 a vh:HistoricalPerson ;
     vh:sourcePageId 32081 ;
     vh:sourceTitle "Trần Khát Chân"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Kh%C3%A1t_Ch%C3%A2n> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Kh%C3%A1t_Ch%C3%A2n> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15246,7 +15160,7 @@ vhr:person-wikidata-q704110 a vh:HistoricalPerson ;
     vh:sourcePageId 33924 ;
     vh:sourceTitle "Trần Liễu"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Li%E1%BB%85u> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Li%E1%BB%85u> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15256,7 +15170,7 @@ vhr:person-wikidata-q716945 a vh:HistoricalPerson ;
     vh:sourcePageId 735 ;
     vh:sourceTitle "Lý Thái Tổ"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/L%C3%BD_Th%C3%A1i_T%E1%BB%95> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/L%C3%BD_Th%C3%A1i_T%E1%BB%95> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15266,7 +15180,7 @@ vhr:person-wikidata-q7833315 a vh:HistoricalPerson ;
     vh:sourcePageId 419608 ;
     vh:sourceTitle "Trần Quốc Tảng"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_Qu%E1%BB%91c_T%E1%BA%A3ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15346,17 +15260,13 @@ vhr:site-518863de16eb a vh:ArchitecturalSite,
     vh:recognitionYear "2012"^^xsd:gYear ;
     vh:sourcePageId 530162 ;
     vh:sourceTitle "Chùa Keo Thái Bình"^^xsd:string ;
-    dcterms:description """Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt.
-
-"""@vi ;
+    dcterms:description "Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt."@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-tich-quoc-gia-dac-biet-1752>,
         <https://vi.wikipedia.org/wiki/Ch%C3%B9a_Keo_Th%C3%A1i_B%C3%ACnh> ;
     dcterms:subject "national_special_monuments" ;
-    rdfs:comment """Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt.
-
-"""@vi ;
+    rdfs:comment "Chùa Keo Thái Bình có tên chữ là Thần Quang tự là một ngôi chùa ở xã Vũ Tiên, tỉnh Hưng Yên (trước đây thuộc xã Duy Nhất, huyện Vũ Thư, tỉnh Thái Bình cũ). Đây là một trong những ngôi chùa cổ ở Việt Nam, là công trình kiến trúc nghệ thuật có giá trị đã được Chính phủ công nhận là Di tích quốc gia đặc biệt."@vi ;
     geo1:lat 20.36055556 ;
     geo1:long 106.29722222 ;
     skos:altLabel "Chùa Keo Thái Bình"@vi ;
@@ -15377,9 +15287,7 @@ vhr:site-5b105c124d15 a vh:ArchaeologicalSite,
     vh:sourceTitle "Tháp Po Klong Garai"^^xsd:string ;
     dcterms:description """Tháp Po Klong Garai là tên gọi chung cho một cụm tháp Chăm hùng vĩ và đẹp nhất còn lại ở Việt Nam, phụng thờ vua Po Klong Garai. Tháp Pô Klong Garai là một tổng thể gồm ba tháp: tháp chính (cao 20,5m), tháp lửa (cao 9,31m), tháp cổng (cao 8,56m). Công trình này có trình độ kiến trúc, nghệ thuật, điêu khắc đạt đến đỉnh cao. Di tích kiến trúc nghệ thuật này được Bộ Văn hóa xếp hạng di tích di tích quốc gia năm 1979 và được Thủ tướng Chính phủ xếp hạng di tích quốc gia đặc biệt.
 Tháp Poklong Garai nằm trên đồi Trầu, thuộc phường Đô Vinh, tỉnh Khánh Hòa, được xây dựng vào cuối thế kỷ 13 đầu thế kỷ 14 (thời vua Shihavaman, người Việt gọi là Chế Mân) để thờ vua Po Klong Garai (1151-1205), vị vua đã có nhiều công lớn trong việc cai trị đất nước.
-Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai.
-
-"""@vi ;
+Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai."""@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/di-tich-kien-truc-nghe-thuat-thap-po-klong-garai-2995>,
@@ -15387,9 +15295,7 @@ Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần H�
     dcterms:subject "national_special_monuments" ;
     rdfs:comment """Tháp Po Klong Garai là tên gọi chung cho một cụm tháp Chăm hùng vĩ và đẹp nhất còn lại ở Việt Nam, phụng thờ vua Po Klong Garai. Tháp Pô Klong Garai là một tổng thể gồm ba tháp: tháp chính (cao 20,5m), tháp lửa (cao 9,31m), tháp cổng (cao 8,56m). Công trình này có trình độ kiến trúc, nghệ thuật, điêu khắc đạt đến đỉnh cao. Di tích kiến trúc nghệ thuật này được Bộ Văn hóa xếp hạng di tích di tích quốc gia năm 1979 và được Thủ tướng Chính phủ xếp hạng di tích quốc gia đặc biệt.
 Tháp Poklong Garai nằm trên đồi Trầu, thuộc phường Đô Vinh, tỉnh Khánh Hòa, được xây dựng vào cuối thế kỷ 13 đầu thế kỷ 14 (thời vua Shihavaman, người Việt gọi là Chế Mân) để thờ vua Po Klong Garai (1151-1205), vị vua đã có nhiều công lớn trong việc cai trị đất nước.
-Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai.
-
-"""@vi ;
+Chiều ngày 18 tháng 1 năm 2024, Phó Thủ tướng Chính Phủ Trần Hồng Hà đã ký quyết định (đợt thứ 12) công nhận 29 hiện vật, nhóm hiện vật là Bảo vật Quốc gia. Trong đó, tỉnh Ninh Thuận (nay là Khánh Hòa) có thêm 2 bảo vật là bia Phước Thiện và tượng thờ Vua Pô Klong Garai đặt trong tháp Po Klong Garai."""@vi ;
     geo1:lat 11.601831 ;
     geo1:long 108.9442935 ;
     skos:altLabel "Tháp Po Klong Garai"@vi ;
@@ -15554,7 +15460,7 @@ vhr:person-wikidata-q10830179 a vh:HistoricalPerson ;
     vh:sourcePageId 61511 ;
     vh:sourceTitle "Tuệ Tĩnh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tu%E1%BB%87_T%C4%A9nh> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tu%E1%BB%87_T%C4%A9nh> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15564,7 +15470,7 @@ vhr:person-wikidata-q1155843 a vh:HistoricalPerson ;
     vh:sourcePageId 80321 ;
     vh:sourceTitle "Sơn Tinh"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/S%C6%A1n_Tinh> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/S%C6%A1n_Tinh> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15574,7 +15480,7 @@ vhr:person-wikidata-q4604 a vh:HistoricalPerson ;
     vh:sourcePageId 6140 ;
     vh:sourceTitle "Khổng Tử"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Kh%E1%BB%95ng_T%E1%BB%AD> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Kh%E1%BB%95ng_T%E1%BB%AD> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15584,9 +15490,19 @@ vhr:person-wikidata-q511375 a vh:HistoricalPerson ;
     vh:sourcePageId 746 ;
     vh:sourceTitle "Trần Hưng Đạo"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
+    prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
+
+vhr:area-name-0ff967ccae29 a vh:AdministrativeArea ;
+    rdfs:label "Việt Nam"@vi ;
+    vh:areaLevel "quốc gia"^^xsd:string ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Cộng hòa Xã hội chủ nghĩa Việt Nam"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
 
 vhr:person-wikidata-q7799843 a vh:HistoricalPerson ;
@@ -15594,7 +15510,7 @@ vhr:person-wikidata-q7799843 a vh:HistoricalPerson ;
     vh:sourcePageId 80323 ;
     vh:sourceTitle "Thánh Gióng"^^xsd:string ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:modified "2026-09-25"^^xsd:date ;
     dcterms:source <https://vi.wikipedia.org/wiki/Th%C3%A1nh_Gi%C3%B3ng> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Th%C3%A1nh_Gi%C3%B3ng> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
@@ -15602,6 +15518,7 @@ vhr:person-wikidata-q7799843 a vh:HistoricalPerson ;
 vhr:area-name-267dbeb38a9d a vh:AdministrativeArea ;
     rdfs:label "Lai Châu"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15621,6 +15538,17 @@ vhr:period-53088c1303e1 a vh:HistoricalPeriod ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-tich-lich-su-khu-lang-mo-va-den-tho-cac-vi-vua-trieu-tran-2984> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
 
+vhr:area-name-2d6bff292106 a vh:AdministrativeArea ;
+    rdfs:label "Nam Bộ"@vi ;
+    vh:areaLevel "miền"^^xsd:string ;
+    vh:locatedIn vhr:area-name-0ff967ccae29 ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Miền Nam"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
+
 vhr:organization-unesco a vh:Organization ;
     rdfs:label "UNESCO"@vi ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
@@ -15630,9 +15558,21 @@ vhr:organization-unesco a vh:Organization ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/di-san-van-hoa-va-thien-nhien-the-gioi-1754> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
 
+vhr:area-name-843922c111e4 a vh:AdministrativeArea ;
+    rdfs:label "Trung Bộ"@vi ;
+    vh:areaLevel "miền"^^xsd:string ;
+    vh:locatedIn vhr:area-name-0ff967ccae29 ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Miền Trung"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
+
 vhr:area-name-8cb9d0c6b939 a vh:AdministrativeArea ;
     rdfs:label "Đắk Lắk"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
@@ -15643,6 +15583,7 @@ vhr:area-name-8cb9d0c6b939 a vh:AdministrativeArea ;
 vhr:area-name-04b00d93d635 a vh:AdministrativeArea ;
     rdfs:label "Cà Mau"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15653,6 +15594,7 @@ vhr:area-name-04b00d93d635 a vh:AdministrativeArea ;
 vhr:area-name-487a9a1ffea3 a vh:AdministrativeArea ;
     rdfs:label "Cao Bằng"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15663,6 +15605,7 @@ vhr:area-name-487a9a1ffea3 a vh:AdministrativeArea ;
 vhr:area-name-0963f7238f98 a vh:AdministrativeArea ;
     rdfs:label "Lâm Đồng"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
@@ -15673,6 +15616,7 @@ vhr:area-name-0963f7238f98 a vh:AdministrativeArea ;
 vhr:area-name-956704bccf88 a vh:AdministrativeArea ;
     rdfs:label "Đồng Tháp"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15683,6 +15627,7 @@ vhr:area-name-956704bccf88 a vh:AdministrativeArea ;
 vhr:area-name-11e91641fb6c a vh:AdministrativeArea ;
     rdfs:label "Đồng Nai"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15690,9 +15635,21 @@ vhr:area-name-11e91641fb6c a vh:AdministrativeArea ;
     prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
 
+vhr:area-name-cbfbd2a491ad a vh:AdministrativeArea ;
+    rdfs:label "Bắc Bộ"@vi ;
+    vh:areaLevel "miền"^^xsd:string ;
+    vh:locatedIn vhr:area-name-0ff967ccae29 ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:modified "2026-10-08"^^xsd:date ;
+    dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    skos:altLabel "Miền Bắc"@vi ;
+    prov:wasDerivedFrom <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
+    prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
+
 vhr:area-name-133867db9b91 a vh:AdministrativeArea ;
     rdfs:label "Lạng Sơn"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15703,6 +15660,7 @@ vhr:area-name-133867db9b91 a vh:AdministrativeArea ;
 vhr:area-name-4d23c1dfffda a vh:AdministrativeArea ;
     rdfs:label "Sơn La"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
@@ -15713,6 +15671,7 @@ vhr:area-name-4d23c1dfffda a vh:AdministrativeArea ;
 vhr:area-name-75aae06932dc a vh:AdministrativeArea ;
     rdfs:label "Vĩnh Long"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15723,6 +15682,7 @@ vhr:area-name-75aae06932dc a vh:AdministrativeArea ;
 vhr:area-name-8128e9d1ccb4 a vh:AdministrativeArea ;
     rdfs:label "Khánh Hòa"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15733,6 +15693,7 @@ vhr:area-name-8128e9d1ccb4 a vh:AdministrativeArea ;
 vhr:area-name-9276a97b39cb a vh:AdministrativeArea ;
     rdfs:label "Điện Biên"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
@@ -15743,6 +15704,7 @@ vhr:area-name-9276a97b39cb a vh:AdministrativeArea ;
 vhr:area-name-b93dd0ed3491 a vh:AdministrativeArea ;
     rdfs:label "Hà Tĩnh"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15753,6 +15715,7 @@ vhr:area-name-b93dd0ed3491 a vh:AdministrativeArea ;
 vhr:area-name-574f21fd28ba a vh:AdministrativeArea ;
     rdfs:label "Gia Lai"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15763,6 +15726,7 @@ vhr:area-name-574f21fd28ba a vh:AdministrativeArea ;
 vhr:area-name-d493cd7e51ad a vh:AdministrativeArea ;
     rdfs:label "Quảng Ngãi"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15773,6 +15737,7 @@ vhr:area-name-d493cd7e51ad a vh:AdministrativeArea ;
 vhr:area-name-529a91f7d9c2 a vh:AdministrativeArea ;
     rdfs:label "Tây Ninh"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15783,6 +15748,7 @@ vhr:area-name-529a91f7d9c2 a vh:AdministrativeArea ;
 vhr:area-name-d76be4e8346d a vh:AdministrativeArea ;
     rdfs:label "Nghệ An"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15793,6 +15759,7 @@ vhr:area-name-d76be4e8346d a vh:AdministrativeArea ;
 vhr:area-name-1ae6e41a89aa a vh:AdministrativeArea ;
     rdfs:label "An Giang"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15803,6 +15770,7 @@ vhr:area-name-1ae6e41a89aa a vh:AdministrativeArea ;
 vhr:area-name-35280d7d24fa a vh:AdministrativeArea ;
     rdfs:label "Cần Thơ"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15813,6 +15781,7 @@ vhr:area-name-35280d7d24fa a vh:AdministrativeArea ;
 vhr:area-name-441134c12a3e a vh:AdministrativeArea ;
     rdfs:label "Quảng Trị"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15823,6 +15792,7 @@ vhr:area-name-441134c12a3e a vh:AdministrativeArea ;
 vhr:area-name-c84501090b52 a vh:AdministrativeArea ;
     rdfs:label "Huế"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15833,6 +15803,7 @@ vhr:area-name-c84501090b52 a vh:AdministrativeArea ;
 vhr:area-name-cff49d8e0895 a vh:AdministrativeArea ;
     rdfs:label "Quảng Ninh"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15843,6 +15814,7 @@ vhr:area-name-cff49d8e0895 a vh:AdministrativeArea ;
 vhr:area-name-2035d470f202 a vh:AdministrativeArea ;
     rdfs:label "Thanh Hóa"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15853,6 +15825,7 @@ vhr:area-name-2035d470f202 a vh:AdministrativeArea ;
 vhr:area-name-01ecaf4d6cda a vh:AdministrativeArea ;
     rdfs:label "Thành phố Hồ Chí Minh"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-2d6bff292106 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15862,6 +15835,7 @@ vhr:area-name-01ecaf4d6cda a vh:AdministrativeArea ;
 vhr:area-name-261633bcd11d a vh:AdministrativeArea ;
     rdfs:label "Phú Thọ"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15872,6 +15846,7 @@ vhr:area-name-261633bcd11d a vh:AdministrativeArea ;
 vhr:area-name-352c0cff9935 a vh:AdministrativeArea ;
     rdfs:label "Đà Nẵng"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-843922c111e4 ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15882,6 +15857,7 @@ vhr:area-name-352c0cff9935 a vh:AdministrativeArea ;
 vhr:area-name-e163ea76112a a vh:AdministrativeArea ;
     rdfs:label "Lào Cai"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15892,6 +15868,7 @@ vhr:area-name-e163ea76112a a vh:AdministrativeArea ;
 vhr:area-name-dca800e51853 a vh:AdministrativeArea ;
     rdfs:label "Ninh Bình"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15902,6 +15879,7 @@ vhr:area-name-dca800e51853 a vh:AdministrativeArea ;
 vhr:area-name-8872895663b7 a vh:AdministrativeArea ;
     rdfs:label "Thái Nguyên"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789> ;
@@ -15912,6 +15890,7 @@ vhr:area-name-8872895663b7 a vh:AdministrativeArea ;
 vhr:area-name-34bf35f4ea37 a vh:AdministrativeArea ;
     rdfs:label "Bắc Ninh"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15922,6 +15901,7 @@ vhr:area-name-34bf35f4ea37 a vh:AdministrativeArea ;
 vhr:area-name-4f99714e585c a vh:AdministrativeArea ;
     rdfs:label "Hải Phòng"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15932,6 +15912,7 @@ vhr:area-name-4f99714e585c a vh:AdministrativeArea ;
 vhr:area-name-d9cd26c7e761 a vh:AdministrativeArea ;
     rdfs:label "Hưng Yên"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15942,6 +15923,7 @@ vhr:area-name-d9cd26c7e761 a vh:AdministrativeArea ;
 vhr:area-name-99be0b794c77 a vh:AdministrativeArea ;
     rdfs:label "Tuyên Quang"@vi ;
     vh:areaLevel "tỉnh"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;
@@ -15952,6 +15934,7 @@ vhr:area-name-99be0b794c77 a vh:AdministrativeArea ;
 vhr:area-name-8de4ed043a59 a vh:AdministrativeArea ;
     rdfs:label "Hà Nội"@vi ;
     vh:areaLevel "thành phố trực thuộc trung ương"^^xsd:string ;
+    vh:locatedIn vhr:area-name-cbfbd2a491ad ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:source <https://dsvh.gov.vn/bao-vat-quoc-gia-1758> ;

@@ -77,6 +77,7 @@ class AreaDef:
     display_aliases: tuple[str, ...] = ()
     qid: str | None = None
     merged_into: str | None = None
+    parent: str | None = None
 
     @property
     def group(self) -> str:
@@ -131,11 +132,36 @@ class AreaResolver:
                 display_aliases=tuple(item.get("display_aliases") or ()),
                 qid=item.get("qid"),
                 merged_into=item["label"],
+                parent=item.get("region"),
             )
         if self.publish_level == "merged_2025":
             unknown = sorted({area.group for area in self.areas} - set(self.merged_areas))
             if unknown:
                 raise ValueError(f"CONFIG_INVALID: merged_into without merged_areas entry: {unknown}")
+        # Thứ bậc trên cấp tỉnh (miền -> quốc gia), công bố qua parent_area (AX-012).
+        self.regions: dict[str, AreaDef] = {}
+        for item in config.get("regions") or []:
+            if item["label"] in self.regions or item["label"] in self.merged_areas:
+                raise ValueError(f"CONFIG_INVALID: duplicate region {item['label']!r}")
+            self.regions[item["label"]] = AreaDef(
+                label=item["label"],
+                entity_id=area_id_for_label(item["label"], item.get("qid")),
+                level=item.get("level"),
+                display_aliases=tuple(item.get("display_aliases") or ()),
+                qid=item.get("qid"),
+                parent=item.get("parent"),
+            )
+        for area in [*self.merged_areas.values(), *self.regions.values()]:
+            if area.parent is not None and area.parent not in self.regions:
+                raise ValueError(f"CONFIG_INVALID: {area.label!r} has unknown region {area.parent!r}")
+        for region in self.regions.values():
+            seen = {region.label}
+            node = region
+            while node.parent is not None:
+                if node.parent in seen:
+                    raise ValueError(f"CONFIG_INVALID: region cycle at {region.label!r}")
+                seen.add(node.parent)
+                node = self.regions[node.parent]
         # Dài trước để "thừa thiên - huế" thắng "huế".
         variants.sort(key=lambda item: (-len(item[0]), item[0]))
         self._variants = variants
@@ -181,6 +207,16 @@ class AreaResolver:
         """Như ``resolve`` nhưng ``areas`` là đơn vị công bố (xem ``publish``)."""
         match = self.resolve(location)
         return AreaMatch(areas=self.publish(match.areas), warnings=match.warnings, method=match.method)
+
+    def parent_of(self, area: AreaDef) -> AreaDef | None:
+        """Đơn vị cha trực tiếp: tỉnh -> miền -> quốc gia; ``None`` ở đỉnh hoặc khi chưa cấu hình.
+
+        Tỉnh cũ (``publish_level: source``) kế thừa miền của tỉnh sau sắp xếp mà nó thuộc về.
+        """
+        if area.parent is None and area.label not in self.regions:
+            merged = self.merged_areas.get(area.group)
+            area = merged if merged is not None else area
+        return self.regions.get(area.parent) if area.parent else None
 
     @property
     def published_areas(self) -> list[AreaDef]:

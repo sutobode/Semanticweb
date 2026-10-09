@@ -164,7 +164,7 @@ def test_recognition_properties_apply_to_all_cultural_heritage_entities(graph: G
 
 
 def test_ontology_version_and_ax010_exact_definition(graph: Graph) -> None:
-    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.8.0")}
+    assert set(graph.objects(VH[""], OWL.versionInfo)) == {Literal("1.9.0")}
     cls = VH.HeritageSiteWithHistoricalBuilder
     assert set(graph.objects(cls, RDFS.subClassOf)) == {VH.HeritageSite}
     equivalents = list(graph.objects(cls, OWL.equivalentClass))

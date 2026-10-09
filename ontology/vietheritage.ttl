@@ -22,9 +22,9 @@
     dcterms:description "Ontology cho Knowledge Graph di sản văn hóa Việt Nam"@vi ;
     dcterms:creator "VietHeritageLOD Team" ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-    owl:versionInfo "1.8.0" ;
+    owl:versionInfo "1.9.0" ;
     dcterms:created "2026-09-12"^^xsd:date ;
-    dcterms:modified "2026-10-08"^^xsd:date .
+    dcterms:modified "2026-10-10"^^xsd:date .
 
 #################################################################
 # 15.1 — Classes (24 project-owned classes)
@@ -377,7 +377,7 @@ vh:areaLevel
     rdfs:label "area level"@en .
 
 #################################################################
-# 16 — OWL Semantics Contract (AX-001 .. AX-011, AX-017)
+# 16 — OWL Semantics Contract (AX-001 .. AX-012, AX-017)
 #################################################################
 
 # AX-001 — UNESCO subclass
@@ -466,6 +466,9 @@ vh:HeritageSite rdfs:subClassOf [
     owl:onProperty vh:locatedIn ;
     owl:minCardinality "1"^^xsd:nonNegativeInteger
 ] .
+
+# AX-012 — Transitive location: entity -> tỉnh -> miền -> quốc gia (config/areas.yaml regions).
+vh:locatedIn a owl:TransitiveProperty .
 
 # AX-017 — Asymmetry entails irreflexivity; checked by the semantic validator.
 vh:hasHistoricalSuccessor a owl:AsymmetricProperty .

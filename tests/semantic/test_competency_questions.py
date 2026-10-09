@@ -109,8 +109,10 @@ def test_cq_fixture_validates_and_uses_existing_inference(components):
     ):
         assert triple not in data
         assert triple in inferred
-    # CQ01 traverses the hierarchy; CQ06 must still count only direct locations.
-    assert (VHR["site-in-sub-area-1"], VH.locatedIn, VHR["area-hanoi"]) not in public
+    # AX-012 materializes the area hierarchy; CQ06 still counts only the most specific location.
+    transitive = (VHR["site-in-sub-area-1"], VH.locatedIn, VHR["area-hanoi"])
+    assert transitive not in data
+    assert transitive in inferred
     site = VHR["registry-dsvh-national-monument-000001"]
     assert (site, OWL.sameAs, site) in inferred  # The CQ09/10 guard must handle real closure.
     external_links = {triple for triple in public.triples((None, OWL.sameAs, None)) if triple[0] != triple[2]}

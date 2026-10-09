@@ -1,4 +1,4 @@
-"""AX-001–AX-007/010/011 via local Apache Jena 4.10.0 OWL Mini (COMP-008).
+"""AX-001–AX-007/010/011/012 via local Apache Jena 4.10.0 OWL Mini (COMP-008).
 
 Set JENA_HOME to an unpacked Jena distribution, or JENA_CLASSPATH to its local
 jars. A JDK (Java source-file launcher, Java 11+) is required; JAVA_HOME is
@@ -35,7 +35,7 @@ EXPECTED = FIXTURES / "expected" / "inferred.ttl"
 JAVA_SOURCE = Path(__file__).with_name("OwlMiniReasoner.java")
 ENGINE = "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner"
 JENA_VERSION = "4.10.0"
-AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8)) + ("AX-010", "AX-011")
+AXIOMS = tuple(f"AX-{number:03d}" for number in range(1, 8)) + ("AX-010", "AX-011", "AX-012")
 SEMANTIC_AXIOMS = ("AX-008", "AX-009", "AX-017")
 AGGREGATE_AXIOMS = tuple(sorted(AXIOMS + SEMANTIC_AXIOMS))
 VH = Namespace("http://localhost:3030/vietheritage/ontology/")
@@ -49,6 +49,7 @@ EXPECTED_SUBJECTS = {
     "AX-006": VHR["site-ax006-b"],
     "AX-007": VHR["site-ax007"],
     "AX-010": VHR["site-ax010"],
+    "AX-012": VHR["site-ax012"],
 }
 
 

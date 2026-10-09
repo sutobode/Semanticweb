@@ -54,3 +54,13 @@ vhr:person-ax010-control a vh:HistoricalPerson .
 vhr:event-ax017-a a vh:HistoricalEvent ;
     vh:hasHistoricalSuccessor vhr:event-ax017-b .
 vhr:event-ax017-b a vh:HistoricalEvent .
+
+# AX-012: transitive location chain site -> province -> region -> country.
+vhr:site-ax012
+    a vh:HeritageSite ;
+    vh:locatedIn vhr:area-ax012-province .
+vhr:area-ax012-province a vh:AdministrativeArea ;
+    vh:locatedIn vhr:area-ax012-region .
+vhr:area-ax012-region a vh:AdministrativeArea ;
+    vh:locatedIn vhr:area-ax012-country .
+vhr:area-ax012-country a vh:AdministrativeArea .

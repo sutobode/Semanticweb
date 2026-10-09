@@ -192,7 +192,7 @@ def test_documentary_table_with_rowspan_and_holder_area(tmp_path):
     moc = docs["Mộc bản triều Nguyễn"]
     record = map_record({**moc, "_entity_id": moc["registry_id"]}, TYPES, PageIndex(pages), derived=derived)
     assert record["custodian"].startswith("Trung tâm Lưu trữ quốc gia IV")
-    assert [a["label_vi"] for a in derived.records()] == ["Lâm Đồng"]
+    assert [a["label_vi"] for a in derived.records() if a["level"] == "tỉnh"] == ["Lâm Đồng"]
     assert record["external_ids"] == {"wikidata": "Q101"}
 
 
@@ -233,14 +233,14 @@ def test_mapper_treasure_located_in_from_holder_index():
     index = {hl.holder_key("Bảo tàng Lịch sử quốc gia"): ["Hà Nội"]}
     record = map_record(entity, TYPES, derived=derived, area_resolver=resolver, holder_index=index)
     assert record["current_holder"] == "Bảo tàng Lịch sử quốc gia" and "address" not in record
-    areas = derived.records()
+    areas = [a for a in derived.records() if a["level"] not in ("miền", "quốc gia")]
     assert [a["label_vi"] for a in areas] == ["Hà Nội"]
     assert record["relations"]["located_in"] == [areas[0]["entity_id"]]
     # Nơi lưu giữ ghi tỉnh cũ -> công bố theo tỉnh sau sắp xếp 2025.
     entity["registry_fields"]["location"] = "Bảo tàng tỉnh Bạc Liêu"
     derived = DerivedRegistry()
     map_record(entity, TYPES, derived=derived, area_resolver=resolver, holder_index=index)
-    assert [a["label_vi"] for a in derived.records()] == ["Cà Mau"]
+    assert [a["label_vi"] for a in derived.records() if a["level"] == "tỉnh"] == ["Cà Mau"]
 
 
 def test_real_manual_holder_config_uses_known_areas():

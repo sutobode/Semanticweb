@@ -1,5 +1,5 @@
 {
-  "run_id": "20261008T074906Z-phase5",
+  "run_id": "20261009T180932Z-cbf0ca",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -12,7 +12,8 @@
     "AX-006",
     "AX-007",
     "AX-010",
-    "AX-011"
+    "AX-011",
+    "AX-012"
   ],
   "status": "PASS",
   "aggregate_scope": [
@@ -27,6 +28,7 @@
     "AX-009",
     "AX-010",
     "AX-011",
+    "AX-012",
     "AX-017"
   ],
   "axioms": {
@@ -41,17 +43,18 @@
     "AX-009": "PASS",
     "AX-010": "PASS",
     "AX-011": "PASS",
+    "AX-012": "PASS",
     "AX-017": "PASS"
   },
-  "source_triples": 14269,
-  "inferred_triples": 691420,
-  "closure_triples": 705689,
-  "ontology_triples": 350,
-  "ontology_version": "1.8.0",
-  "asserted_triples": 13921,
+  "source_triples": 14345,
+  "inferred_triples": 695794,
+  "closure_triples": 710139,
+  "ontology_triples": 351,
+  "ontology_version": "1.9.0",
+  "asserted_triples": 13996,
   "production_inputs": [
-    "/workspace/ontology/vietheritage.ttl",
-    "/workspace/data/rdf/vietheritage.ttl"
+    "D:\\Semanticweb\\ontology\\vietheritage.ttl",
+    "D:\\Semanticweb\\data\\rdf\\vietheritage.ttl"
   ],
   "semantic_validation": {
     "status": "PASS",
@@ -70,11 +73,11 @@
   },
   "fixture_verification": {
     "inputs": [
-      "/workspace/ontology/vietheritage.ttl",
-      "/workspace/data/fixtures/semantic/axioms-valid.ttl"
+      "D:\\Semanticweb\\ontology\\vietheritage.ttl",
+      "D:\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
     ],
-    "source_triples": 376,
-    "inferred_triples": 1430,
+    "source_triples": 384,
+    "inferred_triples": 1538,
     "semantic_validation": {
       "status": "PASS",
       "errors": [],
@@ -91,15 +94,15 @@
       }
     },
     "AX-011": {
-      "input": "/workspace/data/fixtures/semantic/ax011-owa-no-location.ttl",
-      "source_triples": 351,
+      "input": "D:\\Semanticweb\\data\\fixtures\\semantic\\ax011-owa-no-location.ttl",
+      "source_triples": 352,
       "inferred_triples": 1226,
       "named_locations": 0,
       "status": "PASS",
       "owa": true
     }
   },
-  "expected_triples": 7,
+  "expected_triples": 9,
   "missing_triples": [],
   "unexpected_triples": []
 }
