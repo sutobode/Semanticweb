@@ -17,8 +17,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from uuid import uuid4
 
-from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import OWL, RDF, RDFS, XSD
+from rdflib import Graph, Namespace, URIRef
+from rdflib.namespace import OWL, RDF, RDFS
 
 from vietheritage.validation.semantic import report, validate_axioms
 
@@ -152,18 +152,19 @@ def _check_ax011(ontology: Graph, fixture: Graph, payload: dict) -> None:
         if (restriction, RDF.type, OWL.Restriction) in ontology
         and (restriction, OWL.onProperty, VH.locatedIn) in ontology
     }
-    expected = Literal(1, datatype=XSD.nonNegativeInteger)
+    # ``∃locatedIn.⊤`` (≡ min 1); a cardinality form is invalid OWL 2 DL once
+    # AX-012 makes locatedIn transitive.
     valid = len(restrictions) == 1
     if valid:
         restriction = next(iter(restrictions))
         valid = (
-            set(ontology.objects(restriction, OWL.minCardinality)) == {expected}
+            set(ontology.objects(restriction, OWL.someValuesFrom)) == {OWL.Thing}
+            and not list(ontology.objects(restriction, OWL.minCardinality))
             and not list(ontology.objects(restriction, OWL.onClass))
-            and not list(ontology.objects(restriction, OWL.onDataRange))
         )
     if not valid:
         payload["axioms"]["AX-011"] = "FAIL"
-        raise ReasoningError("AXIOM_DECLARATION_MISSING", "AX-011 exact minCardinality restriction is missing.")
+        raise ReasoningError("AXIOM_DECLARATION_MISSING", "AX-011 exact someValuesFrom owl:Thing restriction is missing.")
 
     site = VHR["site-ax011-owa"]
     inferred, inferred_count = reason([ontology, fixture])

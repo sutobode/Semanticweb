@@ -1,5 +1,5 @@
 {
-  "run_id": "20261009T180932Z-cbf0ca",
+  "run_id": "20261010T045039Z-dee13b",
   "run_mode": "full",
   "engine": "http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner",
   "jena_version": "4.10.0",
@@ -47,8 +47,8 @@
     "AX-017": "PASS"
   },
   "source_triples": 14345,
-  "inferred_triples": 695794,
-  "closure_triples": 710139,
+  "inferred_triples": 695791,
+  "closure_triples": 710136,
   "ontology_triples": 351,
   "ontology_version": "1.9.0",
   "asserted_triples": 13996,
@@ -77,7 +77,7 @@
       "D:\\Semanticweb\\data\\fixtures\\semantic\\axioms-valid.ttl"
     ],
     "source_triples": 384,
-    "inferred_triples": 1538,
+    "inferred_triples": 1535,
     "semantic_validation": {
       "status": "PASS",
       "errors": [],
@@ -96,7 +96,7 @@
     "AX-011": {
       "input": "D:\\Semanticweb\\data\\fixtures\\semantic\\ax011-owa-no-location.ttl",
       "source_triples": 352,
-      "inferred_triples": 1226,
+      "inferred_triples": 1223,
       "named_locations": 0,
       "status": "PASS",
       "owa": true

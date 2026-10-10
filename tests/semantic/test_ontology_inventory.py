@@ -7,7 +7,7 @@ trong ontology thật, không đếm dòng markdown).
 from pathlib import Path
 
 import pytest
-from rdflib import OWL, RDF, RDFS, XSD, Literal, Namespace
+from rdflib import OWL, RDF, RDFS, Literal, Namespace
 from rdflib.graph import Graph
 
 ONTOLOGY_PATH = Path(__file__).resolve().parents[2] / "ontology" / "vietheritage.ttl"
@@ -193,7 +193,7 @@ def test_ax010_does_not_add_a_disjoint_main_branch(graph: Graph) -> None:
     assert not list(graph.subjects(OWL.disjointWith, VH.HeritageSiteWithHistoricalBuilder))
 
 
-def test_ax011_exact_minimum_location_restriction(graph: Graph) -> None:
+def test_ax011_exact_existential_location_restriction(graph: Graph) -> None:
     restrictions = {
         restriction
         for restriction in graph.objects(VH.HeritageSite, RDFS.subClassOf)
@@ -202,11 +202,10 @@ def test_ax011_exact_minimum_location_restriction(graph: Graph) -> None:
     }
     assert len(restrictions) == 1
     restriction = restrictions.pop()
-    assert set(graph.objects(restriction, OWL.minCardinality)) == {
-        Literal(1, datatype=XSD.nonNegativeInteger)
-    }
+    # ∃locatedIn.⊤ ≡ min 1; cardinality on the transitive locatedIn is not OWL 2 DL.
+    assert set(graph.objects(restriction, OWL.someValuesFrom)) == {OWL.Thing}
+    assert not list(graph.objects(restriction, OWL.minCardinality))
     assert not list(graph.objects(restriction, OWL.onClass))
-    assert not list(graph.objects(restriction, OWL.onDataRange))
 
 
 def test_ax017_is_only_asymmetric_and_keeps_event_domain_range(graph: Graph) -> None:

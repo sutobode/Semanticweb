@@ -461,10 +461,12 @@ vh:HeritageSiteWithHistoricalBuilder owl:equivalentClass [
 ] .
 
 # AX-011 — Every heritage site has at least one location under OWA.
+# Written as someValuesFrom owl:Thing (≡ min 1): OWL 2 DL forbids cardinality
+# restrictions on the transitive locatedIn (AX-012).
 vh:HeritageSite rdfs:subClassOf [
     a owl:Restriction ;
     owl:onProperty vh:locatedIn ;
-    owl:minCardinality "1"^^xsd:nonNegativeInteger
+    owl:someValuesFrom owl:Thing
 ] .
 
 # AX-012 — Transitive location: entity -> tỉnh -> miền -> quốc gia (config/areas.yaml regions).
