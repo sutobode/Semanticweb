@@ -70,7 +70,6 @@ ENTITY_TYPES = {
     "IntangibleHeritage",
     "NationalTreasure",
     "DocumentaryHeritage",
-    "Artisan",
     "CulturalObject",
 }
 

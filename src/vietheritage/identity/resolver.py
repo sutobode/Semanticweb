@@ -45,7 +45,6 @@ _ENTITY_PREFIXES = {
     "IntangibleHeritage": "intangible",
     "NationalTreasure": "treasure",
     "DocumentaryHeritage": "documentary",
-    "Artisan": "artisan",
     "CulturalObject": "object",
 }
 _EVIDENCE_FIELDS = {

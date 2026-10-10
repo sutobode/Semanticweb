@@ -16,7 +16,7 @@ from vietheritage.validation.semantic import DEFAULT_BASE
 def records():
     category_types = _load_category_types()
     result = []
-    for category in ("world_heritage", "intangible_representative", "intangible_urgent", "national_intangible", "artisans"):
+    for category in ("world_heritage", "intangible_representative", "intangible_urgent", "national_intangible", "national_treasures"):
         entity = {
             "entity_id": "registry-" + category.replace("_", "-"),
             "registry_id": category, "registry_category": category,

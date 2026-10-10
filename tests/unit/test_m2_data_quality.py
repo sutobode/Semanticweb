@@ -296,7 +296,7 @@ def test_collect_full_exit_code_blocks_partial_coverage(monkeypatch, tmp_path):
     monkeypatch.setattr(registry, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(registry, "collect", lambda: {
         "snapshot_id": "s", "canonical_total": 0, "registry_total": 0, "claim": "coverage_failed",
-        "failure_manifest": [{"registry_category": "artisans", "error_code": "REGISTRY_EMPTY_SOURCE"}],
+        "failure_manifest": [{"registry_category": "national_museums", "error_code": "REGISTRY_EMPTY_SOURCE"}],
     })
     monkeypatch.setattr(wiki, "enrich_many", lambda items: {"matched_registry_records": 0, "total": 0, "wikidata_linked": 0})
     monkeypatch.setattr(registry, "collect_supplements", lambda *args, **kwargs: {})   # M2-30/31: không gọi mạng
@@ -830,12 +830,11 @@ def test_allow_empty_source_requires_decision(tmp_path):
         registry.load_config(_empty_allowed_config(tmp_path, with_decision=False))
 
 
-def test_real_config_keeps_all_17_categories_with_empty_ones_documented():
+def test_real_config_keeps_all_14_categories_with_empty_ones_documented():
     _, categories = registry.load_config()
-    assert len(categories) == 17
+    assert len(categories) == 14  # DEC-054: 3 empty artisan categories removed with vh:Artisan
     allowed = {c.key for c in categories if c.allow_empty_source}
-    assert allowed == {"artisans", "artifacts_antiquities", "national_artisans", "meritorious_artisans",
-                       "national_museums", "ministry_museums", "central_organization_museums",
+    assert allowed == {"artifacts_antiquities", "national_museums", "ministry_museums", "central_organization_museums",
                        "provincial_museums", "private_museums", "documentary_heritage"}
     assert all(c.empty_source_note["decision"].startswith("DEC-M2-001") for c in categories if c.allow_empty_source)
 
@@ -850,8 +849,7 @@ EXPECTED_ROWS = {"world_heritage": 9, "national_special_monuments": 107, "nation
                  "national_treasures": 237}
 
 
-EMPTY_AT_SOURCE = {"artisans", "artifacts_antiquities", "national_artisans", "meritorious_artisans",
-                   "national_museums", "ministry_museums", "central_organization_museums",
+EMPTY_AT_SOURCE = {"artifacts_antiquities", "national_museums", "ministry_museums", "central_organization_museums",
                    "provincial_museums", "private_museums", "documentary_heritage"}
 
 
@@ -879,7 +877,7 @@ def test_real_registry_html_replays_to_full_selected_coverage(tmp_path):
 
 
 @pytest.mark.skipif(not REAL_HTML.exists(), reason="real registry HTML fixtures not present")
-@pytest.mark.parametrize("key", ["national_museums", "national_artisans", "private_museums"])
+@pytest.mark.parametrize("key", ["national_museums", "private_museums"])
 def test_real_empty_template_pages_have_no_data_rows(key):
     html = (REAL_HTML / f"{key}.html").read_text(encoding="utf-8")
     assert parse_table_rows(html, ["^Tổng số"], row_selector="table tr") == []

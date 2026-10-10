@@ -387,7 +387,7 @@ def run(run_mode: str = "sample") -> int:
     checks["external_links"] = "PASS" if run_mode == "sample" or _verified_link_count() >= 100 else "FAIL"
     checks["fixture_contamination"] = "PASS" if not any(is_fixture_site_id(record.get("entity_id", "")) for record in records) and fuseki.get("fixture_contamination") is False else "FAIL"
     checks["metadata"] = "PASS" if fuseki.get("graphs", {}).get("metadata", 0) > 0 else "FAIL"
-    checks["ontology_inventory"] = "PASS" if _ontology_inventory() == {"classes": 24, "object_properties": 12, "datatype_properties": 10} else "FAIL"
+    checks["ontology_inventory"] = "PASS" if _ontology_inventory() == {"classes": 23, "object_properties": 12, "datatype_properties": 10} else "FAIL"
 
     graph_counts = fuseki.get("graphs", {})
     metrics = {

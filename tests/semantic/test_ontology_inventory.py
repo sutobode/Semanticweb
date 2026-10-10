@@ -20,7 +20,7 @@ EXPECTED_CLASSES = {
     "ArchitecturalStyle", "AdministrativeArea", "Organization", "IntangibleHeritage",
     "RepresentativeIntangibleHeritage", "UrgentSafeguardingIntangibleHeritage",
     "NationalIntangibleHeritage", "NationalTreasure", "DocumentaryHeritage",
-    "Artisan", "CulturalObject", "HeritageSiteWithHistoricalBuilder",
+    "CulturalObject", "HeritageSiteWithHistoricalBuilder",
 }
 
 EXPECTED_OBJECT_PROPERTIES = {
@@ -59,7 +59,7 @@ def test_ontology_has_exactly_24_project_owned_classes(graph: Graph) -> None:
         if str(s).startswith(str(VH))
     }
     assert classes == EXPECTED_CLASSES
-    assert len(classes) == 24
+    assert len(classes) == 23
 
 
 def test_ontology_has_exactly_12_object_properties(graph: Graph) -> None:
@@ -115,7 +115,6 @@ def test_ax003_transitive_part_relation_asserted(graph: Graph) -> None:
 def test_ax004_disjoint_classes_asserted(graph: Graph) -> None:
     assert (VH.HistoricalPerson, OWL.disjointWith, VH.HeritageSite) in graph
     assert (VH.HistoricalPerson, OWL.disjointWith, VH.AdministrativeArea) in graph
-    assert (VH.Artisan, OWL.disjointWith, VH.HeritageSite) in graph
     assert (VH.HeritageSite, OWL.disjointWith, VH.AdministrativeArea) in graph
 
 

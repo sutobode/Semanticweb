@@ -10,8 +10,8 @@
     dcterms:description "Snapshot Linked Open Data về di sản văn hóa Việt Nam trong phạm vi registry chính thức đã cấu hình."@vi ;
     dcterms:extent "asserted_triples=13996",
         "canonical_records=1095",
-        "inferred_closure_triples=710136",
-        "inferred_delta_triples=695791",
+        "inferred_closure_triples=710121",
+        "inferred_delta_triples=695784",
         "registry_records=1017",
         "verified_external_links=159" ;
     dcterms:identifier "20261008T104250Z" ;

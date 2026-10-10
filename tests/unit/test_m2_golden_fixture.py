@@ -25,7 +25,7 @@ VH = Namespace("http://localhost:3030/vietheritage/ontology/")
 CANONICAL_TYPES = {
     "HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod",
     "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage",
-    "NationalTreasure", "DocumentaryHeritage", "Artisan", "CulturalObject",
+    "NationalTreasure", "DocumentaryHeritage", "CulturalObject",
 }
 
 

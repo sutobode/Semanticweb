@@ -24,9 +24,9 @@ FIXTURE_HTML = (REPO_ROOT / "data" / "fixtures" / "registry_sample_page.html").r
 CONFIG_PATH = REPO_ROOT / "config" / "registry_sources.yaml"
 
 
-def test_load_config_has_17_categories() -> None:
+def test_load_config_has_14_categories() -> None:
     _, categories = load_config(CONFIG_PATH)
-    assert len(categories) == 17
+    assert len(categories) == 14  # DEC-054 removed the 3 empty artisan categories
 
 
 def test_load_config_category_keys_match_spec_section_7() -> None:
@@ -35,8 +35,7 @@ def test_load_config_category_keys_match_spec_section_7() -> None:
     expected = {
         "world_heritage", "national_special_monuments", "national_monuments",
         "intangible_representative", "intangible_urgent", "national_intangible",
-        "artisans", "national_treasures", "artifacts_antiquities",
-        "national_artisans", "meritorious_artisans", "national_museums",
+        "national_treasures", "artifacts_antiquities", "national_museums",
         "ministry_museums", "central_organization_museums", "provincial_museums",
         "private_museums", "documentary_heritage",
     }

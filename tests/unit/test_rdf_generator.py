@@ -415,10 +415,10 @@ def test_wikipedia_metadata_is_conditional_and_preserves_page_title(status):
 
 
 def test_out_of_domain_enrichment_does_not_change_entity_type():
-    record = dict(SAMPLE_HERITAGE_SITE, entity_type="Artisan", registry_category="artisans",
+    record = dict(SAMPLE_HERITAGE_SITE, entity_type="HistoricalPerson",
                   recognition_year=2000, address="Hà Nội", relations={"recognized_by": ["organization-unesco"]})
     graph = build_graph([record])
     subject = VHR[record["entity_id"]]
-    assert set(graph.objects(subject, RDF.type)) == {VH.Artisan}
+    assert set(graph.objects(subject, RDF.type)) == {VH.HistoricalPerson}
     for predicate in (VH.recognizedBy, VH.recognitionYear, VH.constructionYear, VH.address):
         assert not list(graph.objects(subject, predicate))

@@ -13,7 +13,6 @@ entity_types:
   IntangibleHeritage: {class: "vh:IntangibleHeritage", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_category, registry_url, provenance]}
   NationalTreasure: {class: "vh:NationalTreasure", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
   DocumentaryHeritage: {class: "vh:DocumentaryHeritage", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
-  Artisan: {class: "vh:Artisan", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
   CulturalObject: {class: "vh:CulturalObject", required_fields: [entity_id, entity_type, label_vi, registry_id, registry_url, provenance]}
 site_type_tokens:
   "lịch sử": vh:HistoricalSite

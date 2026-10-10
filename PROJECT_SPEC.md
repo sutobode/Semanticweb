@@ -182,7 +182,7 @@ Project MUST áp dụng, không chỉ định nghĩa suông, bốn nguyên lý c
 
 | Lớp | Nội dung trong VietHeritageLOD | Vị trí trong spec |
 |---|---|---|
-| T-Box (schema) | 24 classes, 12 object properties, 10 datatype properties, `rdfs:subClassOf`, `rdfs:domain`, `rdfs:range`, `owl:inverseOf`, `owl:TransitiveProperty`, `owl:SymmetricProperty`, `owl:disjointWith`, `owl:equivalentClass`, `owl:someValuesFrom`, `owl:AsymmetricProperty` | Section 15, 15.0, 16 |
+| T-Box (schema) | 23 classes, 12 object properties, 10 datatype properties, `rdfs:subClassOf`, `rdfs:domain`, `rdfs:range`, `owl:inverseOf`, `owl:TransitiveProperty`, `owl:SymmetricProperty`, `owl:disjointWith`, `owl:equivalentClass`, `owl:someValuesFrom`, `owl:AsymmetricProperty` | Section 15, 15.0, 16 |
 | A-Box (instance data) | Canonical entity từ registry/enrichment: `vhr:site-van-mieu`, `vhr:person-ly-thuong-kiet`, v.v. | Section 12, 20 |
 
 Việc tách rõ T-Box/A-Box giúp trả lời được các câu hỏi reasoning kinh điển của môn học ngay trên domain này: *"Mọi `UNESCOHeritageSite` có phải là `HeritageSite`?"* (T-Box, suy ra từ `rdfs:subClassOf`, AX-001) và *"`vhr:site-van-mieu` có phải instance của `HeritageSite` không?"* (A-Box, kiểm tra bằng SPARQL `ASK`).
@@ -216,7 +216,7 @@ Repository hoàn thành MUST có:
 2. Enrich registry entity bằng Wikipedia tiếng Việt qua MediaWiki API khi tìm được page match.
 3. Full canonical dataset MUST chứa 100% registry record hợp lệ; entity thiếu enrichment vẫn phải giữ nguyên với `source_status` tương ứng.
 4. Heritage-site subset MUST được report riêng; mục tiêu MVP 100 site chỉ là metric trình diễn, không thay thế full-domain coverage.
-5. Có 24 class project-owned đã freeze (23 class hiện hữu và một defined subclass AX-010).
+5. Có 23 class project-owned đã freeze (22 class hiện hữu và một defined subclass AX-010); `vh:Artisan` đã bị loại bỏ ở 1.9.0 (DEC-054).
 6. Có 12 object properties do project sở hữu.
 7. Có 10 datatype properties do project sở hữu hoặc được mapping rõ tới vocabulary chuẩn.
 8. Có 13 OWL axioms/restrictions có ý nghĩa (AX-001 đến AX-012 và AX-017); AX-013…AX-016 vẫn deferred.
@@ -515,16 +515,10 @@ categories:
     url: https://dsvh.gov.vn/di-san-van-hoa-phi-vat-the-can-bao-ve-khan-cap-1756
   - key: national_intangible
     url: https://dsvh.gov.vn/danh-muc-di-san-van-hoa-phi-vat-the-quoc-gia-1789
-  - key: artisans
-    url: https://dsvh.gov.vn/danh-sach-nghe-nhan-1777
   - key: national_treasures
     url: https://dsvh.gov.vn/bao-vat-quoc-gia-1758
   - key: artifacts_antiquities
     url: https://dsvh.gov.vn/di-vat-co-vat
-  - key: national_artisans
-    url: https://dsvh.gov.vn/nghe-nhan-nhan-dan-1764
-  - key: meritorious_artisans
-    url: https://dsvh.gov.vn/nghe-nhan-uu-tu-1762
   - key: national_museums
     url: https://dsvh.gov.vn/bao-tang-quoc-gia-1784
   - key: ministry_museums
@@ -1022,7 +1016,7 @@ Canonical entity types MUST include all registry categories:
 HeritageSite, AdministrativeArea, HistoricalPerson, HistoricalEvent,
 HistoricalPeriod, HeritageComplex, Organization, ArchitecturalStyle,
 Museum, IntangibleHeritage, NationalTreasure, DocumentaryHeritage,
-Artisan, CulturalObject
+CulturalObject
 ```
 
 `source_status=registry_only` là trạng thái hợp lệ và MUST NOT bị lọc bỏ chỉ vì thiếu Wikipedia enrichment. `source_page_id` và `source_title` chỉ MUST có khi entity đã enrichment Wikipedia thành công (`source_status=registry+wikipedia` hoặc `source_status=registry+enriched`); chúng MAY vắng mặt hoặc `null` với `registry_only`.
@@ -1103,12 +1097,6 @@ Required: `entity_id`, `entity_type`, `label_vi`, `registry_id`, `registry_url`,
 
 Optional: `description_vi`, `custodian`, `recognition_year`, `external_ids`.
 
-### `Artisan`
-
-Required: `entity_id`, `entity_type`, `label_vi`, `registry_id`, `registry_url`, `provenance`.
-
-Optional: `description_vi`, `artisan_title`, `associated_intangible_heritage`, `external_ids`.
-
 ### `CulturalObject`
 
 Required: `entity_id`, `entity_type`, `label_vi`, `registry_id`, `registry_url`, `provenance`.
@@ -1182,7 +1170,7 @@ Phạm vi áp dụng theo `RUN_MODE` (bắt buộc, để tránh hiểu sai khi 
 | Mode | Nguồn | Coverage invariant | AC liên quan |
 |---|---|---|---|
 | `sample` | Golden fixture trong `data/fixtures/` (Section 35) | Tính **trên fixture**: mọi record hợp lệ trong fixture MUST vào canonical, `registry_failures == 0`. `claim` MUST là `SKIPPED_SAMPLE_MODE` | `AC-026` chạy; `AC-024`/`AC-025` ghi `SKIPPED_SAMPLE_MODE` |
-| `full` | Registry chính thức qua network | Tính trên toàn bộ snapshot 17 category; `claim` mới được là `100% of selected official registry snapshot` | `AC-024`, `AC-025`, `AC-026` đều blocking |
+| `full` | Registry chính thức qua network | Tính trên toàn bộ snapshot 14 category; `claim` mới được là `100% of selected official registry snapshot` | `AC-024`, `AC-025`, `AC-026` đều blocking |
 
 Sample mode MUST NOT ghi `claim = 100% of selected official registry snapshot`, vì fixture không phải snapshot registry thật.
 
@@ -1351,7 +1339,7 @@ Theo quy chuẩn W3C OWL 2 và methodology ontology engineering (course referenc
 
 ### 15.0.1 Ontology hierarchy đầy đủ
 
-Ontology của VietHeritageLOD có 24 class project-owned. `vh:CulturalHeritageEntity` là root của các entity di sản; các entity ngữ cảnh như người, sự kiện, thời kỳ, khu vực và tổ chức vẫn là `owl:Thing` độc lập để tránh suy luận rằng mọi đối tượng liên quan đều là di sản.
+Ontology của VietHeritageLOD có 23 class project-owned. `vh:CulturalHeritageEntity` là root của các entity di sản; các entity ngữ cảnh như người, sự kiện, thời kỳ, khu vực và tổ chức vẫn là `owl:Thing` độc lập để tránh suy luận rằng mọi đối tượng liên quan đều là di sản.
 
 ```mermaid
 classDiagram
@@ -1380,7 +1368,6 @@ classDiagram
     class ArchitecturalStyle
     class AdministrativeArea
     class Organization
-    class Artisan
 
     CulturalHeritageEntity <|-- HeritageSite
     HeritageSite <|-- UNESCOHeritageSite
@@ -1404,12 +1391,11 @@ classDiagram
     Thing <|-- ArchitecturalStyle
     Thing <|-- AdministrativeArea
     Thing <|-- Organization
-    Thing <|-- Artisan
 ```
 
 Quy ước quan trọng:
 
-- Hình trên chủ đích CHỈ vẽ quan hệ `is-a` (`rdfs:subClassOf`) của toàn bộ 24 class; 12 object property được tách sang hình riêng ở Section 15.1.1 để tránh một diagram vừa dày vừa khó đọc (thực hành chuẩn khi vẽ UML/ontology diagram cho ontology có nhiều class). Hai hình MUST được đọc cùng nhau để có bức tranh T-Box đầy đủ.
+- Hình trên chủ đích CHỈ vẽ quan hệ `is-a` (`rdfs:subClassOf`) của toàn bộ 23 class; 12 object property được tách sang hình riêng ở Section 15.1.1 để tránh một diagram vừa dày vừa khó đọc (thực hành chuẩn khi vẽ UML/ontology diagram cho ontology có nhiều class). Hai hình MUST được đọc cùng nhau để có bức tranh T-Box đầy đủ.
 - `rdfs:subClassOf` thể hiện hierarchy; một resource có thể thuộc nhiều subclass site cùng lúc.
 - `rdfs:domain` và `rdfs:range` mô tả semantics và hỗ trợ inference; chúng không thay thế validation. Validator MUST kiểm tra domain/range và required fields trước khi load RDF.
 - `owl:inverseOf`, `owl:TransitiveProperty`, `owl:disjointWith` và `owl:equivalentClass` là OWL semantics, không phải thuộc tính LPG.
@@ -1587,7 +1573,7 @@ Các yêu cầu tối thiểu của đề bài được trace như sau:
 | Link to reach 5-Star | Sections 22–23, link review, verified `owl:sameAs` | `AC-012`, `AC-020` |
 | SPARQL endpoint/terminal | Sections 24–25, 27.4–28, `make query`, `make cq-test` | `AC-010`, `AC-011` |
 
-## 15.1 Classes - 24 project-owned classes
+## 15.1 Classes - 23 project-owned classes
 
 | URI | Parent | Label VI | Label EN | Description |
 |---|---|---|---|---|
@@ -1614,7 +1600,6 @@ Các yêu cầu tối thiểu của đề bài được trace như sau:
 | `vh:NationalIntangibleHeritage` | `vh:IntangibleHeritage` | Di sản phi vật thể quốc gia | National intangible heritage | Item thuộc danh mục quốc gia |
 | `vh:NationalTreasure` | `vh:CulturalHeritageEntity` | Bảo vật quốc gia | National treasure | Item thuộc danh mục bảo vật quốc gia |
 | `vh:DocumentaryHeritage` | `vh:CulturalHeritageEntity` | Di sản tư liệu | Documentary heritage | Item thuộc registry di sản tư liệu |
-| `vh:Artisan` | `owl:Thing` | Nghệ nhân | Artisan | Người thuộc danh sách nghệ nhân chính thức |
 | `vh:CulturalObject` | `vh:CulturalHeritageEntity` | Di vật/cổ vật | Cultural object | Di vật hoặc cổ vật thuộc danh mục chính thức |
 
 ### 15.1.1 Multilingual labeling (bắt buộc, không chỉ là documentation)
@@ -1652,7 +1637,6 @@ flowchart LR
     INTANGIBLE["IntangibleHeritage"]
     TREASURE["NationalTreasure"]
     DOCHERITAGE["DocumentaryHeritage"]
-    ARTISAN["Artisan"]
     OBJECT["CulturalObject"]
 
     SITE -->|locatedIn| AREA
@@ -1673,16 +1657,15 @@ flowchart LR
     INTANGIBLE -.-> ENTITY
     TREASURE -.-> ENTITY
     DOCHERITAGE -.-> ENTITY
-    ARTISAN -.->|owl:Thing, liên kết qua associatedIntangibleHeritage field| INTANGIBLE
     OBJECT -.-> ENTITY
 
     class SITE,COMPLEX site
     class AREA,PERSON,EVENT,PERIOD,ORG,STYLE context
     class ENTITY relation
-    class MUSEUM,INTANGIBLE,TREASURE,DOCHERITAGE,ARTISAN,OBJECT newclass
+    class MUSEUM,INTANGIBLE,TREASURE,DOCHERITAGE,OBJECT newclass
 ```
 
-Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain khai trong bảng Section 15.2. Các class `Museum`, `IntangibleHeritage`, `NationalTreasure`, `DocumentaryHeritage` và `CulturalObject` có thể dùng `vh:locatedIn` nhờ domain rộng `vh:CulturalHeritageEntity`; `vh:Artisan` là `owl:Thing` và liên kết qua field `associated_intangible_heritage`. Từ 1.8.0, `vh:recognizedBy` áp dụng cho mọi `vh:CulturalHeritageEntity`, cho phép một serial property kiểu `vh:HeritageComplex` mang recognition authority mà không bị retype thành `vh:HeritageSite`. Các field JSON riêng như `custodian` hoặc `current_holder` không tạo thêm object property ngoài 12 property đã freeze.
+Ghi chú đọc hình: 12 object property project-owned áp dụng theo domain khai trong bảng Section 15.2. Các class `Museum`, `IntangibleHeritage`, `NationalTreasure`, `DocumentaryHeritage` và `CulturalObject` có thể dùng `vh:locatedIn` nhờ domain rộng `vh:CulturalHeritageEntity`. Từ 1.8.0, `vh:recognizedBy` áp dụng cho mọi `vh:CulturalHeritageEntity`, cho phép một serial property kiểu `vh:HeritageComplex` mang recognition authority mà không bị retype thành `vh:HeritageSite`. Các field JSON riêng như `custodian` hoặc `current_holder` không tạo thêm object property ngoài 12 property đã freeze.
 
 ## 15.2 Object properties — 12 property project-owned
 
@@ -1868,7 +1851,6 @@ Từ 1.9.0 `vh:locatedIn` cũng là transitive property (AX-012). CQ01 vẫn dù
 
 ```turtle
 vh:HistoricalPerson owl:disjointWith vh:HeritageSite, vh:AdministrativeArea .
-vh:Artisan          owl:disjointWith vh:HeritageSite, vh:AdministrativeArea .
 vh:HeritageSite     owl:disjointWith vh:AdministrativeArea .
 ```
 
@@ -1891,16 +1873,13 @@ Nếu reasoner không hỗ trợ `owl:AllDisjointClasses`, validator MUST expand
 
 Các subclass `vh:ReligiousSite`, `vh:HistoricalSite`, `vh:ArchaeologicalSite`, `vh:ArchitecturalSite` MUST NOT disjoint nhau vì một site được phép có nhiều loại. Đây là khác biệt có chủ đích: mutually-exclusive áp ở tầng **nhánh chính** (tương ứng `entity_type`), còn **site subtype** (tương ứng `site_types`, một mảng) được phép đồng thời.
 
-`vh:Artisan` MUST được đưa vào disjointness axiom cùng `vh:HistoricalPerson`. Nếu thiếu, một record lỗi vừa được gán `vh:Artisan` vừa `vh:HeritageSite` sẽ không bị reasoner phát hiện, làm consistency test mất hiệu lực với 1 trong 2 class biểu diễn con người.
-
-`vh:HistoricalPerson` và `vh:Artisan` MUST cùng khai `rdfs:subClassOf foaf:Person` để tái sử dụng vocabulary phổ biến thay vì tạo hai nhánh người rời rạc:
+`vh:HistoricalPerson` MUST khai `rdfs:subClassOf foaf:Person` để tái sử dụng vocabulary phổ biến:
 
 ```turtle
 vh:HistoricalPerson rdfs:subClassOf foaf:Person .
-vh:Artisan          rdfs:subClassOf foaf:Person .
 ```
 
-Nhờ đó một client chỉ biết FOAF vẫn truy vấn được toàn bộ con người trong dataset bằng `?p a foaf:Person`, và `@prefix foaf:` khai báo ở Section 15 không còn là prefix gần như không dùng. Hai class vẫn giữ nguyên vị trí trực tiếp dưới `owl:Thing` trong bảng Section 15.1 vì `foaf:Person` là external class, không tính vào 24 class project-owned.
+Nhờ đó một client chỉ biết FOAF vẫn truy vấn được toàn bộ con người trong dataset bằng `?p a foaf:Person`. Class vẫn giữ vị trí trực tiếp dưới `owl:Thing` trong bảng Section 15.1 vì `foaf:Person` là external class, không tính vào 23 class project-owned. `vh:Artisan` từng nằm trong AX-004 và dưới `foaf:Person`; đã bị loại bỏ ở 1.9.0 (DEC-054).
 
 ## AX-005 — UNESCO equivalent restriction
 
@@ -2196,14 +2175,13 @@ File `config/mapping.yaml` là nguồn mapping authoritative.
 | `national_treasures` | `NationalTreasure` | `vh:NationalTreasure` |
 | `documentary_heritage` | `DocumentaryHeritage` | `vh:DocumentaryHeritage` |
 | `artifacts_antiquities` | `CulturalObject` | `vh:CulturalObject` |
-| `artisans`, `national_artisans`, `meritorious_artisans` | `Artisan` | `vh:Artisan` |
 | `national_monuments`, `national_special_monuments` | `HeritageSite` | `vh:HeritageSite` + site subtype từ `site_types` nếu có |
 
 Bảng này MUST được biểu diễn trong `config/mapping.yaml` dưới key `registry_category_subclass` (Phụ lục D.3). Một registry entity thuộc đúng một `registry_category`, nên nó nhận đúng một subclass trong nhóm intangible — thỏa điều kiện exclusivity của AX-008.
 
 `config/mapping.yaml` là **nguồn authoritative duy nhất** cho mapping category → subclass. Key `ontology_subclass` trong `config/registry_sources.yaml` (D.1) chỉ là thông tin thuận tiện cho collector; nếu hai file khác nhau thì `mapping.yaml` thắng, và `TEST-090` MUST FAIL để buộc sửa cho khớp thay vì để hai nguồn lệch âm thầm.
 
-Ba category `artisans`, `national_artisans`, `meritorious_artisans` đều map về `vh:Artisan`; khác biệt danh hiệu được giữ ở field `artisan_title` (Section 12.2), KHÔNG tạo subclass riêng ngoài inventory 24 class đã freeze.
+Ba category nghệ nhân (`artisans`, `national_artisans`, `meritorious_artisans`) đã bị loại khỏi registry config cùng `vh:Artisan` ở 1.9.0 (DEC-054): trang chính thức không có dòng dữ liệu nào (probe 2026-09-23) và không object property nào nối nghệ nhân với phần còn lại của graph.
 
 ---
 
@@ -3457,7 +3435,7 @@ Mỗi AC là binary PASS/FAIL.
 | AC-011 | Site fixture URI | `make linked-data-test` | URI trả HTTP 200 Turtle/RDF |
 | AC-012 | Verified link manifest | `make link` | unverified link không xuất hiện trong final TTL |
 | AC-013 | Full dataset | `make verify` | registry coverage=100%, heritage sites ≥100 when baseline is large enough, verified links ≥100 |
-| AC-014 | Full dataset | `make verify` | classes=24, object properties=12, datatype properties=10 |
+| AC-014 | Full dataset | `make verify` | classes=23, object properties=12, datatype properties=10 |
 | AC-015 | Final repo | `make verify` | report schema valid, artifacts tồn tại |
 | AC-016 | Final repo | `make verify` | `FINAL STATUS: PASS`, exit code 0 |
 | AC-017 | Intentional failing fixture | `make verify FIXTURE=bad` | `FINAL STATUS: FAIL`, exit code khác 0 |
@@ -3521,7 +3499,7 @@ Mọi MUST trong file này MUST xuất hiện trong bảng traceability hoặc t
 
 - [ ] Official registry coverage = 100% of the selected snapshot.
 - [ ] 100 heritage sites when the baseline snapshot contains enough sites.
-- [ ] 24 classes, 12 object properties, 10 datatype properties.
+- [ ] 23 classes, 12 object properties, 10 datatype properties.
 - [ ] Turtle parse PASS.
 - [ ] 13 OWL axioms tested (AX-001…AX-012 và AX-017).
 - [ ] Fuseki endpoint hoạt động.
@@ -3679,7 +3657,7 @@ Coding Agent MUST đi qua các gate theo thứ tự và không chuyển gate khi
 
 ## G2 — Ontology
 
-**Implementation:** `ontology/vietheritage.ttl` đủ 24 classes, 12 object properties, 10 datatype properties, AX-001…AX-012 và AX-017, ontology header (Section 15.0.0) và `rdfs:label` song ngữ (Section 15.1.1).
+**Implementation:** `ontology/vietheritage.ttl` đủ 23 classes, 12 object properties, 10 datatype properties, AX-001…AX-012 và AX-017, ontology header (Section 15.0.0) và `rdfs:label` song ngữ (Section 15.1.1).
 
 **Tests:** parse, inventory, consistency fixture.
 
@@ -4191,8 +4169,9 @@ Baseline ưu tiên đơn giản, đúng Semantic Web, reproducible và testable.
 | DEC-049 | Ontology 1.7.0 Phase A / AX-010 | Thêm defined overlapping subclass HeritageSiteWithHistoricalBuilder bằng existential builtBy.HistoricalPerson; inventory 24/12/10, namespace giữ nguyên | Suy class từ builder có thật; không hứa provenance completeness, không thêm nhánh disjoint hoặc canonical type |
 | DEC-050 | AX-017 successor asymmetry | Chỉ khai AsymmetricProperty; validator dùng chung sameAs components để kiểm self/reciprocal; không general acyclicity | Mini không hỗ trợ constraint này; asymmetry đã kéo theo irreflexivity; production thiếu cạnh vẫn hợp lệ |
 | DEC-051 | Ontology 1.7.1 Phase B / AX-011 | `HeritageSite SubClassOf locatedIn min 1`; exact structure + OWA fixture acceptance; không thêm asserted-completeness validator | Domain rule cam kết location tồn tại, nhưng OWA cho phép chưa biết assertion và không tạo named AdministrativeArea; Member 2 tiếp tục enrichment độc lập |
-| DEC-052 | Ontology 1.9.0 / AX-012 | `vh:locatedIn a owl:TransitiveProperty`; `config/areas.yaml` thêm `regions` (Việt Nam; Bắc/Trung/Nam Bộ) và `region` cho 34 tỉnh, mapper công bố qua `parent_area`; CQ06 đếm vị trí cụ thể nhất; inventory 24/12/10 giữ nguyên | Thứ bậc là cây cố định nên closure không sinh vị trí sai; reasoner materialize vị trí cấp miền/quốc gia thay vì chỉ property path; 3 miền thay 6 vùng vì không tỉnh mới nào vắt miền |
+| DEC-052 | Ontology 1.9.0 / AX-012 | `vh:locatedIn a owl:TransitiveProperty`; `config/areas.yaml` thêm `regions` (Việt Nam; Bắc/Trung/Nam Bộ) và `region` cho 34 tỉnh, mapper công bố qua `parent_area`; CQ06 đếm vị trí cụ thể nhất; inventory 12 object/10 datatype properties giữ nguyên | Thứ bậc là cây cố định nên closure không sinh vị trí sai; reasoner materialize vị trí cấp miền/quốc gia thay vì chỉ property path; 3 miền thay 6 vùng vì không tỉnh mới nào vắt miền |
 | DEC-053 | AX-011 dạng existential | `HeritageSite SubClassOf locatedIn some owl:Thing` thay `locatedIn min 1`; reasoner/test kiểm exact structure mới | Tương đương ngữ nghĩa; giữ ontology trong OWL 2 DL sau AX-012 vì cardinality trên transitive property bị cấm (OWL API `UseOfNonSimplePropertyInCardinalityRestriction`) |
+| DEC-054 | Loại bỏ `vh:Artisan` | Xóa class `vh:Artisan` (inventory 24 → 23 class), dòng AX-004 tương ứng, `artisan_title` và ba registry category nghệ nhân; DEC-037 chỉ còn áp cho `vh:HistoricalPerson`; DEC-M2-001 còn 14 category | Trang chính thức của cả ba category trống (0 dòng dữ liệu), canonical có 0 Artisan và không object property nào trong 12 property đã freeze nối được Artisan với graph — class chỉ là placeholder cô lập |
 
 Mọi thay đổi một quyết định phải cập nhật `Specification Version`, bảng này, component contract, test và traceability matrix trong cùng một commit.
 
@@ -4255,7 +4234,7 @@ Các schema dưới đây là nội dung normative của các file tương ứng
   "required": ["entity_id", "entity_type", "label_vi", "source_status", "retrieved_at", "provenance"],
   "properties": {
     "entity_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
-    "entity_type": {"enum": ["HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage", "Artisan", "CulturalObject"]},
+    "entity_type": {"enum": ["HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage", "CulturalObject"]},
     "label_vi": {"type": "string", "minLength": 1},
     "registry_id": {"type": ["string", "null"], "minLength": 1},
     "registry_category": {"type": ["string", "null"], "minLength": 1},
@@ -4292,7 +4271,6 @@ Các schema dưới đây là nội dung normative của các file tương ứng
     "parent_area": {"type": ["string", "null"]},
     "museum_type": {"type": ["string", "null"]},
     "organization_type": {"type": ["string", "null"]},
-    "artisan_title": {"type": ["string", "null"]},
     "community": {"type": ["string", "null"]},
     "location": {"type": ["string", "null"]},
     "current_holder": {"type": ["string", "null"]},
@@ -4472,7 +4450,6 @@ Node labels tương ứng 1:1 với class ontology:
 | `IntangibleHeritage` | `IntangibleHeritage` | `Resource` |
 | `NationalTreasure` | `NationalTreasure` | `Resource` |
 | `DocumentaryHeritage` | `DocumentaryHeritage` | `Resource` |
-| `Artisan` | `Artisan` | `Resource` |
 | `CulturalObject` | `CulturalObject` | `Resource` |
 
 Site subtype từ `site_types` MUST được thêm dưới dạng label phụ: `HistoricalSite`, `ReligiousSite`, `ArchaeologicalSite`, `ArchitecturalSite`. Site được suy luận UNESCO MUST có label `UNESCOHeritageSite` khi `recognized_by` chứa `organization-unesco`.
@@ -4775,7 +4752,7 @@ Contract cho từng key:
 | `base_url` | Yes | Host chính thức, MUST là HTTPS `dsvh.gov.vn` | `CONFIG_INVALID` |
 | `request.timeout_seconds` / `retries` / `backoff_seconds` | Yes | Khớp NFR-007 | Dùng default `30`/`3`/`[2,4,8]` |
 | `defaults.*` | No | Giá trị dùng chung khi category không khai riêng | Bỏ qua |
-| `categories[].key` | Yes | Giá trị của `registry_category`; MUST khớp danh sách 17 category ở COMP-000 | `CONFIG_INVALID` |
+| `categories[].key` | Yes | Giá trị của `registry_category`; MUST khớp danh sách 14 category ở COMP-000 | `CONFIG_INVALID` |
 | `categories[].url` | Yes | URL index chính thức | `CONFIG_INVALID` |
 | `categories[].entity_type` | Yes | MUST là **một trong 14 canonical entity type** ở Section 12.2 (ví dụ `IntangibleHeritage`), KHÔNG được dùng tên ontology subclass | `CONFIG_INVALID` |
 | `categories[].ontology_subclass` | No | Ontology subclass cụ thể được gán thêm khi sinh RDF (ví dụ `vh:NationalIntangibleHeritage`); dùng cho AX-008 | Chỉ sinh class ứng với `entity_type` |

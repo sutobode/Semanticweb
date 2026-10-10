@@ -45,7 +45,7 @@ def compatible(entity_type: str, type_names: list[str]) -> bool:
         return bool(names & {"museum", "building", "place"})
     if entity_type == "HistoricalPerson":
         return "person" in names
-    if entity_type in {"CulturalObject", "NationalTreasure", "Artisan"}:
+    if entity_type in {"CulturalObject", "NationalTreasure"}:
         return bool(names & {"person", "work", "artifact", "place"})
     return bool(names)
 

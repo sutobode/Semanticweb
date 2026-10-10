@@ -74,7 +74,7 @@ _CANONICAL_FIELDS = {
     "external_ids", "relations", "site_types", "construction_year",
     "recognition_year", "address", "birth_year", "death_year", "start_year",
     "end_year", "level", "country_code", "parent_area", "museum_type",
-    "organization_type", "artisan_title", "community", "location",
+    "organization_type", "community", "location",
     "current_holder", "custodian", "object_type", "associated_intangible_heritage",
     "source_records", "identity_profile", "provenance",
 }

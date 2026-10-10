@@ -55,7 +55,7 @@ So sánh với nhánh `dev` ban đầu (commit `6e76bac`, snapshot `20260914T040
 
 | Mã | Quyết định |
 |---|---|
-| DEC-M2-001 | Giữ 17 category. 10 category có trang chính thức chưa công bố dòng dữ liệu nào (bảo tàng, nghệ nhân, di vật, di sản tư liệu) ghi 0/0 (`allow_empty_source`). Tự thu thập khi nguồn có dữ liệu. |
+| DEC-M2-001 | Giữ 17 category. 10 category có trang chính thức chưa công bố dòng dữ liệu nào (bảo tàng, nghệ nhân, di vật, di sản tư liệu) ghi 0/0 (`allow_empty_source`). Tự thu thập khi nguồn có dữ liệu. Từ spec 1.9.0 (DEC-054) ba category nghệ nhân bị loại cùng `vh:Artisan`, còn 14 category. |
 | DEC-M2-002 | Thêm nguồn bài viết `dsvh.gov.vn/di-tich-quoc-gia-130` vào `national_monuments`. Coverage của category này là các di tích có bài giới thiệu, không phải toàn bộ danh mục di tích quốc gia. |
 | DEC-M2-003 | Bằng chứng khớp Wikipedia cho di sản phi vật thể phụ thuộc luật alias đã áp: tỉnh, dân tộc, vùng, hoặc không cần. `national_intangible` khớp 44 → 74. |
 | DEC-M2-004 | `located_in` / AdministrativeArea công bố theo 34 tỉnh/thành sau NQ 202/2025/QH15. Ô địa điểm gốc giữ ở `address`. Đặt `publish_level: source` để quay lại 63 tên cũ. |

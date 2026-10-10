@@ -11,7 +11,7 @@
 # targetNode entries for project entity IRIs lacking a type altogether.
 <http://localhost:3030/vietheritage/shapes/PublicEntityShape>
     a sh:NodeShape ;
-    sh:targetClass vh:CulturalHeritageEntity, vh:HistoricalPerson, vh:Artisan,
+    sh:targetClass vh:CulturalHeritageEntity, vh:HistoricalPerson,
         vh:AdministrativeArea, vh:HistoricalEvent, vh:HistoricalPeriod,
         vh:Organization, vh:ArchitecturalStyle ;
     sh:property [

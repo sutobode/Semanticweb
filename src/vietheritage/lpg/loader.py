@@ -29,7 +29,6 @@ _CANONICAL_LABELS = {
     "IntangibleHeritage",
     "NationalTreasure",
     "DocumentaryHeritage",
-    "Artisan",
     "CulturalObject",
 }
 

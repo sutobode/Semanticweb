@@ -7,7 +7,7 @@
   "required": ["entity_id", "entity_type", "label_vi", "source_status", "retrieved_at", "provenance"],
   "properties": {
     "entity_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
-    "entity_type": {"enum": ["HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage", "Artisan", "CulturalObject"]},
+    "entity_type": {"enum": ["HeritageSite", "AdministrativeArea", "HistoricalPerson", "HistoricalEvent", "HistoricalPeriod", "HeritageComplex", "Organization", "ArchitecturalStyle", "Museum", "IntangibleHeritage", "NationalTreasure", "DocumentaryHeritage", "CulturalObject"]},
     "label_vi": {"type": "string", "minLength": 1},
     "registry_id": {"type": ["string", "null"], "minLength": 1, "description": "Source record selected for the canonical classification."},
     "registry_category": {"type": ["string", "null"], "minLength": 1, "description": "Single selected canonical registry classification."},
@@ -86,7 +86,6 @@
     "parent_area": {"type": ["string", "null"]},
     "museum_type": {"type": ["string", "null"]},
     "organization_type": {"type": ["string", "null"]},
-    "artisan_title": {"type": ["string", "null"]},
     "community": {"type": ["string", "null"]},
     "location": {"type": ["string", "null"]},
     "current_holder": {"type": ["string", "null"]},

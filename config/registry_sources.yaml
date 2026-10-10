@@ -105,24 +105,6 @@ categories:
     detail_link_selector: null
     next_page_selector: "a[rel=next]"
 
-  - key: artisans
-    url: https://dsvh.gov.vn/danh-sach-nghe-nhan-1777
-    entity_type: Artisan
-    row_selector: "table tbody tr"
-    columns:
-      ordinal: 0
-      label_vi: 1
-      recognition_text: 2
-      location: 3
-    detail_link_selector: null
-    next_page_selector: "a[rel=next]"
-    allow_empty_source: true
-    empty_source_note:
-      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
-      reason: "Trang chính thức không có bảng danh mục nào (0 <table>), chỉ có nội dung điều hướng/tin bài (probe Kaggle 2026-09-23)"
-      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/artisans.html"
-      checked_at: "2026-09-23"
-
   - key: national_treasures
     url: https://dsvh.gov.vn/bao-vat-quoc-gia-1758
     entity_type: NationalTreasure
@@ -151,44 +133,6 @@ categories:
       decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
       reason: "Trang chính thức không có bảng danh mục nào (0 <table>), chỉ có nội dung điều hướng/tin bài (probe Kaggle 2026-09-23)"
       evidence: "reports/m2_probe_extended.json; data/fixtures/registry/artifacts_antiquities.html"
-      checked_at: "2026-09-23"
-
-  - key: national_artisans
-    url: https://dsvh.gov.vn/nghe-nhan-nhan-dan-1764
-    entity_type: Artisan
-    row_selector: "table tbody tr"
-    columns:
-      ordinal: 0
-      label_vi: 1
-      recognition_text: 2
-      type: 3
-      location: 4
-    detail_link_selector: null
-    next_page_selector: "a[rel=next]"
-    allow_empty_source: true
-    empty_source_note:
-      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
-      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
-      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/national_artisans.html"
-      checked_at: "2026-09-23"
-
-  - key: meritorious_artisans
-    url: https://dsvh.gov.vn/nghe-nhan-uu-tu-1762
-    entity_type: Artisan
-    row_selector: "table tbody tr"
-    columns:
-      ordinal: 0
-      label_vi: 1
-      recognition_text: 2
-      type: 3
-      location: 4
-    detail_link_selector: null
-    next_page_selector: "a[rel=next]"
-    allow_empty_source: true
-    empty_source_note:
-      decision: "DEC-M2-001 (nhóm đã chọn giữ category; ghi vào PROJECT_SPEC Phụ lục A)"
-      reason: "Trang chính thức chỉ có bảng khung: dòng tiêu đề + 23 dòng trống + dòng \"Tổng số\" trống (probe Kaggle 2026-09-23)"
-      evidence: "reports/m2_probe_extended.json; data/fixtures/registry/meritorious_artisans.html"
       checked_at: "2026-09-23"
 
   - key: national_museums

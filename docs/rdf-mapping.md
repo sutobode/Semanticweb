@@ -67,7 +67,6 @@ Cột "Hàm sinh" trỏ tới hàm trong `generator.py` xử lý nhóm field đ�
 | `Museum` | `vh:Museum` | — |
 | `NationalTreasure` | `vh:NationalTreasure` | — |
 | `DocumentaryHeritage` | `vh:DocumentaryHeritage` | — |
-| `Artisan` | `vh:Artisan` | — |
 | `CulturalObject` | `vh:CulturalObject` | — |
 | `IntangibleHeritage` | `vh:IntangibleHeritage` + subclass sau | Xem 2.1.2 |
 

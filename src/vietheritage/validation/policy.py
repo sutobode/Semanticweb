@@ -23,7 +23,7 @@ from .shacl import validate_graph as validate_shapes
 
 ENTITY_ID = re.compile(
     r"(?:registry|person|area|event|period|complex|organization|style|site|museum|"
-    r"intangible|treasure|documentary|artisan|object)-[A-Za-z0-9._~-]+"
+    r"intangible|treasure|documentary|object)-[A-Za-z0-9._~-]+"
 )
 PRODUCTION_SITE_ID = re.compile(r"site-[0-9a-f]{12}(?:-[0-9a-f]{6})?")
 GEO = "http://www.w3.org/2003/01/geo/wgs84_pos#"

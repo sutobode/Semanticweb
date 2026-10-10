@@ -2,7 +2,7 @@
 
     python tools/m2_registry_probe.py                          # 10 category đang rỗng + national_monuments
     python tools/m2_registry_probe.py --all                    # cả 17 category
-    python tools/m2_registry_probe.py --category artisans --save
+    python tools/m2_registry_probe.py --category national_museums --save
 
 Với mỗi category script in ra: số bảng, số dòng mỗi bảng + 2 dòng đầu, số dòng
 parse được bằng config hiện tại, link phân trang ứng viên, file đính kèm
@@ -29,7 +29,7 @@ from parsel import Selector  # noqa: E402
 from vietheritage.registry.collector import CategoryConfig, fetch_page, load_config, parse_table_rows  # noqa: E402
 
 PROBLEM_CATEGORIES = {
-    "artisans", "artifacts_antiquities", "national_artisans", "meritorious_artisans", "national_museums",
+    "artifacts_antiquities", "national_museums",
     "ministry_museums", "central_organization_museums", "provincial_museums", "private_museums",
     "documentary_heritage", "national_monuments",
 }

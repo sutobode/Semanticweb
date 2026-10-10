@@ -185,13 +185,6 @@ vh:DocumentaryHeritage
     rdfs:label "Documentary heritage"@en ;
     rdfs:comment "Item thuộc registry di sản tư liệu."@vi .
 
-vh:Artisan
-    a owl:Class ;
-    rdfs:subClassOf owl:Thing, foaf:Person ;
-    rdfs:label "Nghệ nhân"@vi ;
-    rdfs:label "Artisan"@en ;
-    rdfs:comment "Người thuộc danh sách nghệ nhân chính thức."@vi .
-
 vh:CulturalObject
     a owl:Class ;
     rdfs:subClassOf vh:CulturalHeritageEntity ;
@@ -389,9 +382,8 @@ vh:partOf owl:inverseOf vh:hasPart .
 # AX-003 — Transitive part relation
 vh:partOf a owl:TransitiveProperty .
 
-# AX-004 — Disjoint classes (person/site/area pairwise + Artisan)
+# AX-004 — Disjoint classes (person/site/area pairwise)
 vh:HistoricalPerson owl:disjointWith vh:HeritageSite, vh:AdministrativeArea .
-vh:Artisan          owl:disjointWith vh:HeritageSite, vh:AdministrativeArea .
 vh:HeritageSite      owl:disjointWith vh:AdministrativeArea .
 
 # AX-004 — AllDisjointClasses cho 7 nhánh chính dưới CulturalHeritageEntity

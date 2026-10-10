@@ -20,15 +20,6 @@ vh: a owl:Ontology ;
         "Ontology VietHeritageLOD"@vi ;
     owl:versionInfo "1.9.0" .
 
-vh:Artisan a owl:Class ;
-    rdfs:label "Artisan"@en,
-        "Nghệ nhân"@vi ;
-    rdfs:comment "Người thuộc danh sách nghệ nhân chính thức."@vi ;
-    rdfs:subClassOf owl:Thing,
-        foaf:Person ;
-    owl:disjointWith vh:AdministrativeArea,
-        vh:HeritageSite .
-
 vh:HeritageSiteWithHistoricalBuilder a owl:Class ;
     rdfs:label "Heritage site with a historical builder"@en,
         "Địa điểm di sản có nhân vật lịch sử xây dựng"@vi ;
@@ -15854,6 +15845,8 @@ dcterms:identifier a owl:DatatypeProperty .
 
 dcterms:title a owl:DatatypeProperty .
 
+foaf:Person a owl:Class .
+
 <https://www.wikidata.org/entity/Q102843> rdfs:label "Tug of war"@en .
 
 <https://www.wikidata.org/entity/Q10810559> rdfs:label "Tràng An Scenic Landscape Complex"@en .
@@ -15959,8 +15952,6 @@ vhr:person-wikidata-q511375 a vh:HistoricalPerson ;
     owl:sameAs <https://www.wikidata.org/entity/Q511375> ;
     prov:wasDerivedFrom <https://vi.wikipedia.org/wiki/Tr%E1%BA%A7n_H%C6%B0ng_%C4%90%E1%BA%A1o> ;
     prov:wasGeneratedBy vhr:activity-run-72d2e0bf8a9b .
-
-foaf:Person a owl:Class .
 
 vh:UrgentSafeguardingIntangibleHeritage a owl:Class ;
     rdfs:label "Urgent safeguarding intangible heritage"@en,
